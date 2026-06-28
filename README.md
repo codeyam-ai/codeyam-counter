@@ -34,6 +34,17 @@ This diffs the runner output against the registry and auto-adds new tests —
 line numbers and descriptions are resolved automatically, so you do not need
 to pass `--line` by hand.
 
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for
+build/test instructions and the PR process, and note our
+[Code of Conduct](CODE_OF_CONDUCT.md). To report a security issue, see
+[SECURITY.md](SECURITY.md).
+
+## License
+
+Released under the [MIT License](LICENSE).
+
 <!-- codeyam:run-and-edit:start -->
 ## Develop this project with codeyam-editor
 
