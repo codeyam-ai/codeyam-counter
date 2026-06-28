@@ -1,6 +1,6 @@
 {
   "name": "Counter - Active count",
-  "id": "8f8ce92c-ba6e-4e51-a0b1-4870f848cf2c",
+  "id": "01f728f2-3fb3-4d1b-acc1-2c0daa7856b2",
   "url": "/",
   "dimensions": [
     "iPhone 16"
@@ -8,9 +8,11 @@
   "mocks": {},
   "deviceState": {
     "preferences": {
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "deletedDefaultIds": "[]",
+      "settingsOpen": false,
       "selectedCounterId": 1,
-      "leftHanded": false,
-      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]"
+      "leftHanded": false
     },
     "statusBar": {
       "time": "9:41"

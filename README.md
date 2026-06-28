@@ -57,6 +57,14 @@ States captured as runnable scenarios with codeyam-editor:
 
 ![Counter - Active count](.codeyam/scenarios/screenshots/counter-active-count--iphone-16.png)
 
+### Counter - All but one deleted
+
+![Counter - All but one deleted](.codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png)
+
+### Counter - Deleted default ghost slot
+
+![Counter - Deleted default ghost slot](.codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png)
+
 ### Counter - Fresh start
 
 ![Counter - Fresh start](.codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png)

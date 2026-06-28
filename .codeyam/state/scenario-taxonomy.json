@@ -5,15 +5,13 @@
         "status": "added"
       },
       "single": {
-        "status": "n-a",
-        "reason": "The app ships with a fixed set of four starter counters and has no add or delete UI, so a one-counter state cannot occur"
+        "status": "added"
       },
       "typical": {
         "status": "added"
       },
       "many": {
-        "status": "n-a",
-        "reason": "The switcher holds a fixed four counters that always fit, so there is no overflow or truncation state"
+        "status": "added"
       },
       "loading": {
         "status": "n-a",

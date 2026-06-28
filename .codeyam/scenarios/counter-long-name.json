@@ -1,6 +1,6 @@
 {
   "name": "Counter - Long name",
-  "id": "049b4255-0e70-4319-ad6c-28541663c43b",
+  "id": "46ad136b-bcb8-4bb6-a670-62cf0e0f1567",
   "url": "/",
   "dimensions": [
     "iPhone 16"
@@ -9,8 +9,10 @@
   "deviceState": {
     "preferences": {
       "counters": "[{\"id\": 1, \"name\": \"MORNING MEDITATION MINUTES\", \"count\": 25, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 80, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 1, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
+      "leftHanded": false,
       "selectedCounterId": 1,
-      "leftHanded": false
+      "deletedDefaultIds": "[]",
+      "settingsOpen": false
     },
     "statusBar": {
       "time": "9:41"

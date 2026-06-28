@@ -10,16 +10,18 @@
       { "name": "count", "type": "number", "required": true },
       { "name": "colorKey", "type": "string", "required": true },
       { "name": "allowNegative", "type": "boolean", "required": true },
+      { "name": "step", "type": "number", "required": true, "description": "How much each increment/subtract changes the count (the 'count by' amount). Defaults to 1; legacy persisted counters without this field decode as 1." },
       { "name": "order", "type": "number", "required": true }
     ]
   },
   {
     "name": "CounterAppState",
-    "description": "Persisted app-level UI state restored on launch: which counter is currently active in the switcher. Stored on-device alongside the counters.",
+    "description": "Persisted app-level UI state restored on launch: which counter is currently active in the switcher, plus the set of default counters the user has explicitly deleted. Stored on-device alongside the counters.",
     "category": "datastore",
     "order": 2,
     "fields": [
-      { "name": "selectedCounterId", "type": "number", "required": true }
+      { "name": "selectedCounterId", "type": "number", "required": true },
+      { "name": "deletedDefaultIds", "type": "array", "required": false, "description": "Ids of the default starter counters (1–4) the user has deleted. Each renders as an empty 'ghost' circle in the switcher dot row; tapping it restores the default at count 0." }
     ]
   }
 ]

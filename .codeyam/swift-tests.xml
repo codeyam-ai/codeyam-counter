@@ -1,34 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <testsuites>
-<testsuite name="TestResults" errors="0" tests="14" failures="0" time="1.737524624">
-<testcase classname="AppCoreTests.ThemeTests" name="testDotHexFallsBackToLimeForUnknownKey" time="0.131502166">
+<testsuite name="TestResults" errors="0" tests="24" failures="0" time="6.068331626999999">
+<testcase classname="AppCoreTests.ModelTests" name="testLoadsSeededStateFromDefaults" time="0.126592292">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testIncrementRaisesActiveCounter" time="0.131551416">
+<testcase classname="AppCoreTests.ModelTests" name="testLegacyCounterWithoutStepDecodesToStepOne" time="0.126822833">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSelectNextWrapsAround" time="0.1318995">
+<testcase classname="AppCoreTests.ModelTests" name="testResetZeroesActiveCounter" time="0.12678975">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testFreshModelHasFourStarterCountersAtZero" time="0.137609792">
+<testcase classname="AppCoreTests.ModelTests" name="testIncrementRaisesActiveCounter" time="0.1277955">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractClampsWhenNegativesDisallowed" time="0.137890667">
+<testcase classname="AppCoreTests.ModelTests" name="testIncrementHonorsStep" time="0.127837875">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testLoadsSeededStateFromDefaults" time="0.138003083">
+<testcase classname="AppCoreTests.ModelTests" name="testDeleteDefaultRemovesAndRecordsGhost" time="0.127921417">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractGoesNegativeByDefault" time="0.138086">
+<testcase classname="AppCoreTests.ModelTests" name="testFreshModelHasFourStarterCountersAtZero" time="0.127938209">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testResetZeroesActiveCounter" time="0.138101292">
+<testcase classname="AppCoreTests.ModelTests" name="testDeleteLastCounterClampsSelection" time="0.128161833">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testIsolatesIndividualChannels" time="0.108715375">
+<testcase classname="AppCoreTests.ModelTests" name="testSelectNextWrapsAround" time="0.329245292">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testIsCaseInsensitive" time="0.110518625">
+<testcase classname="AppCoreTests.ModelTests" name="testRestoreDefaultReaddsAtZeroAndSelects" time="0.346969">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testDotHexMapsKnownKeys" time="0.110491583">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractClampsWhenNegativesDisallowed" time="0.357768916">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testParsesAccentLime" time="0.107974292">
+<testcase classname="AppCoreTests.ModelTests" name="testSeededSubsetHasNoGhostSlots" time="0.358742667">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testParsesBlackAndWhite" time="0.107655583">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractClampsToZeroWhenStepOvershoots" time="0.358025292">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testToleratesLeadingHash" time="0.10752525">
+<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterClampsStepToAtLeastOne" time="0.357778">
+</testcase>
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractGoesNegativeByDefault" time="0.358075667">
+</testcase>
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractHonorsStep" time="0.357626625">
+</testcase>
+<testcase classname="AppCoreTests.ThemeTests" name="testIsCaseInsensitive" time="0.237077041">
+</testcase>
+<testcase classname="AppCoreTests.ThemeTests" name="testDotHexFallsBackToLimeForUnknownKey" time="0.252839042">
+</testcase>
+<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterEditsAndPersists" time="0.294006667">
+</testcase>
+<testcase classname="AppCoreTests.ThemeTests" name="testParsesBlackAndWhite" time="0.287663584">
+</testcase>
+<testcase classname="AppCoreTests.ThemeTests" name="testIsolatesIndividualChannels" time="0.28774625">
+</testcase>
+<testcase classname="AppCoreTests.ThemeTests" name="testToleratesLeadingHash" time="0.288142334">
+</testcase>
+<testcase classname="AppCoreTests.ThemeTests" name="testParsesAccentLime" time="0.288263583">
+</testcase>
+<testcase classname="AppCoreTests.ThemeTests" name="testDotHexMapsKnownKeys" time="0.288501958">
 </testcase>
 </testsuite>
 </testsuites>

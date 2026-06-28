@@ -1,6 +1,6 @@
 {
   "name": "Counter - Negative value",
-  "id": "b9ac4fc9-9ef4-4374-9aec-40abb304398b",
+  "id": "13249cbe-2dfd-4a55-801f-24df6c4182d8",
   "url": "/",
   "dimensions": [
     "iPhone 16"
@@ -8,9 +8,11 @@
   "mocks": {},
   "deviceState": {
     "preferences": {
-      "leftHanded": false,
+      "settingsOpen": false,
+      "selectedCounterId": 4,
       "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 18, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 2, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 5500, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": -3, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
-      "selectedCounterId": 4
+      "leftHanded": false,
+      "deletedDefaultIds": "[]"
     },
     "statusBar": {
       "time": "9:41"

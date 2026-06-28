@@ -1,12 +1,39 @@
 {
   "tests": [
     {
+      "description": "Deleting a default removes it, records its id as a ghost slot, and keeps the selection in range.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testDeleteDefaultRemovesAndRecordsGhost",
+      "line": 158,
+      "registeredAt": "2026-06-28T17:03:25.358317+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Deleting the active last counter clamps the selection back into range.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testDeleteLastCounterClampsSelection",
+      "line": 172,
+      "registeredAt": "2026-06-28T17:03:25.582355+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "Fresh model with no seed falls back to four starter counters at zero with the first selected",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
-      "line": 17,
+      "line": 26,
       "registeredAt": "2026-06-28T12:56:28.559076+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A counter with step 5 increments in jumps of 5.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testIncrementHonorsStep",
+      "line": 87,
+      "registeredAt": "2026-06-28T17:03:23.884653+00:00",
       "runner": "tests"
     },
     {
@@ -14,8 +41,17 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter",
-      "line": 26,
+      "line": 35,
       "registeredAt": "2026-06-28T12:56:28.842751+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Counters persisted before the step field existed decode with step defaulting to 1.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne",
+      "line": 120,
+      "registeredAt": "2026-06-28T17:03:24.644598+00:00",
       "runner": "tests"
     },
     {
@@ -23,7 +59,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
-      "line": 77,
+      "line": 210,
       "registeredAt": "2026-06-28T12:56:29.096797+00:00",
       "runner": "tests"
     },
@@ -32,8 +68,26 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
-      "line": 55,
+      "line": 64,
       "registeredAt": "2026-06-28T12:56:29.340555+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Restoring a deleted default re-adds it at zero, clears its ghost slot, restores order, and selects it.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testRestoreDefaultReaddsAtZeroAndSelects",
+      "line": 182,
+      "registeredAt": "2026-06-28T17:03:25.831340+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A scenario that seeds a subset of counters shows no ghost dots.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSeededSubsetHasNoGhostSlots",
+      "line": 199,
+      "registeredAt": "2026-06-28T17:03:26.079429+00:00",
       "runner": "tests"
     },
     {
@@ -41,8 +95,17 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSelectNextWrapsAround",
-      "line": 66,
+      "line": 75,
       "registeredAt": "2026-06-28T12:56:29.598163+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "With negatives disallowed, a step that would overshoot below zero clamps to zero rather than skipping the change.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots",
+      "line": 108,
+      "registeredAt": "2026-06-28T17:03:24.392047+00:00",
       "runner": "tests"
     },
     {
@@ -50,7 +113,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed",
-      "line": 44,
+      "line": 53,
       "registeredAt": "2026-06-28T12:56:29.820770+00:00",
       "runner": "tests"
     },
@@ -59,8 +122,35 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault",
-      "line": 36,
+      "line": 45,
       "registeredAt": "2026-06-28T12:56:30.041636+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Subtracting honors the step symmetrically when negatives are allowed.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
+      "line": 98,
+      "registeredAt": "2026-06-28T17:03:24.134789+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A step value below 1 is clamped up to 1.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne",
+      "line": 148,
+      "registeredAt": "2026-06-28T17:03:25.101512+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "updateActiveCounter applies every edited field and persists across a reload.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
+      "line": 133,
+      "registeredAt": "2026-06-28T17:03:24.876521+00:00",
       "runner": "tests"
     },
     {

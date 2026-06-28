@@ -13,6 +13,13 @@ public enum CounterTheme {
     public static let accent = Color(hex: "D5F560")
     public static let onAccent = Color(hex: "0B0A08")
 
+    /// The full swatch palette offered in the settings panel, in display order.
+    /// Each key resolves through `dotHex`.
+    public static let palette = [
+        "lime", "coffee", "steps", "bugs", "mint", "rose",
+        "amber", "teal", "indigo", "magenta", "crimson", "grass",
+    ]
+
     /// Maps a counter's `colorKey` to its dot/accent color.
     public static func dotColor(_ key: String) -> Color {
         Color(hex: dotHex(key))
@@ -27,6 +34,14 @@ public enum CounterTheme {
         case "coffee": return "FF7A4D"
         case "steps": return "4DB5FF"
         case "bugs": return "C98BFF"
+        case "mint": return "5BE3B0"
+        case "rose": return "FF6B8A"
+        case "amber": return "F5C84B"
+        case "teal": return "33C9D6"
+        case "indigo": return "8E7BFF"
+        case "magenta": return "FF5CC8"
+        case "crimson": return "FF4D4D"
+        case "grass": return "7BD84B"
         default: return "D5F560"
         }
     }

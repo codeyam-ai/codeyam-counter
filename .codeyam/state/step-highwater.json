@@ -1,6 +1,6 @@
 {
-  "feature": "Counter Screen",
-  "maxStep": 25,
-  "version": 15542,
-  "updatedAt": "2026-06-28T13:21:26.066820+00:00"
+  "feature": "counter-settings-panel",
+  "maxStep": 23,
+  "version": 23724,
+  "updatedAt": "2026-06-28T17:08:57.008919+00:00"
 }

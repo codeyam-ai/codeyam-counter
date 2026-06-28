@@ -1,0 +1,10 @@
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testRestoreDefaultReaddsAtZeroAndSelects`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSeededSubsetHasNoGhostSlots`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testDeleteDefaultRemovesAndRecordsGhost`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testIncrementHonorsStep`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testDeleteLastCounterClampsSelection`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSubtractHonorsStep`: added from runner `tests` output"}
+{"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots`: added from runner `tests` output"}

@@ -44,6 +44,15 @@
     }
   },
   {
+    "description": "Grid of selectable color swatches drawn from CounterTheme.palette; the selected key gets a lime ring and binds the chosen colorKey back to the settings panel.",
+    "filePath": "Sources/AppCore/Views/CounterColorPicker.swift",
+    "name": "CounterColorPicker",
+    "untestabilityReason": {
+      "justification": "SwiftUI view on the swift-ios-swiftui stack, which has no editor isolate scaffolder; the 12-swatch grid and the selected-ring state are shown by the counter-settings-open-over-number and counter-settings-count-by-5 application scenarios.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
     "description": "A single counter-selector dot; the active dot grows and gains a lime ring and glow.",
     "filePath": "Sources/AppCore/Views/CounterDot.swift",
     "name": "CounterDot",
@@ -57,6 +66,24 @@
     "filePath": "Sources/AppCore/Model.swift",
     "name": "CounterModel",
     "testFile": "Tests/AppCoreTests/ModelTests.swift"
+  },
+  {
+    "description": "Inline settings panel that expands over the count numeral. Composes the labeled name field, color picker, step stepper, an allow-negative toggle, and a destructive Delete; local state holds in-progress edits and DONE saves them back to the active counter.",
+    "filePath": "Sources/AppCore/Views/CounterSettingsPanel.swift",
+    "name": "CounterSettingsPanel",
+    "untestabilityReason": {
+      "justification": "SwiftUI view on the swift-ios-swiftui stack, which has no editor isolate scaffolder; demonstrated in context by the counter-settings-open-over-number and counter-settings-count-by-5 application scenarios.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "The COUNT BY control: a minus/value/plus stepper that sets how much each increment or subtract changes the count, clamping the lower bound at 1.",
+    "filePath": "Sources/AppCore/Views/CounterStepStepper.swift",
+    "name": "CounterStepStepper",
+    "untestabilityReason": {
+      "justification": "SwiftUI view on the swift-ios-swiftui stack, which has no editor isolate scaffolder; the step value (e.g. 5) is shown by the counter-settings-count-by-5 application scenario and the clamp logic is covered by ModelTests.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "description": "The switcher card: the row of selectable counter dots, the active counter name and swipe hint, and the inert settings gear.",
@@ -98,6 +125,15 @@
     "untestabilityReason": {
       "justification": "Verified visually via the counter-active-count and counter-left-handed-layout application scenarios, which render both orientations; the swift-ios-swiftui stack has no component isolation harness.",
       "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "A labeled section in the settings panel: a small mono caption above its forwarded content, used by the name field and color picker for consistent headings.",
+    "filePath": "Sources/AppCore/Views/SettingsField.swift",
+    "name": "SettingsField",
+    "untestabilityReason": {
+      "justification": "Presentation-only layout wrapper: a caption Text above forwarded content, no branching or iteration.",
+      "kind": "trivial-wrapper"
     }
   }
 ]
