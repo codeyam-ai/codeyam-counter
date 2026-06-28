@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CodeYam Counter — Marquee</title>
+<style>
+  :root {
+    --bg: #0C0D08;
+    --surface: #15170F;
+    --panel: #10110B;
+    --ink: #EAE8E0;
+    --ink-muted: #8d8f80;
+    --line: #2a2c20;
+    --line-strong: #43463a;
+    --accent: #D5F560;
+    --on-accent: #0B0A08;
+    --c-coffee: #ff7a4d;
+    --c-steps: #4db5ff;
+    --c-bugs: #c98bff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Bricolage Grotesque', 'Arial Narrow', 'Helvetica Neue', sans-serif;
+    background: #050603;
+    min-height: 100vh;
+    display: grid; place-items: center;
+    padding: 32px 16px;
+    color: var(--ink);
+  }
+  .mono {
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .phone {
+    width: 360px; height: 760px;
+    background: var(--bg);
+    border: 2px solid var(--line-strong);
+    border-radius: 44px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .notch { width: 96px; height: 18px; background: #000; border-radius: 18px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 5; }
+  .status { height: 46px; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; font-size: 11px; color: var(--ink-muted); }
+  .head { padding: 4px 22px 0; display: flex; align-items: flex-start; justify-content: space-between; }
+  .head .ttl { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; }
+  .head .sec { font-size: 10px; color: var(--ink-muted); }
+  /* counter switcher band */
+  .switcher {
+    margin: 12px 22px 0; padding: 12px 14px;
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .switcher .info { flex: 1; }
+  .dot-row { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
+  .dot { width: 16px; height: 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); }
+  .dot.active {
+    width: 18px; height: 18px; border: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--accent), 0 0 12px rgba(213,245,96,0.6);
+  }
+  .dot.a { background: var(--accent); }
+  .dot.b { background: var(--c-coffee); }
+  .dot.c { background: var(--c-steps); }
+  .dot.d { background: var(--c-bugs); }
+  .cur-name { font-size: 24px; font-weight: 800; font-stretch: 75%; letter-spacing: -0.02em; line-height: 1; }
+  .cur-pos { font-size: 10px; color: var(--ink-muted); margin-top: 6px; }
+  .gear {
+    width: 36px; height: 36px; flex: none; border-radius: 999px;
+    border: 1px solid var(--line-strong); background: var(--surface);
+    display: grid; place-items: center; font-size: 17px; color: var(--ink);
+  }
+  /* giant numeral hero */
+  .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 22px; }
+  .hero .count {
+    font-size: 280px; font-weight: 800; line-height: 0.82;
+    letter-spacing: -0.05em; font-stretch: 75%;
+    transform: scaleX(0.82); transform-origin: left; color: var(--ink);
+  }
+  /* primary tap bar */
+  .tapbar {
+    background: var(--accent); color: var(--on-accent);
+    display: flex; align-items: center; justify-content: space-between; padding: 20px 26px;
+  }
+  .tapbar .lbl { font-size: 12px; font-weight: 700; }
+  .tapbar .big { font-size: 52px; font-weight: 800; font-stretch: 75%; line-height: 0; }
+  /* secondary controls */
+  .controls { display: flex; }
+  .ctl { flex: 1; padding: 18px 0; text-align: center; color: var(--ink); background: var(--panel); border-top: 1px solid var(--line); }
+  .ctl + .ctl { border-left: 1px solid var(--line); }
+  .ctl .glyph { display: block; font-size: 24px; font-weight: 800; margin-bottom: 5px; }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status mono"><span>9:41</span><span>CodeYam Counter</span></div>
+
+    <div class="head">
+      <div><div class="ttl">CODEYAM COUNTER</div></div>
+      <div class="sec mono">01 / 04 COUNTERS</div>
+    </div>
+
+    <div class="switcher">
+      <div class="info">
+        <div class="dot-row">
+          <span class="dot a active"></span>
+          <span class="dot b"></span>
+          <span class="dot c"></span>
+          <span class="dot d"></span>
+        </div>
+        <div class="cur-name">PUSH-UPS</div>
+        <div class="cur-pos mono">Tap a dot or swipe to switch</div>
+      </div>
+      <div class="gear">⚙</div>
+    </div>
+
+    <div class="hero">
+      <div class="count">7</div>
+    </div>
+
+    <div class="tapbar">
+      <span class="lbl mono">Tap to<br>increment</span>
+      <span class="big">+</span>
+    </div>
+
+    <div class="controls">
+      <div class="ctl">
+        <span class="glyph">−</span>
+        <span class="mono">Subtract</span>
+      </div>
+      <div class="ctl">
+        <span class="glyph">↺</span>
+        <span class="mono">Reset</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

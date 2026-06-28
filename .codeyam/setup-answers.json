@@ -1,0 +1,8 @@
+{
+  "appFormats": [
+    "mobile"
+  ],
+  "designApproach": "files",
+  "techStackId": "swift-ios-swiftui",
+  "startingSurface": "primary-interaction"
+}
