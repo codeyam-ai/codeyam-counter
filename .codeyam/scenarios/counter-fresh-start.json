@@ -1,0 +1,21 @@
+{
+  "name": "Counter - Fresh start",
+  "id": "e1b22da0-603a-4aa8-86fd-7d8c7f43fb85",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 0, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 0, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 0, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 0, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
+      "leftHanded": false,
+      "selectedCounterId": 1
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

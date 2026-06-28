@@ -1,0 +1,267 @@
+{
+  "timestamp": "2026-06-28T13:09:22Z",
+  "title": "Counter Screen",
+  "type": "feature",
+  "userRequest": "Project context: Can we create a mobile counter app? I have mockups to demonstrate the first page.",
+  "description": "Built the CodeYam Counter iOS app (SwiftUI) primary screen: a giant numeral with four switchable, color-coded counters (tap a dot or swipe), persisted on-device. The increment button sits low and extends into an equal-quarter bottom row of SUBTRACT, RESET, and a SWITCH button that mirrors the layout for left-handed one-thumb use; subtract goes negative by default. ContentView is decomposed into nine section components, with CounterModel and CounterTheme covered by 14 unit tests and six application scenarios.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/state/last-advance.txt",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/step-highwater.json",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/.last-reconcile.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/cache/step-metadata.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/data-structure.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/deps-index.txt",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/glossary-index.txt",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/recent-runs.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/runner-timing-history.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-active-count.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-fresh-start.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-large-value.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-left-handed-layout.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-long-name.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-negative-value.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/finalize-debt.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/scenario-taxonomy.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/session-results-snapshot.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-run-marker.json",
+      "status": "added"
+    },
+    {
+      "path": ".gitattributes",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Theme.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/BottomControlRow.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/ControlButton.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/CountHero.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterBottomBar.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterDot.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterSwitcherCard.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/GearButton.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/HeaderBar.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/IncrementBar.swift",
+      "status": "added"
+    },
+    {
+      "path": "Tests/AppCoreTests/ThemeTests.swift",
+      "status": "added"
+    },
+    {
+      "path": "ui/src/helpers/stepLabels.generated.ts",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 14,
+    "passed": 14,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 14,
+        "passed": 14
+      }
+    ]
+  }
+}

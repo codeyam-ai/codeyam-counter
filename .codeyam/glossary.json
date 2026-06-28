@@ -1,0 +1,103 @@
+[
+  {
+    "description": "The lower control row: three smaller controls plus the increment button's downward extension, mirrored for left-handed use with all four sections equal width.",
+    "filePath": "Sources/AppCore/Views/BottomControlRow.swift",
+    "name": "BottomControlRow",
+    "untestabilityReason": {
+      "justification": "Verified visually via the counter-active-count and counter-left-handed-layout application scenarios, which render both orientations; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "The counter screen. Owns the model and handedness preference, wires the swipe-to-switch gesture, and composes the header, switcher card, giant numeral, and bottom bar.",
+    "filePath": "Sources/AppCore/ContentView.swift",
+    "name": "ContentView",
+    "scenarios": [
+      "counter-active-count"
+    ]
+  },
+  {
+    "description": "A small secondary control in the bottom row: a glyph above a mono label.",
+    "filePath": "Sources/AppCore/Views/ControlButton.swift",
+    "name": "ControlButton",
+    "untestabilityReason": {
+      "justification": "Verified visually via the application scenarios, which render the SUBTRACT, RESET and SWITCH controls; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "The giant numeral showing the active counter's current value.",
+    "filePath": "Sources/AppCore/Views/CountHero.swift",
+    "name": "CountHero",
+    "untestabilityReason": {
+      "justification": "Verified visually via the counter-active-count application scenario, which renders the numeral at 7; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "The whole bottom assembly: increment bar starting one-fifth up from the bottom and extending into the lower control row, computing the equal-quarter column width.",
+    "filePath": "Sources/AppCore/Views/CounterBottomBar.swift",
+    "name": "CounterBottomBar",
+    "untestabilityReason": {
+      "justification": "Verified visually via the counter-active-count and counter-left-handed-layout application scenarios; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "A single counter-selector dot; the active dot grows and gains a lime ring and glow.",
+    "filePath": "Sources/AppCore/Views/CounterDot.swift",
+    "name": "CounterDot",
+    "untestabilityReason": {
+      "justification": "Verified visually via the counter-active-count application scenario, which renders the full dot row including the active state; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "Observable store backing the counter screen. Loads seeded or default counters and the selected id from UserDefaults at launch, tracks the active selection, and applies increment, subtract with optional clamping when negatives are disallowed, reset, and wrap-around swipe selection, persisting every change back to UserDefaults.",
+    "filePath": "Sources/AppCore/Model.swift",
+    "name": "CounterModel",
+    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+  },
+  {
+    "description": "The switcher card: the row of selectable counter dots, the active counter name and swipe hint, and the inert settings gear.",
+    "filePath": "Sources/AppCore/Views/CounterSwitcherCard.swift",
+    "name": "CounterSwitcherCard",
+    "untestabilityReason": {
+      "justification": "Verified visually via the counter-active-count application scenario, which renders the populated card; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "Design-token palette for the counter screen plus pure helpers: dotHex maps a counter colorKey to its hex token with a lime fallback, and rgbComponents parses a hex string into 0...1 RGB channels backing the Color hex initializer.",
+    "filePath": "Sources/AppCore/Theme.swift",
+    "name": "CounterTheme",
+    "testFile": "Tests/AppCoreTests/ThemeTests.swift"
+  },
+  {
+    "description": "The inert settings gear on the switcher card; settings are deferred.",
+    "filePath": "Sources/AppCore/Views/GearButton.swift",
+    "name": "GearButton",
+    "untestabilityReason": {
+      "justification": "Verified visually via the counter-active-count application scenario; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "Top app-chrome row showing the brand name and the NN / 04 COUNTERS position label.",
+    "filePath": "Sources/AppCore/Views/HeaderBar.swift",
+    "name": "HeaderBar",
+    "untestabilityReason": {
+      "justification": "Verified visually as part of the full counter screen via the counter-active-count application scenario; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "description": "The higher row of the increment button: the TAP TO INCREMENT label and the plus, centered over the increment column and mirrored for left-handed use.",
+    "filePath": "Sources/AppCore/Views/IncrementBar.swift",
+    "name": "IncrementBar",
+    "untestabilityReason": {
+      "justification": "Verified visually via the counter-active-count and counter-left-handed-layout application scenarios, which render both orientations; the swift-ios-swiftui stack has no component isolation harness.",
+      "kind": "no-isolation-harness"
+    }
+  }
+]

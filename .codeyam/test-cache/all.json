@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 4,
+  "version": 2,
+  "partition": "all",
+  "hash": "09f15b2b6e98620a",
+  "runners": [
+    {
+      "name": "tests",
+      "format": "junit-xml",
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<testsuites>\n<testsuite name=\"TestResults\" errors=\"0\" tests=\"14\" failures=\"0\" time=\"1.737524624\">\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexFallsBackToLimeForUnknownKey\" time=\"0.131502166\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementRaisesActiveCounter\" time=\"0.131551416\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectNextWrapsAround\" time=\"0.1318995\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testFreshModelHasFourStarterCountersAtZero\" time=\"0.137609792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsWhenNegativesDisallowed\" time=\"0.137890667\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLoadsSeededStateFromDefaults\" time=\"0.138003083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractGoesNegativeByDefault\" time=\"0.138086\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetZeroesActiveCounter\" time=\"0.138101292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsolatesIndividualChannels\" time=\"0.108715375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsCaseInsensitive\" time=\"0.110518625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexMapsKnownKeys\" time=\"0.110491583\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesAccentLime\" time=\"0.107974292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesBlackAndWhite\" time=\"0.107655583\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testToleratesLeadingHash\" time=\"0.10752525\">\n</testcase>\n</testsuite>\n</testsuites>\n",
+      "invoked_command": "swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml",
+      "exit_code": 0,
+      "tests": [
+        {
+          "key": "AppCoreTests.ThemeTests › testDotHexFallsBackToLimeForUnknownKey",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSelectNextWrapsAround",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testIsolatesIndividualChannels",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testIsCaseInsensitive",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testParsesAccentLime",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testParsesBlackAndWhite",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testToleratesLeadingHash",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        }
+      ]
+    }
+  ]
+}

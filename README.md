@@ -33,3 +33,47 @@ To register your tests with the editor after writing them, run:
 This diffs the runner output against the registry and auto-adds new tests —
 line numbers and descriptions are resolved automatically, so you do not need
 to pass `--line` by hand.
+
+<!-- codeyam:run-and-edit:start -->
+## Develop this project with codeyam-editor
+
+This project is built with [codeyam-editor](https://codeyam.com) — code and runnable data scenarios are authored side by side against a live preview.
+
+```bash
+# Launch the editor (split-screen terminal + live preview)
+codeyam-editor editor
+
+# Run the tests
+swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
+```
+<!-- codeyam:run-and-edit:end -->
+
+<!-- codeyam:scenario-gallery:start -->
+## Scenario gallery
+
+States captured as runnable scenarios with codeyam-editor:
+
+### Counter - Active count
+
+![Counter - Active count](.codeyam/scenarios/screenshots/counter-active-count--iphone-16.png)
+
+### Counter - Fresh start
+
+![Counter - Fresh start](.codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png)
+
+### Counter - Large value
+
+![Counter - Large value](.codeyam/scenarios/screenshots/counter-large-value--iphone-16.png)
+
+### Counter - Left-handed layout
+
+![Counter - Left-handed layout](.codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png)
+
+### Counter - Long name
+
+![Counter - Long name](.codeyam/scenarios/screenshots/counter-long-name--iphone-16.png)
+
+### Counter - Negative value
+
+![Counter - Negative value](.codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png)
+<!-- codeyam:scenario-gallery:end -->

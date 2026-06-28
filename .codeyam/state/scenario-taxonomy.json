@@ -1,0 +1,34 @@
+{
+  "views": {
+    "ContentView": {
+      "empty": {
+        "status": "added"
+      },
+      "single": {
+        "status": "n-a",
+        "reason": "The app ships with a fixed set of four starter counters and has no add or delete UI, so a one-counter state cannot occur"
+      },
+      "typical": {
+        "status": "added"
+      },
+      "many": {
+        "status": "n-a",
+        "reason": "The switcher holds a fixed four counters that always fit, so there is no overflow or truncation state"
+      },
+      "loading": {
+        "status": "n-a",
+        "reason": "Counter state is read synchronously from on-device storage at launch, so there is no asynchronous loading state"
+      },
+      "edge": {
+        "status": "added"
+      },
+      "error": {
+        "status": "n-a",
+        "reason": "The view has no network or other fallible data source, so no error state can occur"
+      },
+      "key-interaction": {
+        "status": "added"
+      }
+    }
+  }
+}

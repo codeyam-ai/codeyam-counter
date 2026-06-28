@@ -1,0 +1,21 @@
+{
+  "name": "Counter - Left-handed layout",
+  "id": "0c1558bb-f1d5-4bd4-bcf6-a0e01fa552d5",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "selectedCounterId": 1,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
+      "leftHanded": true
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

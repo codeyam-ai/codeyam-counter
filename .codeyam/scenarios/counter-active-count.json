@@ -1,0 +1,21 @@
+{
+  "name": "Counter - Active count",
+  "id": "8f8ce92c-ba6e-4e51-a0b1-4870f848cf2c",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "selectedCounterId": 1,
+      "leftHanded": false,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]"
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

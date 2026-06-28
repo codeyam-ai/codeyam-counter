@@ -1,0 +1,184 @@
+{
+  "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testResetZeroesActiveCounter": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testSelectNextWrapsAround": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ThemeTests › testDotHexFallsBackToLimeForUnknownKey": {
+    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys": {
+    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ThemeTests › testIsCaseInsensitive": {
+    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ThemeTests › testIsolatesIndividualChannels": {
+    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ThemeTests › testParsesAccentLime": {
+    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ThemeTests › testParsesBlackAndWhite": {
+    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  },
+  "AppCoreTests.ThemeTests › testToleratesLeadingHash": {
+    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "lastRunAt": "2026-06-28T13:11:35.290481+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-06-28T13:11:35.290481+00:00",
+        "kind": "full"
+      }
+    ]
+  }
+}

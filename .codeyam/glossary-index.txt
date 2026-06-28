@@ -1,0 +1,13 @@
+# regenerated from glossary.json on 2026-06-28T12:59:45Z; do not hand-edit
+BottomControlRow :: Sources/AppCore/Views/BottomControlRow.swift :: tags=
+ContentView :: Sources/AppCore/ContentView.swift :: tags=
+ControlButton :: Sources/AppCore/Views/ControlButton.swift :: tags=
+CountHero :: Sources/AppCore/Views/CountHero.swift :: tags=
+CounterBottomBar :: Sources/AppCore/Views/CounterBottomBar.swift :: tags=
+CounterDot :: Sources/AppCore/Views/CounterDot.swift :: tags=
+CounterModel :: Sources/AppCore/Model.swift :: tags= :: test=Tests/AppCoreTests/ModelTests.swift
+CounterSwitcherCard :: Sources/AppCore/Views/CounterSwitcherCard.swift :: tags=
+CounterTheme :: Sources/AppCore/Theme.swift :: tags= :: test=Tests/AppCoreTests/ThemeTests.swift
+GearButton :: Sources/AppCore/Views/GearButton.swift :: tags=
+HeaderBar :: Sources/AppCore/Views/HeaderBar.swift :: tags=
+IncrementBar :: Sources/AppCore/Views/IncrementBar.swift :: tags=

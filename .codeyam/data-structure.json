@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Counter",
+    "description": "A single named tally the user increments, subtracts, and resets. The app ships with up to four counters the user switches between by tapping a colored dot or swiping. Persisted on-device; production starts empty (a default set of starter counters at 0 is created on first launch).",
+    "category": "datastore",
+    "order": 1,
+    "fields": [
+      { "name": "id", "type": "number", "isId": true, "required": true },
+      { "name": "name", "type": "string", "required": true },
+      { "name": "count", "type": "number", "required": true },
+      { "name": "colorKey", "type": "string", "required": true },
+      { "name": "allowNegative", "type": "boolean", "required": true },
+      { "name": "order", "type": "number", "required": true }
+    ]
+  },
+  {
+    "name": "CounterAppState",
+    "description": "Persisted app-level UI state restored on launch: which counter is currently active in the switcher. Stored on-device alongside the counters.",
+    "category": "datastore",
+    "order": 2,
+    "fields": [
+      { "name": "selectedCounterId", "type": "number", "required": true }
+    ]
+  }
+]

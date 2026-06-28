@@ -1,0 +1,131 @@
+{
+  "tests": [
+    {
+      "description": "Fresh model with no seed falls back to four starter counters at zero with the first selected",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
+      "line": 17,
+      "registeredAt": "2026-06-28T12:56:28.559076+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Increment raises only the active counter by one",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter",
+      "line": 26,
+      "registeredAt": "2026-06-28T12:56:28.842751+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Loads seeded counters and selected id injected via UserDefaults",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
+      "line": 77,
+      "registeredAt": "2026-06-28T12:56:29.096797+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Reset zeroes the active counter without touching the others",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
+      "line": 55,
+      "registeredAt": "2026-06-28T12:56:29.340555+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Select-next advances selection and wraps past the last counter to the first",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSelectNextWrapsAround",
+      "line": 66,
+      "registeredAt": "2026-06-28T12:56:29.598163+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Subtract clamps at zero when allowNegative is false",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed",
+      "line": 44,
+      "registeredAt": "2026-06-28T12:56:29.820770+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Subtract goes below zero when allowNegative defaults to true",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault",
+      "line": 36,
+      "registeredAt": "2026-06-28T12:56:30.041636+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Unknown colorKey falls back to the lime accent hex",
+      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ThemeTests › testDotHexFallsBackToLimeForUnknownKey",
+      "line": 62,
+      "registeredAt": "2026-06-28T12:56:30.261975+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Each known colorKey maps to its design-token hex",
+      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys",
+      "line": 54,
+      "registeredAt": "2026-06-28T12:56:30.474750+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Hex parsing is case-insensitive",
+      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ThemeTests › testIsCaseInsensitive",
+      "line": 36,
+      "registeredAt": "2026-06-28T12:56:30.709991+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Each isolated color channel maps to the expected fraction of 255",
+      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ThemeTests › testIsolatesIndividualChannels",
+      "line": 45,
+      "registeredAt": "2026-06-28T12:56:30.954317+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Lime accent hex decomposes into its three channels",
+      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ThemeTests › testParsesAccentLime",
+      "line": 26,
+      "registeredAt": "2026-06-28T12:56:31.179173+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Black and white hex parse to the range endpoints",
+      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ThemeTests › testParsesBlackAndWhite",
+      "line": 20,
+      "registeredAt": "2026-06-28T12:56:31.403300+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A leading hash is tolerated and parses identically",
+      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ThemeTests › testToleratesLeadingHash",
+      "line": 31,
+      "registeredAt": "2026-06-28T12:56:31.617399+00:00",
+      "runner": "tests"
+    }
+  ],
+  "version": 2
+}
