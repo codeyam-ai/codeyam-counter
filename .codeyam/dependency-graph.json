@@ -1,11 +1,5 @@
 {
   "files": {
-    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
-      "imports": [],
-      "importedBy": [
-        ".claude/skills/review-session/scripts/extract-session.mjs"
-      ]
-    },
     ".claude/skills/review-session/scripts/find-last-session-helpers.mjs": {
       "imports": [],
       "importedBy": [
@@ -16,15 +10,27 @@
       "imports": [],
       "importedBy": []
     },
-    ".claude/hooks/editor-pretool-hook.py": {
-      "imports": [],
-      "importedBy": []
-    },
     "Tests/AppCoreTests/ModelTests.swift": {
       "imports": [],
       "importedBy": []
     },
-    ".claude/hooks/_step_metadata.py": {
+    "Tests/AppCoreTests/ThemeTests.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/find-last-session.mjs": {
+      "imports": [
+        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs"
+      ],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
+      "imports": [],
+      "importedBy": [
+        ".claude/skills/review-session/scripts/extract-session.mjs"
+      ]
+    },
+    ".claude/hooks/editor-pretool-hook.py": {
       "imports": [],
       "importedBy": []
     },
@@ -34,30 +40,16 @@
       ],
       "importedBy": []
     },
-    "Tests/AppCoreTests/ThemeTests.swift": {
+    ".claude/hooks/_step_metadata.py": {
       "imports": [],
       "importedBy": []
     },
     "ui/src/helpers/stepLabels.generated.ts": {
       "imports": [],
       "importedBy": []
-    },
-    ".claude/skills/review-session/scripts/find-last-session.mjs": {
-      "imports": [
-        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs"
-      ],
-      "importedBy": []
     }
   },
   "entities": {
-    ".claude/skills/review-session/scripts/find-last-session.mjs::__file_root__": {
-      "filePath": ".claude/skills/review-session/scripts/find-last-session.mjs",
-      "name": "__file_root__",
-      "imports": [
-        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs::claudeProjectHashFromPath"
-      ],
-      "importedBy": []
-    },
     ".claude/skills/review-session/scripts/extract-session.mjs::__file_root__": {
       "filePath": ".claude/skills/review-session/scripts/extract-session.mjs",
       "name": "__file_root__",
@@ -66,7 +58,15 @@
         ".claude/skills/review-session/scripts/extract-session-helpers.mjs::detectFormatFromPath"
       ],
       "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/find-last-session.mjs::__file_root__": {
+      "filePath": ".claude/skills/review-session/scripts/find-last-session.mjs",
+      "name": "__file_root__",
+      "imports": [
+        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs::claudeProjectHashFromPath"
+      ],
+      "importedBy": []
     }
   },
-  "lastUpdated": "2026-06-28T17:07:32Z"
+  "lastUpdated": "2026-06-28T17:12:02Z"
 }
