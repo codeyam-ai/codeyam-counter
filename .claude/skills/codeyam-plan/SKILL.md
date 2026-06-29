@@ -1,6 +1,5 @@
 ---
 name: codeyam-plan
-autoApprove: true
 description: |
   Plan a new feature or bug fix. Asks what you want to build/fix, investigates
   the codebase for context, writes a structured plan to .codeyam/plans/, and

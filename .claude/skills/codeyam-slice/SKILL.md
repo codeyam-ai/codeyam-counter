@@ -1,6 +1,5 @@
 ---
 name: codeyam-slice
-autoApprove: true
 description: |
   Adopt one vertical slice. Reads `codeyam-editor editor assess`, proposes
   the single highest-leverage feature/route to take fully through the
@@ -96,7 +95,7 @@ title: "Adopt slice: <feature/route name>"
 mode: ui            # or: backend (from Step 4)
 createdAt: "<ISO 8601 timestamp>"
 source: slice
-step: 10            # Deconstruct (ui). Use 8 for backend mode.
+step: 11            # Deconstruct (ui). Use 8 for backend mode.
 ---
 ```
 

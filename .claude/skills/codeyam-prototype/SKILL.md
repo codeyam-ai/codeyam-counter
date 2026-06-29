@@ -1,6 +1,5 @@
 ---
 name: codeyam-prototype
-autoApprove: true
 description: |
   Drive a full prototyping session. Ask what the user wants to build, then
   edit any files needed to bring it to life — components, scenarios, even
@@ -95,7 +94,7 @@ this exact instruction string:
 
 > The user has clicked "Finish and Formalize in Build". Stop prototyping.
 > Write a plan file at `.codeyam/plans/<slug>.md` describing what was
-> prototyped. Use frontmatter with `mode: ui` and `step: 10` (or
+> prototyped. Use frontmatter with `mode: ui` and `step: 11` (or
 > `mode: backend` and `step: 8` for backend mode) and `source: prototype`.
 > Pick a kebab-case slug that matches the feature you prototyped.
 > Once the Write succeeds, run `codeyam-editor editor launch-plan <slug>` to
@@ -113,7 +112,7 @@ When you receive that message:
    mode: ui            # or: backend
    createdAt: "<ISO 8601 timestamp>"
    source: prototype
-   step: 10            # or: 8 for backend mode
+   step: 11            # or: 8 for backend mode
    ---
    ```
 
