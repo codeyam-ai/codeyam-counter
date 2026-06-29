@@ -1,4 +1,4 @@
-# regenerated from glossary.json on 2026-06-28T16:16:44Z; do not hand-edit
+# regenerated from glossary.json on 2026-06-29T11:28:55Z; do not hand-edit
 BottomControlRow :: Sources/AppCore/Views/BottomControlRow.swift :: tags=
 ContentView :: Sources/AppCore/ContentView.swift :: tags=
 ControlButton :: Sources/AppCore/Views/ControlButton.swift :: tags=

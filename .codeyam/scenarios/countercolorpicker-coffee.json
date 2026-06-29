@@ -1,0 +1,16 @@
+{
+  "name": "CounterColorPicker - Coffee",
+  "id": "d3a8e2b2-91a5-4c10-a70a-9b35c3992130",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterColorPicker",
+      "CODEYAM_ISOLATE_SCENARIO": "Coffee"
+    }
+  },
+  "componentName": "CounterColorPicker",
+  "scenarioType": "component"
+}

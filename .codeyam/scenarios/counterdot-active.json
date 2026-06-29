@@ -1,0 +1,16 @@
+{
+  "name": "CounterDot - Active",
+  "id": "0cb40726-95e8-40df-a5d4-34400cbdb878",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterDot",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "CounterDot",
+  "scenarioType": "component"
+}

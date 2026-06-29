@@ -1,0 +1,16 @@
+{
+  "name": "CounterSwitcherCard - Default",
+  "id": "b8379673-f096-47bd-b95e-186396a448a6",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "CounterSwitcherCard"
+    }
+  },
+  "componentName": "CounterSwitcherCard",
+  "scenarioType": "component"
+}

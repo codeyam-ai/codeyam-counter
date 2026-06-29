@@ -1,0 +1,16 @@
+{
+  "name": "CounterBottomBar - Default",
+  "id": "bc6e3ddb-b233-4bd2-b061-3c9d289f1724",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "CounterBottomBar"
+    }
+  },
+  "componentName": "CounterBottomBar",
+  "scenarioType": "component"
+}

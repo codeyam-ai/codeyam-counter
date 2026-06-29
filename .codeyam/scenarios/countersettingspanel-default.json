@@ -1,0 +1,16 @@
+{
+  "name": "CounterSettingsPanel - Default",
+  "id": "11669f7a-51b3-4059-8039-91afe000e77d",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterSettingsPanel",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "CounterSettingsPanel",
+  "scenarioType": "component"
+}

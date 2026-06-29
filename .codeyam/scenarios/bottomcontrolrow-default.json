@@ -1,0 +1,16 @@
+{
+  "name": "BottomControlRow - Default",
+  "id": "a6ff1962-26c7-4f73-b563-547dd06baa69",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "BottomControlRow"
+    }
+  },
+  "componentName": "BottomControlRow",
+  "scenarioType": "component"
+}

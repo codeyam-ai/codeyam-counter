@@ -1,0 +1,16 @@
+{
+  "name": "CounterStepStepper - Step One",
+  "id": "e60ebe28-f2ba-42a0-96aa-f53e63a54026",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "CounterStepStepper"
+    }
+  },
+  "componentName": "CounterStepStepper",
+  "scenarioType": "component"
+}

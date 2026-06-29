@@ -1,0 +1,16 @@
+{
+  "name": "CounterDot - Ghost",
+  "id": "afe7df0d-9aa5-4783-8854-b19d4e401541",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterDot",
+      "CODEYAM_ISOLATE_SCENARIO": "Ghost"
+    }
+  },
+  "componentName": "CounterDot",
+  "scenarioType": "component"
+}

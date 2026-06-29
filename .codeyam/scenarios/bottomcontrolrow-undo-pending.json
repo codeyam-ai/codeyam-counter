@@ -1,0 +1,16 @@
+{
+  "name": "BottomControlRow - Undo Pending",
+  "id": "c23cc3a0-7959-4909-9091-c86ef6bbfab2",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "UndoPending",
+      "CODEYAM_ISOLATE_COMPONENT": "BottomControlRow"
+    }
+  },
+  "componentName": "BottomControlRow",
+  "scenarioType": "component"
+}

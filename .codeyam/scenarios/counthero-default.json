@@ -1,0 +1,16 @@
+{
+  "name": "CountHero - Default",
+  "id": "e6b961c6-0508-46c2-a840-1e9a72015279",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "CountHero"
+    }
+  },
+  "componentName": "CountHero",
+  "scenarioType": "component"
+}

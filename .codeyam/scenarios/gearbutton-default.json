@@ -1,0 +1,16 @@
+{
+  "name": "GearButton - Default",
+  "id": "704e2af6-a348-4f29-a098-e14b3049835b",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "GearButton"
+    }
+  },
+  "componentName": "GearButton",
+  "scenarioType": "component"
+}

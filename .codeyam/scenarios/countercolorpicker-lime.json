@@ -1,0 +1,16 @@
+{
+  "name": "CounterColorPicker - Lime",
+  "id": "929b272e-fa8d-4b26-9451-7ccc4b6d049c",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "CounterColorPicker"
+    }
+  },
+  "componentName": "CounterColorPicker",
+  "scenarioType": "component"
+}

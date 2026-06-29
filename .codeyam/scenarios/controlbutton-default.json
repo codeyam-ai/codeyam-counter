@@ -1,0 +1,16 @@
+{
+  "name": "ControlButton - Default",
+  "id": "9d291ac7-92b5-4eb1-8d98-c0287c8e6dcc",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "ControlButton"
+    }
+  },
+  "componentName": "ControlButton",
+  "scenarioType": "component"
+}

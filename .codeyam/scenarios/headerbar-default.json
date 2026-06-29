@@ -1,0 +1,16 @@
+{
+  "name": "HeaderBar - Default",
+  "id": "9b1cfeee-c585-4deb-a7ef-b5aa69eaaf5c",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "HeaderBar"
+    }
+  },
+  "componentName": "HeaderBar",
+  "scenarioType": "component"
+}
