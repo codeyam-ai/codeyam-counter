@@ -8,6 +8,10 @@ import SwiftUI
 public struct BottomControlRow: View {
     let leftHanded: Bool
     let continuationWidth: CGFloat
+    /// When true the RESET slot renders as UNDO RESET (an undo of the last reset
+    /// is pending on the active counter). The slot keeps its `"reset"` accessibility
+    /// identifier in both modes; `onReset` dispatches by mode upstream.
+    let resetIsUndo: Bool
     let onSubtract: () -> Void
     let onReset: () -> Void
     let onSwitch: () -> Void
@@ -15,12 +19,14 @@ public struct BottomControlRow: View {
 
     public init(leftHanded: Bool,
                 continuationWidth: CGFloat,
+                resetIsUndo: Bool,
                 onSubtract: @escaping () -> Void,
                 onReset: @escaping () -> Void,
                 onSwitch: @escaping () -> Void,
                 onIncrement: @escaping () -> Void) {
         self.leftHanded = leftHanded
         self.continuationWidth = continuationWidth
+        self.resetIsUndo = resetIsUndo
         self.onSubtract = onSubtract
         self.onReset = onReset
         self.onSwitch = onSwitch
@@ -41,7 +47,9 @@ public struct BottomControlRow: View {
 
     private var controlsGroup: some View {
         let subtract = ControlButton(glyph: "−", label: "SUBTRACT", identifier: "subtract", action: onSubtract)
-        let reset = ControlButton(glyph: "↺", label: "RESET", identifier: "reset", action: onReset)
+        let reset = ControlButton(glyph: resetIsUndo ? "↶" : "↺",
+                                  label: resetIsUndo ? "UNDO RESET" : "RESET",
+                                  identifier: "reset", action: onReset)
         let switchBtn = ControlButton(glyph: "⇆", label: "SWITCH", identifier: "switch", action: onSwitch)
         return HStack(spacing: 0) {
             if leftHanded {

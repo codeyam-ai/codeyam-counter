@@ -8,3 +8,14 @@
 {"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testDeleteLastCounterClampsSelection`: added from runner `tests` output"}
 {"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSubtractHonorsStep`: added from runner `tests` output"}
 {"timestamp":"2026-06-28T16:11:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testIncrementClearsPendingUndo`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSubtractClearsPendingUndo`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue`: added from runner `tests` output"}
+{"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode`: added from runner `tests` output"}

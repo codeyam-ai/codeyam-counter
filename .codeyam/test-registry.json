@@ -19,12 +19,39 @@
       "runner": "tests"
     },
     {
+      "description": "Deleting a counter clears the pending undo.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
+      "line": 315,
+      "registeredAt": "2026-06-29T10:07:12.747576+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Editing the active counter invalidates the captured pre-reset value.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
+      "line": 304,
+      "registeredAt": "2026-06-29T10:07:12.747494+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "Fresh model with no seed falls back to four starter counters at zero with the first selected",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
       "line": 26,
       "registeredAt": "2026-06-28T12:56:28.559076+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Incrementing the counter clears the pending undo.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
+      "line": 266,
+      "registeredAt": "2026-06-29T10:07:12.747241+00:00",
       "runner": "tests"
     },
     {
@@ -64,6 +91,24 @@
       "runner": "tests"
     },
     {
+      "description": "Resetting a counter already at zero still enters undo mode; undoing restores zero as a harmless no-op.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
+      "line": 254,
+      "registeredAt": "2026-06-29T10:07:12.747150+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Reset captures the pre-reset value and enters undo mode: count is zero and canUndoReset is true for the active counter.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
+      "line": 229,
+      "registeredAt": "2026-06-29T10:07:12.746925+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "Reset zeroes the active counter without touching the others",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
@@ -79,6 +124,33 @@
       "key": "AppCoreTests.ModelTests › testRestoreDefaultReaddsAtZeroAndSelects",
       "line": 182,
       "registeredAt": "2026-06-28T17:03:25.831340+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The seed read coerces a string-injected value via integer(forKey:).",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
+      "line": 340,
+      "registeredAt": "2026-06-29T10:07:12.747749+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A model seeded with the resetUndo key enters undo mode on launch when the active counter is at zero.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch",
+      "line": 326,
+      "registeredAt": "2026-06-29T10:07:12.747663+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A seeded resetUndo key is ignored when the active count is non-zero, so a stale leftover key cannot falsely activate undo.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
+      "line": 355,
+      "registeredAt": "2026-06-29T10:07:12.747840+00:00",
       "runner": "tests"
     },
     {
@@ -118,6 +190,15 @@
       "runner": "tests"
     },
     {
+      "description": "Subtracting clears the pending undo.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
+      "line": 278,
+      "registeredAt": "2026-06-29T10:07:12.747322+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "Subtract goes below zero when allowNegative defaults to true",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
@@ -133,6 +214,24 @@
       "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
       "line": 98,
       "registeredAt": "2026-06-28T17:03:24.134789+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Switching counters expires the undo offer and it does not revive on returning.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
+      "line": 290,
+      "registeredAt": "2026-06-29T10:07:12.747408+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "undoReset restores the captured value and exits undo mode.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
+      "line": 241,
+      "registeredAt": "2026-06-29T10:07:12.747051+00:00",
       "runner": "tests"
     },
     {

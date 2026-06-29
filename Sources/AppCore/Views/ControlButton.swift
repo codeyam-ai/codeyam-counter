@@ -23,6 +23,8 @@ public struct ControlButton: View {
                 Text(label)
                     .font(.system(size: 9, design: .monospaced))
                     .tracking(0.4)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
             .foregroundColor(CounterTheme.ink)
             .frame(maxWidth: .infinity, maxHeight: .infinity)

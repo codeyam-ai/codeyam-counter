@@ -7,6 +7,9 @@ public struct CounterBottomBar: View {
     let leftHanded: Bool
     let screenHeight: CGFloat
     let screenWidth: CGFloat
+    /// Passed straight through to `BottomControlRow`: render the RESET slot as
+    /// UNDO RESET when an undo is pending on the active counter.
+    let resetIsUndo: Bool
     let onIncrement: () -> Void
     let onSubtract: () -> Void
     let onReset: () -> Void
@@ -15,6 +18,7 @@ public struct CounterBottomBar: View {
     public init(leftHanded: Bool,
                 screenHeight: CGFloat,
                 screenWidth: CGFloat,
+                resetIsUndo: Bool,
                 onIncrement: @escaping () -> Void,
                 onSubtract: @escaping () -> Void,
                 onReset: @escaping () -> Void,
@@ -22,6 +26,7 @@ public struct CounterBottomBar: View {
         self.leftHanded = leftHanded
         self.screenHeight = screenHeight
         self.screenWidth = screenWidth
+        self.resetIsUndo = resetIsUndo
         self.onIncrement = onIncrement
         self.onSubtract = onSubtract
         self.onReset = onReset
@@ -40,6 +45,7 @@ public struct CounterBottomBar: View {
             BottomControlRow(
                 leftHanded: leftHanded,
                 continuationWidth: columnWidth,
+                resetIsUndo: resetIsUndo,
                 onSubtract: onSubtract,
                 onReset: onReset,
                 onSwitch: onSwitch,

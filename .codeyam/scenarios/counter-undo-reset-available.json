@@ -1,0 +1,24 @@
+{
+  "name": "Counter - Undo reset available",
+  "id": "e6ed1740-def9-4ab3-bd34-7d0867932f7c",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 0, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "settingsOpen": false,
+      "leftHanded": false,
+      "selectedCounterId": 2,
+      "resetUndoPreviousCount": 5,
+      "deletedDefaultIds": "[]"
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

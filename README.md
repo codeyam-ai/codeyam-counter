@@ -64,6 +64,26 @@ swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-test
 
 States captured as runnable scenarios with codeyam-editor:
 
+### BottomControlRow - Default
+
+![BottomControlRow - Default](.codeyam/scenarios/screenshots/bottomcontrolrow-default--iphone-16.png)
+
+### BottomControlRow - Undo Pending
+
+![BottomControlRow - Undo Pending](.codeyam/scenarios/screenshots/bottomcontrolrow-undo-pending--iphone-16.png)
+
+### ControlButton - Default
+
+![ControlButton - Default](.codeyam/scenarios/screenshots/controlbutton-default--iphone-16.png)
+
+### CountHero - Default
+
+![CountHero - Default](.codeyam/scenarios/screenshots/counthero-default--iphone-16.png)
+
+### CountHero - Large
+
+![CountHero - Large](.codeyam/scenarios/screenshots/counthero-large--iphone-16.png)
+
 ### Counter - Active count
 
 ![Counter - Active count](.codeyam/scenarios/screenshots/counter-active-count--iphone-16.png)
@@ -75,24 +95,4 @@ States captured as runnable scenarios with codeyam-editor:
 ### Counter - Deleted default ghost slot
 
 ![Counter - Deleted default ghost slot](.codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png)
-
-### Counter - Fresh start
-
-![Counter - Fresh start](.codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png)
-
-### Counter - Large value
-
-![Counter - Large value](.codeyam/scenarios/screenshots/counter-large-value--iphone-16.png)
-
-### Counter - Left-handed layout
-
-![Counter - Left-handed layout](.codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png)
-
-### Counter - Long name
-
-![Counter - Long name](.codeyam/scenarios/screenshots/counter-long-name--iphone-16.png)
-
-### Counter - Negative value
-
-![Counter - Negative value](.codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png)
 <!-- codeyam:scenario-gallery:end -->

@@ -221,4 +221,146 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(model.selectedIndex, 1)
         XCTAssertEqual(model.activeCounter.count, 3)
     }
+
+    // MARK: - Undo reset
+
+    // Reset captures the pre-reset value and enters undo mode: the count is now
+    // zero and canUndoReset is true for the active counter.
+    func testResetEntersUndoModeAndCapturesPreviousValue() {
+        let model = seededModel([
+            Counter(id: 1, name: "PUSH-UPS", count: 9, colorKey: "lime", order: 0),
+        ])
+        XCTAssertFalse(model.canUndoReset)
+        model.reset()
+        XCTAssertEqual(model.activeCounter.count, 0)
+        XCTAssertTrue(model.canUndoReset)
+        XCTAssertEqual(model.resetUndo, ResetUndo(counterId: 1, previousCount: 9))
+    }
+
+    // undoReset restores the captured value and exits undo mode.
+    func testUndoResetRestoresPreviousValueAndExitsUndoMode() {
+        let model = seededModel([
+            Counter(id: 1, name: "PUSH-UPS", count: 9, colorKey: "lime", order: 0),
+        ])
+        model.reset()
+        model.undoReset()
+        XCTAssertEqual(model.activeCounter.count, 9)
+        XCTAssertFalse(model.canUndoReset)
+        XCTAssertNil(model.resetUndo)
+    }
+
+    // Resetting a counter already at zero still enters undo mode for a consistent
+    // affordance; undoing that restores zero (a harmless no-op).
+    func testResetAtZeroEntersUndoModeAndUndoRestoresZero() {
+        let model = seededModel([
+            Counter(id: 1, name: "PUSH-UPS", count: 0, colorKey: "lime", order: 0),
+        ])
+        model.reset()
+        XCTAssertTrue(model.canUndoReset)
+        model.undoReset()
+        XCTAssertEqual(model.activeCounter.count, 0)
+        XCTAssertFalse(model.canUndoReset)
+    }
+
+    // Incrementing — the counter "starting again" — clears the pending undo.
+    func testIncrementClearsPendingUndo() {
+        let model = seededModel([
+            Counter(id: 1, name: "PUSH-UPS", count: 4, colorKey: "lime", order: 0),
+        ])
+        model.reset()
+        XCTAssertTrue(model.canUndoReset)
+        model.increment()
+        XCTAssertFalse(model.canUndoReset)
+        XCTAssertNil(model.resetUndo)
+    }
+
+    // Subtracting also clears the pending undo.
+    func testSubtractClearsPendingUndo() {
+        let model = seededModel([
+            Counter(id: 1, name: "PUSH-UPS", count: 4, colorKey: "lime", order: 0),
+        ])
+        model.reset()
+        XCTAssertTrue(model.canUndoReset)
+        model.subtract()
+        XCTAssertFalse(model.canUndoReset)
+    }
+
+    // Switching counters expires the undo offer — the captured value belonged to
+    // the counter we left.
+    func testSwitchingCounterClearsPendingUndo() {
+        let model = makeModel() // PUSH-UPS, COFFEE, STEPS, BUGS
+        model.increment()       // PUSH-UPS -> 1
+        model.reset()
+        XCTAssertTrue(model.canUndoReset)
+        model.selectNext()      // move to COFFEE
+        XCTAssertFalse(model.canUndoReset)
+        XCTAssertNil(model.resetUndo)
+        // Returning to the original counter does not revive the offer.
+        model.select(id: 1)
+        XCTAssertFalse(model.canUndoReset)
+    }
+
+    // Editing the active counter invalidates the captured pre-reset value.
+    func testEditingActiveCounterClearsPendingUndo() {
+        let model = seededModel([
+            Counter(id: 1, name: "PUSH-UPS", count: 4, colorKey: "lime", order: 0),
+        ])
+        model.reset()
+        XCTAssertTrue(model.canUndoReset)
+        model.updateActiveCounter(name: "PUSH-UPS", colorKey: "lime", allowNegative: true, step: 1)
+        XCTAssertFalse(model.canUndoReset)
+    }
+
+    // Deleting a counter clears the pending undo.
+    func testDeletingCounterClearsPendingUndo() {
+        let model = makeModel()
+        model.increment()
+        model.reset()
+        XCTAssertTrue(model.canUndoReset)
+        model.deleteCounter(id: model.activeCounter.id)
+        XCTAssertFalse(model.canUndoReset)
+    }
+
+    // A model seeded with the resetUndo key enters undo mode on launch when the
+    // active counter is at zero (the static-scenario seed path).
+    func testSeededResetUndoKeyEntersUndoModeOnLaunch() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let counters = [Counter(id: 1, name: "PUSH-UPS", count: 0, colorKey: "lime", order: 0)]
+        let json = String(data: try! JSONEncoder().encode(counters), encoding: .utf8)!
+        suite.set(json, forKey: CounterModel.countersKey)
+        suite.set(1, forKey: CounterModel.selectedKey)
+        suite.set(12, forKey: CounterModel.resetUndoKey)
+        let model = CounterModel(defaults: suite)
+        XCTAssertTrue(model.canUndoReset)
+        XCTAssertEqual(model.resetUndo, ResetUndo(counterId: 1, previousCount: 12))
+    }
+
+    // The seed read coerces a string-injected value (the editor injects
+    // `defaults write` values as strings) via integer(forKey:).
+    func testSeededResetUndoKeyCoercesStringValue() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let counters = [Counter(id: 1, name: "PUSH-UPS", count: 0, colorKey: "lime", order: 0)]
+        let json = String(data: try! JSONEncoder().encode(counters), encoding: .utf8)!
+        suite.set(json, forKey: CounterModel.countersKey)
+        suite.set("12", forKey: CounterModel.resetUndoKey)
+        let model = CounterModel(defaults: suite)
+        XCTAssertTrue(model.canUndoReset)
+        XCTAssertEqual(model.resetUndo?.previousCount, 12)
+    }
+
+    // The seed is rejected when the active counter is not at zero: a real pending
+    // undo is always a post-reset state, so a non-zero count means the key is a
+    // stale leftover (the editor's seed leaves the key set across scenario loads)
+    // and must not falsely activate UNDO RESET.
+    func testSeededResetUndoKeyIgnoredWhenActiveCountNonZero() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let counters = [Counter(id: 1, name: "PUSH-UPS", count: 7, colorKey: "lime", order: 0)]
+        let json = String(data: try! JSONEncoder().encode(counters), encoding: .utf8)!
+        suite.set(json, forKey: CounterModel.countersKey)
+        suite.set(1, forKey: CounterModel.selectedKey)
+        suite.set(12, forKey: CounterModel.resetUndoKey)
+        let model = CounterModel(defaults: suite)
+        XCTAssertFalse(model.canUndoReset)
+        XCTAssertNil(model.resetUndo)
+    }
 }

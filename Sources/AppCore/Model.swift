@@ -41,6 +41,19 @@ public struct Counter: Identifiable, Codable, Equatable {
     }
 }
 
+/// A pending undo for a single reset: the counter that was zeroed and the value
+/// it held just before. Scoped to a counter id so the offer only applies while
+/// that same counter is active.
+public struct ResetUndo: Equatable {
+    public let counterId: Int
+    public let previousCount: Int
+
+    public init(counterId: Int, previousCount: Int) {
+        self.counterId = counterId
+        self.previousCount = previousCount
+    }
+}
+
 /// Observable store backing the counter screen.
 ///
 /// Seeding contract: at launch the editor injects a scenario's
@@ -49,6 +62,8 @@ public struct Counter: Identifiable, Codable, Equatable {
 /// state from the first frame:
 ///   - `counters` — a JSON-encoded `[Counter]` string
 ///   - `selectedCounterId` — the id of the active counter
+///   - `resetUndoPreviousCount` — the pre-reset value of the active counter,
+///     which seeds the bottom row into its UNDO RESET state for a static capture
 /// Production ships with neither key set, so first launch creates the default
 /// starter set (four counters at 0).
 public final class CounterModel: ObservableObject {
@@ -59,12 +74,18 @@ public final class CounterModel: ObservableObject {
     /// the default. Tracked explicitly (not inferred from absence) so a scenario
     /// that seeds a subset of counters does not sprout ghost dots.
     @Published public private(set) var deletedDefaultIds: Set<Int>
+    /// A reset that can still be undone, or nil. Set the moment RESET is tapped
+    /// (capturing the pre-reset value) and cleared as soon as the counter
+    /// "starts again" — any count change, a selection switch, an edit, or a
+    /// delete. Transient by design: never persisted on live mutations.
+    @Published public private(set) var resetUndo: ResetUndo?
 
     private let defaults: UserDefaults
 
     public static let countersKey = "counters"
     public static let selectedKey = "selectedCounterId"
     public static let deletedDefaultsKey = "deletedDefaultIds"
+    public static let resetUndoKey = "resetUndoPreviousCount"
 
     public init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -79,12 +100,39 @@ public final class CounterModel: ObservableObject {
         // `integer(forKey:)` rather than an `as? Int` cast that a string would
         // silently fail. The key's presence is checked first because
         // `integer(forKey:)` returns 0 (no counter id) when absent.
+        let resolvedIndex: Int
         if defaults.object(forKey: Self.selectedKey) != nil,
            let idx = counters.firstIndex(where: { $0.id == defaults.integer(forKey: Self.selectedKey) }) {
-            self.selectedIndex = idx
+            resolvedIndex = idx
         } else {
-            self.selectedIndex = 0
+            resolvedIndex = 0
         }
+        self.selectedIndex = resolvedIndex
+
+        // Seed the pending-undo state when a scenario injects it, so a static
+        // capture renders the UNDO RESET affordance without a live tap. Uses the
+        // same presence-then-`integer(forKey:)` coercion as `selectedKey` so a
+        // string-injected seed reads correctly.
+        //
+        // Require the active counter to be at 0: a real pending undo is always a
+        // post-reset state (reset zeros the count), so a non-zero active count is
+        // an impossible pairing. Rejecting it also keeps the key — which the
+        // editor's `defaults write` seed leaves set across scenario loads — from
+        // falsely activating UNDO RESET in unrelated scenarios whose counter is
+        // not at 0.
+        if defaults.object(forKey: Self.resetUndoKey) != nil,
+           counters[resolvedIndex].count == 0 {
+            self.resetUndo = ResetUndo(counterId: counters[resolvedIndex].id,
+                                       previousCount: defaults.integer(forKey: Self.resetUndoKey))
+        } else {
+            self.resetUndo = nil
+        }
+    }
+
+    /// True when the pending undo applies to the currently active counter — what
+    /// the bottom row reads to render UNDO RESET in place of RESET.
+    public var canUndoReset: Bool {
+        resetUndo?.counterId == activeCounter.id
     }
 
     // MARK: - Derived state
@@ -113,6 +161,9 @@ public final class CounterModel: ObservableObject {
 
     public func select(index: Int) {
         guard counters.indices.contains(index) else { return }
+        // The captured pre-reset value belongs to the counter we're leaving, so
+        // switching away expires the undo offer.
+        resetUndo = nil
         selectedIndex = index
         persistSelection()
     }
@@ -137,12 +188,17 @@ public final class CounterModel: ObservableObject {
     // MARK: - Mutations (act on the active counter)
 
     public func increment() {
+        // The counter "starts again" — the recovery offer expires.
+        resetUndo = nil
         counters[selectedIndex].count += counters[selectedIndex].step
         persistCounters()
     }
 
     public func subtract() {
         let current = counters[selectedIndex]
+        // Any subtract counts as the counter starting again, even the no-op
+        // clamp case below — the user has moved on from the reset.
+        resetUndo = nil
         if current.allowNegative {
             counters[selectedIndex].count -= current.step
         } else {
@@ -154,8 +210,22 @@ public final class CounterModel: ObservableObject {
         persistCounters()
     }
 
+    /// Zeros the active counter, remembering its prior value so the bottom row
+    /// can offer an immediate UNDO RESET. The undo is captured even when the
+    /// pre-reset value was 0 (a harmless no-op to undo), keeping the affordance
+    /// consistent without a special case.
     public func reset() {
+        resetUndo = ResetUndo(counterId: activeCounter.id, previousCount: counters[selectedIndex].count)
         counters[selectedIndex].count = 0
+        persistCounters()
+    }
+
+    /// Restores the value captured by the most recent `reset()` on the active
+    /// counter and clears the pending undo. No-ops when there is nothing to undo.
+    public func undoReset() {
+        guard canUndoReset, let undo = resetUndo else { return }
+        counters[selectedIndex].count = undo.previousCount
+        resetUndo = nil
         persistCounters()
     }
 
@@ -164,6 +234,8 @@ public final class CounterModel: ObservableObject {
     /// Applies the settings panel's edits to the active counter and persists.
     public func updateActiveCounter(name: String, colorKey: String, allowNegative: Bool, step: Int) {
         guard counters.indices.contains(selectedIndex) else { return }
+        // Editing the counter invalidates the captured pre-reset value.
+        resetUndo = nil
         counters[selectedIndex].name = name
         counters[selectedIndex].colorKey = colorKey
         counters[selectedIndex].allowNegative = allowNegative
@@ -176,6 +248,8 @@ public final class CounterModel: ObservableObject {
     /// its id so a ghost restore slot appears in its place.
     public func deleteCounter(id: Int) {
         guard let idx = counters.firstIndex(where: { $0.id == id }) else { return }
+        // The captured pre-reset value no longer applies once a counter is gone.
+        resetUndo = nil
         counters.remove(at: idx)
         if Self.defaultIds.contains(id) {
             deletedDefaultIds.insert(id)

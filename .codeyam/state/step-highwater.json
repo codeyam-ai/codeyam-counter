@@ -1,6 +1,6 @@
 {
-  "feature": "counter-settings-panel",
-  "maxStep": 25,
-  "version": 24825,
-  "updatedAt": "2026-06-28T17:13:17.462544+00:00"
+  "feature": "undo-reset-button",
+  "maxStep": 24,
+  "version": 14762,
+  "updatedAt": "2026-06-29T10:41:42.528268+00:00"
 }

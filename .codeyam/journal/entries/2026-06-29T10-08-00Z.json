@@ -1,0 +1,503 @@
+{
+  "timestamp": "2026-06-29T10:08:00Z",
+  "title": "Undo Reset Button",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe bottom-row **RESET** control should flip to **UNDO RESET** the moment it\nis tapped (zeroing the active counter but remembering the prior value), so the\nuser can immediately recover from an accidental reset. As soon as the counter\n\"starts\" again — i.e. the count changes via increment or subtract — the button\nreverts to plain **RESET** and the recovery offer expires. Switching counters or\nediting/deleting a counter also clears the pending undo.\n\n## Key Decisions\n\n- **Undo state lives in `CounterModel`, scoped to the active counter.** Reset is\n  already a model mutation; tracking the pre-reset value next to it (rather than\n  in a view's `@State`) keeps the single source of truth in the observable store\n  and lets every view that observes the model re-render the label correctly.\n- **\"The counter starts\" = any count change.** Per the user's choice, both\n  `increment()` and `subtract()` clear the pending undo. Selection changes, edits,\n  and deletes clear it too, since the captured pre-reset value no longer applies\n  to whatever is now active. (The alternative — increment-only — was rejected.)\n- **The undo value is captured even when the pre-reset count was 0.** Tapping\n  reset always enters undo mode for a consistent affordance; undoing a 0→0 reset\n  is a harmless no-op. This avoids a special-case branch.\n- **A single button slot, two modes — dispatched by the model.** Rather than add\n  a fourth control, the existing RESET `ControlButton` swaps its glyph/label and\n  the `onReset` closure dispatches to `reset()` or `undoReset()` based on\n  `model.canUndoReset`. The accessibility identifier stays `\"reset\"` so existing\n  scenario interactivity/handlers keep targeting the same slot.\n- **Undo state is seedable for scenarios.** Like `settingsOpen`/`selectedCounterId`,\n  the model reads a `resetUndoPreviousCount` preference in `init`, so a static\n  scenario capture can render the UNDO RESET state without a live tap driver. The\n  state is otherwise transient (not persisted on live mutations), matching its\n  ephemeral \"starts again and it's gone\" intent.\n\n## Implementation\n\n### 1. Add undo-reset state and behavior to the model\n\n**File**: `Sources/AppCore/Model.swift`\n\n- Add a small value type to hold the pending undo, e.g.\n  `public struct ResetUndo: Equatable { public let counterId: Int; public let previousCount: Int }`.\n- Add `@Published public private(set) var resetUndo: ResetUndo?` (defaults to nil).\n- Add a derived `public var canUndoReset: Bool` returning\n  `resetUndo?.counterId == activeCounter.id` (nil → false). This is what the view\n  reads to decide RESET vs UNDO RESET.\n- Update `reset()` to capture the current value before zeroing:\n  set `resetUndo = ResetUndo(counterId: activeCounter.id, previousCount: counters[selectedIndex].count)`,\n  then set the count to 0 and `persistCounters()`.\n- Add `public func undoReset()`: guard `canUndoReset`; restore\n  `counters[selectedIndex].count = resetUndo!.previousCount`; set `resetUndo = nil`;\n  `persistCounters()`.\n- Clear `resetUndo = nil` at the start of `increment()` and `subtract()` (the\n  \"counter starts again\" trigger), and also in `select(index:)`\n  (covers `select(id:)`, `selectNext()`, `selectPrevious()`),\n  `updateActiveCounter(...)`, and `deleteCounter(id:)`.\n- Add a public key constant `public static let resetUndoKey = \"resetUndoPreviousCount\"`.\n- In `init`, after `selectedIndex` is resolved, seed the undo state when present:\n  if `defaults.object(forKey: Self.resetUndoKey) != nil`, set\n  `resetUndo = ResetUndo(counterId: counters[selectedIndex].id, previousCount: defaults.integer(forKey: Self.resetUndoKey))`.\n  Use the same `object(forKey:)`-presence-then-`integer(forKey:)` pattern already\n  used for `selectedKey`, so a string-injected seed coerces correctly.\n\n### 2. Render RESET vs UNDO RESET in the bottom control row\n\n**File**: `Sources/AppCore/Views/BottomControlRow.swift`\n\n- Add a `let resetIsUndo: Bool` stored property and constructor parameter\n  (keep the existing parameter order otherwise).\n- In `controlsGroup`, build the reset button's glyph/label from `resetIsUndo`:\n  when true, glyph `\"↶\"` and label `\"UNDO RESET\"`; when false, the current\n  glyph `\"↺\"` and label `\"RESET\"`. Keep `identifier: \"reset\"` in both cases.\n\n### 3. Ensure the longer label fits its quarter-width column\n\n**File**: `Sources/AppCore/Views/ControlButton.swift`\n\nThe label `Text` should not wrap or overflow when it becomes \"UNDO RESET\" in a\nquarter-screen column. Add `.lineLimit(1)` and a `.minimumScaleFactor(~0.8)` to\nthe label `Text` so the wider text scales down gracefully if needed. This is a\nsafe, general improvement to the shared control button.\n\n### 4. Thread the flag through the bottom bar\n\n**File**: `Sources/AppCore/Views/CounterBottomBar.swift`\n\nAdd a `let resetIsUndo: Bool` stored property + constructor parameter and pass it\nstraight through to `BottomControlRow(resetIsUndo:)`.\n\n### 5. Wire the model state and dispatching action in the screen\n\n**File**: `Sources/AppCore/ContentView.swift`\n\nIn the `CounterBottomBar(...)` call:\n- Pass `resetIsUndo: model.canUndoReset`.\n- Change `onReset` to dispatch by mode:\n  `onReset: { if model.canUndoReset { model.undoReset() } else { model.reset() } }`.\n\n### 6. Tests for the model behavior\n\n**File**: `Tests/AppCoreTests/ModelTests.swift`\n\nAdd cases following the existing `makeModel()` / `seededModel(_:)` patterns:\n- Reset captures the pre-reset value and enters undo mode (`canUndoReset == true`,\n  count == 0).\n- `undoReset()` restores the captured count and exits undo mode\n  (`canUndoReset == false`).\n- `increment()` clears the pending undo (`canUndoReset == false`).\n- `subtract()` clears the pending undo.\n- Switching counters (`selectNext()` / `select(id:)`) clears the pending undo.\n- A model seeded with `CounterModel.resetUndoKey` enters undo mode on launch\n  (drives the scenario seed path).\n\n### 7. Scenario demonstrating the UNDO RESET affordance\n\n**New file**: `.codeyam/scenarios/counter-undo-reset-available.json`\n\nMirror the shape of `.codeyam/scenarios/counter-active-count.json`: seed the\nactive counter (`selectedCounterId`) with `count: 0`, set\n`resetUndoPreviousCount` in `deviceState.preferences` (e.g. `12`), so the static\ncapture renders the bottom row showing **UNDO RESET**. Keep `pageFilePath`\npointing at `Sources/AppCore/ContentView.swift`. (Use a fresh UUID for `id`.)\n\n## Reused existing code\n\n- `CounterModel.reset()` / `increment()` / `subtract()` / `select(index:)` from\n  `Sources/AppCore/Model.swift` — extended with undo bookkeeping.\n- `ControlButton` from `Sources/AppCore/Views/ControlButton.swift` — reused\n  as-is for both RESET and UNDO RESET (only glyph/label differ).\n- `BottomControlRow` / `CounterBottomBar` from `Sources/AppCore/Views/` — the\n  existing prop-threading pattern (already passes `onReset` etc.) extended with\n  one `resetIsUndo` flag.\n- The `init`-time UserDefaults seed pattern (presence check + `integer(forKey:)`)\n  already used for `selectedKey` in `Sources/AppCore/Model.swift`.\n- Test scaffolding `makeModel()` / `seededModel(_:)` in\n  `Tests/AppCoreTests/ModelTests.swift`.\n- Scenario JSON contract from `.codeyam/scenarios/counter-active-count.json`.\n\n## Scenarios to Demonstrate\n\n- **Undo available** — active counter at 0 with a pending undo; bottom row shows\n  **UNDO RESET** (`↶`) instead of RESET. (New scenario file above.)\n- **Default / no undo** — a normal active count; bottom row shows **RESET** (`↺`).\n  (Covered by existing `counter-active-count`.)\n- **Reset → Undo round trip (interactive)** — tap RESET (count → 0, label →\n  UNDO RESET), tap UNDO RESET (count restored, label → RESET).\n- **Counter starts again** — after a reset, tapping `+` (increment) reverts the\n  label to RESET; the undo offer is gone.\n- **Subtract also reverts** — after a reset, tapping SUBTRACT reverts the label to\n  RESET.\n- **Switching counter clears undo** — reset counter A, swipe to counter B, swipe\n  back to A: the label is RESET (undo did not survive the switch).\n- **Edge: reset a zero counter** — UNDO RESET appears; undoing restores 0 (no-op).",
+  "description": "The bottom-row RESET control now flips to UNDO RESET the moment it is tapped: reset zeros the active counter but remembers the prior value, so a single tap of UNDO RESET restores it. The recovery offer expires as soon as the counter starts again via increment or subtract, or when the user switches, edits, or deletes a counter. Undo state lives in CounterModel and is seedable for static scenarios; the seed is guarded to activate only when the active count is zero, so a stale seed key cannot falsely show UNDO RESET in unrelated scenarios.",
+  "modifiedFiles": [
+    {
+      "path": ".claude/skills/codeyam-audit/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-design/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-edit-plan/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-editor/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-onboard/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-plan/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-prototype/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-slice/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/.last-reconcile.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/cache/step-metadata.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/deps-index.txt",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary-index.txt",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/undo-reset-button.md\t.codeyam/plans/completed/undo-reset-button.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/reconciliation-log.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/last-advance.txt",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/provider-auth-verdict.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/session-results-snapshot.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/step-highwater.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-run-marker.json",
+      "status": "modified"
+    },
+    {
+      "path": ".gitignore",
+      "status": "modified"
+    },
+    {
+      "path": "App/App.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/BottomControlRow.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/ControlButton.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterBottomBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "ui/src/helpers/stepLabels.generated.ts",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-audit/finalize-procedure.md",
+      "status": "added"
+    },
+    {
+      "path": ".claude/skills/review-session/SKILL.md",
+      "status": "added"
+    },
+    {
+      "path": ".claude/skills/review-session/scripts/extract-session-helpers.mjs",
+      "status": "added"
+    },
+    {
+      "path": ".claude/skills/review-session/scripts/extract-session.mjs",
+      "status": "added"
+    },
+    {
+      "path": ".claude/skills/review-session/scripts/find-last-session-helpers.mjs",
+      "status": "added"
+    },
+    {
+      "path": ".claude/skills/review-session/scripts/find-last-session.mjs",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/mocks/catalog.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/bottomcontrolrow-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/bottomcontrolrow-undo-pending.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/controlbutton-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-undo-reset-available.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterbottombar-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/countercolorpicker-coffee.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/countercolorpicker-lime.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterdot-active.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterdot-ghost.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/countersettingspanel-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterstepstepper-step-five.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterstepstepper-step-one.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterswitchercard-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counthero-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counthero-large.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/gearbutton-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/headerbar-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/incrementbar-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-undo-pending--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/controlbutton-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countercolorpicker-coffee--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countercolorpicker-lime--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterdot-active--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterdot-ghost--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterstepstepper-step-five--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterstepstepper-step-one--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterswitchercard-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counthero-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counthero-large--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/gearbutton-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/headerbar-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/incrementbar-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/ControlButtonIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CountHeroIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterColorPickerIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterDotIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterStepStepperIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GearButtonIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "BottomControlRow - Default",
+      "screenshotPath": "bottomcontrolrow-default--iphone-16.png"
+    },
+    {
+      "name": "BottomControlRow - Undo Pending",
+      "screenshotPath": "bottomcontrolrow-undo-pending--iphone-16.png"
+    },
+    {
+      "name": "ControlButton - Default",
+      "screenshotPath": "controlbutton-default--iphone-16.png"
+    },
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    },
+    {
+      "name": "CounterBottomBar - Default",
+      "screenshotPath": "counterbottombar-default--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 35,
+    "passed": 35,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 35,
+        "passed": 35
+      }
+    ]
+  }
+}

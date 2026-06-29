@@ -34,9 +34,10 @@ public struct ContentView: View {
                         leftHanded: leftHanded,
                         screenHeight: geo.size.height,
                         screenWidth: geo.size.width,
+                        resetIsUndo: model.canUndoReset,
                         onIncrement: { model.increment() },
                         onSubtract: { model.subtract() },
-                        onReset: { model.reset() },
+                        onReset: { withAnimation { model.canUndoReset ? model.undoReset() : model.reset() } },
                         onSwitch: { withAnimation { leftHanded.toggle() } }
                     )
                 }
