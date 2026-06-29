@@ -8,7 +8,9 @@ on:
 jobs:
   test:
     name: Build & test
-    runs-on: macos-14
+    # macos-15 ships Xcode 16 / Swift 6, which is required for the
+    # `--disable-swift-testing` flag used below (absent on older toolchains).
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
