@@ -16,11 +16,16 @@ struct CounterDotIsolated: View {
 
     @ViewBuilder private var content: some View {
         switch scenario {
-        case "Ghost":
-            CounterDot(color: CounterTheme.dotColor("lime"), isActive: false, isGhost: true, onTap: {})
+        case "Ghost", "Blank":
+            // Blank + empty → the dashed outline slot.
+            CounterDot(color: .clear, isActive: false, isBlank: true, isEmpty: true, onTap: {})
+                .frame(width: 64, height: 64)
+        case "SolidBlank":
+            // Blank + incremented → the solid neutral dot.
+            CounterDot(color: .clear, isActive: false, isBlank: true, isEmpty: false, onTap: {})
                 .frame(width: 64, height: 64)
         default:
-            CounterDot(color: CounterTheme.dotColor("lime"), isActive: true, isGhost: false, onTap: {})
+            CounterDot(color: CounterTheme.dotColor("lime"), isActive: true, onTap: {})
                 .frame(width: 64, height: 64)
         }
     }

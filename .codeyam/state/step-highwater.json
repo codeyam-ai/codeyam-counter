@@ -1,6 +1,6 @@
 {
-  "feature": "undo-reset-button",
-  "maxStep": 25,
-  "version": 17531,
-  "updatedAt": "2026-06-29T11:00:03.082290+00:00"
+  "feature": "persistent-blank-counter-slots",
+  "maxStep": 24,
+  "version": 19894,
+  "updatedAt": "2026-07-01T14:45:08.031566+00:00"
 }

@@ -14,6 +14,10 @@ public struct CounterSettingsPanel: View {
     @State private var colorKey: String
     @State private var allowNegative: Bool
     @State private var step: Int
+    /// Two-tap delete guard: the first tap arms the button, a second tap within
+    /// ~3s deletes; it auto-disarms so an accidental single tap never wipes a
+    /// counter.
+    @State private var confirmingDelete = false
 
     public init(counter: Counter,
                 onSave: @escaping (String, String, Bool, Int) -> Void,
@@ -24,7 +28,12 @@ public struct CounterSettingsPanel: View {
         self.onDelete = onDelete
         self.onClose = onClose
         _name = State(initialValue: counter.name)
-        _colorKey = State(initialValue: counter.colorKey)
+        // A blank slot has no color yet — default the picker to the first palette
+        // swatch so saving with a name produces a normal colored counter. The
+        // name stays empty, so saving without one leaves the slot blank.
+        _colorKey = State(initialValue: counter.isBlank
+            ? (CounterTheme.palette.first ?? "lime")
+            : counter.colorKey)
         _allowNegative = State(initialValue: counter.allowNegative)
         _step = State(initialValue: counter.step)
     }
@@ -59,17 +68,7 @@ public struct CounterSettingsPanel: View {
             .tint(CounterTheme.accent)
             .accessibilityIdentifier("settings-allow-negative")
 
-            Button(action: { onDelete(); onClose() }) {
-                Text("DELETE COUNTER")
-                    .font(.system(size: 13, weight: .heavy, design: .monospaced))
-                    .tracking(1)
-                    .foregroundColor(CounterTheme.dotColor("coffee"))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
-                    .overlay(Rectangle().stroke(CounterTheme.dotColor("coffee").opacity(0.6), lineWidth: 1))
-            }
-            .buttonStyle(.plain)
-            .accessibilityIdentifier("settings-delete")
+            deleteButton
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .top)
@@ -77,6 +76,37 @@ public struct CounterSettingsPanel: View {
         .overlay(Rectangle().stroke(CounterTheme.lineStrong, lineWidth: 1))
         .padding(.horizontal, 22)
         .padding(.top, 12)
+    }
+
+    // The delete control. Disarmed: an outlined coffee-colored "DELETE COUNTER".
+    // First tap arms it into a filled "TAP AGAIN TO CONFIRM" state that
+    // auto-disarms after ~3s; a second tap while armed performs the delete. The
+    // `settings-delete` identifier stays on the button in both states so the
+    // armed state is a label/style swap rather than a new control.
+    private var deleteButton: some View {
+        let coffee = CounterTheme.dotColor("coffee")
+        return Button(action: {
+            if confirmingDelete {
+                onDelete()
+                onClose()
+            } else {
+                confirmingDelete = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    confirmingDelete = false
+                }
+            }
+        }) {
+            Text(confirmingDelete ? "TAP AGAIN TO CONFIRM" : "DELETE COUNTER")
+                .font(.system(size: 13, weight: .heavy, design: .monospaced))
+                .tracking(1)
+                .foregroundColor(confirmingDelete ? CounterTheme.onAccent : coffee)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(confirmingDelete ? coffee : Color.clear)
+                .overlay(Rectangle().stroke(coffee.opacity(confirmingDelete ? 1 : 0.6), lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("settings-delete")
     }
 
     private var header: some View {

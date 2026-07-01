@@ -1,10 +1,12 @@
 {
   "files": {
-    ".claude/hooks/_step_metadata.py": {
+    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
       "imports": [],
-      "importedBy": []
+      "importedBy": [
+        ".claude/skills/review-session/scripts/extract-session.mjs"
+      ]
     },
-    "Tests/AppCoreTests/ModelTests.swift": {
+    ".claude/hooks/_step_metadata.py": {
       "imports": [],
       "importedBy": []
     },
@@ -12,26 +14,6 @@
       "imports": [],
       "importedBy": [
         ".claude/skills/review-session/scripts/find-last-session.mjs"
-      ]
-    },
-    ".claude/skills/review-session/scripts/find-last-session.mjs": {
-      "imports": [
-        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs"
-      ],
-      "importedBy": []
-    },
-    ".claude/hooks/editor-pretool-hook.py": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Tests/AppCoreTests/ThemeTests.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
-      "imports": [],
-      "importedBy": [
-        ".claude/skills/review-session/scripts/extract-session.mjs"
       ]
     },
     "ui/src/helpers/stepLabels.generated.ts": {
@@ -44,8 +26,26 @@
       ],
       "importedBy": []
     },
+    "Tests/AppCoreTests/ModelTests.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Tests/AppCoreTests/ThemeTests.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    ".claude/hooks/editor-pretool-hook.py": {
+      "imports": [],
+      "importedBy": []
+    },
     ".claude/hooks/editor-step-hook.py": {
       "imports": [],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/find-last-session.mjs": {
+      "imports": [
+        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs"
+      ],
       "importedBy": []
     }
   },
@@ -68,5 +68,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-06-29T12:02:03Z"
+  "lastUpdated": "2026-07-01T14:43:52Z"
 }

@@ -1,31 +1,41 @@
 import SwiftUI
 
 /// A single counter-selector dot. The active dot grows slightly and gains a
-/// lime ring + glow. A ghost dot (a deleted default's empty slot) is an
-/// outline-only circle that restores the default when tapped.
+/// lime ring + glow. A blank slot (a deleted counter left in place) renders as
+/// a dashed outline circle while empty, and as a solid neutral-fill dot once it
+/// has been incremented; tapping either only selects it (no resurrection).
 public struct CounterDot: View {
     let color: Color
     let isActive: Bool
-    let isGhost: Bool
+    /// True for a blank slot: a deleted counter awaiting revival (no name).
+    let isBlank: Bool
+    /// True for a blank slot that is still at count 0 — drawn as the dashed
+    /// outline. A blank slot with a non-zero count is drawn as a solid neutral
+    /// dot instead.
+    let isEmpty: Bool
     let onTap: () -> Void
 
-    public init(color: Color, isActive: Bool, isGhost: Bool = false, onTap: @escaping () -> Void) {
+    public init(color: Color, isActive: Bool, isBlank: Bool = false, isEmpty: Bool = false, onTap: @escaping () -> Void) {
         self.color = color
         self.isActive = isActive
-        self.isGhost = isGhost
+        self.isBlank = isBlank
+        self.isEmpty = isEmpty
         self.onTap = onTap
     }
 
     public var body: some View {
-        if isGhost {
+        if isBlank && isEmpty {
+            // Blank + count 0 → the dashed outline circle.
             Circle()
                 .stroke(CounterTheme.lineStrong, style: StrokeStyle(lineWidth: 1.5, dash: [2.5, 2.5]))
                 .frame(width: 16, height: 16)
                 .contentShape(Circle())
                 .onTapGesture { onTap() }
         } else {
+            // Blank + count ≠ 0 → a solid neutral (nameless) dot; otherwise the
+            // counter's own color. Both reuse the active ring/glow overlay.
             Circle()
-                .fill(color)
+                .fill(isBlank ? CounterTheme.inkMuted : color)
                 .frame(width: isActive ? 18 : 16, height: isActive ? 18 : 16)
                 .overlay(
                     Circle()

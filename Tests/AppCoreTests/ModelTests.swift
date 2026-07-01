@@ -151,58 +151,92 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(model.activeCounter.step, 1)
     }
 
-    // MARK: - Delete & restore
+    // MARK: - Delete (blank in place) & revive
 
-    // Deleting a default removes it, records its id as a ghost slot, and keeps
-    // the selection in range by selecting a neighbor.
-    func testDeleteDefaultRemovesAndRecordsGhost() {
+    // Deleting a counter blanks it in place rather than removing it: the row
+    // length is unchanged, the id is still present, its name is empty (isBlank),
+    // its count is reset to 0, and it stays selected so it can be revived.
+    func testDeleteBlanksInPlace() {
         let model = makeModel() // PUSH-UPS, COFFEE, STEPS, BUGS
         model.select(id: 2) // COFFEE active
+        model.increment()   // give it a non-zero count first
         model.deleteCounter(id: 2)
-        XCTAssertEqual(model.counterCount, 3)
-        XCTAssertFalse(model.counters.contains { $0.id == 2 })
-        XCTAssertTrue(model.deletedDefaultIds.contains(2))
-        XCTAssertEqual(model.ghostSlots.map(\.id), [2])
-        // Selection stayed in range (neighbor that slid into index 1).
-        XCTAssertTrue(model.counters.indices.contains(model.selectedIndex))
-        XCTAssertEqual(model.activeCounter.id, 3)
+        XCTAssertEqual(model.counterCount, 4)
+        let blanked = model.counters.first { $0.id == 2 }
+        XCTAssertNotNil(blanked)
+        XCTAssertTrue(blanked!.isBlank)
+        XCTAssertEqual(blanked!.name, "")
+        XCTAssertEqual(blanked!.count, 0)
+        // Stays selected on the blanked slot for immediate revival.
+        XCTAssertEqual(model.activeCounter.id, 2)
     }
 
-    // Deleting the active last counter clamps the selection back into range.
-    func testDeleteLastCounterClampsSelection() {
+    // A blanked slot stays selectable and increments into a solid blank dot
+    // without resurrecting a name — incrementing does not clear blankness.
+    func testBlankSlotIncrementsWithoutReviving() {
+        let model = makeModel()
+        model.deleteCounter(id: 3) // blank STEPS, stays selected
+        XCTAssertTrue(model.activeCounter.isBlank)
+        model.increment()
+        XCTAssertEqual(model.activeCounter.count, 1)
+        XCTAssertTrue(model.activeCounter.isBlank, "increment must not revive a blank slot")
+    }
+
+    // Giving a blank slot a name via settings revives it — it stops being blank.
+    func testNamingBlankSlotRevivesIt() {
+        let model = makeModel()
+        model.deleteCounter(id: 3) // blank STEPS, stays selected
+        XCTAssertTrue(model.activeCounter.isBlank)
+        model.updateActiveCounter(name: "YOGA", colorKey: "mint", allowNegative: true, step: 1)
+        XCTAssertFalse(model.activeCounter.isBlank)
+        XCTAssertEqual(model.activeCounter.name, "YOGA")
+    }
+
+    // Deleting the last counter blanks it in place: the row length is unchanged
+    // and the blanked slot stays selected (no selection clamp, since nothing is
+    // removed).
+    func testDeleteLastCounterBlanksInPlaceAndKeepsSelection() {
         let model = makeModel()
         model.select(index: 3) // BUGS, the last
         model.deleteCounter(id: model.activeCounter.id)
-        XCTAssertEqual(model.counterCount, 3)
-        XCTAssertEqual(model.selectedIndex, 2)
-    }
-
-    // Restoring a deleted default re-adds it at 0, clears its ghost slot, places
-    // it back in order, and selects it.
-    func testRestoreDefaultReaddsAtZeroAndSelects() {
-        let model = makeModel()
-        model.deleteCounter(id: 3) // delete STEPS
-        XCTAssertEqual(model.ghostSlots.map(\.id), [3])
-        model.restoreDefault(id: 3)
         XCTAssertEqual(model.counterCount, 4)
-        XCTAssertFalse(model.deletedDefaultIds.contains(3))
-        let restored = model.counters.first { $0.id == 3 }
-        XCTAssertEqual(restored?.count, 0)
-        XCTAssertEqual(restored?.name, "STEPS")
-        XCTAssertEqual(model.activeCounter.id, 3)
-        // Re-added in its original order position.
-        XCTAssertEqual(model.counters.map(\.id), [1, 2, 3, 4])
+        XCTAssertEqual(model.selectedIndex, 3)
+        XCTAssertTrue(model.activeCounter.isBlank)
     }
 
-    // A scenario that seeds a subset of counters shows no ghost dots — ghosts are
-    // tracked explicitly, never inferred from a default id simply being absent.
-    func testSeededSubsetHasNoGhostSlots() {
+    // Legacy migration: a model seeded with `deletedDefaultIds` and a counters
+    // array missing those ids exposes blank counters at the right orders (so a
+    // user who deleted a default under the old model still sees a blank slot).
+    func testMigrationFoldsDeletedDefaultsIntoBlankSlots() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let counters = [
+            Counter(id: 1, name: "PUSH-UPS", count: 7, colorKey: "lime", order: 0),
+            Counter(id: 3, name: "STEPS", count: 8421, colorKey: "steps", order: 2),
+        ]
+        let json = String(data: try! JSONEncoder().encode(counters), encoding: .utf8)!
+        suite.set(json, forKey: CounterModel.countersKey)
+        suite.set("[2, 4]", forKey: CounterModel.deletedDefaultsKey)
+        let model = CounterModel(defaults: suite)
+        // Two live counters + two migrated blank slots, in order.
+        XCTAssertEqual(model.counters.map(\.id), [1, 2, 3, 4])
+        let blank2 = model.counters.first { $0.id == 2 }
+        let blank4 = model.counters.first { $0.id == 4 }
+        XCTAssertTrue(blank2?.isBlank ?? false)
+        XCTAssertEqual(blank2?.count, 0)
+        XCTAssertEqual(blank2?.order, 1)
+        XCTAssertTrue(blank4?.isBlank ?? false)
+        XCTAssertEqual(blank4?.order, 3)
+    }
+
+    // A scenario that seeds a subset of counters (with no deletedDefaultIds) has
+    // no blank slots — absence of a default id no longer sprouts a slot.
+    func testSeededSubsetHasNoBlankSlots() {
         let model = seededModel([
             Counter(id: 1, name: "PUSH-UPS", count: 0, colorKey: "lime", order: 0),
             Counter(id: 2, name: "COFFEE", count: 0, colorKey: "coffee", order: 1),
         ])
         XCTAssertEqual(model.counterCount, 2)
-        XCTAssertTrue(model.ghostSlots.isEmpty)
+        XCTAssertFalse(model.counters.contains { $0.isBlank })
     }
 
     // The model loads seeded counters and the selected id injected via

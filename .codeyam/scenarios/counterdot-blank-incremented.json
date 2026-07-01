@@ -1,0 +1,16 @@
+{
+  "name": "CounterDot - Blank incremented",
+  "id": "452c07ed-736e-4f3b-8489-25f1b311232c",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterDot",
+      "CODEYAM_ISOLATE_SCENARIO": "SolidBlank"
+    }
+  },
+  "componentName": "CounterDot",
+  "scenarioType": "component"
+}

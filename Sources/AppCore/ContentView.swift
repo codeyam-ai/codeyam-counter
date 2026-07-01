@@ -87,11 +87,9 @@ public struct ContentView: View {
     private var switcherCard: some View {
         CounterSwitcherCard(
             counters: model.counters,
-            ghostSlots: model.ghostSlots,
             activeId: model.activeCounter.id,
             activeName: model.activeCounter.name,
             onSelect: { id in withAnimation { model.select(id: id); showSettings = false } },
-            onRestore: { id in withAnimation { model.restoreDefault(id: id); showSettings = false } },
             onGearTap: { withAnimation { showSettings.toggle() } }
         )
     }

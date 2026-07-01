@@ -1,0 +1,16 @@
+{
+  "name": "CounterSwitcherCard - Blank slots",
+  "id": "f21c6a61-f6b7-491b-b7a6-6144e0426b5e",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterSwitcherCard",
+      "CODEYAM_ISOLATE_SCENARIO": "Blanks"
+    }
+  },
+  "componentName": "CounterSwitcherCard",
+  "scenarioType": "component"
+}

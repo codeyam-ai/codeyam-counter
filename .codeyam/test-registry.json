@@ -1,21 +1,24 @@
 {
   "tests": [
     {
-      "description": "Deleting a default removes it, records its id as a ghost slot, and keeps the selection in range.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "description": "A blanked slot stays selectable and increments into a solid blank dot without resurrecting a name — incrementing does not clear blankness.",
       "format": "junit-xml",
-      "key": "AppCoreTests.ModelTests › testDeleteDefaultRemovesAndRecordsGhost",
-      "line": 158,
-      "registeredAt": "2026-06-28T17:03:25.358317+00:00",
+      "key": "AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving",
+      "registeredAt": "2026-07-01T13:52:49Z",
       "runner": "tests"
     },
     {
-      "description": "Deleting the active last counter clamps the selection back into range.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "description": "Deleting a counter blanks it in place: the row length is unchanged, the id is still present, its name is empty (isBlank), count is reset to 0, and it stays selected.",
       "format": "junit-xml",
-      "key": "AppCoreTests.ModelTests › testDeleteLastCounterClampsSelection",
-      "line": 172,
-      "registeredAt": "2026-06-28T17:03:25.582355+00:00",
+      "key": "AppCoreTests.ModelTests › testDeleteBlanksInPlace",
+      "registeredAt": "2026-07-01T13:52:49Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Deleting the last counter blanks it in place: the row length is unchanged and the blanked slot stays selected, with no selection clamp.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testDeleteLastCounterBlanksInPlaceAndKeepsSelection",
+      "registeredAt": "2026-07-01T13:52:49Z",
       "runner": "tests"
     },
     {
@@ -23,7 +26,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
-      "line": 315,
+      "line": 349,
       "registeredAt": "2026-06-29T10:07:12.747576+00:00",
       "runner": "tests"
     },
@@ -32,7 +35,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
-      "line": 304,
+      "line": 338,
       "registeredAt": "2026-06-29T10:07:12.747494+00:00",
       "runner": "tests"
     },
@@ -50,7 +53,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
-      "line": 266,
+      "line": 300,
       "registeredAt": "2026-06-29T10:07:12.747241+00:00",
       "runner": "tests"
     },
@@ -86,8 +89,22 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
-      "line": 210,
+      "line": 244,
       "registeredAt": "2026-06-28T12:56:29.096797+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Legacy migration folds a persisted deletedDefaultIds set into blank counters at the correct orders on load.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testMigrationFoldsDeletedDefaultsIntoBlankSlots",
+      "registeredAt": "2026-07-01T13:52:49Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Giving a blank slot a name via settings revives it — it stops being blank.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testNamingBlankSlotRevivesIt",
+      "registeredAt": "2026-07-01T13:52:49Z",
       "runner": "tests"
     },
     {
@@ -95,7 +112,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
-      "line": 254,
+      "line": 288,
       "registeredAt": "2026-06-29T10:07:12.747150+00:00",
       "runner": "tests"
     },
@@ -104,7 +121,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
-      "line": 229,
+      "line": 263,
       "registeredAt": "2026-06-29T10:07:12.746925+00:00",
       "runner": "tests"
     },
@@ -118,20 +135,11 @@
       "runner": "tests"
     },
     {
-      "description": "Restoring a deleted default re-adds it at zero, clears its ghost slot, restores order, and selects it.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
-      "format": "junit-xml",
-      "key": "AppCoreTests.ModelTests › testRestoreDefaultReaddsAtZeroAndSelects",
-      "line": 182,
-      "registeredAt": "2026-06-28T17:03:25.831340+00:00",
-      "runner": "tests"
-    },
-    {
       "description": "The seed read coerces a string-injected value via integer(forKey:).",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
-      "line": 340,
+      "line": 374,
       "registeredAt": "2026-06-29T10:07:12.747749+00:00",
       "runner": "tests"
     },
@@ -140,7 +148,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch",
-      "line": 326,
+      "line": 360,
       "registeredAt": "2026-06-29T10:07:12.747663+00:00",
       "runner": "tests"
     },
@@ -149,17 +157,15 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
-      "line": 355,
+      "line": 389,
       "registeredAt": "2026-06-29T10:07:12.747840+00:00",
       "runner": "tests"
     },
     {
-      "description": "A scenario that seeds a subset of counters shows no ghost dots.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "description": "A scenario that seeds a subset of counters with no deletedDefaultIds exposes no blank slots — absence of a default id no longer sprouts a slot.",
       "format": "junit-xml",
-      "key": "AppCoreTests.ModelTests › testSeededSubsetHasNoGhostSlots",
-      "line": 199,
-      "registeredAt": "2026-06-28T17:03:26.079429+00:00",
+      "key": "AppCoreTests.ModelTests › testSeededSubsetHasNoBlankSlots",
+      "registeredAt": "2026-07-01T13:52:49Z",
       "runner": "tests"
     },
     {
@@ -194,7 +200,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
-      "line": 278,
+      "line": 312,
       "registeredAt": "2026-06-29T10:07:12.747322+00:00",
       "runner": "tests"
     },
@@ -221,7 +227,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
-      "line": 290,
+      "line": 324,
       "registeredAt": "2026-06-29T10:07:12.747408+00:00",
       "runner": "tests"
     },
@@ -230,7 +236,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
-      "line": 241,
+      "line": 275,
       "registeredAt": "2026-06-29T10:07:12.747051+00:00",
       "runner": "tests"
     },

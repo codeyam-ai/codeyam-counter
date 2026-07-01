@@ -1,38 +1,30 @@
 import SwiftUI
 
-/// The switcher card: the row of selectable counter dots (plus any ghost
-/// restore slots), the active counter's name and the swipe hint, and the
-/// settings gear that toggles the settings panel.
+/// The switcher card: the row of selectable counter dots (including any blank
+/// slots), the active counter's name and the swipe hint, and the settings gear
+/// that toggles the settings panel.
 public struct CounterSwitcherCard: View {
     let counters: [Counter]
-    let ghostSlots: [Counter]
     let activeId: Int
     let activeName: String
     let onSelect: (Int) -> Void
-    let onRestore: (Int) -> Void
     let onGearTap: () -> Void
 
     public init(counters: [Counter],
-                ghostSlots: [Counter],
                 activeId: Int,
                 activeName: String,
                 onSelect: @escaping (Int) -> Void,
-                onRestore: @escaping (Int) -> Void,
                 onGearTap: @escaping () -> Void) {
         self.counters = counters
-        self.ghostSlots = ghostSlots
         self.activeId = activeId
         self.activeName = activeName
         self.onSelect = onSelect
-        self.onRestore = onRestore
         self.onGearTap = onGearTap
     }
 
-    // Live counters and ghost slots merged into a single order-sorted row, so a
-    // deleted default's empty circle sits where the counter used to be.
-    private var slots: [(counter: Counter, isGhost: Bool)] {
-        (counters.map { ($0, false) } + ghostSlots.map { ($0, true) })
-            .sorted { $0.0.order < $1.0.order }
+    // Counters (live and blank) rendered in a single order-sorted row.
+    private var sortedCounters: [Counter] {
+        counters.sorted { $0.order < $1.order }
     }
 
     public var body: some View {
@@ -42,19 +34,20 @@ public struct CounterSwitcherCard: View {
                 // and swipes through, instead of overflowing the card width.
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 9) {
-                        ForEach(slots, id: \.counter.id) { slot in
-                            if slot.isGhost {
-                                CounterDot(color: .clear, isActive: false, isGhost: true,
-                                           onTap: { onRestore(slot.counter.id) })
-                                    .accessibilityIdentifier("dot-empty-\(slot.counter.id)")
-                            } else {
-                                CounterDot(
-                                    color: CounterTheme.dotColor(slot.counter.colorKey),
-                                    isActive: slot.counter.id == activeId,
-                                    onTap: { onSelect(slot.counter.id) }
-                                )
-                                .accessibilityIdentifier("dot-\(slot.counter.id)")
-                            }
+                        ForEach(sortedCounters, id: \.id) { counter in
+                            CounterDot(
+                                color: counter.isBlank ? CounterTheme.inkMuted
+                                                       : CounterTheme.dotColor(counter.colorKey),
+                                isActive: counter.id == activeId,
+                                isBlank: counter.isBlank,
+                                isEmpty: counter.isBlank && counter.count == 0,
+                                onTap: { onSelect(counter.id) }
+                            )
+                            .accessibilityIdentifier(
+                                counter.isBlank && counter.count == 0
+                                    ? "dot-empty-\(counter.id)"
+                                    : "dot-\(counter.id)"
+                            )
                         }
                     }
                     // Breathing room so the active dot's ring + glow aren't
@@ -62,10 +55,12 @@ public struct CounterSwitcherCard: View {
                     .padding(.vertical, 5)
                     .padding(.horizontal, 4)
                 }
-                Text(activeName)
+                // A blank active slot has no name — show a muted em-dash
+                // placeholder instead of an empty label.
+                Text(activeName.isEmpty ? "—" : activeName)
                     .font(.system(size: 24, weight: .heavy))
                     .tracking(-0.4)
-                    .foregroundColor(CounterTheme.ink)
+                    .foregroundColor(activeName.isEmpty ? CounterTheme.inkMuted : CounterTheme.ink)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
                 Text("TAP A DOT OR SWIPE TO SWITCH")

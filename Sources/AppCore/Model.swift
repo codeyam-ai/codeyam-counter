@@ -16,6 +16,17 @@ public struct Counter: Identifiable, Codable, Equatable {
     public var step: Int
     public var order: Int
 
+    /// The sentinel `colorKey` a counter carries while blank — an empty string,
+    /// which `CounterTheme.dotColor` never needs to resolve because a blank slot
+    /// is drawn with the neutral muted fill instead of a palette color.
+    public static let blankColorKey = ""
+
+    /// True when this counter is a blank slot: a deleted counter left in place
+    /// with an empty name, awaiting revival. Drives the dashed/solid-blank dot
+    /// rendering and the "—" placeholder name. Giving it a name (via settings)
+    /// clears blankness; incrementing does not.
+    public var isBlank: Bool { name.trimmingCharacters(in: .whitespaces).isEmpty }
+
     public init(id: Int, name: String, count: Int, colorKey: String, allowNegative: Bool = true, step: Int = 1, order: Int) {
         self.id = id
         self.name = name
@@ -69,11 +80,6 @@ public struct ResetUndo: Equatable {
 public final class CounterModel: ObservableObject {
     @Published public private(set) var counters: [Counter]
     @Published public private(set) var selectedIndex: Int
-    /// Ids of default starter counters the user has explicitly deleted. Each
-    /// renders as an empty "ghost" circle in the switcher; tapping it restores
-    /// the default. Tracked explicitly (not inferred from absence) so a scenario
-    /// that seeds a subset of counters does not sprout ghost dots.
-    @Published public private(set) var deletedDefaultIds: Set<Int>
     /// A reset that can still be undone, or nil. Set the moment RESET is tapped
     /// (capturing the pre-reset value) and cleared as soon as the counter
     /// "starts again" — any count change, a selection switch, an edit, or a
@@ -91,9 +97,11 @@ public final class CounterModel: ObservableObject {
         self.defaults = defaults
 
         let loaded = Self.loadCounters(from: defaults)
-        let counters = loaded.isEmpty ? Self.defaultCounters() : loaded
+        let counters = Self.migrateDeletedDefaults(
+            into: loaded.isEmpty ? Self.defaultCounters() : loaded,
+            from: defaults
+        )
         self.counters = counters
-        self.deletedDefaultIds = Self.loadDeletedDefaultIds(from: defaults)
 
         // A seeded preference can arrive as a string (the editor injects
         // `deviceState.preferences` via `defaults write`), so coerce with
@@ -144,17 +152,10 @@ public final class CounterModel: ObservableObject {
     public var counterCount: Int { counters.count }
 
     /// 1-based position of the active counter, for the "01 / 04 COUNTERS" header.
-    /// Counts only live counters — ghost slots are not "real" counters here.
+    /// A blank slot is still a slot, so the total counts blanks too — deleting a
+    /// counter blanks it in place without shrinking the row.
     public var positionLabel: String {
         String(format: "%02d / %02d", selectedIndex + 1, counters.count)
-    }
-
-    /// The deleted-default templates (fresh at 0, in original order) used by the
-    /// switcher to draw empty restore circles where a default used to be.
-    public var ghostSlots: [Counter] {
-        Self.defaultCounters()
-            .filter { deletedDefaultIds.contains($0.id) }
-            .sorted { $0.order < $1.order }
     }
 
     // MARK: - Selection
@@ -243,38 +244,25 @@ public final class CounterModel: ObservableObject {
         persistCounters()
     }
 
-    /// Removes a counter, fixing the selection so it stays in range (selecting a
-    /// neighbor when the active counter is deleted). Deleting a default records
-    /// its id so a ghost restore slot appears in its place.
+    /// Blanks a counter *in place* rather than removing it: empties its name,
+    /// resets count to 0, and drops it to neutral color/step/allow-negative,
+    /// keeping its `id` and `order`. The slot stays in `counters` (so the header
+    /// total is unchanged) and stays selected, so the user can immediately revive
+    /// it — by giving it a name in settings, or by incrementing it into a solid
+    /// blank dot. Tapping the blank slot only selects it; it does not resurrect
+    /// the old counter.
     public func deleteCounter(id: Int) {
         guard let idx = counters.firstIndex(where: { $0.id == id }) else { return }
-        // The captured pre-reset value no longer applies once a counter is gone.
+        // The captured pre-reset value no longer applies once a counter is blanked.
         resetUndo = nil
-        counters.remove(at: idx)
-        if Self.defaultIds.contains(id) {
-            deletedDefaultIds.insert(id)
-            persistDeletedDefaultIds()
-        }
-        if idx < selectedIndex { selectedIndex -= 1 }
-        selectedIndex = counters.isEmpty ? 0 : min(selectedIndex, counters.count - 1)
+        counters[idx].name = ""
+        counters[idx].colorKey = Counter.blankColorKey
+        counters[idx].count = 0
+        counters[idx].step = 1
+        counters[idx].allowNegative = true
+        selectedIndex = idx
         persistCounters()
-        if !counters.isEmpty { persistSelection() }
-    }
-
-    /// Re-creates a deleted default from its template (fresh at 0, original
-    /// name/color/order), clears its ghost slot, and selects it.
-    public func restoreDefault(id: Int) {
-        guard deletedDefaultIds.contains(id),
-              let template = Self.defaultCounters().first(where: { $0.id == id }) else { return }
-        deletedDefaultIds.remove(id)
-        persistDeletedDefaultIds()
-        counters.append(template)
-        counters.sort { $0.order < $1.order }
-        persistCounters()
-        if let idx = counters.firstIndex(where: { $0.id == id }) {
-            selectedIndex = idx
-            persistSelection()
-        }
+        persistSelection()
     }
 
     // MARK: - Persistence
@@ -290,13 +278,6 @@ public final class CounterModel: ObservableObject {
         defaults.set(activeCounter.id, forKey: Self.selectedKey)
     }
 
-    private func persistDeletedDefaultIds() {
-        if let data = try? JSONEncoder().encode(deletedDefaultIds.sorted()),
-           let json = String(data: data, encoding: .utf8) {
-            defaults.set(json, forKey: Self.deletedDefaultsKey)
-        }
-    }
-
     private static func loadCounters(from defaults: UserDefaults) -> [Counter] {
         guard let json = defaults.string(forKey: countersKey),
               let data = json.data(using: .utf8),
@@ -309,6 +290,10 @@ public final class CounterModel: ObservableObject {
 
     // Stored as a JSON-encoded `[Int]` string (same convention as `counters`) so
     // it survives the editor's `defaults write` string injection.
+    //
+    // `deletedDefaultIds` is now legacy/read-only: this model no longer writes it
+    // (deleting blanks in place instead), but it is still read once at launch to
+    // migrate users who deleted a default before this change shipped.
     private static func loadDeletedDefaultIds(from defaults: UserDefaults) -> Set<Int> {
         guard let json = defaults.string(forKey: deletedDefaultsKey),
               let data = json.data(using: .utf8),
@@ -318,9 +303,23 @@ public final class CounterModel: ObservableObject {
         return Set(decoded)
     }
 
-    /// Ids of the default starter counters — the only ones that leave a
-    /// restorable ghost slot when deleted.
-    private static var defaultIds: Set<Int> { Set(defaultCounters().map(\.id)) }
+    /// Legacy migration: for each id in the persisted `deletedDefaultIds` that is
+    /// a known default and absent from the loaded counters, fold in a blank
+    /// counter at that default's original order, then re-sort. This gives users
+    /// (and older scenarios) who deleted a default under the old remove+ghost
+    /// model a blank slot in the new blank-in-place model. Returns the loaded
+    /// counters untouched when there is nothing to migrate.
+    private static func migrateDeletedDefaults(into counters: [Counter], from defaults: UserDefaults) -> [Counter] {
+        let deletedIds = loadDeletedDefaultIds(from: defaults)
+        guard !deletedIds.isEmpty else { return counters }
+        let present = Set(counters.map(\.id))
+        var result = counters
+        for template in defaultCounters() where deletedIds.contains(template.id) && !present.contains(template.id) {
+            result.append(Counter(id: template.id, name: "", count: 0,
+                                   colorKey: Counter.blankColorKey, order: template.order))
+        }
+        return result.sorted { $0.order < $1.order }
+    }
 
     /// The starter set every fresh install begins with — four counters at zero.
     public static func defaultCounters() -> [Counter] {

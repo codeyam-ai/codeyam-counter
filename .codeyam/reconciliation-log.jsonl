@@ -19,3 +19,9 @@
 {"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero`: added from runner `tests` output"}
 {"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue`: added from runner `tests` output"}
 {"timestamp":"2026-06-29T01:50:55Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode`: added from runner `tests` output"}
+{"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testDeleteLastCounterBlanksInPlaceAndKeepsSelection`: added from runner `tests` output"}
+{"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testDeleteBlanksInPlace`: added from runner `tests` output"}
+{"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testMigrationFoldsDeletedDefaultsIntoBlankSlots`: added from runner `tests` output"}
+{"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSeededSubsetHasNoBlankSlots`: added from runner `tests` output"}
+{"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving`: added from runner `tests` output"}
+{"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testNamingBlankSlotRevivesIt`: added from runner `tests` output"}

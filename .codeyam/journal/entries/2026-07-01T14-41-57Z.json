@@ -1,0 +1,355 @@
+{
+  "timestamp": "2026-07-01T14:41:57Z",
+  "title": "Persistent Blank Counter Slots",
+  "type": "feature",
+  "userRequest": "## Summary\n\nToday, deleting a counter removes it and leaves a dashed \"ghost\" circle whose\nsole job is to **resurrect the original counter** (name, color, and all) when\ntapped — via `restoreDefault`. We're changing that. A deleted counter should\nbecome a blank circle that stays blank: tapping it must **not** bring the old\ncounter back. The blank slot persists in place until the user revives it one of\ntwo ways — adjusting its settings (giving it a name turns it into a real\ncounter), or simply incrementing it (which turns the dashed outline into a\nsolid, neutral-colored dot that still has no name or color). Separately, the\nDELETE COUNTER button gets an inline two-tap confirmation so a counter can't be\nwiped with a single accidental tap.\n\n## Key Decisions\n\n- **Blank-in-place instead of remove-plus-ghost.** Replace the\n  `deletedDefaultIds` / `ghostSlots` / `restoreDefault` machinery with a single\n  concept: deleting a counter blanks it *in place* (empty name, neutral color,\n  count reset to 0) but keeps it in the `counters` array. This generalizes to\n  any counter (not just the four defaults), makes `select`/`increment` work on\n  a blank slot with no special cases, and removes the resurrection path the user\n  explicitly doesn't want.\n- **`isBlank` is driven by an empty name.** A counter is blank when its `name`\n  is empty. Incrementing does *not* clear blankness (matches \"solid blank circle\n  but with no name or color\"); only giving it a name (via settings) revives it.\n- **Blank dot has two visual states.** Blank + count 0 → the existing dashed\n  outline circle. Blank + count ≠ 0 → a solid dot in a neutral muted color\n  (`CounterTheme.inkMuted`) with no name. Non-blank → today's colored dot.\n- **Tapping a blank selects it; it stays blank.** Tap just makes the slot the\n  active counter (so the user can then increment it or open its settings). No\n  name/color is restored.\n- **Header keeps counting blank slots** (per product decision): a blank slot is\n  still a slot, so deleting one default keeps the total at `04`. `counterCount`\n  /`positionLabel` need no change once blanks remain in `counters`.\n- **Inline two-tap delete confirmation** (chosen over a system alert/sheet to\n  match the app's brutalist inline aesthetic): first tap arms the button\n  (\"TAP AGAIN TO CONFIRM\"), second tap within ~3s deletes; it auto-disarms.\n- **Legacy migration** so users (and existing scenarios) who already deleted a\n  default still see a blank circle: on load, any id in the persisted\n  `deletedDefaultIds` that's absent from the loaded counters is folded in as a\n  blank counter at that default's original order. The `deletedDefaultIds` key\n  becomes read-only legacy (no longer written).\n\n## Implementation\n\n### 1. Model: blank state + blank-in-place delete\n\n**File**: `Sources/AppCore/Model.swift`\n\n- Add a computed property to `Counter`:\n  `var isBlank: Bool { name.trimmingCharacters(in: .whitespaces).isEmpty }`.\n  Add a `static let blankColorKey = \"\"` sentinel used when blanking.\n- Rewrite `deleteCounter(id:)` to **blank in place** instead of removing:\n  find the counter and set `name = \"\"`, `colorKey = Counter.blankColorKey`,\n  `count = 0`, `step = 1`, `allowNegative = true`, keeping its `id` and `order`.\n  Leave it in `counters` and leave it selected. Persist. Drop all\n  `deletedDefaultIds` insertion and the selection-clamping that compensated for\n  removal (the array length no longer changes).\n- Delete `restoreDefault(id:)`, the `ghostSlots` computed property,\n  `deletedDefaultIds` (published), `persistDeletedDefaultIds`, and\n  `defaultIds`. Keep `defaultCounters()` (still the starter set) and\n  `deletedDefaultsKey` + `loadDeletedDefaultIds` for the read-only migration.\n- `positionLabel` / `counterCount` stay as-is (they already count `counters`,\n  which now includes blanks — keeping the header total stable, e.g. `01 / 04`).\n- **Migration** in `loadCounters`/`init`: after loading, for each id in the\n  persisted `deletedDefaultIds` that is a known default and **not** present in\n  the loaded counters, append a blank `Counter` (empty name, blank color,\n  count 0) at that default's `order`, then re-sort by `order`. This preserves a\n  blank circle for users who deleted a default before this change shipped.\n\n### 2. CounterDot: render the blank states\n\n**File**: `Sources/AppCore/Views/CounterDot.swift`\n\nReplace the `isGhost` flag with two inputs that describe a blank slot:\n- `isBlank: Bool` and `isEmpty: Bool` (blank with count 0).\n- Rendering branches:\n  - `isBlank && isEmpty` → the current dashed outline circle (unchanged look).\n  - `isBlank && !isEmpty` → a **solid** circle filled with `CounterTheme.inkMuted`\n    (neutral, nameless), gaining the active ring/glow when `isActive` — reuse\n    the existing active-ring overlay so a selected solid-blank still reads as\n    selected.\n  - otherwise → today's colored fill branch, unchanged.\n\n### 3. Switcher card: drop ghosts, render counters directly\n\n**File**: `Sources/AppCore/Views/CounterSwitcherCard.swift`\n\n- Remove the `ghostSlots` and `onRestore` parameters (and the `slots` merge\n  helper). Iterate `counters` sorted by `order`.\n- For each counter, render a `CounterDot` with:\n  `isBlank: counter.isBlank`, `isEmpty: counter.isBlank && counter.count == 0`,\n  `color: counter.isBlank ? CounterTheme.inkMuted : CounterTheme.dotColor(counter.colorKey)`,\n  `isActive: counter.id == activeId`, `onTap: { onSelect(counter.id) }`.\n- Accessibility identifiers: keep `dot-empty-<id>` for a blank+empty dot and\n  `dot-<id>` for everything else, so existing scenario captures keep resolving.\n- Active name label: show a muted placeholder when the active counter is blank —\n  `Text(activeName.isEmpty ? \"—\" : activeName)` (em dash in `inkMuted` is fine;\n  the existing styling already truncates/scales).\n\n### 4. ContentView: rewire the switcher, keep increment/settings revive\n\n**File**: `Sources/AppCore/ContentView.swift`\n\n- Update the `switcherCard` to stop passing `ghostSlots`/`onRestore`. The\n  `onSelect` handler stays (`model.select(id:)` + close settings).\n- No change needed to the increment wiring — incrementing the active blank slot\n  already runs through `model.increment()` and produces the solid-blank dot.\n- The settings `onDelete` still calls `model.deleteCounter(id:)`; after it runs\n  the now-blank counter remains selected so the user can immediately revive it.\n\n### 5. Settings panel: inline two-tap delete confirmation + blank-aware defaults\n\n**File**: `Sources/AppCore/Views/CounterSettingsPanel.swift`\n\n- Add `@State private var confirmingDelete = false`. The delete button:\n  - When not confirming: label \"DELETE COUNTER\" (current coffee-colored outline\n    style). Tapping sets `confirmingDelete = true` and schedules a reset back to\n    `false` after ~3s (`DispatchQueue.main.asyncAfter`).\n  - When confirming: label \"TAP AGAIN TO CONFIRM\" with a stronger/filled\n    treatment (e.g. filled coffee background, `onAccent`-style text) to signal\n    the armed state. Tapping calls `onDelete(); onClose()`.\n  - Keep the `settings-delete` accessibility identifier on the button in both\n    states so the delete still automates; the armed state is a label/style swap,\n    not a new control.\n- Blank-aware initial state: in `init`, when `counter.isBlank`, seed the\n  `colorKey` @State to the first palette color (`CounterTheme.palette.first ?? \"lime\"`)\n  instead of the empty sentinel, and leave `name` empty. Saving with a non-empty\n  name revives the counter (it stops being blank); saving with an empty name\n  leaves it blank. (`CounterColorPicker` already tolerates a non-palette/empty\n  selection, so no picker change is required — this is just a sensible default.)\n\n### 6. Tests\n\n**File**: `Tests/AppCoreTests/ModelTests.swift`\n\nReplace the delete/restore tests that assert the old ghost behavior:\n- Remove/replace `testDeleteDefaultRemovesAndRecordsGhost`,\n  `testRestoreDefaultReaddsAtZeroAndSelects`,\n  `testSeededSubsetHasNoGhostSlots`, and adjust\n  `testDeleteLastCounterClampsSelection` (the array length no longer shrinks).\n- Add coverage for the new model:\n  - Deleting a counter blanks it in place: count stays 4, the deleted id is\n    still present, its `name` is empty / `isBlank` is true, `count == 0`.\n  - The blanked counter stays selectable and increments without resurrecting a\n    name (`increment` raises its count while `isBlank` stays true).\n  - Setting a name via `updateActiveCounter` revives it (`isBlank` false).\n  - Migration: a model seeded with `deletedDefaultIds` and a `counters` array\n    missing those ids exposes blank counters at the right orders.\n\n### 7. Scenarios\n\n**Files**: `.codeyam/scenarios/counter-deleted-default-ghost-slot.json` (update),\nplus a new `.codeyam/scenarios/counter-blank-slot-incremented.json`.\n\n- Update `counter-deleted-default-ghost-slot.json` to the new representation:\n  seed the blank slots directly as blank counters in the `counters` array\n  (empty `name`, blank `colorKey`, `count` 0) at their orders, rather than via\n  `deletedDefaultIds`. (Migration keeps it working even if left as-is, but\n  encoding the blanks directly makes the scenario self-describing.) Consider\n  renaming the display name to \"Counter - Deleted blank slot\".\n- Add `counter-blank-slot-incremented.json` demonstrating a **solid blank**: a\n  blank-named counter with a non-zero count, selected as the active counter, so\n  the capture shows the solid neutral dot, the \"—\" placeholder name, and a\n  non-zero CountHero.\n- `counter-all-but-one-deleted.json` continues to render via migration; update\n  it to the direct blank representation for consistency if convenient.\n\n### 8. Data-structure doc\n\n**File**: `.codeyam/data-structure.json`\n\nUpdate the `CounterAppState.deletedDefaultIds` field description to note it is\nlegacy/read-only (migrated into blank counters on load), and update the\n`Counter` description to mention the blank state (empty name = a deleted slot\nawaiting revival). No schema field changes required.\n\n## Reused existing code\n\n- `Counter` / `CounterModel` from `Sources/AppCore/Model.swift` (glossary entry:\n  `CounterModel`) — extend with `isBlank` and blank-in-place delete.\n- `CounterDot` from `Sources/AppCore/Views/CounterDot.swift` (glossary entry:\n  `CounterDot`) — reuse the active-ring overlay for the solid-blank state.\n- `CounterSwitcherCard` from `Sources/AppCore/Views/CounterSwitcherCard.swift`\n  (glossary entry: `CounterSwitcherCard`).\n- `CounterSettingsPanel` from `Sources/AppCore/Views/CounterSettingsPanel.swift`\n  (glossary entry: `CounterSettingsPanel`) — extend its delete button.\n- `CounterColorPicker` from `Sources/AppCore/Views/CounterColorPicker.swift`\n  (glossary entry: `CounterColorPicker`) — already tolerates an empty selection.\n- `CounterTheme.inkMuted` / `dotColor` from `Sources/AppCore/Theme.swift`\n  (glossary entry: `CounterTheme`) — neutral fill for the solid-blank dot.\n- `ModelTests` at `Tests/AppCoreTests/ModelTests.swift` (test registry) — the\n  delete/restore tests to rewrite.\n\n## Scenarios to Demonstrate\n\n- **Blank slot (dashed):** a default deleted, leaving a dashed empty circle in\n  the row; header still shows the full total (e.g. `04`).\n- **Solid blank (incremented):** a blank slot that's been incremented — solid\n  neutral dot, no name (shows \"—\"), non-zero count in the hero.\n- **Revived via settings:** opening settings on a blank slot, typing a name and\n  picking a color, and saving turns it back into a normal colored, named dot.\n- **Tap does not resurrect:** tapping a blank dashed circle selects it but it\n  stays blank (regression guard against the old `restoreDefault`).\n- **Delete confirmation:** settings panel with the delete button armed\n  (\"TAP AGAIN TO CONFIRM\").\n- **Multiple blanks:** several defaults deleted, a mix of dashed and solid-blank\n  slots alongside live counters.",
+  "description": "Deleting a counter now blanks it in place — clearing its name, color, and count while keeping the slot in the row — instead of removing it and leaving a dashed ghost that resurrected the original counter on tap. A blank slot stays blank (a dashed outline while empty, a solid neutral dot once incremented) and is revived only by naming it in settings or incrementing it; the DELETE COUNTER button gained an inline two-tap confirmation, and a legacy migration folds any previously-deleted default into a blank slot on load.",
+  "modifiedFiles": [
+    {
+      "path": ".claude/hooks/_step_metadata.py",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/hooks/editor-pretool-hook.py",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/hooks/editor-step-hook.py",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-audit/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-audit/finalize-procedure.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-design/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-editor/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-explore/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-new-app/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-onboard/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-plan/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-prototype/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-see-app/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-see-recent-change/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-slice/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/.last-reconcile.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/persistent-blank-counter-slots.md\t.codeyam/plans/completed/persistent-blank-counter-slots.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/reconciliation-log.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/runner-timing-history.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/last-advance.txt",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/provider-auth-verdict.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/session-results-snapshot.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/step-highwater.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-run-marker.json",
+      "status": "modified"
+    },
+    {
+      "path": ".gitignore",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterDotIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterDot.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterSettingsPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterSwitcherCard.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dev-scaffolded",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/open-source-release-report.md",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-blank-slot-incremented.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterdot-blank-incremented.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterswitchercard-blank-slots.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterdot-blank-incremented--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterswitchercard-blank-slots--iphone-16.png",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - Blank slot incremented",
+      "screenshotPath": "counter-blank-slot-incremented--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    },
+    {
+      "name": "CounterDot - Active",
+      "screenshotPath": "counterdot-active--iphone-16.png"
+    },
+    {
+      "name": "CounterDot - Blank incremented",
+      "screenshotPath": "counterdot-blank-incremented--iphone-16.png"
+    },
+    {
+      "name": "CounterDot - Ghost",
+      "screenshotPath": "counterdot-ghost--iphone-16.png"
+    },
+    {
+      "name": "CounterSettingsPanel - Default",
+      "screenshotPath": "countersettingspanel-default--iphone-16.png"
+    },
+    {
+      "name": "CounterSwitcherCard - Blank slots",
+      "screenshotPath": "counterswitchercard-blank-slots--iphone-16.png"
+    },
+    {
+      "name": "CounterSwitcherCard - Default",
+      "screenshotPath": "counterswitchercard-default--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 37,
+    "passed": 37,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 37,
+        "passed": 37
+      }
+    ]
+  }
+}
