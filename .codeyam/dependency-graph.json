@@ -1,10 +1,12 @@
 {
   "files": {
-    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
+    ".claude/hooks/editor-pretool-hook.py": {
       "imports": [],
-      "importedBy": [
-        ".claude/skills/review-session/scripts/extract-session.mjs"
-      ]
+      "importedBy": []
+    },
+    ".claude/hooks/editor-step-hook.py": {
+      "imports": [],
+      "importedBy": []
     },
     ".claude/hooks/_step_metadata.py": {
       "imports": [],
@@ -16,8 +18,20 @@
         ".claude/skills/review-session/scripts/find-last-session.mjs"
       ]
     },
+    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
+      "imports": [],
+      "importedBy": [
+        ".claude/skills/review-session/scripts/extract-session.mjs"
+      ]
+    },
     "ui/src/helpers/stepLabels.generated.ts": {
       "imports": [],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/find-last-session.mjs": {
+      "imports": [
+        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs"
+      ],
       "importedBy": []
     },
     ".claude/skills/review-session/scripts/extract-session.mjs": {
@@ -32,20 +46,6 @@
     },
     "Tests/AppCoreTests/ThemeTests.swift": {
       "imports": [],
-      "importedBy": []
-    },
-    ".claude/hooks/editor-pretool-hook.py": {
-      "imports": [],
-      "importedBy": []
-    },
-    ".claude/hooks/editor-step-hook.py": {
-      "imports": [],
-      "importedBy": []
-    },
-    ".claude/skills/review-session/scripts/find-last-session.mjs": {
-      "imports": [
-        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs"
-      ],
       "importedBy": []
     }
   },
@@ -68,5 +68,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-07-01T14:43:52Z"
+  "lastUpdated": "2026-07-01T14:49:06Z"
 }
