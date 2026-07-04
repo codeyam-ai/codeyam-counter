@@ -1,0 +1,16 @@
+{
+  "name": "CounterGraphChart - Negative range",
+  "id": "c9dc5121-4ae2-4d5d-a51b-601c326f03a3",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterGraphChart",
+      "CODEYAM_ISOLATE_SCENARIO": "negative"
+    }
+  },
+  "componentName": "CounterGraphChart",
+  "scenarioType": "component"
+}

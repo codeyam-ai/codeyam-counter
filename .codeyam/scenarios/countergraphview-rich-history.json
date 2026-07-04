@@ -1,0 +1,15 @@
+{
+  "name": "CounterGraphView - Rich history",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterGraphView",
+      "CODEYAM_ISOLATE_SCENARIO": "rich"
+    }
+  },
+  "componentName": "CounterGraphView",
+  "scenarioType": "component"
+}

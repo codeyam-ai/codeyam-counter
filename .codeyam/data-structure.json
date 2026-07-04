@@ -37,5 +37,25 @@
       { "name": "soundOption", "type": "string", "required": true, "description": "Which sound (if any) plays on increment/subtract. UserDefaults key 'soundOption'; one of 'off', 'tock', 'pop', 'click', 'bloop', 'ding'. Defaults to 'off'." },
       { "name": "hapticOption", "type": "string", "required": true, "description": "Which haptic (if any) fires on increment/subtract. UserDefaults key 'hapticOption'; one of 'off', 'light', 'medium', 'heavy'. Defaults to 'off'." }
     ]
+  },
+  {
+    "name": "CounterHistory",
+    "description": "One run of activity for a counter — the span between resets. Begins fresh (empty) and is sealed when the counter is reset; reset then opens a new empty history. Persisted separately from the counters blob under the UserDefaults key 'counterHistories' as a map of counterId to an ordered list of that counter's histories, capped at the 10 most recent per counter (oldest dropped). Follows the same JSON-string seeding contract as 'counters' so scenarios can inject rich history for static captures.",
+    "category": "datastore",
+    "order": 4,
+    "fields": [
+      { "name": "startedAt", "type": "string", "required": true, "description": "Timestamp when this history began (the reset that opened it, or counter creation). Relative event times in the graph are measured from this instant." },
+      { "name": "events", "type": "array", "required": true, "description": "Ordered list of CounterEvent entries recorded during this run, oldest first." }
+    ]
+  },
+  {
+    "name": "CounterEvent",
+    "description": "A single recorded change within a CounterHistory — one increment or subtract. The no-op subtract clamp (at floor with negatives disallowed) records no event. Used to draw the running-count chart and the scrollable event list in the graph view.",
+    "category": "datastore",
+    "order": 5,
+    "fields": [
+      { "name": "at", "type": "string", "required": true, "description": "Timestamp of the change; its offset from the parent history's startedAt is the relative time shown in the graph and list." },
+      { "name": "delta", "type": "number", "required": true, "description": "Signed change applied (+step on increment, -applied on subtract)." }
+    ]
   }
 ]

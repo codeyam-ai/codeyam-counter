@@ -13,7 +13,7 @@ public struct CounterBottomBar: View {
     let onIncrement: () -> Void
     let onSubtract: () -> Void
     let onReset: () -> Void
-    let onSwitch: () -> Void
+    let onGraph: () -> Void
 
     public init(leftHanded: Bool,
                 screenHeight: CGFloat,
@@ -22,7 +22,7 @@ public struct CounterBottomBar: View {
                 onIncrement: @escaping () -> Void,
                 onSubtract: @escaping () -> Void,
                 onReset: @escaping () -> Void,
-                onSwitch: @escaping () -> Void) {
+                onGraph: @escaping () -> Void) {
         self.leftHanded = leftHanded
         self.screenHeight = screenHeight
         self.screenWidth = screenWidth
@@ -30,7 +30,7 @@ public struct CounterBottomBar: View {
         self.onIncrement = onIncrement
         self.onSubtract = onSubtract
         self.onReset = onReset
-        self.onSwitch = onSwitch
+        self.onGraph = onGraph
     }
 
     public var body: some View {
@@ -48,7 +48,7 @@ public struct CounterBottomBar: View {
                 resetIsUndo: resetIsUndo,
                 onSubtract: onSubtract,
                 onReset: onReset,
-                onSwitch: onSwitch,
+                onGraph: onGraph,
                 onIncrement: onIncrement
             )
             .frame(height: lowerRowHeight)

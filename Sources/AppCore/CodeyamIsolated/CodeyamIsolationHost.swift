@@ -29,6 +29,10 @@ public enum CodeyamIsolationHost {
             return AnyView(CounterColorPickerIsolated(scenario: scenario))
         case "CounterDot":
             return AnyView(CounterDotIsolated(scenario: scenario))
+        case "CounterGraphChart":
+            return AnyView(CounterGraphChartIsolated(scenario: scenario))
+        case "CounterGraphView":
+            return AnyView(CounterGraphViewIsolated(scenario: scenario))
         case "CounterListPanel":
             return AnyView(CounterListPanelIsolated(scenario: scenario))
         case "CounterSettingsPanel":

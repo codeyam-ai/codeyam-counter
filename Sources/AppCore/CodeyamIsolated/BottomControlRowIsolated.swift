@@ -18,11 +18,11 @@ struct BottomControlRowIsolated: View {
         switch scenario {
         case "UndoPending":
             BottomControlRow(leftHanded: false, continuationWidth: 98, resetIsUndo: true,
-                             onSubtract: {}, onReset: {}, onSwitch: {}, onIncrement: {})
+                             onSubtract: {}, onReset: {}, onGraph: {}, onIncrement: {})
                 .frame(height: 96)
         default:
             BottomControlRow(leftHanded: false, continuationWidth: 98, resetIsUndo: false,
-                             onSubtract: {}, onReset: {}, onSwitch: {}, onIncrement: {})
+                             onSubtract: {}, onReset: {}, onGraph: {}, onIncrement: {})
                 .frame(height: 96)
         }
     }

@@ -90,6 +90,13 @@
     ]
   },
   {
+    "conformsToView": false,
+    "description": "A single recorded change within a CounterHistory: a timestamp and a signed delta (+step on increment, the applied amount on subtract). The no-op subtract clamp records none. Drives the graph chart markers and the event list.",
+    "filePath": "Sources/AppCore/History.swift",
+    "name": "CounterEvent",
+    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+  },
+  {
     "description": "Protocol seam for count-change feedback: changed(sound:haptic:) emits a sound and/or haptic per the resolved SoundOption/HapticOption, keeping CounterModel free of UIKit/audio knowledge so tests and non-UIKit builds substitute a silent implementation.",
     "filePath": "Sources/AppCore/Feedback.swift",
     "name": "CounterFeedback",
@@ -97,6 +104,34 @@
       "justification": "Protocol declaration; behavior is exercised through its implementations' tests in FeedbackTests.",
       "kind": "type-only"
     }
+  },
+  {
+    "conformsToView": true,
+    "description": "A custom SwiftUI step-line chart of a history's running count over relative time, drawn with Path/shapes (Swift Charts needs iOS 16; this package targets iOS 15). Both axes are drawn and labeled with data-derived ticks: COUNT spans the actual range including 0, TIME spans 0 to the last event. Markers are colored by delta sign.",
+    "filePath": "Sources/AppCore/Views/CounterGraphChart.swift",
+    "name": "CounterGraphChart",
+    "scenarios": [
+      "countergraphchart-mixed-run",
+      "countergraphchart-negative-range"
+    ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The floating overlay showing a counter's activity: the labeled step-line chart plus a scrollable event list, with a selector to page between the up-to-10 stored histories. Reuses the settings-panel presentation with DONE to close; the accent follows the counter's color.",
+    "filePath": "Sources/AppCore/Views/CounterGraphView.swift",
+    "name": "CounterGraphView",
+    "scenarios": [
+      "countergraphview-rich-history",
+      "countergraphview-empty-history",
+      "countergraphview-paging-histories"
+    ]
+  },
+  {
+    "conformsToView": false,
+    "description": "One run of a counter's activity between resets: a startedAt plus an ordered list of CounterEvents. Provides pure helpers for the cumulative running-count series and each event's relative offset from the start; persisted per-counter under the counterHistories key, capped at 10.",
+    "filePath": "Sources/AppCore/History.swift",
+    "name": "CounterHistory",
+    "testFile": "Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "conformsToView": true,
@@ -148,6 +183,13 @@
     "filePath": "Sources/AppCore/Theme.swift",
     "name": "CounterTheme",
     "testFile": "Tests/AppCoreTests/ThemeTests.swift"
+  },
+  {
+    "conformsToView": false,
+    "description": "A single point on a history's running-count series: seconds elapsed since startedAt and the running count at that moment. A value type shared by the chart geometry and its tests.",
+    "filePath": "Sources/AppCore/History.swift",
+    "name": "CumulativePoint",
+    "testFile": "Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "conformsToView": true,

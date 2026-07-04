@@ -19,11 +19,15 @@ public struct ContentView: View {
     @State private var showAppSettings: Bool
     /// The all-counters list overlay. Seedable via `counterListOpen`.
     @State private var showCounterList: Bool
+    /// The activity graph overlay for the active counter. Seedable via `graphOpen`
+    /// so a static capture can show the chart without a live tap on GRAPH.
+    @State private var showGraph: Bool
 
     public init() {
         _showSettings = State(initialValue: UserDefaults.standard.bool(forKey: "settingsOpen"))
         _showAppSettings = State(initialValue: UserDefaults.standard.bool(forKey: "appSettingsOpen"))
         _showCounterList = State(initialValue: UserDefaults.standard.bool(forKey: "counterListOpen"))
+        _showGraph = State(initialValue: UserDefaults.standard.bool(forKey: "graphOpen"))
     }
 
     public var body: some View {
@@ -44,7 +48,7 @@ public struct ContentView: View {
                         onIncrement: { model.increment() },
                         onSubtract: { model.subtract() },
                         onReset: { withAnimation { model.canUndoReset ? model.undoReset() : model.reset() } },
-                        onSwitch: { withAnimation { settings.defaultLeftHanded.toggle() } }
+                        onGraph: { withAnimation { showGraph = true } }
                     )
                 }
 
@@ -107,6 +111,26 @@ public struct ContentView: View {
                             },
                             onClose: { withAnimation { showCounterList = false } }
                         )
+                        Spacer(minLength: 0)
+                    }
+                    .allowsHitTesting(true)
+                    .transition(.opacity)
+                }
+
+                // Activity graph overlay: anchored under the header (hidden header
+                // acts as the exact-height spacer), drawn on top of the screen.
+                // `.id` re-seeds the view's selected-history state when switching
+                // counters so it always opens on the new counter's current run.
+                if showGraph {
+                    VStack(spacing: 0) {
+                        headerBar.hidden().allowsHitTesting(false)
+                        CounterGraphView(
+                            counterName: model.activeCounter.isBlank ? "—" : model.activeCounter.name,
+                            colorKey: model.activeCounter.colorKey,
+                            histories: model.activeHistories,
+                            onClose: { withAnimation { showGraph = false } }
+                        )
+                        .id(model.activeCounter.id)
                         Spacer(minLength: 0)
                     }
                     .allowsHitTesting(true)

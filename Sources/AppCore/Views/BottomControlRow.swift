@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// The lower row beneath the increment bar: three smaller controls and the
-/// increment button's downward extension. SWITCH always sits adjacent to the
+/// increment button's downward extension. GRAPH always sits adjacent to the
 /// increment extension, then SUBTRACT, then RESET — and the whole row mirrors
 /// with `leftHanded` so the extension (and "+" above it) lands under whichever
 /// thumb is holding the phone. All four sections share an equal quarter width.
@@ -14,7 +14,7 @@ public struct BottomControlRow: View {
     let resetIsUndo: Bool
     let onSubtract: () -> Void
     let onReset: () -> Void
-    let onSwitch: () -> Void
+    let onGraph: () -> Void
     let onIncrement: () -> Void
 
     public init(leftHanded: Bool,
@@ -22,14 +22,14 @@ public struct BottomControlRow: View {
                 resetIsUndo: Bool,
                 onSubtract: @escaping () -> Void,
                 onReset: @escaping () -> Void,
-                onSwitch: @escaping () -> Void,
+                onGraph: @escaping () -> Void,
                 onIncrement: @escaping () -> Void) {
         self.leftHanded = leftHanded
         self.continuationWidth = continuationWidth
         self.resetIsUndo = resetIsUndo
         self.onSubtract = onSubtract
         self.onReset = onReset
-        self.onSwitch = onSwitch
+        self.onGraph = onGraph
         self.onIncrement = onIncrement
     }
 
@@ -50,10 +50,10 @@ public struct BottomControlRow: View {
         let reset = ControlButton(glyph: resetIsUndo ? "↶" : "↺",
                                   label: resetIsUndo ? "UNDO RESET" : "RESET",
                                   identifier: "reset", action: onReset)
-        let switchBtn = ControlButton(glyph: "⇆", label: "SWITCH", identifier: "switch", action: onSwitch)
+        let graph = ControlButton(systemImage: "chart.xyaxis.line", label: "GRAPH", identifier: "graph", action: onGraph)
         return HStack(spacing: 0) {
             if leftHanded {
-                switchBtn
+                graph
                 divider
                 subtract
                 divider
@@ -63,7 +63,7 @@ public struct BottomControlRow: View {
                 divider
                 subtract
                 divider
-                switchBtn
+                graph
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

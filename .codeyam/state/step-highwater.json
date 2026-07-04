@@ -1,6 +1,6 @@
 {
-  "feature": "per-counter-overrides",
-  "maxStep": 28,
-  "version": 189,
-  "updatedAt": "2026-07-04T16:18:12.428448+00:00"
+  "feature": "counter-graph-and-history",
+  "maxStep": 26,
+  "version": 381,
+  "updatedAt": "2026-07-04T21:02:37.096444+00:00"
 }

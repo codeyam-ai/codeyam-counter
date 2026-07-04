@@ -1,0 +1,499 @@
+{
+  "timestamp": "2026-07-04T20:58:23Z",
+  "title": "Counter Graph & Event History",
+  "type": "feature",
+  "userRequest": "## Summary\n\nGive each counter a recorded **event history** and a way to see it. Every\nincrement and subtract is logged as an event (a timestamp and a signed delta)\nwithin the counter's **current history** — a run that begins fresh and ends when\nthe counter is **reset**. Reset closes the current history and opens a new empty\none; we keep the **10 most recent histories** per counter (oldest dropped). Then\nreplace the bottom-row **SWITCH** button with a **GRAPH** button that opens a\ngraph view: a chart of the counter's activity over a *relative* time scale (time\nsince that history's start) plus a scrollable list of each increment/decrement\nwith its delta and relative time. You can page between the up-to-10 stored\nhistories.\n\n## Key Decisions\n\n- **History = a run between resets** (per the chosen model) — a `CounterHistory`\n  has a `startedAt` and an ordered `[CounterEvent]`. `reset()` seals the current\n  history and pushes a new empty one; the per-counter list is capped at 10\n  (drop-oldest ring). This makes \"relative to the start\" unambiguous: time is\n  measured from the active history's `startedAt`.\n- **Separate persisted store, keyed by counter id** — histories can grow, so keep\n  them out of the `counters` JSON blob. Persist a `[counterId: [CounterHistory]]`\n  map under a new `\"counterHistories\"` UserDefaults key, following the same\n  JSON-string seeding contract as `counters` so scenarios can inject a rich\n  history for a static capture (there is no live driver to accumulate events).\n- **Custom SwiftUI chart, not Swift Charts** — the package targets **iOS 15**\n  (`Package.swift`), and Swift Charts requires iOS 16. Draw the chart with SwiftUI\n  `Path`/shapes (a step line of the running count over relative time, with a marker\n  per event sized/colored by delta sign). Deterministic to render in the isolated\n  preview and unit-testable via the geometry helper.\n- **Undo-reset reopens the sealed history** — `undoReset()` restores the pre-reset\n  count, so it must also pop the just-opened empty history and reopen the sealed\n  one (re-appending nothing, since undo restores rather than re-events) to keep the\n  count and the active history consistent. Only valid immediately after a reset,\n  matching the existing `canUndoReset` window.\n- **GRAPH replaces SWITCH** — with handedness now living in settings\n  ([[app-settings-and-feedback]], [[per-counter-overrides]]), the SWITCH button is\n  redundant. Remove it and its `onSwitch` plumbing; add a GRAPH control in the same\n  slot (identifier `graph`, a chart glyph). Handedness mirroring of the bottom row\n  is unaffected — the row still mirrors, GRAPH just takes SWITCH's place.\n\n## Implementation\n\n### 1. Event + history model types\n\n**File**: `Sources/AppCore/Model.swift` (or a new\n`Sources/AppCore/History.swift`)\n\n- `public struct CounterEvent: Codable, Equatable { let at: Date; let delta: Int }`.\n- `public struct CounterHistory: Codable, Equatable { let startedAt: Date; var events: [CounterEvent] }`\n  with a helper for **cumulative series** (running count over time) and\n  **relative offsets** (`event.at.timeIntervalSince(startedAt)`), used by both the\n  chart and the list. Keep the time math in a pure function so it's unit-testable\n  without views.\n\n### 2. Record events in the model\n\n**File**: `Sources/AppCore/Model.swift`\n\n- Add `@Published private(set) var histories: [Int: [CounterHistory]]` loaded in\n  `init` (new `counterHistories` key; empty when absent — seed a first empty\n  history lazily on first event or at counter creation).\n- `increment()` / `subtract()` append a `CounterEvent(at: now, delta: +step / −applied)`\n  to the active counter's current (last) history. Use an injectable clock\n  (`var now: () -> Date = Date.init`) so tests are deterministic. The no-op\n  subtract clamp records **no** event (consistent with firing no feedback).\n- `reset()` seals the current history (leaves it in the list) and appends a new\n  empty `CounterHistory(startedAt: now)`; enforce the **10-history cap** per\n  counter (drop the oldest). Zeroing the count is unchanged.\n- `undoReset()` reverses that: drop the empty history opened by the matching reset\n  and keep the sealed one active again, in addition to restoring the count.\n- `deleteCounter` clears that counter id's histories (a blank slot starts clean).\n- Persist histories alongside counters (new `persistHistories()`), and document the\n  new key in the seeding-contract comment atop `CounterModel`.\n\n### 3. Replace SWITCH with GRAPH in the bottom row\n\n**Files**: `Sources/AppCore/Views/BottomControlRow.swift`,\n`Sources/AppCore/Views/CounterBottomBar.swift`,\n`Sources/AppCore/ContentView.swift`\n\n- Rename the `onSwitch`/switch slot to `onGraph`/graph: a `ControlButton` with a\n  chart glyph (e.g. `\"▚\"` or an SF Symbol via `Image(systemName: \"chart.xyaxis.line\")`\n  if glyph rendering is preferred), label `GRAPH`, identifier `graph`.\n- Remove the `onSwitch` parameter threaded through `CounterBottomBar` →\n  `BottomControlRow`, and drop the repointed handedness-toggle wiring from Plan 1\n  (handedness now lives only in settings). The mirrored-row logic stays.\n- `ContentView` passes `onGraph: { withAnimation { showGraph = true } }`.\n\n### 4. Graph view\n\n**New file**: `Sources/AppCore/Views/CounterGraphView.swift`\n\nAn overlay (same floating pattern as the settings panels) for the active counter:\n\n- **Header**: counter name + a `DONE`/close (`graph-close`).\n- **History selector**: prev/next or a segmented control paging the up-to-10 stored\n  histories, labeled by relative recency (\"CURRENT\", \"−1\", …) or start offset\n  (`graph-history-<n>`); defaults to the current history.\n- **Chart**: a custom SwiftUI-drawn plot — x = relative time since the selected\n  history's `startedAt`, y = running count; a step/line path plus a marker per event\n  (up-tick vs down-tick colored by delta sign using `CounterTheme.accent` /\n  `dotColor(\"coffee\")`). Empty history → a muted \"NO ACTIVITY YET\" placeholder.\n- **Event list**: a scrollable list, most-recent-first (or chronological), each row\n  `+N` / `−N` and the relative time formatted `mm:ss` (or `h:mm:ss`) since start\n  (`graph-event-row-<i>`). Reuse `SettingsField`/`CounterTheme` idioms.\n\n**New file (optional)**: `Sources/AppCore/Views/CounterGraphChart.swift` — the\npure chart shape, split out so its geometry (point mapping) is small and reusable.\n\n### 5. Wire the graph into the screen\n\n**File**: `Sources/AppCore/ContentView.swift`\n\n- Add `@State private var showGraph = false` (seedable via a `graphOpen` preference\n  for static captures). Overlay `CounterGraphView` for `model.activeCounter` and its\n  `model.histories[activeCounter.id]` when open.\n\n### 6. Tests\n\n**File**: `Tests/AppCoreTests/ModelTests.swift`\n\n- Increment/subtract append events with the correct signed delta to the current\n  history; the no-op subtract clamp appends nothing.\n- `reset()` seals the current history and opens a new empty one; the count zeroes.\n- The per-counter history list caps at 10, dropping the oldest on the 11th reset.\n- `undoReset()` reopens the sealed history and restores the count.\n- Relative-offset / cumulative-series helpers produce the expected series for a\n  known event sequence (using the injected clock).\n- `deleteCounter` clears that counter's histories.\n\n## Reused existing code\n\n- `Counter` / `CounterModel` from `Sources/AppCore/Model.swift` (glossary entry:\n  `CounterModel`, tested by `Tests/AppCoreTests/ModelTests.swift`) — event recording\n  hangs off the existing `increment`/`subtract`/`reset`/`undoReset` mutations and\n  the `ResetUndo` window.\n- `ControlButton` from `Sources/AppCore/Views/ControlButton.swift` (glossary entry:\n  `ControlButton`) — the GRAPH button reuses it, exactly as SWITCH did.\n- `BottomControlRow` / `CounterBottomBar` from `Sources/AppCore/Views/` (glossary\n  entries: `BottomControlRow`, `CounterBottomBar`) — the mirrored-row layout and\n  the quarter-column sizing are unchanged; only the SWITCH slot swaps to GRAPH.\n- `SettingsField` from `Sources/AppCore/Views/SettingsField.swift` and `CounterTheme`\n  from `Sources/AppCore/Theme.swift` (glossary entries: `SettingsField`,\n  `CounterTheme`) — captions, colors, and the `dotColor` used for up/down markers.\n- The overlay pattern from `CounterSettingsPanel` / `AppSettingsPanel` — the graph\n  reuses the same floating, `DONE`-to-close presentation.\n\n## Scenarios to Demonstrate\n\n- **Graph button present** — the bottom row shows GRAPH where SWITCH used to be\n  (both right- and left-handed layouts).\n- **Rich history chart** — a counter with a seeded run of ~8–12 mixed\n  increments/decrements; the chart shows the running-count line with up/down markers\n  over relative time.\n- **Event list** — the same history's scrollable list of `+N`/`−N` rows with\n  relative `mm:ss` timestamps.\n- **Empty history** — a freshly reset counter: chart placeholder + empty list.\n- **Paging past histories** — a counter with several sealed histories (e.g. 3 of the\n  10), the selector on a previous history.\n- **Ten-history cap** — a counter seeded with 10 histories, showing the oldest has\n  been dropped after further resets.",
+  "description": "Each counter now records an event history: every increment and subtract is logged as a timestamped signed delta within the current run, and reset seals that run and opens a new one (keeping the 10 most recent per counter). The bottom-row SWITCH button is replaced by GRAPH, which opens an overlay with a custom SwiftUI step-line chart of the running count over relative time (labeled COUNT and TIME axes scaled to the data, up/down markers), a scrollable event list, and a selector to page between stored histories.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/.last-reconcile.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/data-structure.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/counter-graph-and-history.md\t.codeyam/plans/completed/counter-graph-and-history.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/reconciliation-log.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/runner-timing-history.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-undo-pending--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-undo-pending--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/controlbutton-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/controlbutton-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-override-active-counter--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-override-active-counter--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/last-advance.txt",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/session-results-snapshot.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/step-highwater.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-run-marker.json",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/BottomControlRow.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/ControlButton.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterBottomBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-graph-open.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/countergraphchart-mixed-run.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/countergraphchart-negative-range.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/countergraphview-empty-history.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/countergraphview-paging-histories.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/countergraphview-rich-history.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphchart-mixed-run--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphchart-mixed-run--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphchart-negative-range--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphchart-negative-range--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphview-empty-history--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphview-empty-history--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphview-paging-histories--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphview-paging-histories--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphview-rich-history--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphview-rich-history--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterGraphChartIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterGraphViewIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/History.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterGraphChart.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterGraphView.swift",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "BottomControlRow - Default",
+      "screenshotPath": "bottomcontrolrow-default--iphone-16.png"
+    },
+    {
+      "name": "BottomControlRow - Undo Pending",
+      "screenshotPath": "bottomcontrolrow-undo-pending--iphone-16.png"
+    },
+    {
+      "name": "ControlButton - Default",
+      "screenshotPath": "controlbutton-default--iphone-16.png"
+    },
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list",
+      "screenshotPath": "counter-all-counters-list--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list with blank slot",
+      "screenshotPath": "counter-all-counters-list-with-blank-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings open",
+      "screenshotPath": "counter-app-settings-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on",
+      "screenshotPath": "counter-app-settings-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "Counter - Blank slot incremented",
+      "screenshotPath": "counter-blank-slot-incremented--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open",
+      "screenshotPath": "counter-graph-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left override active counter",
+      "screenshotPath": "counter-left-override-active-counter--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    },
+    {
+      "name": "CounterBottomBar - Default",
+      "screenshotPath": "counterbottombar-default--iphone-16.png"
+    },
+    {
+      "name": "CounterGraphChart - Mixed run",
+      "screenshotPath": "countergraphchart-mixed-run--iphone-16.png"
+    },
+    {
+      "name": "CounterGraphChart - Negative range",
+      "screenshotPath": "countergraphchart-negative-range--iphone-16.png"
+    },
+    {
+      "name": "CounterGraphView - Empty history",
+      "screenshotPath": "countergraphview-empty-history--iphone-16.png"
+    },
+    {
+      "name": "CounterGraphView - Paging histories",
+      "screenshotPath": "countergraphview-paging-histories--iphone-16.png"
+    },
+    {
+      "name": "CounterGraphView - Rich history",
+      "screenshotPath": "countergraphview-rich-history--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 77,
+    "passed": 77,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 77,
+        "passed": 77
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "CounterGraphChart - Mixed run",
+  "id": "5766eb61-beed-4157-b271-b965509faf23",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterGraphChart",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "CounterGraphChart",
+  "scenarioType": "component"
+}

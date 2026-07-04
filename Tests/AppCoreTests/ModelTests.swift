@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import AppCore
 
 /// Records every `changed(sound:haptic:)` call so tests can assert exactly which
@@ -590,5 +591,190 @@ final class ModelTests: XCTestCase {
         // App default right-handed (false): the pinned counter still reads left.
         XCTAssertTrue(leftPinned.effectiveLeftHanded(default: false))
         XCTAssertFalse(follower.effectiveLeftHanded(default: false))
+    }
+
+    // MARK: - Event history
+
+    // Increment appends a positive event (of the counter's step) to the current
+    // run, lazily opening the first run on the first change.
+    func testIncrementRecordsPositiveEvent() {
+        let model = seededModel([Counter(id: 1, name: "R", count: 0, colorKey: "lime", step: 2, order: 0)])
+        var clock = Date(timeIntervalSinceReferenceDate: 100)
+        model.now = { clock }
+        model.increment()
+        clock = clock.addingTimeInterval(5)
+        model.increment()
+        let runs = model.activeHistories
+        XCTAssertEqual(runs.count, 1)
+        XCTAssertEqual(runs[0].events.map(\.delta), [2, 2])
+    }
+
+    // Subtract records the actual (negative) applied delta.
+    func testSubtractRecordsNegativeAppliedDelta() {
+        let model = seededModel([Counter(id: 1, name: "R", count: 10, colorKey: "lime", step: 3, order: 0)])
+        model.subtract()
+        XCTAssertEqual(model.activeHistories.first?.events.map(\.delta), [-3])
+    }
+
+    // The no-op subtract clamp (negatives disallowed, already at zero) changes
+    // nothing, so it records no event — and opens no history at all.
+    func testNoOpSubtractClampRecordsNoEvent() {
+        let model = seededModel([Counter(id: 1, name: "R", count: 0, colorKey: "lime", allowNegative: false, order: 0)])
+        model.subtract()
+        XCTAssertTrue(model.activeHistories.isEmpty)
+    }
+
+    // A clamped subtract that DOES change the count (3 → 0 with step 5) records
+    // the actual applied delta, not the full step.
+    func testClampedSubtractRecordsActualAppliedDelta() {
+        let model = seededModel([Counter(id: 1, name: "R", count: 3, colorKey: "lime", allowNegative: false, step: 5, order: 0)])
+        model.subtract()
+        XCTAssertEqual(model.activeHistories.first?.events.map(\.delta), [-3])
+    }
+
+    // Reset seals the current run (it stays in the list) and opens a new empty
+    // run; the count zeroes.
+    func testResetSealsCurrentAndOpensEmptyRun() {
+        let model = seededModel([Counter(id: 1, name: "R", count: 0, colorKey: "lime", order: 0)])
+        model.increment()
+        model.increment()
+        XCTAssertEqual(model.activeHistories.count, 1)
+        XCTAssertEqual(model.activeHistories.last?.events.count, 2)
+        model.reset()
+        XCTAssertEqual(model.activeCounter.count, 0)
+        XCTAssertEqual(model.activeHistories.count, 2)
+        XCTAssertEqual(model.activeHistories.first?.events.count, 2, "sealed run is kept")
+        XCTAssertEqual(model.activeHistories.last?.events.count, 0, "new run starts empty")
+    }
+
+    // The per-counter run list caps at 10, dropping the oldest (which holds the
+    // only events) once an 11th run would be opened.
+    func testHistoryCapDropsOldestRun() {
+        let model = seededModel([Counter(id: 1, name: "R", count: 0, colorKey: "lime", order: 0)])
+        var clock = Date(timeIntervalSinceReferenceDate: 0)
+        model.now = { clock }
+        model.increment() // run 1 carries the only event
+        for i in 1...11 {
+            clock = clock.addingTimeInterval(TimeInterval(i * 60))
+            model.reset()  // each reset opens a new run
+        }
+        XCTAssertEqual(model.activeHistories.count, CounterModel.maxHistoriesPerCounter)
+        // The event-bearing first run has been dropped; only empty reset-runs remain.
+        XCTAssertTrue(model.activeHistories.allSatisfy { $0.events.isEmpty })
+    }
+
+    // undoReset restores the count AND pops the empty run reset opened, so the
+    // sealed run is active again — count and active history stay consistent.
+    func testUndoResetReopensSealedRunAndRestoresCount() {
+        let model = seededModel([Counter(id: 1, name: "R", count: 0, colorKey: "lime", order: 0)])
+        model.increment(); model.increment(); model.increment()
+        XCTAssertEqual(model.activeHistories.count, 1)
+        model.reset()
+        XCTAssertEqual(model.activeHistories.count, 2)
+        model.undoReset()
+        XCTAssertEqual(model.activeCounter.count, 3)
+        XCTAssertEqual(model.activeHistories.count, 1, "empty run popped")
+        XCTAssertEqual(model.activeHistories.last?.events.count, 3, "sealed run active again")
+    }
+
+    // Deleting a counter clears its recorded runs — a blank slot starts clean.
+    func testDeleteCounterClearsItsHistories() {
+        let model = makeModel()
+        model.increment()
+        XCTAssertFalse(model.activeHistories.isEmpty)
+        model.deleteCounter(id: model.activeCounter.id)
+        XCTAssertTrue(model.activeHistories.isEmpty)
+    }
+
+    // The cumulative-series helper reconstructs the running count over relative
+    // time, starting from (0, 0), and runningTotal is the net.
+    func testCumulativeSeriesReconstructsRunningCount() {
+        let base = Date(timeIntervalSinceReferenceDate: 0)
+        let history = CounterHistory(startedAt: base, events: [
+            CounterEvent(at: base.addingTimeInterval(10), delta: 1),
+            CounterEvent(at: base.addingTimeInterval(25), delta: 1),
+            CounterEvent(at: base.addingTimeInterval(40), delta: -1),
+        ])
+        XCTAssertEqual(history.cumulativeSeries(), [
+            CumulativePoint(time: 0, count: 0),
+            CumulativePoint(time: 10, count: 1),
+            CumulativePoint(time: 25, count: 2),
+            CumulativePoint(time: 40, count: 1),
+        ])
+        XCTAssertEqual(history.runningTotal, 1)
+    }
+
+    // The relative-offset helper measures seconds from the run's start.
+    func testRelativeOffsetMeasuredFromStart() {
+        let base = Date(timeIntervalSinceReferenceDate: 500)
+        let event = CounterEvent(at: base.addingTimeInterval(73), delta: 1)
+        let history = CounterHistory(startedAt: base, events: [event])
+        XCTAssertEqual(history.relativeOffset(of: event), 73, accuracy: 0.001)
+    }
+
+    // Recorded runs persist and reload through the same UserDefaults suite.
+    func testHistoriesPersistAndReloadFromDefaults() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let model = CounterModel(defaults: suite)
+        var clock = Date(timeIntervalSinceReferenceDate: 0)
+        model.now = { clock }
+        model.increment()
+        clock = clock.addingTimeInterval(30)
+        model.increment()
+        let reloaded = CounterModel(defaults: suite)
+        XCTAssertEqual(reloaded.histories[reloaded.activeCounter.id]?.first?.events.map(\.delta), [1, 1])
+    }
+
+    // A hand-authored history seed — a JSON object keyed by the counter id with
+    // ISO-8601 dates, the scenario seed contract — loads with correct deltas and
+    // relative offsets.
+    func testSeededHistoriesJSONLoadsFromDefaults() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let counters = [Counter(id: 1, name: "PUSH-UPS", count: 3, colorKey: "lime", order: 0)]
+        let json = String(data: try! JSONEncoder().encode(counters), encoding: .utf8)!
+        suite.set(json, forKey: CounterModel.countersKey)
+        let historyJSON = #"{"1":[{"startedAt":"2026-07-04T09:41:00Z","events":[{"at":"2026-07-04T09:41:10Z","delta":1},{"at":"2026-07-04T09:41:40Z","delta":1},{"at":"2026-07-04T09:42:20Z","delta":1}]}]}"#
+        suite.set(historyJSON, forKey: CounterModel.historiesKey)
+        let model = CounterModel(defaults: suite)
+        let runs = model.histories[1]
+        XCTAssertEqual(runs?.count, 1)
+        XCTAssertEqual(runs?.first?.events.map(\.delta), [1, 1, 1])
+        XCTAssertEqual(runs?.first?.relativeOffset(of: runs![0].events[1]) ?? 0, 40, accuracy: 0.001)
+    }
+
+    // The chart's pure point mapping spans the plot rect and returns a
+    // data-derived domain: extremes land on the rect edges, a higher count sits
+    // above the zero line, and the domain reflects the actual min/max/time.
+    func testChartPlotMapsExtremesAndDomain() {
+        let series = [CumulativePoint(time: 0, count: 0), CumulativePoint(time: 60, count: 3)]
+        let rect = CGRect(x: 52, y: 12, width: 300, height: 120)
+        let r = CounterGraphChart.plot(series: series, in: rect)
+        XCTAssertEqual(r.points.count, 2)
+        XCTAssertEqual(r.points[0].x, rect.minX, accuracy: 0.001)
+        XCTAssertEqual(r.points[0].y, r.zeroY, accuracy: 0.001, "count 0 sits on the zero line")
+        XCTAssertEqual(r.points[1].x, rect.maxX, accuracy: 0.001)
+        XCTAssertLessThan(r.points[1].y, r.zeroY, "a higher count sits above the zero line")
+        XCTAssertEqual(r.minCount, 0)
+        XCTAssertEqual(r.maxCount, 3)
+        XCTAssertEqual(r.maxTime, 60, accuracy: 0.001)
+    }
+
+    // A negative excursion pulls the domain below zero so the axis labels the
+    // real range, and the zero line falls between the extremes.
+    func testChartPlotDomainIncludesNegativeRange() {
+        let series = [CumulativePoint(time: 0, count: 0), CumulativePoint(time: 10, count: -2), CumulativePoint(time: 20, count: 1)]
+        let rect = CGRect(x: 52, y: 12, width: 300, height: 120)
+        let r = CounterGraphChart.plot(series: series, in: rect)
+        XCTAssertEqual(r.minCount, -2)
+        XCTAssertEqual(r.maxCount, 1)
+        XCTAssertGreaterThan(r.zeroY, rect.minY, "zero line is below the top")
+        XCTAssertLessThan(r.zeroY, rect.maxY, "zero line is above the bottom")
+    }
+
+    // The relative-time formatter is mm:ss, escalating to h:mm:ss past an hour.
+    func testRelativeTimeFormatting() {
+        XCTAssertEqual(CounterGraphChart.relativeTime(0), "00:00")
+        XCTAssertEqual(CounterGraphChart.relativeTime(75), "01:15")
+        XCTAssertEqual(CounterGraphChart.relativeTime(3661), "1:01:01")
     }
 }

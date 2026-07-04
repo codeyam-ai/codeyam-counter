@@ -1,0 +1,27 @@
+{
+  "name": "Counter - Graph open",
+  "id": "9a77c881-6ee1-4e82-8718-7c138d23d2e8",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counterHistories": "{\"1\": [{\"startedAt\": \"2026-07-04T09:41:00Z\", \"events\": [{\"at\": \"2026-07-04T09:41:12Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:41:30Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:41:47Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:42:05Z\", \"delta\": -1}, {\"at\": \"2026-07-04T09:42:28Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:43:00Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:43:26Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:43:55Z\", \"delta\": -1}, {\"at\": \"2026-07-04T09:44:30Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:44:58Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:45:22Z\", \"delta\": 1}]}]}",
+      "counterListOpen": false,
+      "leftHanded": false,
+      "deletedDefaultIds": "[]",
+      "appSettingsOpen": false,
+      "settingsOpen": false,
+      "selectedCounterId": 1,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "graphOpen": true
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

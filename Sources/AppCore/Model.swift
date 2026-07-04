@@ -111,8 +111,13 @@ public struct ResetUndo: Equatable {
 ///   - `selectedCounterId` — the id of the active counter
 ///   - `resetUndoPreviousCount` — the pre-reset value of the active counter,
 ///     which seeds the bottom row into its UNDO RESET state for a static capture
-/// Production ships with neither key set, so first launch creates the default
-/// starter set (four counters at 0).
+///   - `counterHistories` — a JSON object string mapping a counter id (as a
+///     string key) to its ordered `[CounterHistory]`, so a scenario can inject a
+///     rich event history for a static graph capture (there is no live driver to
+///     accumulate events). Dates are ISO-8601. Same string-injection contract as
+///     `counters`.
+/// Production ships with none of these keys set, so first launch creates the
+/// default starter set (four counters at 0) with no recorded history.
 public final class CounterModel: ObservableObject {
     @Published public private(set) var counters: [Counter]
     @Published public private(set) var selectedIndex: Int
@@ -121,6 +126,18 @@ public final class CounterModel: ObservableObject {
     /// "starts again" — any count change, a selection switch, an edit, or a
     /// delete. Transient by design: never persisted on live mutations.
     @Published public private(set) var resetUndo: ResetUndo?
+
+    /// Per-counter event history, keyed by counter id. Each value is the ordered
+    /// list of that counter's runs (oldest first); the last is the *current*
+    /// history that increments/subtracts append to. Capped at
+    /// `maxHistoriesPerCounter` per counter (drop-oldest). Loaded at launch and
+    /// persisted alongside the counters, but under a separate key so it can grow
+    /// without bloating the counters blob.
+    @Published public private(set) var histories: [Int: [CounterHistory]]
+
+    /// The clock used to timestamp events and history starts. Injectable so tests
+    /// can drive deterministic event times without waiting on the wall clock.
+    public var now: () -> Date = Date.init
 
     private let defaults: UserDefaults
 
@@ -138,6 +155,10 @@ public final class CounterModel: ObservableObject {
     public static let selectedKey = "selectedCounterId"
     public static let deletedDefaultsKey = "deletedDefaultIds"
     public static let resetUndoKey = "resetUndoPreviousCount"
+    public static let historiesKey = "counterHistories"
+
+    /// The most recent runs kept per counter; the 11th reset drops the oldest.
+    public static let maxHistoriesPerCounter = 10
 
     public init(defaults: UserDefaults = .standard, feedback: CounterFeedback = NoopCounterFeedback()) {
         self.defaults = defaults
@@ -149,6 +170,8 @@ public final class CounterModel: ObservableObject {
             from: defaults
         )
         self.counters = counters
+
+        self.histories = Self.loadHistories(from: defaults)
 
         // A seeded preference can arrive as a string (the editor injects
         // `deviceState.preferences` via `defaults write`), so coerce with
@@ -196,6 +219,12 @@ public final class CounterModel: ObservableObject {
         counters[selectedIndex]
     }
 
+    /// The active counter's recorded runs, oldest first (empty when it has never
+    /// been changed). What the graph view pages through.
+    public var activeHistories: [CounterHistory] {
+        histories[activeCounter.id] ?? []
+    }
+
     public var counterCount: Int { counters.count }
 
     /// 1-based position of the active counter, for the "01 / 04 COUNTERS" header.
@@ -238,7 +267,9 @@ public final class CounterModel: ObservableObject {
     public func increment() {
         // The counter "starts again" — the recovery offer expires.
         resetUndo = nil
-        counters[selectedIndex].count += counters[selectedIndex].step
+        let step = counters[selectedIndex].step
+        counters[selectedIndex].count += step
+        recordEvent(delta: step)
         persistCounters()
         emitChangeFeedback()
     }
@@ -248,17 +279,35 @@ public final class CounterModel: ObservableObject {
         // Any subtract counts as the counter starting again, even the no-op
         // clamp case below — the user has moved on from the reset.
         resetUndo = nil
+        let applied: Int
         if current.allowNegative {
-            counters[selectedIndex].count -= current.step
+            applied = -current.step
         } else {
-            // Already at/below zero: no change — return before persisting or
-            // firing feedback so the no-op clamp stays silent. Otherwise step
-            // down, but never overshoot past zero.
+            // Already at/below zero: no change — return before recording,
+            // persisting, or firing feedback so the no-op clamp stays silent
+            // (and logs no event). Otherwise step down, but never overshoot zero.
             if current.count <= 0 { return }
-            counters[selectedIndex].count = max(0, current.count - current.step)
+            applied = max(0, current.count - current.step) - current.count
         }
+        counters[selectedIndex].count += applied
+        recordEvent(delta: applied)
         persistCounters()
         emitChangeFeedback()
+    }
+
+    /// Appends a change to the active counter's current history, lazily opening a
+    /// first history when the counter has none yet (its run began at this event).
+    /// The recorded delta is the *applied* change, so the running-count series
+    /// reconstructs the count exactly.
+    private func recordEvent(delta: Int) {
+        let id = counters[selectedIndex].id
+        var runs = histories[id] ?? []
+        if runs.isEmpty {
+            runs.append(CounterHistory(startedAt: now()))
+        }
+        runs[runs.count - 1].events.append(CounterEvent(at: now(), delta: delta))
+        histories[id] = runs
+        persistHistories()
     }
 
     /// Emit change feedback for the just-applied increment/subtract using the
@@ -274,16 +323,37 @@ public final class CounterModel: ObservableObject {
     /// pre-reset value was 0 (a harmless no-op to undo), keeping the affordance
     /// consistent without a special case.
     public func reset() {
-        resetUndo = ResetUndo(counterId: activeCounter.id, previousCount: counters[selectedIndex].count)
+        let id = activeCounter.id
+        resetUndo = ResetUndo(counterId: id, previousCount: counters[selectedIndex].count)
         counters[selectedIndex].count = 0
+        // Seal the current run (it stays in the list) and open a fresh empty one,
+        // so "relative to the start" is measured from this reset. Enforce the
+        // per-counter cap by dropping the oldest run.
+        var runs = histories[id] ?? []
+        runs.append(CounterHistory(startedAt: now()))
+        if runs.count > Self.maxHistoriesPerCounter {
+            runs.removeFirst(runs.count - Self.maxHistoriesPerCounter)
+        }
+        histories[id] = runs
         persistCounters()
+        persistHistories()
     }
 
     /// Restores the value captured by the most recent `reset()` on the active
-    /// counter and clears the pending undo. No-ops when there is nothing to undo.
+    /// counter and clears the pending undo. Also reverses the history split that
+    /// reset performed: it pops the empty run reset opened (guaranteed still
+    /// empty, since any event would have cleared the undo window) so the sealed
+    /// run becomes active again, keeping the count and the active history
+    /// consistent. No-ops when there is nothing to undo.
     public func undoReset() {
         guard canUndoReset, let undo = resetUndo else { return }
         counters[selectedIndex].count = undo.previousCount
+        let id = counters[selectedIndex].id
+        if var runs = histories[id], let last = runs.last, last.events.isEmpty {
+            runs.removeLast()
+            histories[id] = runs
+            persistHistories()
+        }
         resetUndo = nil
         persistCounters()
     }
@@ -331,9 +401,12 @@ public final class CounterModel: ObservableObject {
         counters[idx].handednessOverride = nil
         counters[idx].soundOverride = nil
         counters[idx].hapticOverride = nil
+        // A blank slot starts clean — drop the old counter's recorded runs.
+        histories[counters[idx].id] = nil
         selectedIndex = idx
         persistCounters()
         persistSelection()
+        persistHistories()
     }
 
     // MARK: - Persistence
@@ -347,6 +420,43 @@ public final class CounterModel: ObservableObject {
 
     private func persistSelection() {
         defaults.set(activeCounter.id, forKey: Self.selectedKey)
+    }
+
+    // Histories persist as a JSON object string keyed by the counter id (as a
+    // string), with ISO-8601 dates — the same string-injection contract as
+    // `counters`, and a shape a scenario can hand-author: {"1": [{"startedAt":…}]}.
+    private static func historyCoders() -> (JSONEncoder, JSONDecoder) {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return (encoder, decoder)
+    }
+
+    private func persistHistories() {
+        let (encoder, _) = Self.historyCoders()
+        // Encode string-keyed so JSON produces an object, not the alternating
+        // array Swift emits for `[Int: …]`.
+        let keyed = Dictionary(uniqueKeysWithValues: histories.map { (String($0.key), $0.value) })
+        if let data = try? encoder.encode(keyed),
+           let json = String(data: data, encoding: .utf8) {
+            defaults.set(json, forKey: Self.historiesKey)
+        }
+    }
+
+    private static func loadHistories(from defaults: UserDefaults) -> [Int: [CounterHistory]] {
+        guard let json = defaults.string(forKey: historiesKey),
+              let data = json.data(using: .utf8) else {
+            return [:]
+        }
+        let (_, decoder) = historyCoders()
+        guard let keyed = try? decoder.decode([String: [CounterHistory]].self, from: data) else {
+            return [:]
+        }
+        // Drop any non-integer keys rather than crash the whole load.
+        return Dictionary(uniqueKeysWithValues: keyed.compactMap { key, value in
+            Int(key).map { ($0, value) }
+        })
     }
 
     private static func loadCounters(from defaults: UserDefaults) -> [Counter] {

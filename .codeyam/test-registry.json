@@ -107,11 +107,39 @@
       "runner": "tests"
     },
     {
+      "description": "A negative excursion pulls the chart's plotted domain below zero and places the zero line between the extremes.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testChartPlotDomainIncludesNegativeRange",
+      "registeredAt": "2026-07-04T20:24:52Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The chart's pure point mapping spans the plot rect and returns the data-derived count and time domain.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testChartPlotMapsExtremesAndDomain",
+      "registeredAt": "2026-07-04T20:24:52Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A clamped subtract that changes the count records the actual applied delta, not the full step.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testClampedSubtractRecordsActualAppliedDelta",
+      "registeredAt": "2026-07-04T20:24:52Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The cumulative-series helper reconstructs the running count over relative time starting from the origin.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testCumulativeSeriesReconstructsRunningCount",
+      "registeredAt": "2026-07-04T20:24:52Z",
+      "runner": "tests"
+    },
+    {
       "description": "the default effectiveFeedback resolves to off/off options",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff",
-      "line": 466,
+      "line": 467,
       "registeredAt": "2026-07-04T12:53:23.299113+00:00",
       "runner": "tests"
     },
@@ -120,6 +148,13 @@
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDeleteBlanksInPlace",
       "registeredAt": "2026-07-01T13:52:49Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Deleting a counter clears its recorded histories so a blank slot starts clean.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testDeleteCounterClearsItsHistories",
+      "registeredAt": "2026-07-04T20:24:52Z",
       "runner": "tests"
     },
     {
@@ -134,7 +169,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
-      "line": 358,
+      "line": 359,
       "registeredAt": "2026-06-29T10:07:12.747576+00:00",
       "runner": "tests"
     },
@@ -143,7 +178,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
-      "line": 347,
+      "line": 348,
       "registeredAt": "2026-06-29T10:07:12.747494+00:00",
       "runner": "tests"
     },
@@ -152,7 +187,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEffectiveResolversFollowDefaultWhenNil",
-      "line": 479,
+      "line": 480,
       "registeredAt": "2026-07-04T16:07:40.967372+00:00",
       "runner": "tests"
     },
@@ -161,7 +196,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet",
-      "line": 489,
+      "line": 490,
       "registeredAt": "2026-07-04T16:07:41.344837+00:00",
       "runner": "tests"
     },
@@ -170,7 +205,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
-      "line": 35,
+      "line": 36,
       "registeredAt": "2026-06-28T12:56:28.559076+00:00",
       "runner": "tests"
     },
@@ -179,8 +214,22 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter",
-      "line": 587,
+      "line": 588,
       "registeredAt": "2026-07-04T16:07:41.605697+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Recorded runs persist and reload through the same UserDefaults suite.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testHistoriesPersistAndReloadFromDefaults",
+      "registeredAt": "2026-07-04T20:24:52Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The per-counter run list caps at 10, dropping the oldest run when an 11th would open.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testHistoryCapDropsOldestRun",
+      "registeredAt": "2026-07-04T20:24:52Z",
       "runner": "tests"
     },
     {
@@ -188,7 +237,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
-      "line": 309,
+      "line": 310,
       "registeredAt": "2026-06-29T10:07:12.747241+00:00",
       "runner": "tests"
     },
@@ -197,7 +246,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithResolvedOptions",
-      "line": 421,
+      "line": 422,
       "registeredAt": "2026-07-04T12:53:23.550004+00:00",
       "runner": "tests"
     },
@@ -206,7 +255,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementHonorsStep",
-      "line": 96,
+      "line": 97,
       "registeredAt": "2026-06-28T17:03:23.884653+00:00",
       "runner": "tests"
     },
@@ -215,8 +264,15 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter",
-      "line": 44,
+      "line": 45,
       "registeredAt": "2026-06-28T12:56:28.842751+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Increment appends a positive event of the counter's step to the current run, lazily opening the first run.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testIncrementRecordsPositiveEvent",
+      "registeredAt": "2026-07-04T20:24:52Z",
       "runner": "tests"
     },
     {
@@ -224,7 +280,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback",
-      "line": 562,
+      "line": 563,
       "registeredAt": "2026-07-04T16:07:41.873484+00:00",
       "runner": "tests"
     },
@@ -233,7 +289,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne",
-      "line": 129,
+      "line": 130,
       "registeredAt": "2026-06-28T17:03:24.644598+00:00",
       "runner": "tests"
     },
@@ -242,7 +298,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCountersDecodeWithNilOverrides",
-      "line": 539,
+      "line": 540,
       "registeredAt": "2026-07-04T16:07:42.146558+00:00",
       "runner": "tests"
     },
@@ -251,7 +307,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
-      "line": 253,
+      "line": 254,
       "registeredAt": "2026-06-28T12:56:29.096797+00:00",
       "runner": "tests"
     },
@@ -270,12 +326,33 @@
       "runner": "tests"
     },
     {
+      "description": "The no-op subtract clamp records no event and opens no history.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testNoOpSubtractClampRecordsNoEvent",
+      "registeredAt": "2026-07-04T20:24:52Z",
+      "runner": "tests"
+    },
+    {
       "description": "A nil-override counter tracks a changed app default while an overriding counter stays pinned.",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testOverrideTracksOrPinsAgainstChangingDefault",
-      "line": 526,
+      "line": 527,
       "registeredAt": "2026-07-04T16:07:42.410664+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The relative-offset helper measures seconds from the run's start to an event.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testRelativeOffsetMeasuredFromStart",
+      "registeredAt": "2026-07-04T20:24:52Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The relative-time formatter renders mm:ss, escalating to h:mm:ss past an hour.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testRelativeTimeFormatting",
+      "registeredAt": "2026-07-04T20:24:52Z",
       "runner": "tests"
     },
     {
@@ -283,7 +360,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAndUndoResetStaySilent",
-      "line": 455,
+      "line": 456,
       "registeredAt": "2026-07-04T12:53:23.830725+00:00",
       "runner": "tests"
     },
@@ -292,7 +369,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
-      "line": 297,
+      "line": 298,
       "registeredAt": "2026-06-29T10:07:12.747150+00:00",
       "runner": "tests"
     },
@@ -301,8 +378,15 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
-      "line": 272,
+      "line": 273,
       "registeredAt": "2026-06-29T10:07:12.746925+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Reset seals the current run and opens a new empty run while zeroing the count.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testResetSealsCurrentAndOpensEmptyRun",
+      "registeredAt": "2026-07-04T20:24:52Z",
       "runner": "tests"
     },
     {
@@ -310,8 +394,15 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
-      "line": 73,
+      "line": 74,
       "registeredAt": "2026-06-28T12:56:29.340555+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A hand-authored counterHistories JSON seed loads with correct deltas and relative offsets.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSeededHistoriesJSONLoadsFromDefaults",
+      "registeredAt": "2026-07-04T20:24:52Z",
       "runner": "tests"
     },
     {
@@ -319,7 +410,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
-      "line": 383,
+      "line": 384,
       "registeredAt": "2026-06-29T10:07:12.747749+00:00",
       "runner": "tests"
     },
@@ -328,7 +419,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch",
-      "line": 369,
+      "line": 370,
       "registeredAt": "2026-06-29T10:07:12.747663+00:00",
       "runner": "tests"
     },
@@ -337,7 +428,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
-      "line": 398,
+      "line": 399,
       "registeredAt": "2026-06-29T10:07:12.747840+00:00",
       "runner": "tests"
     },
@@ -353,7 +444,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSelectNextWrapsAround",
-      "line": 84,
+      "line": 85,
       "registeredAt": "2026-06-28T12:56:29.598163+00:00",
       "runner": "tests"
     },
@@ -362,7 +453,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots",
-      "line": 117,
+      "line": 118,
       "registeredAt": "2026-06-28T17:03:24.392047+00:00",
       "runner": "tests"
     },
@@ -371,7 +462,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed",
-      "line": 62,
+      "line": 63,
       "registeredAt": "2026-06-28T12:56:29.820770+00:00",
       "runner": "tests"
     },
@@ -380,7 +471,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
-      "line": 321,
+      "line": 322,
       "registeredAt": "2026-06-29T10:07:12.747322+00:00",
       "runner": "tests"
     },
@@ -389,7 +480,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractFiresFeedback",
-      "line": 432,
+      "line": 433,
       "registeredAt": "2026-07-04T12:53:24.097317+00:00",
       "runner": "tests"
     },
@@ -398,7 +489,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault",
-      "line": 54,
+      "line": 55,
       "registeredAt": "2026-06-28T12:56:30.041636+00:00",
       "runner": "tests"
     },
@@ -407,7 +498,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
-      "line": 107,
+      "line": 108,
       "registeredAt": "2026-06-28T17:03:24.134789+00:00",
       "runner": "tests"
     },
@@ -416,8 +507,15 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback",
-      "line": 444,
+      "line": 445,
       "registeredAt": "2026-07-04T12:53:24.353911+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Subtract records the actual negative applied delta.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSubtractRecordsNegativeAppliedDelta",
+      "registeredAt": "2026-07-04T20:24:52Z",
       "runner": "tests"
     },
     {
@@ -425,8 +523,15 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
-      "line": 333,
+      "line": 334,
       "registeredAt": "2026-06-29T10:07:12.747408+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "undoReset restores the count and pops the empty run so the sealed run is active again.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testUndoResetReopensSealedRunAndRestoresCount",
+      "registeredAt": "2026-07-04T20:24:52Z",
       "runner": "tests"
     },
     {
@@ -434,7 +539,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
-      "line": 284,
+      "line": 285,
       "registeredAt": "2026-06-29T10:07:12.747051+00:00",
       "runner": "tests"
     },
@@ -443,7 +548,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil",
-      "line": 551,
+      "line": 552,
       "registeredAt": "2026-07-04T16:07:42.681056+00:00",
       "runner": "tests"
     },
@@ -452,7 +557,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne",
-      "line": 157,
+      "line": 158,
       "registeredAt": "2026-06-28T17:03:25.101512+00:00",
       "runner": "tests"
     },
@@ -461,7 +566,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil",
-      "line": 515,
+      "line": 516,
       "registeredAt": "2026-07-04T16:07:42.951657+00:00",
       "runner": "tests"
     },
@@ -470,7 +575,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
-      "line": 142,
+      "line": 143,
       "registeredAt": "2026-06-28T17:03:24.876521+00:00",
       "runner": "tests"
     },
@@ -479,7 +584,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides",
-      "line": 499,
+      "line": 500,
       "registeredAt": "2026-07-04T16:07:43.238399+00:00",
       "runner": "tests"
     },
