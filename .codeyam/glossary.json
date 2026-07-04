@@ -1,5 +1,22 @@
 [
   {
+    "conformsToView": false,
+    "description": "Observable store for system-wide app defaults (handedness, sound-on-change choice, haptic-on-change choice) persisted in UserDefaults. Handedness coerces via bool(forKey:); the SoundOption/HapticOption enums decode their rawValue from string(forKey:), each falling back to .off. The single default source per-counter overrides resolve against in later plans.",
+    "filePath": "Sources/AppCore/AppSettings.swift",
+    "name": "AppSettings",
+    "testFile": "Tests/AppCoreTests/AppSettingsTests.swift"
+  },
+  {
+    "conformsToView": true,
+    "description": "Floating overlay panel for system-wide App Settings, bound to AppSettings. Holds a HANDEDNESS segmented control, SOUND and HAPTIC option pickers (horizontally-scrolling pills that auto-scroll the active choice into view), and an ALL COUNTERS button; mirrors CounterSettingsPanel chrome (DONE to close). Each control writes straight through to the persisted default.",
+    "filePath": "Sources/AppCore/Views/AppSettingsPanel.swift",
+    "name": "AppSettingsPanel",
+    "scenarios": [
+      "appsettingspanel-default",
+      "appsettingspanel-sound-and-haptic-on"
+    ]
+  },
+  {
     "conformsToView": true,
     "description": "The lower control row: three smaller controls plus the increment button's downward extension, mirrored for left-handed use with all four sections equal width.",
     "filePath": "Sources/AppCore/Views/BottomControlRow.swift",
@@ -63,6 +80,25 @@
     "scenarios": [
       "counterdot-active",
       "counterdot-ghost"
+    ]
+  },
+  {
+    "description": "Protocol seam for count-change feedback: changed(sound:haptic:) emits a sound and/or haptic per the resolved SoundOption/HapticOption, keeping CounterModel free of UIKit/audio knowledge so tests and non-UIKit builds substitute a silent implementation.",
+    "filePath": "Sources/AppCore/Feedback.swift",
+    "name": "CounterFeedback",
+    "untestabilityReason": {
+      "justification": "Protocol declaration; behavior is exercised through its implementations' tests in FeedbackTests.",
+      "kind": "type-only"
+    }
+  },
+  {
+    "conformsToView": true,
+    "description": "Scrollable overlay listing every counter (colored dot + name + count), opened from App Settings. Tapping a row selects that counter and dismisses the list; blank slots render with the muted dot and em-dash placeholder. The active counter's row carries the accent ring.",
+    "filePath": "Sources/AppCore/Views/CounterListPanel.swift",
+    "name": "CounterListPanel",
+    "scenarios": [
+      "counterlistpanel-default",
+      "counterlistpanel-with-blank-slot"
     ]
   },
   {
@@ -133,6 +169,13 @@
     ]
   },
   {
+    "conformsToView": false,
+    "description": "The default CounterFeedback: does nothing, keeping unit tests, SwiftUI previews, and the macOS build silent and deterministic.",
+    "filePath": "Sources/AppCore/Feedback.swift",
+    "name": "NoopCounterFeedback",
+    "testFile": "Tests/AppCoreTests/FeedbackTests.swift"
+  },
+  {
     "description": "A labeled section in the settings panel: a small mono caption above its forwarded content, used by the name field and color picker for consistent headings.",
     "filePath": "Sources/AppCore/Views/SettingsField.swift",
     "name": "SettingsField",
@@ -140,5 +183,12 @@
       "justification": "Presentation-only layout wrapper: a caption Text above forwarded content, no branching or iteration.",
       "kind": "trivial-wrapper"
     }
+  },
+  {
+    "conformsToView": false,
+    "description": "Production CounterFeedback. Owns the option gating (a non-off haptic fires the haptic emitter with its intensity; a non-off sound fires the sound emitter with its choice) with injectable emitters so the gating is unit-tested; the real UIKit impact haptic and AudioServicesPlaySystemSound live in the thin defaultHaptic/defaultSound passthroughs behind a canImport(UIKit) guard.",
+    "filePath": "Sources/AppCore/Feedback.swift",
+    "name": "SystemCounterFeedback",
+    "testFile": "Tests/AppCoreTests/FeedbackTests.swift"
   }
 ]

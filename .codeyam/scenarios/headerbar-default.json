@@ -7,8 +7,8 @@
   "mocks": {},
   "deviceState": {
     "launchEnv": {
-      "CODEYAM_ISOLATE_SCENARIO": "Default",
-      "CODEYAM_ISOLATE_COMPONENT": "HeaderBar"
+      "CODEYAM_ISOLATE_COMPONENT": "HeaderBar",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
     }
   },
   "componentName": "HeaderBar",

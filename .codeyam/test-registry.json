@@ -1,10 +1,118 @@
 {
   "tests": [
     {
+      "description": "a fresh store is right-handed with sound and haptic off",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testDefaultsAreRightHandedAndSilent",
+      "line": 11,
+      "registeredAt": "2026-07-04T12:53:22.252039+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "SoundOption and HapticOption allCases cover the picker choice sets and labels",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testOptionCasesCoverTheChoiceSets",
+      "line": 67,
+      "registeredAt": "2026-07-04T12:24:39.010618+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "changing one option does not disturb the other settings",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testOptionsAreIndependent",
+      "line": 57,
+      "registeredAt": "2026-07-04T12:53:22.503570+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "changed settings persist across a store reload",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload",
+      "line": 43,
+      "registeredAt": "2026-07-04T12:53:22.783015+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "reads seeded string-injected preferences including option enum rawValues",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences",
+      "line": 20,
+      "registeredAt": "2026-07-04T12:53:23.046729+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "an unknown or missing option rawValue falls back to off",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToOff",
+      "line": 32,
+      "registeredAt": "2026-07-04T12:24:38.860895+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "neither flag fires nothing",
+      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.FeedbackTests › testBothOffFiresNothing",
+      "line": 41,
+      "registeredAt": "2026-07-04T11:09:15.689518+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "both flags on fires both emitters once each",
+      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.FeedbackTests › testBothOptionsFireBoth",
+      "line": 33,
+      "registeredAt": "2026-07-04T11:09:15.477615+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "haptic flag on and sound off fires only the haptic emitter",
+      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.FeedbackTests › testHapticOnlyFiresHapticWithIntensity",
+      "line": 17,
+      "registeredAt": "2026-07-04T11:09:15.046087+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "NoopCounterFeedback changed is a safe silent no-op for any flags",
+      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.FeedbackTests › testNoopFeedbackDoesNothing",
+      "line": 55,
+      "registeredAt": "2026-07-04T11:09:15.907933+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "sound flag on and haptic off fires only the sound emitter",
+      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.FeedbackTests › testSoundOnlyFiresSoundWithChoice",
+      "line": 25,
+      "registeredAt": "2026-07-04T11:09:15.263879+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "A blanked slot stays selectable and increments into a solid blank dot without resurrecting a name — incrementing does not clear blankness.",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving",
       "registeredAt": "2026-07-01T13:52:49Z",
+      "runner": "tests"
+    },
+    {
+      "description": "the default effectiveFeedback resolves to off/off options",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff",
+      "line": 466,
+      "registeredAt": "2026-07-04T12:53:23.299113+00:00",
       "runner": "tests"
     },
     {
@@ -26,7 +134,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
-      "line": 349,
+      "line": 358,
       "registeredAt": "2026-06-29T10:07:12.747576+00:00",
       "runner": "tests"
     },
@@ -35,7 +143,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
-      "line": 338,
+      "line": 347,
       "registeredAt": "2026-06-29T10:07:12.747494+00:00",
       "runner": "tests"
     },
@@ -44,7 +152,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
-      "line": 26,
+      "line": 35,
       "registeredAt": "2026-06-28T12:56:28.559076+00:00",
       "runner": "tests"
     },
@@ -53,8 +161,17 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
-      "line": 300,
+      "line": 309,
       "registeredAt": "2026-06-29T10:07:12.747241+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "increment fires one feedback call with the resolved sound and haptic options",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithResolvedOptions",
+      "line": 421,
+      "registeredAt": "2026-07-04T12:53:23.550004+00:00",
       "runner": "tests"
     },
     {
@@ -62,7 +179,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementHonorsStep",
-      "line": 87,
+      "line": 96,
       "registeredAt": "2026-06-28T17:03:23.884653+00:00",
       "runner": "tests"
     },
@@ -71,7 +188,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter",
-      "line": 35,
+      "line": 44,
       "registeredAt": "2026-06-28T12:56:28.842751+00:00",
       "runner": "tests"
     },
@@ -80,7 +197,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne",
-      "line": 120,
+      "line": 129,
       "registeredAt": "2026-06-28T17:03:24.644598+00:00",
       "runner": "tests"
     },
@@ -89,7 +206,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
-      "line": 244,
+      "line": 253,
       "registeredAt": "2026-06-28T12:56:29.096797+00:00",
       "runner": "tests"
     },
@@ -108,11 +225,20 @@
       "runner": "tests"
     },
     {
+      "description": "reset and undoReset are not count changes and fire no feedback",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testResetAndUndoResetStaySilent",
+      "line": 455,
+      "registeredAt": "2026-07-04T12:53:23.830725+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "Resetting a counter already at zero still enters undo mode; undoing restores zero as a harmless no-op.",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
-      "line": 288,
+      "line": 297,
       "registeredAt": "2026-06-29T10:07:12.747150+00:00",
       "runner": "tests"
     },
@@ -121,7 +247,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
-      "line": 263,
+      "line": 272,
       "registeredAt": "2026-06-29T10:07:12.746925+00:00",
       "runner": "tests"
     },
@@ -130,7 +256,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
-      "line": 64,
+      "line": 73,
       "registeredAt": "2026-06-28T12:56:29.340555+00:00",
       "runner": "tests"
     },
@@ -139,7 +265,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
-      "line": 374,
+      "line": 383,
       "registeredAt": "2026-06-29T10:07:12.747749+00:00",
       "runner": "tests"
     },
@@ -148,7 +274,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch",
-      "line": 360,
+      "line": 369,
       "registeredAt": "2026-06-29T10:07:12.747663+00:00",
       "runner": "tests"
     },
@@ -157,7 +283,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
-      "line": 389,
+      "line": 398,
       "registeredAt": "2026-06-29T10:07:12.747840+00:00",
       "runner": "tests"
     },
@@ -173,7 +299,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSelectNextWrapsAround",
-      "line": 75,
+      "line": 84,
       "registeredAt": "2026-06-28T12:56:29.598163+00:00",
       "runner": "tests"
     },
@@ -182,7 +308,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots",
-      "line": 108,
+      "line": 117,
       "registeredAt": "2026-06-28T17:03:24.392047+00:00",
       "runner": "tests"
     },
@@ -191,7 +317,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed",
-      "line": 53,
+      "line": 62,
       "registeredAt": "2026-06-28T12:56:29.820770+00:00",
       "runner": "tests"
     },
@@ -200,8 +326,17 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
-      "line": 312,
+      "line": 321,
       "registeredAt": "2026-06-29T10:07:12.747322+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "a subtract that changes the count fires feedback with both options",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSubtractFiresFeedback",
+      "line": 432,
+      "registeredAt": "2026-07-04T12:53:24.097317+00:00",
       "runner": "tests"
     },
     {
@@ -209,7 +344,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault",
-      "line": 45,
+      "line": 54,
       "registeredAt": "2026-06-28T12:56:30.041636+00:00",
       "runner": "tests"
     },
@@ -218,8 +353,17 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
-      "line": 98,
+      "line": 107,
       "registeredAt": "2026-06-28T17:03:24.134789+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "the no-op subtract clamp fires no feedback",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback",
+      "line": 444,
+      "registeredAt": "2026-07-04T12:53:24.353911+00:00",
       "runner": "tests"
     },
     {
@@ -227,7 +371,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
-      "line": 324,
+      "line": 333,
       "registeredAt": "2026-06-29T10:07:12.747408+00:00",
       "runner": "tests"
     },
@@ -236,7 +380,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
-      "line": 275,
+      "line": 284,
       "registeredAt": "2026-06-29T10:07:12.747051+00:00",
       "runner": "tests"
     },
@@ -245,7 +389,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne",
-      "line": 148,
+      "line": 157,
       "registeredAt": "2026-06-28T17:03:25.101512+00:00",
       "runner": "tests"
     },
@@ -254,7 +398,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
-      "line": 133,
+      "line": 142,
       "registeredAt": "2026-06-28T17:03:24.876521+00:00",
       "runner": "tests"
     },

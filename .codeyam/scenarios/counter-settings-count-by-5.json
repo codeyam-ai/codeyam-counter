@@ -9,8 +9,8 @@
   "deviceState": {
     "preferences": {
       "settingsOpen": true,
-      "deletedDefaultIds": "[]",
       "counters": "[{\"id\": 1, \"name\": \"WATER GLASSES\", \"count\": 10, \"colorKey\": \"teal\", \"allowNegative\": false, \"step\": 5, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "deletedDefaultIds": "[]",
       "leftHanded": false,
       "selectedCounterId": 1
     },

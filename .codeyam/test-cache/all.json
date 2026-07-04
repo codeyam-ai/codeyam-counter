@@ -1,18 +1,18 @@
 {
   "schemaVersion": 4,
-  "version": 11,
+  "version": 18,
   "partition": "all",
-  "hash": "5e08d864e4bd2bad",
+  "hash": "4c86c536c1a4c4a2",
   "runners": [
     {
       "name": "tests",
       "format": "junit-xml",
-      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<testsuites>\n<testsuite name=\"TestResults\" errors=\"0\" tests=\"37\" failures=\"0\" time=\"2.1409329139999995\">\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementHonorsStep\" time=\"0.065151208\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementClearsPendingUndo\" time=\"0.072834917\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteBlanksInPlace\" time=\"0.073018708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteLastCounterBlanksInPlaceAndKeepsSelection\" time=\"0.073063042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testBlankSlotIncrementsWithoutReviving\" time=\"0.073087791\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testEditingActiveCounterClearsPendingUndo\" time=\"0.0730545\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testFreshModelHasFourStarterCountersAtZero\" time=\"0.072929625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingCounterClearsPendingUndo\" time=\"0.073061625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementRaisesActiveCounter\" time=\"0.053316542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testNamingBlankSlotRevivesIt\" time=\"0.050182416\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetZeroesActiveCounter\" time=\"0.052329417\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testMigrationFoldsDeletedDefaultsIntoBlankSlots\" time=\"0.05282575\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetEntersUndoModeAndCapturesPreviousValue\" time=\"0.052606542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLoadsSeededStateFromDefaults\" time=\"0.073215708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLegacyCounterWithoutStepDecodesToStepOne\" time=\"0.073236833\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetAtZeroEntersUndoModeAndUndoRestoresZero\" time=\"0.073143125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectNextWrapsAround\" time=\"0.045468708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyCoercesStringValue\" time=\"0.052982958\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededSubsetHasNoBlankSlots\" time=\"0.049342917\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyEntersUndoModeOnLaunch\" time=\"0.051912083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyIgnoredWhenActiveCountNonZero\" time=\"0.052596125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClearsPendingUndo\" time=\"0.055395583\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsWhenNegativesDisallowed\" time=\"0.060708083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsToZeroWhenStepOvershoots\" time=\"0.06170475\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUndoResetRestoresPreviousValueAndExitsUndoMode\" time=\"0.05068125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSwitchingCounterClearsPendingUndo\" time=\"0.050814625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractGoesNegativeByDefault\" time=\"0.056484708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractHonorsStep\" time=\"0.056327291\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterClampsStepToAtLeastOne\" time=\"0.057148625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexMapsKnownKeys\" time=\"0.03814525\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterEditsAndPersists\" time=\"0.056109542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexFallsBackToLimeForUnknownKey\" time=\"0.053792792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesBlackAndWhite\" time=\"0.044592708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesAccentLime\" time=\"0.047063208\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsCaseInsensitive\" time=\"0.049489416\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsolatesIndividualChannels\" time=\"0.049374834\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testToleratesLeadingHash\" time=\"0.043739709\">\n</testcase>\n</testsuite>\n</testsuites>\n",
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<testsuites>\n<testsuite name=\"TestResults\" errors=\"0\" tests=\"53\" failures=\"0\" time=\"2.8498753330000004\">\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testBothOptionsFireBoth\" time=\"0.057134625\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testBothOffFiresNothing\" time=\"0.058162791\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testUnknownOptionFallsBackToOff\" time=\"0.058380083\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testDefaultsAreRightHandedAndSilent\" time=\"0.058551292\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testOptionsAreIndependent\" time=\"0.058629125\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testPersistsChangesAcrossReload\" time=\"0.058638166\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testOptionCasesCoverTheChoiceSets\" time=\"0.058672375\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testReadsSeededStringPreferences\" time=\"0.058661416\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testSoundOnlyFiresSoundWithChoice\" time=\"0.05185675\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteBlanksInPlace\" time=\"0.051698417\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteLastCounterBlanksInPlaceAndKeepsSelection\" time=\"0.051694042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingCounterClearsPendingUndo\" time=\"0.051697833\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testBlankSlotIncrementsWithoutReviving\" time=\"0.052596834\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDefaultEffectiveFeedbackIsAllOff\" time=\"0.052513792\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testNoopFeedbackDoesNothing\" time=\"0.053067959\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testHapticOnlyFiresHapticWithIntensity\" time=\"0.054117417\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testFreshModelHasFourStarterCountersAtZero\" time=\"0.051194917\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testEditingActiveCounterClearsPendingUndo\" time=\"0.051212291\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementFiresFeedbackWithResolvedOptions\" time=\"0.051184042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementClearsPendingUndo\" time=\"0.051205333\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementRaisesActiveCounter\" time=\"0.055138875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLegacyCounterWithoutStepDecodesToStepOne\" time=\"0.066492791\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementHonorsStep\" time=\"0.066751792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLoadsSeededStateFromDefaults\" time=\"0.066450875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetAtZeroEntersUndoModeAndUndoRestoresZero\" time=\"0.054042083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetAndUndoResetStaySilent\" time=\"0.054054542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testNamingBlankSlotRevivesIt\" time=\"0.054060458\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetEntersUndoModeAndCapturesPreviousValue\" time=\"0.04933525\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testMigrationFoldsDeletedDefaultsIntoBlankSlots\" time=\"0.054057459\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetZeroesActiveCounter\" time=\"0.058265792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyEntersUndoModeOnLaunch\" time=\"0.058262375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyCoercesStringValue\" time=\"0.058259\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsToZeroWhenStepOvershoots\" time=\"0.048498417\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededSubsetHasNoBlankSlots\" time=\"0.048574\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsWhenNegativesDisallowed\" time=\"0.048546584\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectNextWrapsAround\" time=\"0.048594583\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyIgnoredWhenActiveCountNonZero\" time=\"0.048594333\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractGoesNegativeByDefault\" time=\"0.048600333\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClearsPendingUndo\" time=\"0.048625459\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractFiresFeedback\" time=\"0.0486355\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSwitchingCounterClearsPendingUndo\" time=\"0.051168875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterClampsStepToAtLeastOne\" time=\"0.0511645\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUndoResetRestoresPreviousValueAndExitsUndoMode\" time=\"0.051170042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractHonorsStep\" time=\"0.0511735\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractNoOpClampDoesNotFireFeedback\" time=\"0.05118475\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexFallsBackToLimeForUnknownKey\" time=\"0.056554666\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterEditsAndPersists\" time=\"0.0565655\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexMapsKnownKeys\" time=\"0.056543666\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsCaseInsensitive\" time=\"0.046640125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesAccentLime\" time=\"0.050750625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesBlackAndWhite\" time=\"0.050768708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testToleratesLeadingHash\" time=\"0.05071275\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsolatesIndividualChannels\" time=\"0.050767625\">\n</testcase>\n</testsuite>\n</testsuites>\n",
       "invoked_command": "swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml",
       "exit_code": 0,
       "tests": [
         {
-          "key": "AppCoreTests.ModelTests › testIncrementHonorsStep",
+          "key": "AppCoreTests.FeedbackTests › testBothOptionsFireBoth",
           "status": "passed",
           "file": null,
           "line": null,
@@ -20,7 +20,63 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
+          "key": "AppCoreTests.FeedbackTests › testBothOffFiresNothing",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToOff",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testDefaultsAreRightHandedAndSilent",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testOptionsAreIndependent",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testOptionCasesCoverTheChoiceSets",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.FeedbackTests › testSoundOnlyFiresSoundWithChoice",
           "status": "passed",
           "file": null,
           "line": null,
@@ -44,6 +100,14 @@
           "format": "junit-xml"
         },
         {
+          "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
           "key": "AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving",
           "status": "passed",
           "file": null,
@@ -52,7 +116,23 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
+          "key": "AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.FeedbackTests › testNoopFeedbackDoesNothing",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.FeedbackTests › testHapticOnlyFiresHapticWithIntensity",
           "status": "passed",
           "file": null,
           "line": null,
@@ -68,7 +148,23 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
+          "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithResolvedOptions",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
           "status": "passed",
           "file": null,
           "line": null,
@@ -84,7 +180,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testNamingBlankSlotRevivesIt",
+          "key": "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne",
           "status": "passed",
           "file": null,
           "line": null,
@@ -92,23 +188,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testMigrationFoldsDeletedDefaultsIntoBlankSlots",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
+          "key": "AppCoreTests.ModelTests › testIncrementHonorsStep",
           "status": "passed",
           "file": null,
           "line": null,
@@ -124,14 +204,6 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
           "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
           "status": "passed",
           "file": null,
@@ -140,7 +212,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSelectNextWrapsAround",
+          "key": "AppCoreTests.ModelTests › testResetAndUndoResetStaySilent",
           "status": "passed",
           "file": null,
           "line": null,
@@ -148,7 +220,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
+          "key": "AppCoreTests.ModelTests › testNamingBlankSlotRevivesIt",
           "status": "passed",
           "file": null,
           "line": null,
@@ -156,7 +228,23 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSeededSubsetHasNoBlankSlots",
+          "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testMigrationFoldsDeletedDefaultsIntoBlankSlots",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
           "status": "passed",
           "file": null,
           "line": null,
@@ -172,23 +260,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed",
+          "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
           "status": "passed",
           "file": null,
           "line": null,
@@ -204,7 +276,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
+          "key": "AppCoreTests.ModelTests › testSeededSubsetHasNoBlankSlots",
           "status": "passed",
           "file": null,
           "line": null,
@@ -212,7 +284,23 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
+          "key": "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSelectNextWrapsAround",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
           "status": "passed",
           "file": null,
           "line": null,
@@ -228,7 +316,23 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
+          "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSubtractFiresFeedback",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
           "status": "passed",
           "file": null,
           "line": null,
@@ -244,7 +348,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys",
+          "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
           "status": "passed",
           "file": null,
           "line": null,
@@ -252,7 +356,15 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
+          "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback",
           "status": "passed",
           "file": null,
           "line": null,
@@ -268,7 +380,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ThemeTests › testParsesBlackAndWhite",
+          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
           "status": "passed",
           "file": null,
           "line": null,
@@ -276,7 +388,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ThemeTests › testParsesAccentLime",
+          "key": "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys",
           "status": "passed",
           "file": null,
           "line": null,
@@ -292,7 +404,15 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ThemeTests › testIsolatesIndividualChannels",
+          "key": "AppCoreTests.ThemeTests › testParsesAccentLime",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testParsesBlackAndWhite",
           "status": "passed",
           "file": null,
           "line": null,
@@ -301,6 +421,14 @@
         },
         {
           "key": "AppCoreTests.ThemeTests › testToleratesLeadingHash",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testIsolatesIndividualChannels",
           "status": "passed",
           "file": null,
           "line": null,

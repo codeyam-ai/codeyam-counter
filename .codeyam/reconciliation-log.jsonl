@@ -25,3 +25,13 @@
 {"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSeededSubsetHasNoBlankSlots`: added from runner `tests` output"}
 {"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving`: added from runner `tests` output"}
 {"timestamp":"2026-07-01T13:52:49Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testNamingBlankSlotRevivesIt`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.AppSettingsTests › testDefaultsAreRightHandedAndSilent`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testIncrementFiresFeedbackWithResolvedFlags`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testResetAndUndoResetStaySilent`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSubtractFiresFeedback`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.AppSettingsTests › testReadsSeededBoolPreferences`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.AppSettingsTests › testTogglesAreIndependent`: added from runner `tests` output"}

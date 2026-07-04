@@ -1,0 +1,515 @@
+{
+  "timestamp": "2026-07-04T12:55:18Z",
+  "title": "App Settings & Feedback",
+  "type": "feature",
+  "userRequest": "## Summary\n\nIntroduce a **system-wide app settings** surface. Replace the passive\n\"NN / 04 COUNTERS\" position label in the header with an **app settings button**\nthat opens an inline **App Settings** panel. The panel holds three system-wide\ndefaults — **handedness** (left/right), **sound on change**, and **haptic on\nchange** — plus a **list all counters** action that opens a simple list of every\ncounter (name + count) you can tap to select. Increment and subtract begin\nemitting sound and/or haptic feedback per these defaults, routed through a small,\ntest-friendly feedback abstraction. This is the first of three plans; per-counter\noverrides ([[per-counter-overrides]]) and the Graph ([[counter-graph-and-history]])\nbuild on the store and feedback plumbing introduced here.\n\n## Key Decisions\n\n- **A dedicated `AppSettings` store, not scattered `@AppStorage`** — today\n  handedness lives as a lone `@AppStorage(\"leftHanded\")` in `ContentView`.\n  Consolidate handedness, sound, and haptic into one `ObservableObject`\n  (`AppSettings`) backed by UserDefaults, mirroring `CounterModel`'s seeding\n  contract (scenarios inject `deviceState.preferences`). This gives Plan 2 a\n  single default source to resolve per-counter overrides against.\n- **Two independent booleans for sound & haptic** — the user asked for \"sound, or\n  haptic, or both.\" Two toggles (`soundEnabled`, `hapticEnabled`) express all four\n  combinations (neither / sound / haptic / both) without a mode enum.\n- **Header button replaces the position label** — the \"NN / 04 COUNTERS\" text is\n  removed from `HeaderBar` and replaced with a tappable settings button (distinct\n  from the per-counter gear on the switcher card, which stays). Reuse the\n  `GearButton` styling/idiom but with a `slider.horizontal.3` (sliders) glyph and\n  a new `app-settings` identifier so the two settings entry points don't collide.\n- **App Settings panel mirrors `CounterSettingsPanel`** — same floating-overlay\n  pattern (anchored under the header, drawn on top, `DONE` to close), reusing\n  `SettingsField` and `CounterTheme` tokens so it feels native to the app.\n- **Feedback behind a protocol** — increment/subtract call a `CounterFeedback`\n  abstraction. The production implementation uses `UINotificationFeedbackGenerator`\n  /`UIImpactFeedbackGenerator` (haptic) and `AudioServicesPlaySystemSound` (sound),\n  guarded by `#if canImport(UIKit)`. A no-op default keeps unit tests and the\n  macOS/preview builds silent and deterministic, and lets `ModelTests` assert\n  \"feedback requested\" via a spy without real audio/haptics.\n- **SWITCH stays, repointed** — the bottom-row `SWITCH` button currently toggles\n  handedness. Repoint it to toggle `AppSettings.defaultLeftHanded` so behavior is\n  unchanged and this plan ships demonstrable. Its removal (replaced by GRAPH)\n  is [[counter-graph-and-history]]'s job.\n\n## Implementation\n\n### 1. New system-wide settings store\n\n**New file**: `Sources/AppCore/AppSettings.swift`\n\nA `public final class AppSettings: ObservableObject` backed by `UserDefaults`,\nfollowing `CounterModel`'s seeding contract (read keys in `init`, coerce\nstring-injected seeds, persist on change):\n\n- `@Published public var defaultLeftHanded: Bool` — key `\"leftHanded\"` (reuse the\n  existing key so on-device preference and existing `counter-left-handed-layout`\n  scenario carry over).\n- `@Published public var soundEnabled: Bool` — key `\"soundEnabled\"` (default `false`).\n- `@Published public var hapticEnabled: Bool` — key `\"hapticEnabled\"` (default `false`).\n- Static key constants + a documented seeding note like the one atop `CounterModel`.\n- Persist each on `didSet`.\n\n### 2. Feedback abstraction\n\n**New file**: `Sources/AppCore/Feedback.swift`\n\n- `public protocol CounterFeedback { func changed(sound: Bool, haptic: Bool) }`\n- `SystemCounterFeedback` — real implementation. `#if canImport(UIKit)` uses a\n  light impact haptic and `AudioServicesPlaySystemSound` (a short system sound id)\n  when the respective flag is true; `#else` no-op.\n- `NoopCounterFeedback` — default for tests/previews.\n\n### 3. Route increment/subtract through feedback\n\n**File**: `Sources/AppCore/Model.swift`\n\n- Give `CounterModel` an injected `feedback: CounterFeedback` (default\n  `NoopCounterFeedback()`), and an injected/settable source of the effective\n  sound/haptic flags. For this plan the flags come straight from `AppSettings`;\n  Plan 2 swaps in the per-counter effective resolution. Simplest wiring: add\n  `public func increment(sound:haptic:)` / `subtract(sound:haptic:)` params, OR\n  hold a closure `var effectiveFeedback: () -> (sound: Bool, haptic: Bool)` the\n  view sets. Choose the closure approach so the model stays UI-agnostic and Plan 2\n  only changes the closure body.\n- In `increment()` and `subtract()`, after mutating, call\n  `feedback.changed(sound:haptic:)` with the resolved flags. Do **not** fire on the\n  `subtract` no-op clamp (count already at/below zero, `allowNegative == false`).\n- Keep `reset()`/`undoReset()` silent (no change-feedback).\n\n### 4. App Settings panel view\n\n**New file**: `Sources/AppCore/Views/AppSettingsPanel.swift`\n\nAn inline panel (styled exactly like `CounterSettingsPanel`) bound to\n`AppSettings`, containing:\n\n- Header row: `\"APP SETTINGS\"` caption + a `DONE` button (`app-settings-close`).\n- A **HANDEDNESS** control — a two-way segmented/labeled toggle\n  (`Left` / `Right`) writing `defaultLeftHanded` (`app-settings-handedness`).\n- A **SOUND** `Toggle` → `soundEnabled` (`app-settings-sound`).\n- A **HAPTIC** `Toggle` → `hapticEnabled` (`app-settings-haptic`).\n- An **ALL COUNTERS** button (`app-settings-list`) that opens the counter list\n  (below). Use `SettingsField` captions and `CounterTheme` tokens throughout.\n\n### 5. Counter list view\n\n**New file**: `Sources/AppCore/Views/CounterListPanel.swift`\n\nA simple scrollable list of every counter: colored dot + name (em-dash for blank\nslots) + current count, each row tappable to select that counter and dismiss the\nlist. Row identifier `counter-list-row-<id>`; a back/close affordance\n(`counter-list-close`). Reuse `CounterTheme.dotColor` and the blank-slot\nem-dash/muted treatment from `CounterSwitcherCard`.\n\n### 6. Header button replaces the position label\n\n**File**: `Sources/AppCore/Views/HeaderBar.swift`\n\n- Remove the `positionLabel` parameter and the `\"\\(positionLabel) COUNTERS\"`\n  `Text`. Replace the trailing element with an app-settings button (GearButton-like\n  styling, `slider.horizontal.3` glyph, identifier `app-settings`), taking an\n  `onSettingsTap: () -> Void`. Keep the `CODEYAM COUNTER` brand text.\n- `CounterModel.positionLabel` becomes unused by the header; leave it on the model\n  (harmless, still unit-tested) or note it may be removed later — do not remove it\n  in this plan to avoid churning `ModelTests`.\n\n### 7. Wire settings + list into the screen\n\n**File**: `Sources/AppCore/ContentView.swift`\n\n- Replace the `@AppStorage(\"leftHanded\")` property with\n  `@StateObject private var settings = AppSettings()`; read\n  `settings.defaultLeftHanded` where `leftHanded` was used.\n- Add `@State private var showAppSettings = false` and\n  `@State private var showCounterList = false` (seedable from preferences like\n  `settingsOpen`, e.g. `appSettingsOpen` / `counterListOpen`, so static captures\n  can render them open).\n- `headerBar` passes `onSettingsTap: { withAnimation { showAppSettings.toggle() } }`.\n- When `showAppSettings`, overlay `AppSettingsPanel` (same floating pattern as the\n  counter settings overlay), with `onOpenList: { showCounterList = true }`.\n- When `showCounterList`, overlay `CounterListPanel` wired to `model.select(id:)`.\n- Set `model.effectiveFeedback = { (settings.soundEnabled, settings.hapticEnabled) }`\n  and pass `SystemCounterFeedback()` into `CounterModel` (via an initializer or a\n  settable property). In previews/tests the default no-op is used.\n- Repoint `onSwitch` to `{ withAnimation { settings.defaultLeftHanded.toggle() } }`.\n\n### 8. Tests\n\n**File**: `Tests/AppCoreTests/ModelTests.swift` (and a new\n`Tests/AppCoreTests/AppSettingsTests.swift`)\n\n- `AppSettings` reads seeded string-injected preferences and persists changes\n  (round-trip through a scratch `UserDefaults(suiteName:)`).\n- Increment/subtract call the feedback spy with the resolved `(sound, haptic)`\n  flags; the `subtract` no-op clamp does **not** fire feedback; `reset`/`undoReset`\n  stay silent.\n\n## Reused existing code\n\n- `CounterModel` / `Counter` from `Sources/AppCore/Model.swift` (glossary entry:\n  `CounterModel`, tested by `Tests/AppCoreTests/ModelTests.swift`) — extend with\n  the feedback hook; reuse its UserDefaults seeding contract for `AppSettings`.\n- `GearButton` from `Sources/AppCore/Views/GearButton.swift` (glossary entry:\n  `GearButton`) — style/idiom reference for the new header app-settings button.\n- `CounterSettingsPanel` from `Sources/AppCore/Views/CounterSettingsPanel.swift`\n  (glossary entry: `CounterSettingsPanel`) — overlay/`DONE` pattern to mirror.\n- `SettingsField` from `Sources/AppCore/Views/SettingsField.swift` (glossary entry:\n  `SettingsField`) — labeled-section wrapper for the new toggles.\n- `CounterTheme` from `Sources/AppCore/Theme.swift` (glossary entry: `CounterTheme`,\n  tested by `Tests/AppCoreTests/ThemeTests.swift`) — colors/tokens and `dotColor`.\n- `CounterSwitcherCard` from `Sources/AppCore/Views/CounterSwitcherCard.swift`\n  (glossary entry: `CounterSwitcherCard`) — blank-slot em-dash / muted treatment to\n  reuse in the counter list.\n\n## Scenarios to Demonstrate\n\n- **Header shows the settings button** — the position label is gone; the header\n  brand sits opposite a sliders/settings button.\n- **App Settings open** — panel overlaying the screen with HANDEDNESS, SOUND, and\n  HAPTIC controls and the ALL COUNTERS button, in a default (all-off, right-handed)\n  state.\n- **Sound + haptic both on** — the panel with both toggles enabled.\n- **Left-handed default set** — handedness set to Left; the bottom bar renders its\n  mirrored layout (reuses the existing left-handed layout).\n- **All counters list** — the counter list overlay showing the four starter\n  counters with dots, names, and counts.\n- **All counters list with a blank slot** — one slot blank (em-dash placeholder)\n  among live counters.",
+  "description": "Added a system-wide App Settings panel opened from a new header settings button (replacing the passive NN / 04 COUNTERS label): handedness (left/right), a sound-on-change picker (Off, Tock, Pop, Click, Bloop, Ding), a haptic-on-change picker (Off, Light, Medium, Heavy), and an All Counters list you can tap to select. Increment and subtract now emit the chosen sound and/or haptic through a testable CounterFeedback seam (real UIKit haptic + AudioServicesPlaySystemSound on-device, no-op in tests), driven by a new consolidated AppSettings store that replaces the scattered @AppStorage(leftHanded).",
+  "modifiedFiles": [
+    {
+      "path": ".claude/skills/codeyam-plan/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/.last-reconcile.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/cache/step-metadata.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/data-structure.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/app-settings-and-feedback.md\t.codeyam/plans/completed/app-settings-and-feedback.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/reconciliation-log.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/runner-timing-history.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-active-count.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-all-but-one-deleted.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-blank-slot-incremented.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-deleted-default-ghost-slot.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-fresh-start.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-large-value.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-left-handed-layout.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-long-name.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-negative-value.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-settings-count-by-5.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-settings-open-over-number.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-twenty-counters.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-undo-reset-available.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/headerbar-default.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/headerbar-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/headerbar-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/last-advance.txt",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/provider-auth-verdict.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-run-marker.json",
+      "status": "modified"
+    },
+    {
+      "path": ".gitignore",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/HeaderBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "ui/src/helpers/stepLabels.generated.ts",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/appsettingspanel-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/appsettingspanel-sound-and-haptic-on.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-all-counters-list-with-blank-slot.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-all-counters-list.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-app-settings-open.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-app-settings-sound-and-haptic-on.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterlistpanel-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterlistpanel-with-blank-slot.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-default--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-sound-and-haptic-on--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-sound-and-haptic-on--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterlistpanel-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterlistpanel-default--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterlistpanel-with-blank-slot--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterlistpanel-with-blank-slot--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/session-results-snapshot.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/step-highwater.json",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/AppSettings.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterListPanelIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Feedback.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/AppSettingsPanel.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterListPanel.swift",
+      "status": "added"
+    },
+    {
+      "path": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "status": "added"
+    },
+    {
+      "path": "Tests/AppCoreTests/FeedbackTests.swift",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "AppSettingsPanel - Default",
+      "screenshotPath": "appsettingspanel-default--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Sound and haptic on",
+      "screenshotPath": "appsettingspanel-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list",
+      "screenshotPath": "counter-all-counters-list--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list with blank slot",
+      "screenshotPath": "counter-all-counters-list-with-blank-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings open",
+      "screenshotPath": "counter-app-settings-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on",
+      "screenshotPath": "counter-app-settings-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "Counter - Blank slot incremented",
+      "screenshotPath": "counter-blank-slot-incremented--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    },
+    {
+      "name": "CounterListPanel - Default",
+      "screenshotPath": "counterlistpanel-default--iphone-16.png"
+    },
+    {
+      "name": "CounterListPanel - With blank slot",
+      "screenshotPath": "counterlistpanel-with-blank-slot--iphone-16.png"
+    },
+    {
+      "name": "HeaderBar - Default",
+      "screenshotPath": "headerbar-default--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 53,
+    "passed": 53,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 53,
+        "passed": 53
+      }
+    ]
+  }
+}

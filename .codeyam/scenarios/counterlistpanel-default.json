@@ -1,0 +1,16 @@
+{
+  "name": "CounterListPanel - Default",
+  "id": "985a4a65-482e-44af-a714-c078feef1835",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "CounterListPanel"
+    }
+  },
+  "componentName": "CounterListPanel",
+  "scenarioType": "component"
+}

@@ -8,11 +8,11 @@
   "mocks": {},
   "deviceState": {
     "preferences": {
-      "leftHanded": false,
       "settingsOpen": false,
       "deletedDefaultIds": "[]",
       "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 42, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 5, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 12480, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 9, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
-      "selectedCounterId": 3
+      "selectedCounterId": 3,
+      "leftHanded": false
     },
     "statusBar": {
       "time": "9:41"

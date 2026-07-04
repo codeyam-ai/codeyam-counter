@@ -1,0 +1,16 @@
+{
+  "name": "CounterListPanel - With blank slot",
+  "id": "7f85927d-3b4f-4a8b-8c84-6cd64b7d0914",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterListPanel",
+      "CODEYAM_ISOLATE_SCENARIO": "WithBlankSlot"
+    }
+  },
+  "componentName": "CounterListPanel",
+  "scenarioType": "component"
+}

@@ -15,6 +15,6 @@ struct HeaderBarIsolated: View {
     }
 
     @ViewBuilder private var content: some View {
-        HeaderBar(positionLabel: "01 / 04 COUNTERS")
+        HeaderBar(onSettingsTap: {})
     }
 }

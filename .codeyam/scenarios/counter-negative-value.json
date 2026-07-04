@@ -8,11 +8,11 @@
   "mocks": {},
   "deviceState": {
     "preferences": {
-      "settingsOpen": false,
       "selectedCounterId": 4,
-      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 18, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 2, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 5500, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": -3, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
       "leftHanded": false,
-      "deletedDefaultIds": "[]"
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 18, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 2, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 5500, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": -3, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
+      "deletedDefaultIds": "[]",
+      "settingsOpen": false
     },
     "statusBar": {
       "time": "9:41"

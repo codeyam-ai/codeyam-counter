@@ -88,13 +88,24 @@ public final class CounterModel: ObservableObject {
 
     private let defaults: UserDefaults
 
+    /// Where count-change feedback is emitted. The default is silent; the app
+    /// injects `SystemCounterFeedback`, tests inject a spy.
+    private let feedback: CounterFeedback
+
+    /// The effective (sound, haptic) options to emit on the next change, evaluated
+    /// fresh at each increment/subtract. The view sets this from `AppSettings`;
+    /// keeping it a closure lets a later plan swap in per-counter resolution
+    /// without touching the model. Defaults to all-off.
+    public var effectiveFeedback: () -> (sound: SoundOption, haptic: HapticOption) = { (.off, .off) }
+
     public static let countersKey = "counters"
     public static let selectedKey = "selectedCounterId"
     public static let deletedDefaultsKey = "deletedDefaultIds"
     public static let resetUndoKey = "resetUndoPreviousCount"
 
-    public init(defaults: UserDefaults = .standard) {
+    public init(defaults: UserDefaults = .standard, feedback: CounterFeedback = NoopCounterFeedback()) {
         self.defaults = defaults
+        self.feedback = feedback
 
         let loaded = Self.loadCounters(from: defaults)
         let counters = Self.migrateDeletedDefaults(
@@ -193,6 +204,7 @@ public final class CounterModel: ObservableObject {
         resetUndo = nil
         counters[selectedIndex].count += counters[selectedIndex].step
         persistCounters()
+        emitChangeFeedback()
     }
 
     public func subtract() {
@@ -203,12 +215,22 @@ public final class CounterModel: ObservableObject {
         if current.allowNegative {
             counters[selectedIndex].count -= current.step
         } else {
-            // Already at/below zero: no change. Otherwise step down, but never
-            // overshoot past zero — clamp to 0 rather than skip the change.
+            // Already at/below zero: no change — return before persisting or
+            // firing feedback so the no-op clamp stays silent. Otherwise step
+            // down, but never overshoot past zero.
             if current.count <= 0 { return }
             counters[selectedIndex].count = max(0, current.count - current.step)
         }
         persistCounters()
+        emitChangeFeedback()
+    }
+
+    /// Emit change feedback for the just-applied increment/subtract using the
+    /// currently resolved flags. `reset`/`undoReset` deliberately do not call
+    /// this — only a live count change gives feedback.
+    private func emitChangeFeedback() {
+        let flags = effectiveFeedback()
+        feedback.changed(sound: flags.sound, haptic: flags.haptic)
     }
 
     /// Zeros the active counter, remembering its prior value so the bottom row

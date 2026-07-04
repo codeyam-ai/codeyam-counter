@@ -23,5 +23,16 @@
       { "name": "selectedCounterId", "type": "number", "required": true },
       { "name": "deletedDefaultIds", "type": "array", "required": false, "description": "Ids of the default starter counters (1–4) the user has deleted. Each renders as an empty 'ghost' circle in the switcher dot row; tapping it restores the default at count 0." }
     ]
+  },
+  {
+    "name": "AppSettings",
+    "description": "System-wide app defaults persisted in UserDefaults and restored on launch. Consolidates the handedness preference (formerly a lone @AppStorage(\"leftHanded\")) with the sound-on-change and haptic-on-change choices. Serves as the single default source that per-counter overrides resolve against in later plans.",
+    "category": "datastore",
+    "order": 3,
+    "fields": [
+      { "name": "leftHanded", "type": "boolean", "required": true, "description": "Whether the bottom control bar renders its mirrored left-handed layout. UserDefaults key 'leftHanded' (reused from the prior @AppStorage). Defaults to false (right-handed)." },
+      { "name": "soundOption", "type": "string", "required": true, "description": "Which sound (if any) plays on increment/subtract. UserDefaults key 'soundOption'; one of 'off', 'tock', 'pop', 'click', 'bloop', 'ding'. Defaults to 'off'." },
+      { "name": "hapticOption", "type": "string", "required": true, "description": "Which haptic (if any) fires on increment/subtract. UserDefaults key 'hapticOption'; one of 'off', 'light', 'medium', 'heavy'. Defaults to 'off'." }
+    ]
   }
 ]

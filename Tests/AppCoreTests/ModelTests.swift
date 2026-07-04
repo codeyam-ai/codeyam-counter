@@ -1,6 +1,15 @@
 import XCTest
 @testable import AppCore
 
+/// Records every `changed(sound:haptic:)` call so tests can assert exactly which
+/// change-feedback fired (and that the no-op / silent paths fired nothing).
+final class FeedbackSpy: CounterFeedback {
+    private(set) var calls: [(sound: SoundOption, haptic: HapticOption)] = []
+    func changed(sound: SoundOption, haptic: HapticOption) {
+        calls.append((sound: sound, haptic: haptic))
+    }
+}
+
 // XCTest, not swift-testing: the editor's runner parses the XCTest
 // `--xunit-output` file, and swift-testing results do not reliably land there
 // on Xcode 16.x / Swift 6.x. See README "## Testing" for the full rationale.
@@ -396,5 +405,70 @@ final class ModelTests: XCTestCase {
         let model = CounterModel(defaults: suite)
         XCTAssertFalse(model.canUndoReset)
         XCTAssertNil(model.resetUndo)
+    }
+
+    // MARK: - Change feedback
+
+    private func spiedModel(_ counters: [Counter], spy: FeedbackSpy) -> CounterModel {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let json = String(data: try! JSONEncoder().encode(counters), encoding: .utf8)!
+        suite.set(json, forKey: CounterModel.countersKey)
+        return CounterModel(defaults: suite, feedback: spy)
+    }
+
+    // Incrementing emits exactly one feedback call carrying the resolved
+    // (sound, haptic) options from `effectiveFeedback`.
+    func testIncrementFiresFeedbackWithResolvedOptions() {
+        let spy = FeedbackSpy()
+        let model = spiedModel([Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0)], spy: spy)
+        model.effectiveFeedback = { (sound: .pop, haptic: .off) }
+        model.increment()
+        XCTAssertEqual(spy.calls.count, 1)
+        XCTAssertEqual(spy.calls[0].sound, .pop)
+        XCTAssertEqual(spy.calls[0].haptic, .off)
+    }
+
+    // A subtract that actually changes the count emits feedback with both options.
+    func testSubtractFiresFeedback() {
+        let spy = FeedbackSpy()
+        let model = spiedModel([Counter(id: 1, name: "REPS", count: 5, colorKey: "lime", order: 0)], spy: spy)
+        model.effectiveFeedback = { (sound: .ding, haptic: .heavy) }
+        model.subtract()
+        XCTAssertEqual(spy.calls.count, 1)
+        XCTAssertEqual(spy.calls[0].sound, .ding)
+        XCTAssertEqual(spy.calls[0].haptic, .heavy)
+    }
+
+    // The no-op clamp (negatives disallowed, already at zero) changes nothing, so
+    // it must not fire feedback.
+    func testSubtractNoOpClampDoesNotFireFeedback() {
+        let spy = FeedbackSpy()
+        let model = spiedModel(
+            [Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", allowNegative: false, order: 0)],
+            spy: spy)
+        model.effectiveFeedback = { (sound: .tock, haptic: .light) }
+        model.subtract()
+        XCTAssertTrue(spy.calls.isEmpty)
+    }
+
+    // reset() and undoReset() are not count-change events — they stay silent.
+    func testResetAndUndoResetStaySilent() {
+        let spy = FeedbackSpy()
+        let model = spiedModel([Counter(id: 1, name: "REPS", count: 4, colorKey: "lime", order: 0)], spy: spy)
+        model.effectiveFeedback = { (sound: .tock, haptic: .light) }
+        model.reset()
+        model.undoReset()
+        XCTAssertTrue(spy.calls.isEmpty)
+    }
+
+    // The default (no `effectiveFeedback` set, default `NoopCounterFeedback`)
+    // still resolves to both-off and fires the call with `.off` options.
+    func testDefaultEffectiveFeedbackIsAllOff() {
+        let spy = FeedbackSpy()
+        let model = spiedModel([Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0)], spy: spy)
+        model.increment()
+        XCTAssertEqual(spy.calls.count, 1)
+        XCTAssertEqual(spy.calls[0].sound, .off)
+        XCTAssertEqual(spy.calls[0].haptic, .off)
     }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "ui": {
-    "total": 26,
+    "total": 28,
     "labels": [
       [
         1,
@@ -65,46 +65,54 @@
       ],
       [
         16,
-        "Component Scenarios"
+        "Component Coverage"
       ],
       [
         17,
-        "Curate Scenarios"
+        "Register Scenarios"
       ],
       [
         18,
-        "App Scenarios"
+        "Capture Scenarios"
       ],
       [
         19,
-        "Present"
+        "Curate Scenarios"
       ],
       [
         20,
-        "Reconcile"
+        "App Scenarios"
       ],
       [
         21,
-        "Journal"
+        "Present"
       ],
       [
         22,
-        "Pre-Commit Sync"
+        "Reconcile"
       ],
       [
         23,
-        "Finalize"
+        "Journal"
       ],
       [
         24,
-        "Commit"
+        "Pre-Commit Sync"
       ],
       [
         25,
-        "Push"
+        "Finalize"
       ],
       [
         26,
+        "Commit"
+      ],
+      [
+        27,
+        "Push"
+      ],
+      [
+        28,
         "Feature Complete"
       ]
     ],
@@ -167,50 +175,58 @@
       ],
       [
         15,
-        "Create isolation routes for every visual component."
+        "Create isolation routes for every extracted visual component."
       ],
       [
         16,
-        "Register and capture component-level scenarios for every visual component."
+        "Decide per-component scenario coverage (multi-state or untestability) for every isolated component."
       ],
       [
         17,
-        "Curate the existing app-scenario set — review, consolidate, dedup, and edit in place — before registering new scenarios."
+        "Register component-level scenarios (one per state) for every visual component."
       ],
       [
         18,
-        "Create app-level scenarios that show full pages with realistic data."
+        "Capture and verify component-level scenarios; gate on visual coverage before advancing."
       ],
       [
         19,
-        "Final approval gate — recapture screenshots and present a summary of all work to the user."
+        "Curate the existing app-scenario set — review, consolidate, dedup, and edit in place — before registering new scenarios."
       ],
       [
         20,
-        "Run the audit gate, reconcile any registry/glossary drift until clean."
+        "Create app-level scenarios that show full pages with realistic data."
       ],
       [
         21,
-        "Create or update the journal entry documenting what was built."
+        "Final approval gate — recapture screenshots and present a summary of all work to the user."
       ],
       [
         22,
-        "Sync local state with the remote so the next commit lands on a merged tree."
+        "Run the audit gate, reconcile any registry/glossary drift until clean."
       ],
       [
         23,
-        "Finalize the session — run the full suite once."
+        "Create or update the journal entry documenting what was built."
       ],
       [
         24,
-        "Commit all changes to git."
+        "Sync local state with the remote so the next commit lands on a merged tree."
       ],
       [
         25,
-        "Push the branch to the remote repository."
+        "Finalize the session — run the full suite once."
       ],
       [
         26,
+        "Commit all changes to git."
+      ],
+      [
+        27,
+        "Push the branch to the remote repository."
+      ],
+      [
+        28,
         "Fire the feature-complete modal — the cycle ends here."
       ]
     ],
@@ -277,46 +293,54 @@
       ],
       [
         16,
-        "Register and capture component scenarios only. Do NOT create app-level scenarios in this step."
+        "Decide coverage for every isolated component — multi-state scenarios or an untestability reason. Do NOT skip components."
       ],
       [
         17,
-        "Curate the existing app-scenario set — review, consolidate, dedup, retire obsolete, edit in place. Do NOT register new scenarios in this step."
+        "Register component scenarios only — capture happens in the next step. Do NOT create app-level scenarios here."
       ],
       [
         18,
-        "Create app-level scenarios — do NOT set `componentName`. Do NOT modify application code."
+        "Capture and verify registered component scenarios only. Do NOT create app-level scenarios in this step."
       ],
       [
         19,
-        "Mandatory approval gate. Recapture screenshots, present, AskUserQuestion. Do NOT skip — reconcile fires AFTER this gate."
+        "Curate the existing app-scenario set — review, consolidate, dedup, retire obsolete, edit in place. Do NOT register new scenarios in this step."
       ],
       [
         20,
-        "Run the audit gate in partial-run mode and reconcile drift. Do NOT pre-emptively run flag-free `refresh-tests`."
+        "Create app-level scenarios — do NOT set `componentName`. Do NOT modify application code."
       ],
       [
         21,
-        "Create or update the journal entry. Do NOT include a timestamp — it is auto-generated. The journal entry's commit-SHA association is derived at read time from `git log --diff-filter=A` (see history-show-all-commits plan); do NOT write a `commitSha` field by hand."
+        "Mandatory approval gate. Recapture screenshots, present, AskUserQuestion. Do NOT skip — reconcile fires AFTER this gate."
       ],
       [
         22,
-        "Run `editor pre-commit-sync`. Do NOT skip — this is the enforced phase that catches remote drift and auto-recovers state."
+        "Run the audit gate in partial-run mode and reconcile drift. Do NOT pre-emptively run flag-free `refresh-tests`."
       ],
       [
         23,
-        "Finalize: pick `session-finalize` (~7 min full suite) or `session-checkpoint --defer` (~30 s). Both stamp the relevant state; do not bypass the menu."
+        "Create or update the journal entry. Do NOT include a timestamp — it is auto-generated. The journal entry's commit-SHA association is derived at read time from `git log --diff-filter=A` (see history-show-all-commits plan); do NOT write a `commitSha` field by hand."
       ],
       [
         24,
-        "Commit all changes. Do NOT push — that happens at the push slug."
+        "Run `editor pre-commit-sync`. Do NOT skip — this is the enforced phase that catches remote drift and auto-recovers state."
       ],
       [
         25,
-        "Check for a git remote and offer to push. WAIT for the user's answer before starting the next feature."
+        "Finalize: pick `session-finalize` (~7 min full suite) or `session-checkpoint --defer` (~30 s). Both stamp the relevant state; do not bypass the menu."
       ],
       [
         26,
+        "Commit all changes. Do NOT push — that happens at the push slug."
+      ],
+      [
+        27,
+        "Check for a git remote and offer to push. WAIT for the user's answer before starting the next feature."
+      ],
+      [
+        28,
         "Fire the feature-complete modal. WAIT for the user's choice. Do NOT start a new feature without explicit instruction."
       ]
     ],
@@ -383,46 +407,54 @@
       ],
       [
         16,
-        "ui-component-scenarios"
+        "isolation-component-coverage"
       ],
       [
         17,
-        "ui-app-scenarios-curate"
+        "ui-component-register"
       ],
       [
         18,
-        "ui-app-scenarios"
+        "ui-component-scenarios"
       ],
       [
         19,
-        "ui-present"
+        "ui-app-scenarios-curate"
       ],
       [
         20,
-        "reconcile"
+        "ui-app-scenarios"
       ],
       [
         21,
-        "ui-journal"
+        "ui-present"
       ],
       [
         22,
-        "pre-commit-sync"
+        "reconcile"
       ],
       [
         23,
-        "finalize"
+        "ui-journal"
       ],
       [
         24,
-        "commit"
+        "pre-commit-sync"
       ],
       [
         25,
-        "push"
+        "finalize"
       ],
       [
         26,
+        "commit"
+      ],
+      [
+        27,
+        "push"
+      ],
+      [
+        28,
         "feature-complete"
       ]
     ],
@@ -436,6 +468,8 @@
       "register-incremental",
       "dependency-graph-rebuild",
       "isolation-routes",
+      "isolation-component-coverage",
+      "ui-component-register",
       "ui-component-scenarios",
       "ui-app-scenarios-curate",
       "ui-app-scenarios",
@@ -455,7 +489,7 @@
     ]
   },
   "backend": {
-    "total": 19,
+    "total": 20,
     "labels": [
       [
         1,
@@ -495,42 +529,46 @@
       ],
       [
         10,
-        "Glossary"
+        "Test Tooling"
       ],
       [
         11,
-        "Dependency Graph"
+        "Glossary"
       ],
       [
         12,
-        "Present"
+        "Dependency Graph"
       ],
       [
         13,
-        "Reconcile"
+        "Present"
       ],
       [
         14,
-        "Journal"
+        "Reconcile"
       ],
       [
         15,
-        "Pre-Commit Sync"
+        "Journal"
       ],
       [
         16,
-        "Finalize"
+        "Pre-Commit Sync"
       ],
       [
         17,
-        "Commit"
+        "Finalize"
       ],
       [
         18,
-        "Push"
+        "Commit"
       ],
       [
         19,
+        "Push"
+      ],
+      [
+        20,
         "Feature Complete"
       ]
     ],
@@ -573,42 +611,46 @@
       ],
       [
         10,
-        "Register every new test and glossary entry produced in the prior step."
+        "Test-runner and tooling discipline for the backend extract-TDD loop."
       ],
       [
         11,
-        "Rebuild the dependency graph after extraction."
+        "Register every new test and glossary entry produced in the prior step."
       ],
       [
         12,
-        "Present the /results page with architecture diagram, tests, and changed files."
+        "Rebuild the dependency graph after extraction."
       ],
       [
         13,
-        "Run the audit gate, reconcile any registry/glossary drift until clean."
+        "Present the /results page with architecture diagram, tests, and changed files."
       ],
       [
         14,
-        "Author the session narrative against post-Verify code, then create the journal entry."
+        "Run the audit gate, reconcile any registry/glossary drift until clean."
       ],
       [
         15,
-        "Sync local state with the remote so the next commit lands on a merged tree."
+        "Author the session narrative against post-Verify code, then create the journal entry."
       ],
       [
         16,
-        "Finalize the session — run the full suite once."
+        "Sync local state with the remote so the next commit lands on a merged tree."
       ],
       [
         17,
-        "Commit all changes to git."
+        "Finalize the session — run the full suite once."
       ],
       [
         18,
-        "Push the branch to the remote repository."
+        "Commit all changes to git."
       ],
       [
         19,
+        "Push the branch to the remote repository."
+      ],
+      [
+        20,
         "Fire the feature-complete modal — the cycle ends here."
       ]
     ],
@@ -651,42 +693,46 @@
       ],
       [
         10,
-        "Register every new test and glossary entry. Do NOT add new application code."
+        "Reference step: always run tests through the editor CLI, never raw runners. Do NOT add new application code."
       ],
       [
         11,
-        "Rebuild the dependency graph. Read the graph and glossary through the CLI, never with `Read`."
+        "Register every new test and glossary entry. Do NOT add new application code."
       ],
       [
         12,
-        "Present the /results page. Do NOT skip the approval gate."
+        "Rebuild the dependency graph. Read the graph and glossary through the CLI, never with `Read`."
       ],
       [
         13,
-        "Run the audit gate in partial-run mode and reconcile drift. Do NOT pre-emptively run flag-free `refresh-tests`."
+        "Present the /results page. Do NOT skip the approval gate."
       ],
       [
         14,
-        "Author the journal narrative against post-Verify code. The journal entry's commit-SHA association is derived at read time from `git log --diff-filter=A` (see history-show-all-commits plan); do NOT write a `commitSha` field by hand."
+        "Run the audit gate in partial-run mode and reconcile drift. Do NOT pre-emptively run flag-free `refresh-tests`."
       ],
       [
         15,
-        "Run `editor pre-commit-sync`. Do NOT skip — this is the enforced phase that catches remote drift and auto-recovers state."
+        "Author the journal narrative against post-Verify code. The journal entry's commit-SHA association is derived at read time from `git log --diff-filter=A` (see history-show-all-commits plan); do NOT write a `commitSha` field by hand."
       ],
       [
         16,
-        "Finalize: pick `session-finalize` (~7 min full suite) or `session-checkpoint --defer` (~30 s). Both stamp the relevant state; do not bypass the menu."
+        "Run `editor pre-commit-sync`. Do NOT skip — this is the enforced phase that catches remote drift and auto-recovers state."
       ],
       [
         17,
-        "Commit all changes. Do NOT push — that happens at the push slug."
+        "Finalize: pick `session-finalize` (~7 min full suite) or `session-checkpoint --defer` (~30 s). Both stamp the relevant state; do not bypass the menu."
       ],
       [
         18,
-        "Check for a git remote and offer to push. WAIT for the user's answer before starting the next feature."
+        "Commit all changes. Do NOT push — that happens at the push slug."
       ],
       [
         19,
+        "Check for a git remote and offer to push. WAIT for the user's answer before starting the next feature."
+      ],
+      [
+        20,
         "Fire the feature-complete modal. WAIT for the user's choice. Do NOT start a new feature without explicit instruction."
       ]
     ],
@@ -729,42 +775,46 @@
       ],
       [
         10,
-        "register-incremental"
+        "backend-test-tooling"
       ],
       [
         11,
-        "dependency-graph-rebuild"
+        "register-incremental"
       ],
       [
         12,
-        "backend-present"
+        "dependency-graph-rebuild"
       ],
       [
         13,
-        "reconcile"
+        "backend-present"
       ],
       [
         14,
-        "backend-journal"
+        "reconcile"
       ],
       [
         15,
-        "pre-commit-sync"
+        "backend-journal"
       ],
       [
         16,
-        "finalize"
+        "pre-commit-sync"
       ],
       [
         17,
-        "commit"
+        "finalize"
       ],
       [
         18,
-        "push"
+        "commit"
       ],
       [
         19,
+        "push"
+      ],
+      [
+        20,
         "feature-complete"
       ]
     ],
@@ -773,6 +823,7 @@
       "backend-prototype",
       "backend-deconstruct",
       "backend-extract-tdd",
+      "backend-test-tooling",
       "register-incremental",
       "dependency-graph-rebuild",
       "reconcile",

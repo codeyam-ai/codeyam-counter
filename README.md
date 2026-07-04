@@ -64,35 +64,35 @@ swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-test
 
 States captured as runnable scenarios with codeyam-editor:
 
-### BottomControlRow - Default
-
-![BottomControlRow - Default](.codeyam/scenarios/screenshots/bottomcontrolrow-default--iphone-16.png)
-
-### BottomControlRow - Undo Pending
-
-![BottomControlRow - Undo Pending](.codeyam/scenarios/screenshots/bottomcontrolrow-undo-pending--iphone-16.png)
-
-### ControlButton - Default
-
-![ControlButton - Default](.codeyam/scenarios/screenshots/controlbutton-default--iphone-16.png)
-
-### CountHero - Default
-
-![CountHero - Default](.codeyam/scenarios/screenshots/counthero-default--iphone-16.png)
-
-### CountHero - Large
-
-![CountHero - Large](.codeyam/scenarios/screenshots/counthero-large--iphone-16.png)
-
 ### Counter - Active count
 
-![Counter - Active count](.codeyam/scenarios/screenshots/counter-active-count--iphone-16.png)
+<img src=".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png" alt="Counter - Active count" width="280">
 
 ### Counter - All but one deleted
 
-![Counter - All but one deleted](.codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png)
+<img src=".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png" alt="Counter - All but one deleted" width="280">
+
+### Counter - All counters list
+
+<img src=".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png" alt="Counter - All counters list" width="280">
+
+### Counter - All counters list with blank slot
+
+<img src=".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png" alt="Counter - All counters list with blank slot" width="280">
+
+### Counter - App Settings open
+
+<img src=".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png" alt="Counter - App Settings open" width="280">
+
+### Counter - App Settings sound and haptic on
+
+<img src=".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png" alt="Counter - App Settings sound and haptic on" width="280">
+
+### Counter - Blank slot incremented
+
+<img src=".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png" alt="Counter - Blank slot incremented" width="280">
 
 ### Counter - Deleted default ghost slot
 
-![Counter - Deleted default ghost slot](.codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png)
+<img src=".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png" alt="Counter - Deleted default ghost slot" width="280">
 <!-- codeyam:scenario-gallery:end -->

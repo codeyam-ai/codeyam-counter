@@ -1,0 +1,27 @@
+{
+  "name": "Counter - All counters list with blank slot",
+  "id": "b2d13e80-09c4-4d7d-a1e6-0575ea899201",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "settingsOpen": false,
+      "deletedDefaultIds": "[]",
+      "counterListOpen": true,
+      "leftHanded": false,
+      "appSettingsOpen": true,
+      "selectedCounterId": 1,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"\", \"count\": 0, \"colorKey\": \"\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "hapticOption": "off",
+      "soundOption": "off"
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

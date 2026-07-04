@@ -9,8 +9,8 @@
   "deviceState": {
     "preferences": {
       "settingsOpen": false,
-      "leftHanded": false,
       "deletedDefaultIds": "[2, 4]",
+      "leftHanded": false,
       "selectedCounterId": 3,
       "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}]"
     },

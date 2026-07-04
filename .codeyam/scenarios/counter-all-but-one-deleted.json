@@ -8,11 +8,11 @@
   "mocks": {},
   "deviceState": {
     "preferences": {
-      "deletedDefaultIds": "[2, 3, 4]",
+      "leftHanded": false,
       "selectedCounterId": 1,
-      "settingsOpen": false,
       "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 156, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}]",
-      "leftHanded": false
+      "deletedDefaultIds": "[2, 3, 4]",
+      "settingsOpen": false
     },
     "statusBar": {
       "time": "9:41"

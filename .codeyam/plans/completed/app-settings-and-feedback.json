@@ -1,0 +1,28 @@
+{
+  "completedAt": "2026-07-04T12:55:18Z",
+  "createdAt": "2026-07-02T12:28:11Z",
+  "deliverables": [
+    ".claude/skills/codeyam-plan/SKILL.md",
+    ".gitignore",
+    "Sources/AppCore/AppSettings.swift",
+    "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+    "Sources/AppCore/CodeyamIsolated/CounterListPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift",
+    "Sources/AppCore/ContentView.swift",
+    "Sources/AppCore/Feedback.swift",
+    "Sources/AppCore/Model.swift",
+    "Sources/AppCore/Views/AppSettingsPanel.swift",
+    "Sources/AppCore/Views/CounterListPanel.swift",
+    "Sources/AppCore/Views/HeaderBar.swift",
+    "Tests/AppCoreTests/AppSettingsTests.swift",
+    "Tests/AppCoreTests/FeedbackTests.swift",
+    "Tests/AppCoreTests/ModelTests.swift",
+    "ui/src/helpers/stepLabels.generated.ts"
+  ],
+  "journalTimestamp": "2026-07-04T12:55:18Z",
+  "mode": "ui",
+  "planFile": "completed/app-settings-and-feedback.md",
+  "slug": "app-settings-and-feedback",
+  "title": "App Settings & Feedback"
+}
