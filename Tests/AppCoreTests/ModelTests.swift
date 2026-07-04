@@ -471,4 +471,124 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(spy.calls[0].sound, .off)
         XCTAssertEqual(spy.calls[0].haptic, .off)
     }
+
+    // MARK: - Per-counter overrides
+
+    // With no override set, every effective* resolver returns the supplied app
+    // default unchanged.
+    func testEffectiveResolversFollowDefaultWhenNil() {
+        let c = Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0)
+        XCTAssertEqual(c.effectiveLeftHanded(default: true), true)
+        XCTAssertEqual(c.effectiveLeftHanded(default: false), false)
+        XCTAssertEqual(c.effectiveSound(default: .ding), .ding)
+        XCTAssertEqual(c.effectiveHaptic(default: .heavy), .heavy)
+    }
+
+    // A set override pins its own value regardless of the app default — including
+    // an explicit `.off` winning over a non-`.off` default.
+    func testEffectiveResolversPinOverrideWhenSet() {
+        let c = Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0,
+                        handednessOverride: true, soundOverride: .off, hapticOverride: .light)
+        XCTAssertEqual(c.effectiveLeftHanded(default: false), true, "override wins over default")
+        XCTAssertEqual(c.effectiveSound(default: .ding), .off, "explicit .off override silences a noisy default")
+        XCTAssertEqual(c.effectiveHaptic(default: .off), .light)
+    }
+
+    // updateActiveCounter persists all three overrides across a reload from the
+    // same suite, with the enum overrides surviving as their rawValue.
+    func testUpdateActiveCounterRoundTripsOverrides() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let model = CounterModel(defaults: suite)
+        model.updateActiveCounter(name: "PUSH-UPS", colorKey: "lime", allowNegative: true, step: 1,
+                                  handednessOverride: true, soundOverride: .bloop, hapticOverride: .heavy)
+        XCTAssertEqual(model.activeCounter.handednessOverride, true)
+        XCTAssertEqual(model.activeCounter.soundOverride, .bloop)
+        XCTAssertEqual(model.activeCounter.hapticOverride, .heavy)
+        let reloaded = CounterModel(defaults: suite)
+        XCTAssertEqual(reloaded.activeCounter.handednessOverride, true)
+        XCTAssertEqual(reloaded.activeCounter.soundOverride, .bloop)
+        XCTAssertEqual(reloaded.activeCounter.hapticOverride, .heavy)
+    }
+
+    // Saving with nil overrides clears any previously pinned values (the panel's
+    // "Default" selection round-trips back to nil).
+    func testUpdateActiveCounterClearsOverridesWhenNil() {
+        let model = seededModel([Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0,
+                                         handednessOverride: false, soundOverride: .ding, hapticOverride: .medium)])
+        model.updateActiveCounter(name: "REPS", colorKey: "lime", allowNegative: true, step: 1)
+        XCTAssertNil(model.activeCounter.handednessOverride)
+        XCTAssertNil(model.activeCounter.soundOverride)
+        XCTAssertNil(model.activeCounter.hapticOverride)
+    }
+
+    // A nil-override counter tracks a changed app default; an overriding counter
+    // is pinned and does not. Modeled the way ContentView resolves feedback.
+    func testOverrideTracksOrPinsAgainstChangingDefault() {
+        let follower = Counter(id: 1, name: "A", count: 0, colorKey: "lime", order: 0)
+        let pinned = Counter(id: 2, name: "B", count: 0, colorKey: "coffee", order: 1, soundOverride: .off)
+        // Default sound is currently .tock.
+        XCTAssertEqual(follower.effectiveSound(default: .tock), .tock)
+        XCTAssertEqual(pinned.effectiveSound(default: .tock), .off)
+        // App default changes to .ding: the follower moves, the pinned stays off.
+        XCTAssertEqual(follower.effectiveSound(default: .ding), .ding)
+        XCTAssertEqual(pinned.effectiveSound(default: .ding), .off)
+    }
+
+    // Legacy persisted counters (written before the override fields existed)
+    // decode with all three overrides nil, exactly like the app defaults.
+    func testLegacyCountersDecodeWithNilOverrides() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let legacyJSON = #"[{"id":1,"name":"PUSH-UPS","count":2,"colorKey":"lime","allowNegative":true,"step":1,"order":0}]"#
+        suite.set(legacyJSON, forKey: CounterModel.countersKey)
+        let model = CounterModel(defaults: suite)
+        XCTAssertNil(model.activeCounter.handednessOverride)
+        XCTAssertNil(model.activeCounter.soundOverride)
+        XCTAssertNil(model.activeCounter.hapticOverride)
+    }
+
+    // An unrecognized override rawValue in seeded JSON decodes to nil rather than
+    // crashing the whole load.
+    func testUnrecognizedOverrideRawValueDecodesToNil() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let json = #"[{"id":1,"name":"PUSH-UPS","count":0,"colorKey":"lime","allowNegative":true,"step":1,"order":0,"soundOverride":"kazoo"}]"#
+        suite.set(json, forKey: CounterModel.countersKey)
+        let model = CounterModel(defaults: suite)
+        XCTAssertEqual(model.counterCount, 1)
+        XCTAssertNil(model.activeCounter.soundOverride)
+    }
+
+    // Feedback fired on increment resolves through the active counter's override:
+    // its pinned sound/haptic win over the app defaults handed in by the closure.
+    func testIncrementUsesActiveCounterEffectiveFeedback() {
+        let spy = FeedbackSpy()
+        let model = spiedModel([
+            Counter(id: 1, name: "A", count: 0, colorKey: "lime", order: 0, soundOverride: .off, hapticOverride: .heavy),
+            Counter(id: 2, name: "B", count: 0, colorKey: "coffee", order: 1),
+        ], spy: spy)
+        // Mirror ContentView: app defaults are (sound .ding, haptic .off), resolved
+        // through whichever counter is active at emit time.
+        model.effectiveFeedback = {
+            let c = model.activeCounter
+            return (c.effectiveSound(default: .ding), c.effectiveHaptic(default: .off))
+        }
+        // Counter A overrides: sound .off (silenced) and haptic .heavy (pinned).
+        model.increment()
+        XCTAssertEqual(spy.calls.last?.sound, .off)
+        XCTAssertEqual(spy.calls.last?.haptic, .heavy)
+        // Counter B follows the defaults.
+        model.select(id: 2)
+        model.increment()
+        XCTAssertEqual(spy.calls.last?.sound, .ding)
+        XCTAssertEqual(spy.calls.last?.haptic, .off)
+    }
+
+    // A per-counter handedness override drives the effective layout the bottom bar
+    // reads, independent of the app default.
+    func testHandednessOverrideResolvesPerCounter() {
+        let leftPinned = Counter(id: 1, name: "A", count: 0, colorKey: "lime", order: 0, handednessOverride: true)
+        let follower = Counter(id: 2, name: "B", count: 0, colorKey: "coffee", order: 1)
+        // App default right-handed (false): the pinned counter still reads left.
+        XCTAssertTrue(leftPinned.effectiveLeftHanded(default: false))
+        XCTAssertFalse(follower.effectiveLeftHanded(default: false))
+    }
 }

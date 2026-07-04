@@ -1,0 +1,23 @@
+{
+  "name": "Counter - Left override active counter",
+  "id": "baab94ad-99c9-4660-a3b9-2c3d2001aabb",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "settingsOpen": false,
+      "deletedDefaultIds": "[]",
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 42, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0, \"handednessOverride\": true}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
+      "leftHanded": false,
+      "selectedCounterId": 1
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

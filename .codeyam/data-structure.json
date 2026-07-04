@@ -11,7 +11,10 @@
       { "name": "colorKey", "type": "string", "required": true },
       { "name": "allowNegative", "type": "boolean", "required": true },
       { "name": "step", "type": "number", "required": true, "description": "How much each increment/subtract changes the count (the 'count by' amount). Defaults to 1; legacy persisted counters without this field decode as 1." },
-      { "name": "order", "type": "number", "required": true }
+      { "name": "order", "type": "number", "required": true },
+      { "name": "handednessOverride", "type": "boolean", "required": false, "description": "Per-counter override of the app-wide handedness default. null = follow AppSettings.leftHanded; true = force left-handed layout while active; false = force right-handed. Legacy counters without this field decode as null." },
+      { "name": "soundOverride", "type": "string", "required": false, "description": "Per-counter override of the app-wide sound-on-change default, stored as a SoundOption rawValue ('off'/'tock'/'pop'/'click'/'bloop'/'ding'). null = follow AppSettings.soundOption; a value pins that sound for this counter (including an explicit 'off'). Legacy/unrecognized values decode as null." },
+      { "name": "hapticOverride", "type": "string", "required": false, "description": "Per-counter override of the app-wide haptic-on-change default, stored as a HapticOption rawValue ('off'/'light'/'medium'/'heavy'). null = follow AppSettings.hapticOption; a value pins that haptic for this counter (including an explicit 'off'). Legacy/unrecognized values decode as null." }
     ]
   },
   {

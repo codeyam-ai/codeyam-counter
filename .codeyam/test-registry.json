@@ -59,7 +59,7 @@
       "file": "Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testBothOffFiresNothing",
-      "line": 41,
+      "line": 46,
       "registeredAt": "2026-07-04T11:09:15.689518+00:00",
       "runner": "tests"
     },
@@ -68,7 +68,7 @@
       "file": "Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testBothOptionsFireBoth",
-      "line": 33,
+      "line": 38,
       "registeredAt": "2026-07-04T11:09:15.477615+00:00",
       "runner": "tests"
     },
@@ -77,7 +77,7 @@
       "file": "Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testHapticOnlyFiresHapticWithIntensity",
-      "line": 17,
+      "line": 21,
       "registeredAt": "2026-07-04T11:09:15.046087+00:00",
       "runner": "tests"
     },
@@ -95,7 +95,7 @@
       "file": "Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testSoundOnlyFiresSoundWithChoice",
-      "line": 25,
+      "line": 30,
       "registeredAt": "2026-07-04T11:09:15.263879+00:00",
       "runner": "tests"
     },
@@ -148,12 +148,39 @@
       "runner": "tests"
     },
     {
+      "description": "With no override set every effective resolver returns the supplied app default unchanged.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testEffectiveResolversFollowDefaultWhenNil",
+      "line": 479,
+      "registeredAt": "2026-07-04T16:07:40.967372+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A set override pins its own value regardless of the app default, including an explicit off winning over a non-off default.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet",
+      "line": 489,
+      "registeredAt": "2026-07-04T16:07:41.344837+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "Fresh model with no seed falls back to four starter counters at zero with the first selected",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
       "line": 35,
       "registeredAt": "2026-06-28T12:56:28.559076+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A per-counter handedness override drives the effective bottom-bar layout independent of the app default.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter",
+      "line": 587,
+      "registeredAt": "2026-07-04T16:07:41.605697+00:00",
       "runner": "tests"
     },
     {
@@ -193,12 +220,30 @@
       "runner": "tests"
     },
     {
+      "description": "Feedback fired on increment resolves through the active counters override, its pinned sound and haptic winning over the app defaults.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback",
+      "line": 562,
+      "registeredAt": "2026-07-04T16:07:41.873484+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "Counters persisted before the step field existed decode with step defaulting to 1.",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne",
       "line": 129,
       "registeredAt": "2026-06-28T17:03:24.644598+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Legacy persisted counters written before the override fields decode with all three overrides nil.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testLegacyCountersDecodeWithNilOverrides",
+      "line": 539,
+      "registeredAt": "2026-07-04T16:07:42.146558+00:00",
       "runner": "tests"
     },
     {
@@ -222,6 +267,15 @@
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testNamingBlankSlotRevivesIt",
       "registeredAt": "2026-07-01T13:52:49Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A nil-override counter tracks a changed app default while an overriding counter stays pinned.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testOverrideTracksOrPinsAgainstChangingDefault",
+      "line": 526,
+      "registeredAt": "2026-07-04T16:07:42.410664+00:00",
       "runner": "tests"
     },
     {
@@ -385,6 +439,15 @@
       "runner": "tests"
     },
     {
+      "description": "An unrecognized override rawValue in seeded JSON decodes to nil rather than crashing the whole load.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil",
+      "line": 551,
+      "registeredAt": "2026-07-04T16:07:42.681056+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "A step value below 1 is clamped up to 1.",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
@@ -394,12 +457,30 @@
       "runner": "tests"
     },
     {
+      "description": "Saving with nil overrides clears any previously pinned override values.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil",
+      "line": 515,
+      "registeredAt": "2026-07-04T16:07:42.951657+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "updateActiveCounter applies every edited field and persists across a reload.",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
       "line": 142,
       "registeredAt": "2026-06-28T17:03:24.876521+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "updateActiveCounter persists all three overrides across a reload with enum overrides surviving as their rawValue.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides",
+      "line": 499,
+      "registeredAt": "2026-07-04T16:07:43.238399+00:00",
       "runner": "tests"
     },
     {

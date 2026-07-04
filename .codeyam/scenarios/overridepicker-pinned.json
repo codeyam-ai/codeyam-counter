@@ -1,0 +1,16 @@
+{
+  "name": "OverridePicker - Pinned",
+  "id": "d6736e82-ccdd-415c-94c9-8d1f0032953b",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "OverridePicker",
+      "CODEYAM_ISOLATE_SCENARIO": "Pinned"
+    }
+  },
+  "componentName": "OverridePicker",
+  "scenarioType": "component"
+}

@@ -37,7 +37,7 @@ public struct ContentView: View {
                     switcherCard
                     CountHero(count: model.activeCounter.count)
                     CounterBottomBar(
-                        leftHanded: settings.defaultLeftHanded,
+                        leftHanded: model.activeCounter.effectiveLeftHanded(default: settings.defaultLeftHanded),
                         screenHeight: geo.size.height,
                         screenWidth: geo.size.width,
                         resetIsUndo: model.canUndoReset,
@@ -57,9 +57,12 @@ public struct ContentView: View {
                         switcherCard.hidden().allowsHitTesting(false)
                         CounterSettingsPanel(
                             counter: model.activeCounter,
-                            onSave: { name, colorKey, allowNegative, step in
+                            onSave: { name, colorKey, allowNegative, step, handedness, sound, haptic in
                                 model.updateActiveCounter(name: name, colorKey: colorKey,
-                                                          allowNegative: allowNegative, step: step)
+                                                          allowNegative: allowNegative, step: step,
+                                                          handednessOverride: handedness,
+                                                          soundOverride: sound,
+                                                          hapticOverride: haptic)
                             },
                             onDelete: { withAnimation { model.deleteCounter(id: model.activeCounter.id) } },
                             onClose: { withAnimation { showSettings = false } }
@@ -113,10 +116,14 @@ public struct ContentView: View {
         }
         .preferredColorScheme(.dark)
         .onAppear {
-            // Resolve the effective feedback flags from the shared settings at
-            // each change. A later plan swaps this closure for per-counter
-            // resolution without touching the model.
-            model.effectiveFeedback = { (settings.soundOption, settings.hapticOption) }
+            // Resolve the effective feedback through the active counter: its
+            // per-counter override wins, otherwise the shared app default. Read
+            // at emit time so switching counters re-resolves without re-wiring.
+            model.effectiveFeedback = {
+                let c = model.activeCounter
+                return (c.effectiveSound(default: settings.soundOption),
+                        c.effectiveHaptic(default: settings.hapticOption))
+            }
         }
         .gesture(
             DragGesture(minimumDistance: 30)

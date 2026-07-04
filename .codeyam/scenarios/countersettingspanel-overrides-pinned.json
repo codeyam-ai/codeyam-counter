@@ -1,6 +1,6 @@
 {
-  "name": "CounterSettingsPanel - Default",
-  "id": "da4e4b3e-1dc6-408b-aa44-14eecd8ebd73",
+  "name": "CounterSettingsPanel - Overrides pinned",
+  "id": "ecdae843-6db7-4cf3-a184-ccd928fda4d4",
   "dimensions": [
     "iPhone 16"
   ],
@@ -8,7 +8,7 @@
   "deviceState": {
     "launchEnv": {
       "CODEYAM_ISOLATE_COMPONENT": "CounterSettingsPanel",
-      "CODEYAM_ISOLATE_SCENARIO": "Default"
+      "CODEYAM_ISOLATE_SCENARIO": "overrides-pinned"
     }
   },
   "componentName": "CounterSettingsPanel",

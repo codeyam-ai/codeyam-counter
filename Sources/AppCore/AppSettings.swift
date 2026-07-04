@@ -3,7 +3,7 @@ import Combine
 
 /// The sound played on a count change. `off` is silent; the rest map to distinct
 /// iOS system sounds (resolved in `SystemCounterFeedback`).
-public enum SoundOption: String, CaseIterable {
+public enum SoundOption: String, CaseIterable, Codable {
     case off, tock, pop, click, bloop, ding
 
     /// Uppercased label for the settings picker.
@@ -12,7 +12,7 @@ public enum SoundOption: String, CaseIterable {
 
 /// The haptic fired on a count change. `off` is silent; the rest map to
 /// `UIImpactFeedbackGenerator` intensities (resolved in `SystemCounterFeedback`).
-public enum HapticOption: String, CaseIterable {
+public enum HapticOption: String, CaseIterable, Codable {
     case off, light, medium, heavy
 
     public var label: String { rawValue.uppercased() }

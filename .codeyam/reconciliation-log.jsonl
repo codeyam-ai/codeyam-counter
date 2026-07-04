@@ -35,3 +35,12 @@
 {"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testSubtractFiresFeedback`: added from runner `tests` output"}
 {"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.AppSettingsTests › testReadsSeededBoolPreferences`: added from runner `tests` output"}
 {"timestamp":"2026-07-04T11:05:58Z","kind":"registry-add","message":"registry `AppCoreTests.AppSettingsTests › testTogglesAreIndependent`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testOverrideTracksOrPinsAgainstChangingDefault`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testLegacyCountersDecodeWithNilOverrides`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testEffectiveResolversFollowDefaultWhenNil`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil`: added from runner `tests` output"}
+{"timestamp":"2026-07-04T15:30:38Z","kind":"registry-add","message":"registry `AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil`: added from runner `tests` output"}

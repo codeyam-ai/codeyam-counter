@@ -1,6 +1,6 @@
 {
-  "feature": "app-settings-and-feedback",
-  "maxStep": 28,
-  "version": 769,
-  "updatedAt": "2026-07-04T14:39:36.037402+00:00"
+  "feature": "per-counter-overrides",
+  "maxStep": 26,
+  "version": 184,
+  "updatedAt": "2026-07-04T16:12:50.793146+00:00"
 }

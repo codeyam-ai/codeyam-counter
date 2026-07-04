@@ -1,10 +1,20 @@
 {
   "AppCoreTests.AppSettingsTests › testDefaultsAreRightHandedAndSilent": {
     "file": "Tests/AppCoreTests/AppSettingsTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -14,10 +24,20 @@
   },
   "AppCoreTests.AppSettingsTests › testOptionCasesCoverTheChoiceSets": {
     "file": "Tests/AppCoreTests/AppSettingsTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -37,10 +57,20 @@
   },
   "AppCoreTests.AppSettingsTests › testOptionsAreIndependent": {
     "file": "Tests/AppCoreTests/AppSettingsTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -50,10 +80,20 @@
   },
   "AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload": {
     "file": "Tests/AppCoreTests/AppSettingsTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -63,10 +103,20 @@
   },
   "AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences": {
     "file": "Tests/AppCoreTests/AppSettingsTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -76,10 +126,20 @@
   },
   "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToOff": {
     "file": "Tests/AppCoreTests/AppSettingsTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -99,10 +159,20 @@
   },
   "AppCoreTests.FeedbackTests › testBothOffFiresNothing": {
     "file": "Tests/AppCoreTests/FeedbackTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -122,10 +192,20 @@
   },
   "AppCoreTests.FeedbackTests › testBothOptionsFireBoth": {
     "file": "Tests/AppCoreTests/FeedbackTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -145,10 +225,20 @@
   },
   "AppCoreTests.FeedbackTests › testHapticOnlyFiresHapticWithIntensity": {
     "file": "Tests/AppCoreTests/FeedbackTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -168,10 +258,20 @@
   },
   "AppCoreTests.FeedbackTests › testNoopFeedbackDoesNothing": {
     "file": "Tests/AppCoreTests/FeedbackTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -196,10 +296,20 @@
   },
   "AppCoreTests.FeedbackTests › testSoundOnlyFiresSoundWithChoice": {
     "file": "Tests/AppCoreTests/FeedbackTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -219,10 +329,20 @@
   },
   "AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving": {
     "file": "",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -262,20 +382,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
       }
     ]
   },
   "AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -285,10 +410,20 @@
   },
   "AppCoreTests.ModelTests › testDeleteBlanksInPlace": {
     "file": "",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -327,21 +462,26 @@
       {
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
         "kind": "full"
       }
     ]
   },
   "AppCoreTests.ModelTests › testDeleteLastCounterBlanksInPlaceAndKeepsSelection": {
     "file": "",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -380,21 +520,26 @@
       {
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
         "kind": "full"
       }
     ]
   },
   "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -434,25 +579,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -492,25 +637,51 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testEffectiveResolversFollowDefaultWhenNil": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
+        "at": "2026-07-04T16:11:10.793054+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
       }
     ]
   },
   "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -550,25 +721,38 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
+        "at": "2026-07-04T16:11:10.793054+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testIncrementClearsPendingUndo": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -608,25 +792,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithResolvedOptions": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -636,10 +820,20 @@
   },
   "AppCoreTests.ModelTests › testIncrementHonorsStep": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -679,25 +873,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -737,25 +931,38 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
+        "at": "2026-07-04T16:11:10.793054+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -795,25 +1002,38 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testLegacyCountersDecodeWithNilOverrides": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
+        "at": "2026-07-04T16:11:10.793054+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -853,25 +1073,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testMigrationFoldsDeletedDefaultsIntoBlankSlots": {
     "file": "",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -910,21 +1130,26 @@
       {
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
         "kind": "full"
       }
     ]
   },
   "AppCoreTests.ModelTests › testNamingBlankSlotRevivesIt": {
     "file": "",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -964,20 +1189,38 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testOverrideTracksOrPinsAgainstChangingDefault": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
+        "at": "2026-07-04T16:11:10.793054+00:00",
         "kind": "full"
       }
     ]
   },
   "AppCoreTests.ModelTests › testResetAndUndoResetStaySilent": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -987,10 +1230,20 @@
   },
   "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1030,25 +1283,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1088,25 +1341,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testResetZeroesActiveCounter": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1146,25 +1399,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1204,25 +1457,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1262,25 +1515,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1320,25 +1573,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSeededSubsetHasNoBlankSlots": {
     "file": "",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1377,21 +1630,26 @@
       {
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
         "kind": "full"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSelectNextWrapsAround": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1431,25 +1689,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1489,25 +1747,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1547,25 +1805,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSubtractClearsPendingUndo": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1605,25 +1863,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSubtractFiresFeedback": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1633,10 +1891,20 @@
   },
   "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1676,25 +1944,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSubtractHonorsStep": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1734,25 +2002,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1762,10 +2030,20 @@
   },
   "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1805,25 +2083,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1863,25 +2141,38 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
+        "at": "2026-07-04T16:11:10.793054+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1921,25 +2212,38 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
+        "at": "2026-07-04T16:11:10.793054+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists": {
     "file": "Tests/AppCoreTests/ModelTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -1979,25 +2283,38 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
+      }
+    ]
+  },
+  "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides": {
+    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
+    "lastStatus": "pass",
+    "lastRunKind": "full",
+    "recentStatuses": [
       {
         "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
+        "at": "2026-07-04T16:11:10.793054+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ThemeTests › testDotHexFallsBackToLimeForUnknownKey": {
     "file": "Tests/AppCoreTests/ThemeTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -2037,25 +2354,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys": {
     "file": "Tests/AppCoreTests/ThemeTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -2095,25 +2412,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ThemeTests › testIsCaseInsensitive": {
     "file": "Tests/AppCoreTests/ThemeTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -2153,25 +2470,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ThemeTests › testIsolatesIndividualChannels": {
     "file": "Tests/AppCoreTests/ThemeTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -2211,25 +2528,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ThemeTests › testParsesAccentLime": {
     "file": "Tests/AppCoreTests/ThemeTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -2269,25 +2586,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ThemeTests › testParsesBlackAndWhite": {
     "file": "Tests/AppCoreTests/ThemeTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -2327,25 +2644,25 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   },
   "AppCoreTests.ThemeTests › testToleratesLeadingHash": {
     "file": "Tests/AppCoreTests/ThemeTests.swift",
-    "lastRunAt": "2026-07-04T12:58:43.131941+00:00",
+    "lastRunAt": "2026-07-04T16:11:10.793054+00:00",
     "lastStatus": "pass",
     "lastRunKind": "full",
     "recentStatuses": [
+      {
+        "status": "pass",
+        "at": "2026-07-04T16:11:10.793054+00:00",
+        "kind": "full"
+      },
+      {
+        "status": "pass",
+        "at": "2026-07-04T15:30:18.661110+00:00",
+        "kind": "changed"
+      },
       {
         "status": "pass",
         "at": "2026-07-04T12:58:43.131941+00:00",
@@ -2385,16 +2702,6 @@
         "status": "pass",
         "at": "2026-07-01T14:43:09.658632+00:00",
         "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:54:41.317660+00:00",
-        "kind": "full"
-      },
-      {
-        "status": "pass",
-        "at": "2026-07-01T13:52:37.256235+00:00",
-        "kind": "changed"
       }
     ]
   }

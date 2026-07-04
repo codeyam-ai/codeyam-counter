@@ -1,0 +1,33 @@
+{
+  "completedAt": "2026-07-04T16:09:31Z",
+  "createdAt": "2026-07-02T12:29:00Z",
+  "deliverables": [
+    ".claude/skills/codeyam-plan/SKILL.md",
+    ".gitignore",
+    "README.md",
+    "Sources/AppCore/AppSettings.swift",
+    "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+    "Sources/AppCore/CodeyamIsolated/CounterListPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/OverridePickerIsolated.swift",
+    "Sources/AppCore/ContentView.swift",
+    "Sources/AppCore/Feedback.swift",
+    "Sources/AppCore/Model.swift",
+    "Sources/AppCore/Views/AppSettingsPanel.swift",
+    "Sources/AppCore/Views/CounterListPanel.swift",
+    "Sources/AppCore/Views/CounterSettingsPanel.swift",
+    "Sources/AppCore/Views/HeaderBar.swift",
+    "Sources/AppCore/Views/OverridePicker.swift",
+    "Tests/AppCoreTests/AppSettingsTests.swift",
+    "Tests/AppCoreTests/FeedbackTests.swift",
+    "Tests/AppCoreTests/ModelTests.swift",
+    "ui/src/helpers/stepLabels.generated.ts"
+  ],
+  "journalTimestamp": "2026-07-04T16:09:31Z",
+  "mode": "ui",
+  "planFile": "completed/per-counter-overrides.md",
+  "slug": "per-counter-overrides",
+  "title": "Per-Counter Handedness & Feedback Overrides"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "OverridePicker - Default",
+  "id": "c3abf20d-cfe7-4724-9c91-00cafd689604",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "OverridePicker"
+    }
+  },
+  "componentName": "OverridePicker",
+  "scenarioType": "component"
+}

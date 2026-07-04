@@ -6,7 +6,7 @@ import SwiftUI
 /// "DONE" saves.
 public struct CounterSettingsPanel: View {
     let counter: Counter
-    let onSave: (String, String, Bool, Int) -> Void
+    let onSave: (String, String, Bool, Int, Bool?, SoundOption?, HapticOption?) -> Void
     let onDelete: () -> Void
     let onClose: () -> Void
 
@@ -14,13 +14,18 @@ public struct CounterSettingsPanel: View {
     @State private var colorKey: String
     @State private var allowNegative: Bool
     @State private var step: Int
+    /// The three per-counter overrides, each `nil` while the counter follows the
+    /// app default. Seeded from the counter and passed back on DONE.
+    @State private var handednessOverride: Bool?
+    @State private var soundOverride: SoundOption?
+    @State private var hapticOverride: HapticOption?
     /// Two-tap delete guard: the first tap arms the button, a second tap within
     /// ~3s deletes; it auto-disarms so an accidental single tap never wipes a
     /// counter.
     @State private var confirmingDelete = false
 
     public init(counter: Counter,
-                onSave: @escaping (String, String, Bool, Int) -> Void,
+                onSave: @escaping (String, String, Bool, Int, Bool?, SoundOption?, HapticOption?) -> Void,
                 onDelete: @escaping () -> Void,
                 onClose: @escaping () -> Void) {
         self.counter = counter
@@ -36,6 +41,9 @@ public struct CounterSettingsPanel: View {
             : counter.colorKey)
         _allowNegative = State(initialValue: counter.allowNegative)
         _step = State(initialValue: counter.step)
+        _handednessOverride = State(initialValue: counter.handednessOverride)
+        _soundOverride = State(initialValue: counter.soundOverride)
+        _hapticOverride = State(initialValue: counter.hapticOverride)
     }
 
     public var body: some View {
@@ -67,6 +75,27 @@ public struct CounterSettingsPanel: View {
             }
             .tint(CounterTheme.accent)
             .accessibilityIdentifier("settings-allow-negative")
+
+            SettingsField("HANDEDNESS") {
+                OverridePicker(options: [true, false],
+                               selection: $handednessOverride,
+                               idPrefix: "settings-handedness",
+                               optionLabel: { $0 ? "LEFT" : "RIGHT" })
+            }
+
+            SettingsField("SOUND") {
+                OverridePicker(options: SoundOption.allCases,
+                               selection: $soundOverride,
+                               idPrefix: "settings-sound",
+                               optionLabel: { $0.label })
+            }
+
+            SettingsField("HAPTIC") {
+                OverridePicker(options: HapticOption.allCases,
+                               selection: $hapticOverride,
+                               idPrefix: "settings-haptic",
+                               optionLabel: { $0.label })
+            }
 
             deleteButton
         }
@@ -116,7 +145,11 @@ public struct CounterSettingsPanel: View {
                 .tracking(1.4)
                 .foregroundColor(CounterTheme.inkMuted)
             Spacer()
-            Button(action: { onSave(name, colorKey, allowNegative, step); onClose() }) {
+            Button(action: {
+                onSave(name, colorKey, allowNegative, step,
+                       handednessOverride, soundOverride, hapticOverride)
+                onClose()
+            }) {
                 Text("DONE")
                     .font(.system(size: 12, weight: .heavy, design: .monospaced))
                     .tracking(1)

@@ -54,6 +54,13 @@
     ]
   },
   {
+    "conformsToView": false,
+    "description": "A single named tally (id, name, count, colorKey, allowNegative, step, order) plus three optional per-counter overrides of the app-wide defaults: handednessOverride (Bool?), soundOverride (SoundOption?), and hapticOverride (HapticOption?). A nil override follows AppSettings; a set value pins it. Carries the effectiveLeftHanded/effectiveSound/effectiveHaptic resolvers that return the override when present else the supplied app default, and decodes legacy or unrecognized override values as nil so older persisted counters load unchanged.",
+    "filePath": "Sources/AppCore/Model.swift",
+    "name": "Counter",
+    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+  },
+  {
     "conformsToView": true,
     "description": "The whole bottom assembly: increment bar starting one-fifth up from the bottom and extending into the lower control row, computing the equal-quarter column width.",
     "filePath": "Sources/AppCore/Views/CounterBottomBar.swift",
@@ -102,18 +109,19 @@
     ]
   },
   {
-    "description": "Observable store backing the counter screen. Loads seeded or default counters and the selected id from UserDefaults at launch, tracks the active selection, and applies increment, subtract with optional clamping when negatives are disallowed, reset, and wrap-around swipe selection, persisting every change back to UserDefaults.",
+    "description": "Observable store backing the counter screen. Loads seeded or default counters and the selected id from UserDefaults at launch, tracks the active selection, and applies increment, subtract with optional clamping when negatives are disallowed, reset, and wrap-around swipe selection, persisting every change back to UserDefaults. On each count change it emits feedback resolved through the active counters effective sound/haptic overrides via the effectiveFeedback closure, and updateActiveCounter round-trips the per-counter handedness/sound/haptic overrides.",
     "filePath": "Sources/AppCore/Model.swift",
     "name": "CounterModel",
     "testFile": "Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "conformsToView": true,
-    "description": "Inline settings panel that expands over the count numeral. Composes the labeled name field, color picker, step stepper, an allow-negative toggle, and a destructive Delete; local state holds in-progress edits and DONE saves them back to the active counter.",
+    "description": "Inline settings panel that expands over the count numeral. Composes the labeled name field, color picker, step stepper, an allow-negative toggle, three per-counter override rows (HANDEDNESS, SOUND, HAPTIC via OverridePicker) that pin or defer to the app-wide settings, and a destructive Delete; local state holds in-progress edits and DONE saves them back to the active counter.",
     "filePath": "Sources/AppCore/Views/CounterSettingsPanel.swift",
     "name": "CounterSettingsPanel",
     "scenarios": [
-      "countersettingspanel-default"
+      "countersettingspanel-default",
+      "countersettingspanel-overrides-pinned"
     ]
   },
   {
@@ -174,6 +182,16 @@
     "filePath": "Sources/AppCore/Feedback.swift",
     "name": "NoopCounterFeedback",
     "testFile": "Tests/AppCoreTests/FeedbackTests.swift"
+  },
+  {
+    "conformsToView": true,
+    "description": "Reusable default-or-value chooser for the per-counter settings panel: a leading DEFAULT chip meaning follow the app-wide setting, then one chip per concrete option, with the selected chip filled in the accent so a static capture shows the current choice. Generic over any Hashable option; the chip row scrolls horizontally for the wider SOUND and HAPTIC lists. Backs the panel's HANDEDNESS, SOUND, and HAPTIC override rows.",
+    "filePath": "Sources/AppCore/Views/OverridePicker.swift",
+    "name": "OverridePicker",
+    "scenarios": [
+      "overridepicker-default",
+      "overridepicker-pinned"
+    ]
   },
   {
     "description": "A labeled section in the settings panel: a small mono caption above its forwarded content, used by the name field and color picker for consistent headings.",
