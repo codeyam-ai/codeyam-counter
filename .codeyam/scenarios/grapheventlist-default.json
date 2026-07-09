@@ -1,0 +1,16 @@
+{
+  "name": "GraphEventList - Default",
+  "id": "beae4f6d-5e96-49e0-a648-e15bf055cb44",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "GraphEventList",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "GraphEventList",
+  "scenarioType": "component"
+}

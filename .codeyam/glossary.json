@@ -1,5 +1,14 @@
 [
   {
+    "conformsToView": true,
+    "description": "The switcher's trailing muted plus circle; tapping it appends a new blank counter, the tap equivalent of swiping past the last counter.",
+    "filePath": "Sources/AppCore/Views/AddCounterDot.swift",
+    "name": "AddCounterDot",
+    "scenarios": [
+      "addcounterdot-default"
+    ]
+  },
+  {
     "conformsToView": false,
     "description": "Observable store for system-wide app defaults (handedness, sound-on-change choice, haptic-on-change choice) persisted in UserDefaults. Handedness coerces via bool(forKey:); the SoundOption/HapticOption enums decode their rawValue from string(forKey:), each falling back to .off. The single default source per-counter overrides resolve against in later plans.",
     "filePath": "Sources/AppCore/AppSettings.swift",
@@ -199,6 +208,45 @@
     "scenarios": [
       "gearbutton-default"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The graph overlay's most-recent-first list of a run's events; each row shows a signed delta and the relative time since the run began, and it renders nothing when the run has no events.",
+    "filePath": "Sources/AppCore/Views/GraphEventList.swift",
+    "name": "GraphEventList",
+    "scenarios": [
+      "grapheventlist-default"
+    ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The graph overlay's header — a small GRAPH caption above the active counter's name.",
+    "filePath": "Sources/AppCore/Views/GraphHeader.swift",
+    "name": "GraphHeader",
+    "scenarios": [
+      "graphheader-default",
+      "graphheader-blank-name"
+    ]
+  },
+  {
+    "conformsToView": true,
+    "description": "Prev/next pager across a counter's stored runs, with a CURRENT / minus-N recency label between the arrows; drives the shared index binding and disables the arrow at each end.",
+    "filePath": "Sources/AppCore/Views/GraphHistorySelector.swift",
+    "name": "GraphHistorySelector",
+    "scenarios": [
+      "graphhistoryselector-current-run",
+      "graphhistoryselector-older-run"
+    ]
+  },
+  {
+    "conformsToView": true,
+    "description": "Structural container that anchors a floating panel below the screen's fixed top chrome: a hidden non-interactive header (and optional switcher) copy reserves exact-height space, the panel content is drawn beneath it, and a trailing spacer pushes everything to the top. No branching or data of its own; its visual output is entirely its children, exercised through ContentView's four overlay application scenarios.",
+    "filePath": "Sources/AppCore/Views/HeaderAnchoredOverlay.swift",
+    "name": "HeaderAnchoredOverlay",
+    "untestabilityReason": {
+      "justification": "Generic structural overlay scaffold (VStack of a hidden anchor spacer, arbitrary panel content, and a trailing Spacer) with no branching, data, or visual identity of its own; its appearance is entirely the child panel, covered by the settings/app-settings/counter-list/graph application scenarios.",
+      "kind": "trivial-wrapper"
+    }
   },
   {
     "conformsToView": true,

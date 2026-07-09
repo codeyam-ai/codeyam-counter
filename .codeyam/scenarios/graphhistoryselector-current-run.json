@@ -1,0 +1,16 @@
+{
+  "name": "GraphHistorySelector - Current run",
+  "id": "112ece06-8386-4d37-b9ab-767ad2fad06c",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "GraphHistorySelector",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "GraphHistorySelector",
+  "scenarioType": "component"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Counter - Added blank slot selected",
+  "id": "4d1ef893-1156-4dc6-9ae4-304eb5698b07",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 12, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 840, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 5, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}, {\"id\": 5, \"name\": \"\", \"count\": 0, \"colorKey\": \"\", \"allowNegative\": true, \"step\": 1, \"order\": 4}]",
+      "leftHanded": false,
+      "settingsOpen": false,
+      "selectedCounterId": 5
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

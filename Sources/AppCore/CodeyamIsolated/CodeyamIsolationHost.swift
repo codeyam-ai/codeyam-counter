@@ -15,6 +15,8 @@ public enum CodeyamIsolationHost {
         guard let component = env["CODEYAM_ISOLATE_COMPONENT"] else { return nil }
         let scenario = env["CODEYAM_ISOLATE_SCENARIO"] ?? "Default"
         switch component {
+        case "AddCounterDot":
+            return AnyView(AddCounterDotIsolated(scenario: scenario))
         case "AppSettingsPanel":
             return AnyView(AppSettingsPanelIsolated(scenario: scenario))
         case "BottomControlRow":
@@ -43,6 +45,12 @@ public enum CodeyamIsolationHost {
             return AnyView(CounterSwitcherCardIsolated(scenario: scenario))
         case "GearButton":
             return AnyView(GearButtonIsolated(scenario: scenario))
+        case "GraphEventList":
+            return AnyView(GraphEventListIsolated(scenario: scenario))
+        case "GraphHeader":
+            return AnyView(GraphHeaderIsolated(scenario: scenario))
+        case "GraphHistorySelector":
+            return AnyView(GraphHistorySelectorIsolated(scenario: scenario))
         case "HeaderBar":
             return AnyView(HeaderBarIsolated(scenario: scenario))
         case "IncrementBar":

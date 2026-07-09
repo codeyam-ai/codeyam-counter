@@ -45,10 +45,11 @@ public struct ContentView: View {
                         screenHeight: geo.size.height,
                         screenWidth: geo.size.width,
                         resetIsUndo: model.canUndoReset,
+                        graphOpen: showGraph,
                         onIncrement: { model.increment() },
                         onSubtract: { model.subtract() },
                         onReset: { withAnimation { model.canUndoReset ? model.undoReset() : model.reset() } },
-                        onGraph: { withAnimation { showGraph = true } }
+                        onGraph: { withAnimation { showGraph.toggle() } }
                     )
                 }
 
@@ -56,9 +57,10 @@ public struct ContentView: View {
                 // switcher (hidden, non-interactive header+card act as exact-height
                 // spacers), drawn on top so it overlays the count and increment bar.
                 if showSettings {
-                    VStack(spacing: 0) {
+                    HeaderAnchoredOverlay {
                         headerBar.hidden().allowsHitTesting(false)
                         switcherCard.hidden().allowsHitTesting(false)
+                    } content: {
                         CounterSettingsPanel(
                             counter: model.activeCounter,
                             onSave: { name, colorKey, allowNegative, step, handedness, sound, haptic in
@@ -72,33 +74,29 @@ public struct ContentView: View {
                             onClose: { withAnimation { showSettings = false } }
                         )
                         .id(model.activeCounter.id)
-                        Spacer(minLength: 0)
                     }
-                    .allowsHitTesting(true)
-                    .transition(.opacity)
                 }
 
                 // Floating App Settings panel: anchored under the header (hidden
                 // header acts as the exact-height spacer), drawn on top.
                 if showAppSettings {
-                    VStack(spacing: 0) {
+                    HeaderAnchoredOverlay {
                         headerBar.hidden().allowsHitTesting(false)
+                    } content: {
                         AppSettingsPanel(
                             settings: settings,
                             onOpenList: { withAnimation { showCounterList = true } },
                             onClose: { withAnimation { showAppSettings = false } }
                         )
-                        Spacer(minLength: 0)
                     }
-                    .allowsHitTesting(true)
-                    .transition(.opacity)
                 }
 
                 // All-counters list overlay: also anchored under the header. Drawn
                 // last so it sits above the App Settings panel that opened it.
                 if showCounterList {
-                    VStack(spacing: 0) {
+                    HeaderAnchoredOverlay {
                         headerBar.hidden().allowsHitTesting(false)
+                    } content: {
                         CounterListPanel(
                             counters: model.counters,
                             activeId: model.activeCounter.id,
@@ -111,10 +109,7 @@ public struct ContentView: View {
                             },
                             onClose: { withAnimation { showCounterList = false } }
                         )
-                        Spacer(minLength: 0)
                     }
-                    .allowsHitTesting(true)
-                    .transition(.opacity)
                 }
 
                 // Activity graph overlay: anchored under the header (hidden header
@@ -122,19 +117,16 @@ public struct ContentView: View {
                 // `.id` re-seeds the view's selected-history state when switching
                 // counters so it always opens on the new counter's current run.
                 if showGraph {
-                    VStack(spacing: 0) {
+                    HeaderAnchoredOverlay {
                         headerBar.hidden().allowsHitTesting(false)
+                    } content: {
                         CounterGraphView(
                             counterName: model.activeCounter.isBlank ? "—" : model.activeCounter.name,
                             colorKey: model.activeCounter.colorKey,
-                            histories: model.activeHistories,
-                            onClose: { withAnimation { showGraph = false } }
+                            histories: model.activeHistories
                         )
                         .id(model.activeCounter.id)
-                        Spacer(minLength: 0)
                     }
-                    .allowsHitTesting(true)
-                    .transition(.opacity)
                 }
             }
         }
@@ -171,6 +163,7 @@ public struct ContentView: View {
             activeId: model.activeCounter.id,
             activeName: model.activeCounter.name,
             onSelect: { id in withAnimation { model.select(id: id); showSettings = false } },
+            onAdd: { withAnimation { model.addCounter(); showSettings = false } },
             onGearTap: { withAnimation { showSettings.toggle() } }
         )
     }

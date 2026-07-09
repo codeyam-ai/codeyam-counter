@@ -250,16 +250,37 @@ public final class CounterModel: ObservableObject {
         select(index: idx)
     }
 
-    /// Advances to the next counter, wrapping around. Used by the swipe gesture.
+    /// Advances to the next counter. Swiping *past the last* counter grows the
+    /// list: instead of wrapping back to the first, it appends a fresh blank slot
+    /// and selects it, so the user can keep swiping forward to add more counters.
     public func selectNext() {
         guard !counters.isEmpty else { return }
-        select(index: (selectedIndex + 1) % counters.count)
+        if selectedIndex >= counters.count - 1 {
+            addCounter()
+        } else {
+            select(index: selectedIndex + 1)
+        }
     }
 
     /// Moves to the previous counter, wrapping around. Used by the swipe gesture.
     public func selectPrevious() {
         guard !counters.isEmpty else { return }
         select(index: (selectedIndex - 1 + counters.count) % counters.count)
+    }
+
+    /// Appends a fresh blank counter to the end of the list and selects it. Backs
+    /// the "swipe past the last counter to add another" gesture. The new slot is a
+    /// blank (unnamed "—", neutral color) — the user names it in settings or
+    /// increments it to bring it to life, exactly like a revived deleted slot.
+    public func addCounter() {
+        resetUndo = nil
+        let nextId = (counters.map(\.id).max() ?? 0) + 1
+        let nextOrder = (counters.map(\.order).max() ?? -1) + 1
+        counters.append(Counter(id: nextId, name: "", count: 0,
+                                 colorKey: Counter.blankColorKey, order: nextOrder))
+        selectedIndex = counters.count - 1
+        persistCounters()
+        persistSelection()
     }
 
     // MARK: - Mutations (act on the active counter)

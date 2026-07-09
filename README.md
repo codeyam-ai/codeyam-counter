@@ -68,6 +68,10 @@ States captured as runnable scenarios with codeyam-editor:
 
 <img src=".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png" alt="Counter - Active count" width="280">
 
+### Counter - Added blank slot selected
+
+<img src=".codeyam/scenarios/screenshots/counter-added-blank-slot-selected--iphone-16.png" alt="Counter - Added blank slot selected" width="280">
+
 ### Counter - All but one deleted
 
 <img src=".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png" alt="Counter - All but one deleted" width="280">
@@ -91,8 +95,4 @@ States captured as runnable scenarios with codeyam-editor:
 ### Counter - Blank slot incremented
 
 <img src=".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png" alt="Counter - Blank slot incremented" width="280">
-
-### Counter - Deleted default ghost slot
-
-<img src=".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png" alt="Counter - Deleted default ghost slot" width="280">
 <!-- codeyam:scenario-gallery:end -->

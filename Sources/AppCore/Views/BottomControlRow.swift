@@ -12,6 +12,10 @@ public struct BottomControlRow: View {
     /// is pending on the active counter). The slot keeps its `"reset"` accessibility
     /// identifier in both modes; `onReset` dispatches by mode upstream.
     let resetIsUndo: Bool
+    /// When true the graph overlay is currently open, so the GRAPH slot renders as
+    /// a CLOSE affordance (reclicking it dismisses the graph). The slot keeps its
+    /// `"graph"` accessibility identifier in both modes; `onGraph` toggles upstream.
+    let graphOpen: Bool
     let onSubtract: () -> Void
     let onReset: () -> Void
     let onGraph: () -> Void
@@ -20,6 +24,7 @@ public struct BottomControlRow: View {
     public init(leftHanded: Bool,
                 continuationWidth: CGFloat,
                 resetIsUndo: Bool,
+                graphOpen: Bool,
                 onSubtract: @escaping () -> Void,
                 onReset: @escaping () -> Void,
                 onGraph: @escaping () -> Void,
@@ -27,6 +32,7 @@ public struct BottomControlRow: View {
         self.leftHanded = leftHanded
         self.continuationWidth = continuationWidth
         self.resetIsUndo = resetIsUndo
+        self.graphOpen = graphOpen
         self.onSubtract = onSubtract
         self.onReset = onReset
         self.onGraph = onGraph
@@ -50,7 +56,9 @@ public struct BottomControlRow: View {
         let reset = ControlButton(glyph: resetIsUndo ? "↶" : "↺",
                                   label: resetIsUndo ? "UNDO RESET" : "RESET",
                                   identifier: "reset", action: onReset)
-        let graph = ControlButton(systemImage: "chart.xyaxis.line", label: "GRAPH", identifier: "graph", action: onGraph)
+        let graph = ControlButton(systemImage: graphOpen ? "xmark" : "chart.xyaxis.line",
+                                  label: graphOpen ? "CLOSE" : "GRAPH",
+                                  identifier: "graph", action: onGraph)
         return HStack(spacing: 0) {
             if leftHanded {
                 graph

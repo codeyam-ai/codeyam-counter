@@ -80,15 +80,107 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(model.activeCounter.count, 0)
     }
 
-    // Swiping forward advances selection and wraps past the last counter back to
-    // the first.
-    func testSelectNextWrapsAround() {
+    // MARK: - Selection & growth
+
+    // Swiping forward within the list advances selection by one and does not grow
+    // the list.
+    func testSelectNextAdvancesWithinList() {
         let model = makeModel()
+        XCTAssertEqual(model.counterCount, 4)
         model.selectNext()
         XCTAssertEqual(model.selectedIndex, 1)
-        model.select(index: model.counterCount - 1)
+        XCTAssertEqual(model.counterCount, 4, "advancing within the list must not add a counter")
+    }
+
+    // Swiping forward PAST the last counter grows the list: it appends a fresh
+    // blank slot and selects it instead of wrapping back to the first.
+    func testSelectNextPastLastAppendsBlankAndSelectsIt() {
+        let model = makeModel()
+        model.select(index: model.counterCount - 1) // on the last counter
         model.selectNext()
+        XCTAssertEqual(model.counterCount, 5, "swiping past the end appends a new slot")
+        XCTAssertEqual(model.selectedIndex, 4, "the new blank slot becomes active")
+        XCTAssertTrue(model.activeCounter.isBlank)
+        XCTAssertEqual(model.activeCounter.count, 0)
+    }
+
+    // selectPrevious still wraps around from the first counter to the last, and
+    // never grows the list.
+    func testSelectPreviousWrapsFromFirstToLast() {
+        let model = makeModel()
         XCTAssertEqual(model.selectedIndex, 0)
+        model.selectPrevious()
+        XCTAssertEqual(model.selectedIndex, model.counterCount - 1)
+        XCTAssertEqual(model.counterCount, 4, "wrapping backward must not add a counter")
+    }
+
+    // selectPrevious within the list moves back by one.
+    func testSelectPreviousMovesBackWithinList() {
+        let model = makeModel()
+        model.select(index: 2)
+        model.selectPrevious()
+        XCTAssertEqual(model.selectedIndex, 1)
+    }
+
+    // addCounter appends a blank slot (empty name, blank color, count 0) and
+    // selects it, so a freshly added counter is immediately active and revivable.
+    func testAddCounterAppendsBlankAndSelectsIt() {
+        let model = makeModel()
+        model.addCounter()
+        XCTAssertEqual(model.counterCount, 5)
+        XCTAssertEqual(model.selectedIndex, 4)
+        XCTAssertTrue(model.activeCounter.isBlank)
+        XCTAssertEqual(model.activeCounter.name, "")
+        XCTAssertEqual(model.activeCounter.colorKey, Counter.blankColorKey)
+        XCTAssertEqual(model.activeCounter.count, 0)
+    }
+
+    // addCounter assigns an id one past the current max and an order one past the
+    // current max, so the new slot is unique and sorts to the end.
+    func testAddCounterAssignsNextIdAndOrder() {
+        let model = seededModel([
+            Counter(id: 3, name: "A", count: 0, colorKey: "lime", order: 5),
+            Counter(id: 7, name: "B", count: 0, colorKey: "coffee", order: 9),
+        ])
+        model.addCounter()
+        XCTAssertEqual(model.activeCounter.id, 8, "id is max(id)+1")
+        XCTAssertEqual(model.activeCounter.order, 10, "order is max(order)+1")
+    }
+
+    // addCounter persists both the grown counters list and the new selection, so a
+    // reload from the same suite sees the added slot selected.
+    func testAddCounterPersists() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let model = CounterModel(defaults: suite)
+        model.addCounter()
+        let addedId = model.activeCounter.id
+        let reloaded = CounterModel(defaults: suite)
+        XCTAssertEqual(reloaded.counterCount, 5)
+        XCTAssertEqual(reloaded.activeCounter.id, addedId)
+        XCTAssertTrue(reloaded.activeCounter.isBlank)
+    }
+
+    // No guard against consecutive empties: every add stacks another blank slot,
+    // each with its own unique id (the confirmed product decision).
+    func testAddCounterAllowsConsecutiveBlankSlots() {
+        let model = makeModel()
+        model.addCounter()
+        model.addCounter()
+        XCTAssertEqual(model.counterCount, 6)
+        let blankIds = model.counters.filter { $0.isBlank }.map(\.id)
+        XCTAssertEqual(blankIds.count, 2)
+        XCTAssertEqual(Set(blankIds).count, 2, "each added blank has a distinct id")
+    }
+
+    // Adding a counter is a fresh start, so it clears any pending reset-undo.
+    func testAddCounterClearsPendingUndo() {
+        let model = makeModel()
+        model.increment()
+        model.reset()
+        XCTAssertTrue(model.canUndoReset)
+        model.addCounter()
+        XCTAssertFalse(model.canUndoReset)
+        XCTAssertNil(model.resetUndo)
     }
 
     // MARK: - Step ("count by")

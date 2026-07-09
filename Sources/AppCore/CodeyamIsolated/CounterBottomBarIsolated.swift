@@ -16,6 +16,7 @@ struct CounterBottomBarIsolated: View {
 
     @ViewBuilder private var content: some View {
         CounterBottomBar(leftHanded: false, screenHeight: 852, screenWidth: 393, resetIsUndo: false,
+                         graphOpen: false,
                          onIncrement: {}, onSubtract: {}, onReset: {}, onGraph: {})
     }
 }

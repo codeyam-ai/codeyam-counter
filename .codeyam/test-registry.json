@@ -100,6 +100,51 @@
       "runner": "tests"
     },
     {
+      "description": "Consecutive addCounter calls stack multiple blank slots each with a distinct id",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testAddCounterAllowsConsecutiveBlankSlots",
+      "line": 165,
+      "registeredAt": "2026-07-09T22:29:02.900968+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "addCounter appends a blank slot with empty name blank color and count zero and selects it",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testAddCounterAppendsBlankAndSelectsIt",
+      "line": 127,
+      "registeredAt": "2026-07-09T22:29:02.453734+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "addCounter assigns an id and order one past the current maximums",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testAddCounterAssignsNextIdAndOrder",
+      "line": 140,
+      "registeredAt": "2026-07-09T22:29:02.601940+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Adding a counter clears any pending reset-undo",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testAddCounterClearsPendingUndo",
+      "line": 176,
+      "registeredAt": "2026-07-09T22:29:03.040318+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "addCounter persists the grown counters list and new selection across a reload",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testAddCounterPersists",
+      "line": 152,
+      "registeredAt": "2026-07-09T22:29:02.756880+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "A blanked slot stays selectable and increments into a solid blank dot without resurrecting a name — incrementing does not clear blankness.",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving",
@@ -139,7 +184,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff",
-      "line": 467,
+      "line": 559,
       "registeredAt": "2026-07-04T12:53:23.299113+00:00",
       "runner": "tests"
     },
@@ -169,7 +214,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
-      "line": 359,
+      "line": 451,
       "registeredAt": "2026-06-29T10:07:12.747576+00:00",
       "runner": "tests"
     },
@@ -178,7 +223,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
-      "line": 348,
+      "line": 440,
       "registeredAt": "2026-06-29T10:07:12.747494+00:00",
       "runner": "tests"
     },
@@ -187,7 +232,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEffectiveResolversFollowDefaultWhenNil",
-      "line": 480,
+      "line": 572,
       "registeredAt": "2026-07-04T16:07:40.967372+00:00",
       "runner": "tests"
     },
@@ -196,7 +241,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet",
-      "line": 490,
+      "line": 582,
       "registeredAt": "2026-07-04T16:07:41.344837+00:00",
       "runner": "tests"
     },
@@ -214,7 +259,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter",
-      "line": 588,
+      "line": 680,
       "registeredAt": "2026-07-04T16:07:41.605697+00:00",
       "runner": "tests"
     },
@@ -237,7 +282,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
-      "line": 310,
+      "line": 402,
       "registeredAt": "2026-06-29T10:07:12.747241+00:00",
       "runner": "tests"
     },
@@ -246,7 +291,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithResolvedOptions",
-      "line": 422,
+      "line": 514,
       "registeredAt": "2026-07-04T12:53:23.550004+00:00",
       "runner": "tests"
     },
@@ -255,7 +300,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementHonorsStep",
-      "line": 97,
+      "line": 189,
       "registeredAt": "2026-06-28T17:03:23.884653+00:00",
       "runner": "tests"
     },
@@ -280,7 +325,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback",
-      "line": 563,
+      "line": 655,
       "registeredAt": "2026-07-04T16:07:41.873484+00:00",
       "runner": "tests"
     },
@@ -289,7 +334,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne",
-      "line": 130,
+      "line": 222,
       "registeredAt": "2026-06-28T17:03:24.644598+00:00",
       "runner": "tests"
     },
@@ -298,7 +343,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCountersDecodeWithNilOverrides",
-      "line": 540,
+      "line": 632,
       "registeredAt": "2026-07-04T16:07:42.146558+00:00",
       "runner": "tests"
     },
@@ -307,7 +352,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
-      "line": 254,
+      "line": 346,
       "registeredAt": "2026-06-28T12:56:29.096797+00:00",
       "runner": "tests"
     },
@@ -337,7 +382,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testOverrideTracksOrPinsAgainstChangingDefault",
-      "line": 527,
+      "line": 619,
       "registeredAt": "2026-07-04T16:07:42.410664+00:00",
       "runner": "tests"
     },
@@ -360,7 +405,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAndUndoResetStaySilent",
-      "line": 456,
+      "line": 548,
       "registeredAt": "2026-07-04T12:53:23.830725+00:00",
       "runner": "tests"
     },
@@ -369,7 +414,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
-      "line": 298,
+      "line": 390,
       "registeredAt": "2026-06-29T10:07:12.747150+00:00",
       "runner": "tests"
     },
@@ -378,7 +423,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
-      "line": 273,
+      "line": 365,
       "registeredAt": "2026-06-29T10:07:12.746925+00:00",
       "runner": "tests"
     },
@@ -410,7 +455,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
-      "line": 384,
+      "line": 476,
       "registeredAt": "2026-06-29T10:07:12.747749+00:00",
       "runner": "tests"
     },
@@ -419,7 +464,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch",
-      "line": 370,
+      "line": 462,
       "registeredAt": "2026-06-29T10:07:12.747663+00:00",
       "runner": "tests"
     },
@@ -428,7 +473,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
-      "line": 399,
+      "line": 491,
       "registeredAt": "2026-06-29T10:07:12.747840+00:00",
       "runner": "tests"
     },
@@ -440,12 +485,39 @@
       "runner": "tests"
     },
     {
-      "description": "Select-next advances selection and wraps past the last counter to the first",
+      "description": "Selecting next within the list advances by one and does not grow the list",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
-      "key": "AppCoreTests.ModelTests › testSelectNextWrapsAround",
-      "line": 85,
-      "registeredAt": "2026-06-28T12:56:29.598163+00:00",
+      "key": "AppCoreTests.ModelTests › testSelectNextAdvancesWithinList",
+      "line": 87,
+      "registeredAt": "2026-07-09T22:29:01.755808+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Selecting next past the last counter appends a fresh blank slot and selects it instead of wrapping",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSelectNextPastLastAppendsBlankAndSelectsIt",
+      "line": 97,
+      "registeredAt": "2026-07-09T22:29:01.928846+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Select-previous within the list moves back by one",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSelectPreviousMovesBackWithinList",
+      "line": 118,
+      "registeredAt": "2026-07-09T22:29:02.311755+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Select-previous wraps from the first counter to the last and never grows the list",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testSelectPreviousWrapsFromFirstToLast",
+      "line": 109,
+      "registeredAt": "2026-07-09T22:29:02.154850+00:00",
       "runner": "tests"
     },
     {
@@ -453,7 +525,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots",
-      "line": 118,
+      "line": 210,
       "registeredAt": "2026-06-28T17:03:24.392047+00:00",
       "runner": "tests"
     },
@@ -471,7 +543,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
-      "line": 322,
+      "line": 414,
       "registeredAt": "2026-06-29T10:07:12.747322+00:00",
       "runner": "tests"
     },
@@ -480,7 +552,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractFiresFeedback",
-      "line": 433,
+      "line": 525,
       "registeredAt": "2026-07-04T12:53:24.097317+00:00",
       "runner": "tests"
     },
@@ -498,7 +570,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
-      "line": 108,
+      "line": 200,
       "registeredAt": "2026-06-28T17:03:24.134789+00:00",
       "runner": "tests"
     },
@@ -507,7 +579,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback",
-      "line": 445,
+      "line": 537,
       "registeredAt": "2026-07-04T12:53:24.353911+00:00",
       "runner": "tests"
     },
@@ -523,7 +595,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
-      "line": 334,
+      "line": 426,
       "registeredAt": "2026-06-29T10:07:12.747408+00:00",
       "runner": "tests"
     },
@@ -539,7 +611,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
-      "line": 285,
+      "line": 377,
       "registeredAt": "2026-06-29T10:07:12.747051+00:00",
       "runner": "tests"
     },
@@ -548,7 +620,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil",
-      "line": 552,
+      "line": 644,
       "registeredAt": "2026-07-04T16:07:42.681056+00:00",
       "runner": "tests"
     },
@@ -557,7 +629,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne",
-      "line": 158,
+      "line": 250,
       "registeredAt": "2026-06-28T17:03:25.101512+00:00",
       "runner": "tests"
     },
@@ -566,7 +638,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil",
-      "line": 516,
+      "line": 608,
       "registeredAt": "2026-07-04T16:07:42.951657+00:00",
       "runner": "tests"
     },
@@ -575,7 +647,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
-      "line": 143,
+      "line": 235,
       "registeredAt": "2026-06-28T17:03:24.876521+00:00",
       "runner": "tests"
     },
@@ -584,7 +656,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides",
-      "line": 500,
+      "line": 592,
       "registeredAt": "2026-07-04T16:07:43.238399+00:00",
       "runner": "tests"
     },

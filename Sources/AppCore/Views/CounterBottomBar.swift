@@ -10,6 +10,9 @@ public struct CounterBottomBar: View {
     /// Passed straight through to `BottomControlRow`: render the RESET slot as
     /// UNDO RESET when an undo is pending on the active counter.
     let resetIsUndo: Bool
+    /// Passed straight through to `BottomControlRow`: render the GRAPH slot as
+    /// CLOSE when the graph overlay is currently open.
+    let graphOpen: Bool
     let onIncrement: () -> Void
     let onSubtract: () -> Void
     let onReset: () -> Void
@@ -19,6 +22,7 @@ public struct CounterBottomBar: View {
                 screenHeight: CGFloat,
                 screenWidth: CGFloat,
                 resetIsUndo: Bool,
+                graphOpen: Bool,
                 onIncrement: @escaping () -> Void,
                 onSubtract: @escaping () -> Void,
                 onReset: @escaping () -> Void,
@@ -27,6 +31,7 @@ public struct CounterBottomBar: View {
         self.screenHeight = screenHeight
         self.screenWidth = screenWidth
         self.resetIsUndo = resetIsUndo
+        self.graphOpen = graphOpen
         self.onIncrement = onIncrement
         self.onSubtract = onSubtract
         self.onReset = onReset
@@ -46,6 +51,7 @@ public struct CounterBottomBar: View {
                 leftHanded: leftHanded,
                 continuationWidth: columnWidth,
                 resetIsUndo: resetIsUndo,
+                graphOpen: graphOpen,
                 onSubtract: onSubtract,
                 onReset: onReset,
                 onGraph: onGraph,

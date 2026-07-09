@@ -16,8 +16,8 @@ struct CounterGraphViewIsolated: View {
             .background(CounterTheme.bg)
             // Keep the top safe-area inset (unlike the other isolated hosts) so the
             // panel sits BELOW the status bar, mirroring how the real app anchors
-            // it under the header — otherwise the DONE button bleeds into the
-            // status bar in the isolated capture.
+            // it under the header — otherwise the panel bleeds into the status bar
+            // in the isolated capture.
             .ignoresSafeArea(edges: .bottom)
     }
 
@@ -25,13 +25,13 @@ struct CounterGraphViewIsolated: View {
         switch scenario {
         case "empty":
             CounterGraphView(counterName: "COFFEE", colorKey: "coffee",
-                             histories: [Self.emptyRun], onClose: {})
+                             histories: [Self.emptyRun])
         case "paging":
             CounterGraphView(counterName: "STEPS", colorKey: "steps",
-                             histories: Self.threeRuns, onClose: {})
+                             histories: Self.threeRuns)
         default:
             CounterGraphView(counterName: "PUSH-UPS", colorKey: "lime",
-                             histories: [Self.richRun], onClose: {})
+                             histories: [Self.richRun])
         }
     }
 

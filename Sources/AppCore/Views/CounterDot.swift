@@ -25,10 +25,20 @@ public struct CounterDot: View {
 
     public var body: some View {
         if isBlank && isEmpty {
-            // Blank + count 0 → the dashed outline circle.
+            // Blank + count 0 → the dashed outline circle. Even with no name it
+            // still gains the solid accent ring + glow when active, so the user
+            // can see which unnamed slot is selected.
             Circle()
                 .stroke(CounterTheme.lineStrong, style: StrokeStyle(lineWidth: 1.5, dash: [2.5, 2.5]))
                 .frame(width: 16, height: 16)
+                .overlay(
+                    Circle()
+                        .stroke(isActive ? CounterTheme.accent : Color.clear,
+                                lineWidth: isActive ? 2 : 0)
+                        .padding(isActive ? -3 : 0)
+                )
+                .shadow(color: isActive ? CounterTheme.accent.opacity(0.6) : .clear,
+                        radius: isActive ? 8 : 0)
                 .contentShape(Circle())
                 .onTapGesture { onTap() }
         } else {
