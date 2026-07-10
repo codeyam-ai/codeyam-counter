@@ -54,13 +54,18 @@ rm -rf "$ARCHIVE_PATH" "$EXPORT_PATH"
 # *Development* profile (which requires a registered device — "no devices"
 # error). App Store distribution signing is applied at the -exportArchive step
 # below instead, and distribution profiles need no registered devices.
-echo "▸ Archiving ($CONFIG, unsigned)…"
+# Optional build-number override (e.g. CI passes a unique value per run so
+# re-uploads don't collide on an already-used build number).
+BUILD_NUMBER="${BUILD_NUMBER:-}"
+
+echo "▸ Archiving ($CONFIG, unsigned${BUILD_NUMBER:+, build $BUILD_NUMBER})…"
 xcodebuild archive \
 	-project "$PROJECT" \
 	-scheme "$SCHEME" \
 	-configuration "$CONFIG" \
 	-destination 'generic/platform=iOS' \
 	-archivePath "$ARCHIVE_PATH" \
+	${BUILD_NUMBER:+CURRENT_PROJECT_VERSION="$BUILD_NUMBER"} \
 	CODE_SIGN_IDENTITY="" \
 	CODE_SIGNING_REQUIRED=NO \
 	CODE_SIGNING_ALLOWED=NO
