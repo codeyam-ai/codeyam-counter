@@ -1,0 +1,247 @@
+{
+  "timestamp": "2026-07-10T11:44:54Z",
+  "title": "Production Rejects Scenario Seed Data",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe TestFlight build launched showing codeyam scenario seed data (e.g. the\n`counter-active-count` scenario's `PUSH-UPS 7 / COFFEE 3 / STEPS 8421 / BUGS 2`).\nCodeyam scenarios seed state by writing a scenario's `deviceState.preferences`\ninto `UserDefaults.standard` **using the exact same keys the app uses for real\npersistence** — `counters`, `selectedCounterId`, `deletedDefaultIds`,\n`counterHistories`, `resetUndoPreviousCount` — plus pure-UI seed flags\n(`settingsOpen`, `appSettingsOpen`, `counterListOpen`, `graphOpen`, `leftHanded`,\n`soundOption`, `hapticOption`). `CounterModel.init`, `AppSettings.init`, and\n`ContentView.init` read those keys at launch with **no build-configuration\nguard** (there is not a single `#if DEBUG` in `Sources/` or `App/`). The comment\nat `Model.swift:119` claims *\"Production ships with none of these keys set\"* —\nbut the moment those keys exist in the container (a stale dev/simulator install\nthat a TestFlight build was layered over, or any reuse of a seeded container), a\nRelease build adopts them identically to a debug build. Because seeding and real\npersistence share the same keys, the app currently **cannot distinguish\ntest-injected state from genuine user state**, so nothing rejects it in a\ndistribution build.\n\nThe fix introduces a build-configuration-aware `SeedPolicy`: debug builds (what\ncodeyam captures run) keep adopting injected state exactly as today, while\ndistribution builds only trust store state that carries the app's own provenance\nmarker — a marker codeyam seeding never writes. A distribution launch therefore\nignores any bare injected/stale scenario keys and starts from the clean default\nstarter set, while a real user's own persisted data (stamped by the app when it\npersists) survives across launches.\n\n## Key Decisions\n\n- **Provenance marker over \"ignore the keys in production.\"** Seeding reuses the\n  real persistence keys, so a Release build can't just ignore `counters` — that\n  is also where genuine user data lives. Instead the app stamps a provenance\n  marker whenever *it* persists; codeyam seeding writes the data keys but never\n  the marker, so \"data present without marker\" is a reliable signal of\n  injected/stale state that a distribution build can safely discard.\n- **Inject the policy, don't rely on `#if DEBUG` alone.** Unit tests compile in\n  DEBUG, so a bare `#if DEBUG` release guard would be untestable. `SeedPolicy`\n  defaults to `.current` (DEBUG → `.trustInjected`, else `.requireProvenance`)\n  but is an injectable init parameter, so tests can exercise the\n  `.requireProvenance` path explicitly and pin both behaviors.\n- **One shared marker for both stores.** `CounterModel` and `AppSettings` share\n  `UserDefaults.standard`; a single provenance key (\"this app instance owns this\n  container\") written by whichever store persists first covers both, keeping the\n  guard consistent and cheap.\n- **Pure-UI seed flags are gated too.** `settingsOpen` / `appSettingsOpen` /\n  `counterListOpen` / `graphOpen` are never persisted by the real app, so a\n  distribution build should never honor them — gate them on the same policy so a\n  stray `appSettingsOpen=true` can't boot production into a panel.\n- **Defense-in-depth on the isolation host.** `CodeyamIsolationHost.root()` is\n  env-var driven and harmless in TestFlight (no env vars set), but guarding its\n  call site keeps a Release build from ever booting a component in isolation.\n  The guard goes at the call site in `App/App.swift`, not in the generated\n  `CodeyamIsolationHost.swift` (marked \"do not edit by hand\").\n- **Safe for a first release.** The app is going to TestFlight for the first\n  time, so there are no existing Release users whose unstamped data could be\n  wiped by requiring the marker — discarding unstamped state is exactly the\n  desired behavior here.\n\n## Implementation\n\n### 1. Add the `SeedPolicy` abstraction\n\n**New file**: `Sources/AppCore/SeedPolicy.swift`\n\nDefine a small public enum that centralizes the trust decision and the shared\nprovenance marker so all three read sites agree:\n\n```swift\npublic enum SeedPolicy {\n    /// Adopt any injected/persisted state as-is — debug builds (codeyam captures).\n    case trustInjected\n    /// Only adopt store state carrying the app's own provenance marker; ignore\n    /// bare injected/stale state — distribution builds.\n    case requireProvenance\n\n    /// The default for the running build: debug trusts injected state so codeyam\n    /// captures keep working; release requires provenance so a distribution\n    /// launch never adopts scenario seed data.\n    public static var current: SeedPolicy {\n        #if DEBUG\n        return .trustInjected\n        #else\n        return .requireProvenance\n        #endif\n    }\n\n    public static let provenanceKey = \"counterStoreProvenance\"\n\n    /// True when this policy should honor externally-supplied state in `defaults`.\n    /// `.requireProvenance` honors it only once the app's own marker is present.\n    public func trustsStore(in defaults: UserDefaults) -> Bool {\n        switch self {\n        case .trustInjected: return true\n        case .requireProvenance: return defaults.object(forKey: Self.provenanceKey) != nil\n        }\n    }\n\n    /// Stamp the marker so a real user's own persisted data is trusted on the\n    /// next launch. Called by each store when it writes to `defaults`.\n    public static func stampProvenance(in defaults: UserDefaults) {\n        defaults.set(true, forKey: provenanceKey)\n    }\n}\n```\n\n### 2. Gate `CounterModel` on the policy and stamp on persist\n\n**File**: `Sources/AppCore/Model.swift`\n\n- Add a `policy: SeedPolicy = .current` parameter to\n  `init(defaults:feedback:policy:)`.\n- Compute `let trusted = policy.trustsStore(in: defaults)` once at the top of\n  `init`. When `!trusted`, treat the container as empty for *all* injection\n  keys: use `Self.defaultCounters()` (ignore `loaded` and the\n  `deletedDefaultIds` migration), skip `loadHistories` (empty), force\n  `resolvedIndex = 0` (ignore `selectedKey`), and leave `resetUndo = nil`\n  (ignore `resetUndoKey`). When `trusted`, behavior is exactly as today.\n- In `persistCounters()` (and it is sufficient to do it there, since every\n  mutation path already calls it), call `SeedPolicy.stampProvenance(in:\n  defaults)` so a real user's data is trusted on the next launch.\n- Update the now-inaccurate seeding-contract comment at `Model.swift:106-120`:\n  replace the \"Production ships with none of these keys set\" claim with a note\n  that a distribution build requires the provenance marker\n  (`SeedPolicy.requireProvenance`) before adopting any of these keys, so stray\n  injected/stale state is ignored and the default starter set is used.\n\n### 3. Gate `AppSettings` on the same policy\n\n**File**: `Sources/AppCore/AppSettings.swift`\n\n- Add a `policy: SeedPolicy = .current` parameter to `init(defaults:policy:)`.\n- When `!policy.trustsStore(in: defaults)`, initialize `defaultLeftHanded =\n  false`, `soundOption = .off`, `hapticOption = .off` (ignore the seeded keys)\n  rather than reading them from `defaults`.\n- In each `didSet` (or a shared `persist`), call\n  `SeedPolicy.stampProvenance(in: defaults)` so a real user's changed settings\n  are trusted on the next launch (mirrors `CounterModel`, one shared marker).\n- Update the seeding-contract comment (lines 23-34) the same way as `Model.swift`.\n\n### 4. Gate the pure-UI seed flags in `ContentView`\n\n**File**: `Sources/AppCore/ContentView.swift`\n\nIn `init` (lines 27-30), only honor the panel-open seed flags when the policy\ntrusts injected state:\n\n```swift\nlet trusted = SeedPolicy.current.trustsStore(in: .standard)\n_showSettings = State(initialValue: trusted && UserDefaults.standard.bool(forKey: \"settingsOpen\"))\n_showAppSettings = State(initialValue: trusted && UserDefaults.standard.bool(forKey: \"appSettingsOpen\"))\n_showCounterList = State(initialValue: trusted && UserDefaults.standard.bool(forKey: \"counterListOpen\"))\n_showGraph = State(initialValue: trusted && UserDefaults.standard.bool(forKey: \"graphOpen\"))\n```\n\n### 5. Guard the isolation host call site for Release\n\n**File**: `App/App.swift`\n\nWrap the isolation host so a distribution build always renders `ContentView`:\n\n```swift\nWindowGroup {\n    #if DEBUG\n    CodeyamIsolationHost.root() ?? AnyView(ContentView())\n    #else\n    ContentView()\n    #endif\n}\n```\n\nDo **not** edit `Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift`\n(generated, \"do not edit by hand\").\n\n## Reused existing code\n\n- `CounterModel` from `Sources/AppCore/Model.swift` (glossary entry:\n  `CounterModel`) — the seed-reading init and `persistCounters()`/`defaultCounters()`\n  are where the policy gate and provenance stamp attach.\n- `AppSettings` from `Sources/AppCore/AppSettings.swift` (glossary entry:\n  `AppSettings`) — same seed-reading pattern, gated by the shared policy.\n- Existing isolated-suite test pattern in\n  `Tests/AppCoreTests/ModelTests.swift` (`UserDefaults(suiteName: \"test-\\(UUID())\")`,\n  `suite.set(json, forKey: CounterModel.countersKey)`, reload-from-same-suite)\n  — the reproduction and coverage tests follow it exactly.\n\n## Reproduction Test\n\nPins that a distribution-policy launch ignores codeyam-injected counter state\n(present without the app's provenance marker) and starts from the default\nstarter set.\n\n**Target**: `Tests/AppCoreTests/ModelTests.swift` — run with\n`codeyam-editor editor refresh-tests --test testReleasePolicyIgnoresSeededCountersWithoutProvenance`.\n\n```swift\n// A distribution-policy launch ignores injected counter state that lacks the\n// app's provenance marker (codeyam seeding never writes it), falling back to the\n// four default starter counters instead of adopting the seed.\nfunc testReleasePolicyIgnoresSeededCountersWithoutProvenance() {\n    let suite = UserDefaults(suiteName: \"test-\\(UUID().uuidString)\")!\n    let seeded = #\"[{\"id\":1,\"name\":\"PUSH-UPS\",\"count\":7,\"colorKey\":\"lime\",\"allowNegative\":true,\"step\":1,\"order\":0},{\"id\":2,\"name\":\"COFFEE\",\"count\":3,\"colorKey\":\"coffee\",\"allowNegative\":true,\"step\":1,\"order\":1}]\"#\n    suite.set(seeded, forKey: CounterModel.countersKey)\n    let model = CounterModel(defaults: suite, policy: .requireProvenance)\n    XCTAssertEqual(model.counters.map(\\.name), [\"PUSH-UPS\", \"COFFEE\", \"STEPS\", \"BUGS\"])\n    XCTAssertEqual(model.counters.map(\\.count), [0, 0, 0, 0])\n}\n```\n\nCompanion coverage to add alongside it (protects the capture workflow and the\nreal-user round-trip; not the red-first repro):\n\n```swift\n// The default (debug) trust policy still adopts injected state, so codeyam\n// captures keep seeding the app as before.\nfunc testTrustInjectedPolicyAdoptsSeededCounters() {\n    let suite = UserDefaults(suiteName: \"test-\\(UUID().uuidString)\")!\n    let seeded = #\"[{\"id\":1,\"name\":\"PUSH-UPS\",\"count\":7,\"colorKey\":\"lime\",\"allowNegative\":true,\"step\":1,\"order\":0}]\"#\n    suite.set(seeded, forKey: CounterModel.countersKey)\n    let model = CounterModel(defaults: suite, policy: .trustInjected)\n    XCTAssertEqual(model.activeCounter.count, 7)\n}\n\n// Under the distribution policy, a real user's own persisted data survives:\n// once the app persists (stamping the provenance marker), a reload trusts it.\nfunc testReleasePolicyTrustsOwnPersistedDataAfterStamp() {\n    let suite = UserDefaults(suiteName: \"test-\\(UUID().uuidString)\")!\n    let model = CounterModel(defaults: suite, policy: .requireProvenance)\n    model.increment() // persists + stamps provenance\n    let reloaded = CounterModel(defaults: suite, policy: .requireProvenance)\n    XCTAssertEqual(reloaded.activeCounter.count, 1)\n}\n```\n\nStatus: PROPOSED — confirm red at execution. Expected failure: today\n`CounterModel.init` has no `policy:` parameter and no `.requireProvenance`\nbehavior, so the reproduction test fails to compile (unknown argument `policy`);\nafter the fix it compiles and the seeded counters are rejected in favor of the\ndefault starter set.\n\n## Scenarios to Demonstrate\n\n- **Distribution launch, stale seeded container** — counters key seeded (as in\n  `counter-active-count`) but no provenance marker → app shows the clean\n  four-at-zero starter set (the production-correct state).\n- **Distribution launch, real user data present** — counters + provenance marker\n  present → app restores the user's own counts.\n- **Debug/capture launch** — existing `counter-active-count` scenario still\n  renders `PUSH-UPS 7 / COFFEE 3 / STEPS 8421 / BUGS 2` unchanged (capture\n  workflow intact).\n- **Stray panel-open flag in a distribution build** — `appSettingsOpen=true`\n  seeded but no provenance → app boots to the normal counter screen, no panel.\n- **Truly fresh install** — empty container → clean starter set, unchanged.",
+  "description": "Added a build-configuration-aware SeedPolicy so distribution (Release/TestFlight) builds ignore codeyam scenario seed data that lacks the apps own counterStoreProvenance marker, starting instead from the clean default starter set, while debug builds keep trusting injected state so codeyam captures are unchanged. CounterModel and AppSettings gate their launch reads on the policy and stamp the shared provenance marker whenever the app itself persists; ContentViews panel-open UI flags are gated the same way and the component-isolation host is now debug-only. Covered by 5 new unit tests (including a red-first reproduction) plus the unchanged 20-scenario counter-screen visual set.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/production-rejects-scenario-seed-data.md\t.codeyam/plans/completed/production-rejects-scenario-seed-data.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-added-blank-slot-selected--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-override-active-counter--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "App/App.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/AppSettings.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/SeedPolicy.swift",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - Added blank slot selected",
+      "screenshotPath": "counter-added-blank-slot-selected--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list",
+      "screenshotPath": "counter-all-counters-list--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list with blank slot",
+      "screenshotPath": "counter-all-counters-list-with-blank-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings open",
+      "screenshotPath": "counter-app-settings-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on",
+      "screenshotPath": "counter-app-settings-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "Counter - Blank slot incremented",
+      "screenshotPath": "counter-blank-slot-incremented--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open",
+      "screenshotPath": "counter-graph-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left override active counter",
+      "screenshotPath": "counter-left-override-active-counter--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 90,
+    "passed": 90,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 90,
+        "passed": 90
+      }
+    ]
+  }
+}

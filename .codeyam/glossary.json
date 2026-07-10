@@ -284,6 +284,13 @@
     ]
   },
   {
+    "conformsToView": false,
+    "description": "Build-configuration-aware decision for whether the app trusts UserDefaults state present at launch. Debug builds use .trustInjected so codeyam scenario seed data is adopted; distribution builds use .requireProvenance and honor store state only once the apps own provenance marker (counterStoreProvenance) is present. trustsStore reads that gate and stampProvenance writes the marker whenever the app itself persists, so stray injected or stale scenario keys are ignored in a Release build while a real users own data survives.",
+    "filePath": "Sources/AppCore/SeedPolicy.swift",
+    "name": "SeedPolicy",
+    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+  },
+  {
     "description": "A labeled section in the settings panel: a small mono caption above its forwarded content, used by the name field and color picker for consistent headings.",
     "filePath": "Sources/AppCore/Views/SettingsField.swift",
     "name": "SettingsField",

@@ -869,4 +869,62 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(CounterGraphChart.relativeTime(75), "01:15")
         XCTAssertEqual(CounterGraphChart.relativeTime(3661), "1:01:01")
     }
+
+    // MARK: - Seed policy (production rejects scenario seed data)
+
+    // A distribution-policy launch ignores injected counter state that lacks the
+    // app's provenance marker (codeyam seeding never writes it), falling back to
+    // the four default starter counters instead of adopting the seed.
+    func testReleasePolicyIgnoresSeededCountersWithoutProvenance() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let seeded = #"[{"id":1,"name":"PUSH-UPS","count":7,"colorKey":"lime","allowNegative":true,"step":1,"order":0},{"id":2,"name":"COFFEE","count":3,"colorKey":"coffee","allowNegative":true,"step":1,"order":1}]"#
+        suite.set(seeded, forKey: CounterModel.countersKey)
+        let model = CounterModel(defaults: suite, policy: .requireProvenance)
+        XCTAssertEqual(model.counters.map(\.name), ["PUSH-UPS", "COFFEE", "STEPS", "BUGS"])
+        XCTAssertEqual(model.counters.map(\.count), [0, 0, 0, 0])
+    }
+
+    // The default (debug) trust policy still adopts injected state, so codeyam
+    // captures keep seeding the app as before.
+    func testTrustInjectedPolicyAdoptsSeededCounters() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let seeded = #"[{"id":1,"name":"PUSH-UPS","count":7,"colorKey":"lime","allowNegative":true,"step":1,"order":0}]"#
+        suite.set(seeded, forKey: CounterModel.countersKey)
+        let model = CounterModel(defaults: suite, policy: .trustInjected)
+        XCTAssertEqual(model.activeCounter.count, 7)
+    }
+
+    // Under the distribution policy, a real user's own persisted data survives:
+    // once the app persists (stamping the provenance marker), a reload trusts it.
+    func testReleasePolicyTrustsOwnPersistedDataAfterStamp() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let model = CounterModel(defaults: suite, policy: .requireProvenance)
+        model.increment() // persists + stamps provenance
+        let reloaded = CounterModel(defaults: suite, policy: .requireProvenance)
+        XCTAssertEqual(reloaded.activeCounter.count, 1)
+    }
+
+    // AppSettings applies the same gate: a distribution-policy launch over an
+    // unstamped container ignores injected sound/haptic/handedness keys and
+    // starts from the built-in defaults.
+    func testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        suite.set(true, forKey: AppSettings.leftHandedKey)
+        suite.set(SoundOption.ding.rawValue, forKey: AppSettings.soundOptionKey)
+        suite.set(HapticOption.heavy.rawValue, forKey: AppSettings.hapticOptionKey)
+        let settings = AppSettings(defaults: suite, policy: .requireProvenance)
+        XCTAssertFalse(settings.defaultLeftHanded)
+        XCTAssertEqual(settings.soundOption, .off)
+        XCTAssertEqual(settings.hapticOption, .off)
+    }
+
+    // Once the app stamps provenance (any store persist), a distribution-policy
+    // AppSettings launch trusts the container's own settings again.
+    func testReleasePolicyTrustsAppSettingsAfterProvenanceStamped() {
+        let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        suite.set(SoundOption.ding.rawValue, forKey: AppSettings.soundOptionKey)
+        SeedPolicy.stampProvenance(in: suite)
+        let settings = AppSettings(defaults: suite, policy: .requireProvenance)
+        XCTAssertEqual(settings.soundOption, .ding)
+    }
 }

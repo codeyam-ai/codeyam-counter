@@ -24,10 +24,15 @@ public struct ContentView: View {
     @State private var showGraph: Bool
 
     public init() {
-        _showSettings = State(initialValue: UserDefaults.standard.bool(forKey: "settingsOpen"))
-        _showAppSettings = State(initialValue: UserDefaults.standard.bool(forKey: "appSettingsOpen"))
-        _showCounterList = State(initialValue: UserDefaults.standard.bool(forKey: "counterListOpen"))
-        _showGraph = State(initialValue: UserDefaults.standard.bool(forKey: "graphOpen"))
+        // The panel-open flags are pure-UI seed keys the real app never persists,
+        // so a distribution build must never honor them: gate on the same policy
+        // as the data stores. An untrusted container ignores every flag, so a
+        // stray `appSettingsOpen=true` can't boot production into a panel.
+        let trusted = SeedPolicy.current.trustsStore(in: .standard)
+        _showSettings = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "settingsOpen"))
+        _showAppSettings = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "appSettingsOpen"))
+        _showCounterList = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "counterListOpen"))
+        _showGraph = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "graphOpen"))
     }
 
     public var body: some View {

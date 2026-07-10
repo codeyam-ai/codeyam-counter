@@ -401,6 +401,34 @@
       "runner": "tests"
     },
     {
+      "description": "A distribution-policy AppSettings launch over an unstamped container ignores injected sound, haptic, and handedness keys and uses built-in defaults.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance",
+      "registeredAt": "2026-07-10T10:44:22Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A distribution-policy launch ignores injected counter state lacking the provenance marker and falls back to the four default starter counters.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testReleasePolicyIgnoresSeededCountersWithoutProvenance",
+      "registeredAt": "2026-07-10T10:44:22Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Once provenance is stamped, a distribution-policy AppSettings launch trusts the containers own settings again.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testReleasePolicyTrustsAppSettingsAfterProvenanceStamped",
+      "registeredAt": "2026-07-10T10:44:22Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Under the distribution policy a real users own data survives: after the app persists and stamps provenance, a reload trusts it.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testReleasePolicyTrustsOwnPersistedDataAfterStamp",
+      "registeredAt": "2026-07-10T10:44:22Z",
+      "runner": "tests"
+    },
+    {
       "description": "reset and undoReset are not count changes and fire no feedback",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
@@ -597,6 +625,13 @@
       "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
       "line": 426,
       "registeredAt": "2026-06-29T10:07:12.747408+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The debug trust policy still adopts injected seeded counters, so codeyam captures keep seeding the app.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testTrustInjectedPolicyAdoptsSeededCounters",
+      "registeredAt": "2026-07-10T10:44:22Z",
       "runner": "tests"
     },
     {

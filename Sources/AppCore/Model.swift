@@ -116,8 +116,13 @@ public struct ResetUndo: Equatable {
 ///     rich event history for a static graph capture (there is no live driver to
 ///     accumulate events). Dates are ISO-8601. Same string-injection contract as
 ///     `counters`.
-/// Production ships with none of these keys set, so first launch creates the
-/// default starter set (four counters at 0) with no recorded history.
+/// A distribution build requires the app's own provenance marker
+/// (`SeedPolicy.requireProvenance`) before adopting any of these keys: because
+/// seeding reuses the real persistence keys, a Release build cannot simply
+/// ignore them, so instead it trusts store state only once the app has stamped
+/// its marker. Stray injected/stale scenario keys therefore land as an untrusted
+/// container and the default starter set (four counters at 0, no history) is
+/// used. Debug builds (what codeyam captures run) keep trusting injected state.
 public final class CounterModel: ObservableObject {
     @Published public private(set) var counters: [Counter]
     @Published public private(set) var selectedIndex: Int
@@ -160,26 +165,38 @@ public final class CounterModel: ObservableObject {
     /// The most recent runs kept per counter; the 11th reset drops the oldest.
     public static let maxHistoriesPerCounter = 10
 
-    public init(defaults: UserDefaults = .standard, feedback: CounterFeedback = NoopCounterFeedback()) {
+    public init(defaults: UserDefaults = .standard, feedback: CounterFeedback = NoopCounterFeedback(),
+                policy: SeedPolicy = .current) {
         self.defaults = defaults
         self.feedback = feedback
 
-        let loaded = Self.loadCounters(from: defaults)
-        let counters = Self.migrateDeletedDefaults(
-            into: loaded.isEmpty ? Self.defaultCounters() : loaded,
-            from: defaults
-        )
+        // A distribution build only trusts store state carrying the app's own
+        // provenance marker; codeyam seeding writes the data keys but never the
+        // marker, so an untrusted container is treated as empty for every
+        // injection key and the default starter set is used. Debug builds trust
+        // injected state so codeyam captures keep seeding the app.
+        let trusted = policy.trustsStore(in: defaults)
+
+        let loaded = trusted ? Self.loadCounters(from: defaults) : []
+        let counters = trusted
+            ? Self.migrateDeletedDefaults(
+                into: loaded.isEmpty ? Self.defaultCounters() : loaded,
+                from: defaults)
+            : Self.defaultCounters()
         self.counters = counters
 
-        self.histories = Self.loadHistories(from: defaults)
+        self.histories = trusted ? Self.loadHistories(from: defaults) : [:]
 
         // A seeded preference can arrive as a string (the editor injects
         // `deviceState.preferences` via `defaults write`), so coerce with
         // `integer(forKey:)` rather than an `as? Int` cast that a string would
         // silently fail. The key's presence is checked first because
-        // `integer(forKey:)` returns 0 (no counter id) when absent.
+        // `integer(forKey:)` returns 0 (no counter id) when absent. Skipped
+        // entirely when the store is untrusted — the selection key is one of the
+        // injected keys a distribution build ignores.
         let resolvedIndex: Int
-        if defaults.object(forKey: Self.selectedKey) != nil,
+        if trusted,
+           defaults.object(forKey: Self.selectedKey) != nil,
            let idx = counters.firstIndex(where: { $0.id == defaults.integer(forKey: Self.selectedKey) }) {
             resolvedIndex = idx
         } else {
@@ -198,7 +215,8 @@ public final class CounterModel: ObservableObject {
         // editor's `defaults write` seed leaves set across scenario loads — from
         // falsely activating UNDO RESET in unrelated scenarios whose counter is
         // not at 0.
-        if defaults.object(forKey: Self.resetUndoKey) != nil,
+        if trusted,
+           defaults.object(forKey: Self.resetUndoKey) != nil,
            counters[resolvedIndex].count == 0 {
             self.resetUndo = ResetUndo(counterId: counters[resolvedIndex].id,
                                        previousCount: defaults.integer(forKey: Self.resetUndoKey))
@@ -437,6 +455,11 @@ public final class CounterModel: ObservableObject {
            let json = String(data: data, encoding: .utf8) {
             defaults.set(json, forKey: Self.countersKey)
         }
+        // Stamp the app's provenance marker whenever it persists, so a real
+        // user's own data is trusted on the next launch even under the
+        // distribution policy. Every mutation path routes through here, so this
+        // one call covers the whole store. Codeyam seeding never writes it.
+        SeedPolicy.stampProvenance(in: defaults)
     }
 
     private func persistSelection() {
