@@ -8,7 +8,8 @@ listing/dimensions below).
 
 ```
 icon/
-  AppIcon-1024-A-plus.png    1024×1024  — lime "+" mark + counter dots (recommended)
+  AppIcon-1024-C-minimal.png 1024×1024  — flat bg, hard-edged lime "+", flat dots (INSTALLED / recommended)
+  AppIcon-1024-A-plus.png    1024×1024  — lime "+" mark + counter dots, with glow/gradient
   AppIcon-1024-B-motif.png   1024×1024  — literal app-motif (dots + increment band)
 screenshots/6.9-inch/         1290×2796 — iPhone 6.9" (16 Pro Max), App Store-accepted
   01-counter-large-value.png             "Count anything"
@@ -27,9 +28,13 @@ listing.md                    App name, subtitle, promo text, description, keywo
   copy it here if you want it version-controlled).
 
 ## Notes / still to do
-- **Icon**: no AppIcon set existed in the repo. These are freshly designed from
-  the brand. Pick A or B; the chosen 1024px PNG also needs to be added to the
-  Xcode asset catalog (`App` target → `Assets.xcassets/AppIcon`) for the build.
+- **Icon**: the minimalist **C-minimal** design is the chosen icon and is
+  installed into the Xcode asset catalog (`App` target →
+  `Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png`), so the build and the
+  App Store submission both use it. A and B remain as alternate candidates.
+- **Home-screen name**: the app installs as **Counter** (via `CFBundleDisplayName`
+  in `App/Info.plist`). The App Store listing name stays the fuller
+  **CodeYam Counter** (see `listing.md`) — the two are independent.
 - **Screenshot size**: 1290×2796 (6.9") is the one currently-required iPhone size.
   Add 6.5"/iPad sets only if you ship on those devices.
 - **URLs & privacy**: placeholders in `listing.md` — confirm before submitting.

@@ -73,6 +73,25 @@ def icon_plus(path):
         d.ellipse([x - r, y - r, x + r, y + r], fill=DOTS[k])
     img.convert("RGB").save(path)
 
+def icon_minimal(path):
+    """Minimalist icon: flat bg, hard-edged lime plus, four flat signature dots.
+    No glow, no gradient, no text — the real app palette, restrained."""
+    S = 1024
+    img = Image.new("RGB", (S, S), BG)
+    d = ImageDraw.Draw(img)
+    # dominant, hard-edged (radius=0) lime plus, biased slightly up for the dot row
+    plus(d, S // 2, int(S * 0.44), 250, 116, ACCENT, radius=0)
+    # one tight row of four flat signature dots (lime, coffee, steps, bugs)
+    order = ["lime", "coffee", "steps", "bugs"]
+    r, gap = 34, 118
+    total = gap * (len(order) - 1)
+    x0 = S // 2 - total // 2
+    y = int(S * 0.80)
+    for i, k in enumerate(order):
+        x = x0 + i * gap
+        d.ellipse([x - r, y - r, x + r, y + r], fill=DOTS[k])
+    img.save(path)
+
 def icon_app_motif(path):
     S = 1024
     img = Image.new("RGB", (S, S), BG)
@@ -166,6 +185,7 @@ def screenshot(src, headline, sub, out_path):
 if __name__ == "__main__":
     icon_plus(os.path.join(OUT, "icon", "AppIcon-1024-A-plus.png"))
     icon_app_motif(os.path.join(OUT, "icon", "AppIcon-1024-B-motif.png"))
+    icon_minimal(os.path.join(OUT, "icon", "AppIcon-1024-C-minimal.png"))
     for i, (fname, head, sub) in enumerate(SCREENS, 1):
         src = os.path.join(SHOTS, fname)
         out = os.path.join(OUT, "screenshots", "6.9-inch", f"{i:02d}-{fname.replace('--iphone-16','').replace('.png','')}.png")
