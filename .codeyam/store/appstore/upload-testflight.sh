@@ -38,18 +38,23 @@ ASC_KEY_PATH="${ASC_KEY_PATH/#\~/$HOME}"
 
 rm -rf "$ARCHIVE_PATH" "$EXPORT_PATH"
 
-echo "▸ Archiving ($CONFIG)…"
+# Archive UNSIGNED. During `archive`, automatic signing would otherwise pick a
+# *Development* profile (which requires a registered device — "no devices"
+# error). App Store distribution signing is applied at the -exportArchive step
+# below instead, and distribution profiles need no registered devices.
+echo "▸ Archiving ($CONFIG, unsigned)…"
 xcodebuild archive \
 	-project "$PROJECT" \
 	-scheme "$SCHEME" \
 	-configuration "$CONFIG" \
 	-destination 'generic/platform=iOS' \
 	-archivePath "$ARCHIVE_PATH" \
-	-allowProvisioningUpdates \
-	-authenticationKeyID "$ASC_KEY_ID" \
-	-authenticationKeyIssuerID "$ASC_ISSUER_ID" \
-	-authenticationKeyPath "$ASC_KEY_PATH"
+	CODE_SIGN_IDENTITY="" \
+	CODE_SIGNING_REQUIRED=NO \
+	CODE_SIGNING_ALLOWED=NO
 
+# Export re-signs with an Xcode-managed App Store distribution cert + profile,
+# created on the fly via the API key (-allowProvisioningUpdates), then uploads.
 echo "▸ Exporting & uploading to App Store Connect…"
 xcodebuild -exportArchive \
 	-archivePath "$ARCHIVE_PATH" \
