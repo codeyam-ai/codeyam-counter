@@ -32,6 +32,18 @@ EXPORT_OPTS=".codeyam/store/appstore/ExportOptions.plist"
 
 cd "$(git rev-parse --show-toplevel)"
 
+# Preflight: App Store Connect rejects builds made with an old iOS SDK.
+# As of mid-2026 it requires the iOS 26 SDK (Xcode 26+). Fail fast here
+# instead of after a full archive + upload attempt.
+MIN_IOS_SDK_MAJOR=26
+IOS_SDK_MAJOR=$(xcodebuild -showsdks 2>/dev/null | sed -n 's/.*-sdk iphoneos\([0-9][0-9]*\).*/\1/p' | sort -n | tail -1)
+if [ -n "$IOS_SDK_MAJOR" ] && [ "$IOS_SDK_MAJOR" -lt "$MIN_IOS_SDK_MAJOR" ]; then
+	echo "❌ Selected Xcode's iOS SDK is $IOS_SDK_MAJOR; App Store Connect requires iOS ${MIN_IOS_SDK_MAJOR}+ (Xcode ${MIN_IOS_SDK_MAJOR}+)." >&2
+	echo "   Install a newer Xcode, then select it:  sudo xcode-select -s /Applications/Xcode.app" >&2
+	echo "   or target it for one run:               DEVELOPER_DIR=/Applications/Xcode-26.app/Contents/Developer $0" >&2
+	exit 1
+fi
+
 # Expand a leading ~ in the key path.
 ASC_KEY_PATH="${ASC_KEY_PATH/#\~/$HOME}"
 [ -f "$ASC_KEY_PATH" ] || { echo "❌ API key not found at: $ASC_KEY_PATH" >&2; exit 1; }
