@@ -1,0 +1,16 @@
+{
+  "name": "AddCounterDot - Default",
+  "id": "9ac50b4b-cbf1-4c41-b729-50f2ea58be73",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "AddCounterDot",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "AddCounterDot",
+  "scenarioType": "component"
+}

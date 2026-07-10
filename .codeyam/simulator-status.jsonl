@@ -1,4 +1,5 @@
 {"state":"preflight-running"}
-{"state":"simulator-booted","udid":"3433E243-29C1-4A3B-A31A-6E8F3ADD4804","name":"iPhone 16 Pro"}
+{"state":"simulator-booted","udid":"63F312A6-9506-477A-AC09-D8FF3195A445","name":"iPhone 16"}
 {"state":"building-app","elapsedSec":0}
-{"state":"app-launched","udid":"3433E243-29C1-4A3B-A31A-6E8F3ADD4804","appBundleId":"com.example.App"}
+{"state":"building-app","elapsedSec":5}
+{"state":"app-launched","udid":"63F312A6-9506-477A-AC09-D8FF3195A445","appBundleId":"com.codeyam.counter"}

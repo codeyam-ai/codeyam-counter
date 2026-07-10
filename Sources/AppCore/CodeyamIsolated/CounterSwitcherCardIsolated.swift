@@ -28,7 +28,7 @@ struct CounterSwitcherCardIsolated: View {
                     Counter(id: 4, name: "", count: 6, colorKey: Counter.blankColorKey, order: 3),
                 ],
                 activeId: 2, activeName: "",
-                onSelect: { _ in }, onGearTap: {})
+                onSelect: { _ in }, onAdd: {}, onGearTap: {})
         default:
             CounterSwitcherCard(
                 counters: [
@@ -38,7 +38,7 @@ struct CounterSwitcherCardIsolated: View {
                     Counter(id: 4, name: "BUGS", count: 0, colorKey: "bugs", order: 3),
                 ],
                 activeId: 1, activeName: "PUSH-UPS",
-                onSelect: { _ in }, onGearTap: {})
+                onSelect: { _ in }, onAdd: {}, onGearTap: {})
         }
     }
 }

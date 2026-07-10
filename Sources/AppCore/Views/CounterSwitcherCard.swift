@@ -8,17 +8,20 @@ public struct CounterSwitcherCard: View {
     let activeId: Int
     let activeName: String
     let onSelect: (Int) -> Void
+    let onAdd: () -> Void
     let onGearTap: () -> Void
 
     public init(counters: [Counter],
                 activeId: Int,
                 activeName: String,
                 onSelect: @escaping (Int) -> Void,
+                onAdd: @escaping () -> Void,
                 onGearTap: @escaping () -> Void) {
         self.counters = counters
         self.activeId = activeId
         self.activeName = activeName
         self.onSelect = onSelect
+        self.onAdd = onAdd
         self.onGearTap = onGearTap
     }
 
@@ -49,6 +52,9 @@ public struct CounterSwitcherCard: View {
                                     : "dot-\(counter.id)"
                             )
                         }
+                        // Trailing "+" dot: appends a new blank counter and
+                        // selects it — the tap equivalent of swiping past the end.
+                        AddCounterDot(onAdd: onAdd)
                     }
                     // Breathing room so the active dot's ring + glow aren't
                     // clipped by the scroll viewport edges.

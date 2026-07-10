@@ -1,0 +1,16 @@
+{
+  "name": "GraphHeader - Blank name",
+  "id": "e09eaa24-55a9-4f02-a6f8-f329d58b90b5",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Blank",
+      "CODEYAM_ISOLATE_COMPONENT": "GraphHeader"
+    }
+  },
+  "componentName": "GraphHeader",
+  "scenarioType": "component"
+}
