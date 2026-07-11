@@ -1,0 +1,23 @@
+{
+  "name": "Counter - Fresh install default",
+  "id": "2d87e9cb-7c81-4787-aea7-5f395b19ea1c",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "selectedCounterId": 1,
+      "deletedDefaultIds": "[]",
+      "settingsOpen": false,
+      "leftHanded": false,
+      "counters": "[]"
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

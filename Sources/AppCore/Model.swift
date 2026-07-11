@@ -549,10 +549,10 @@ public final class CounterModel: ObservableObject {
     /// The starter set every fresh install begins with — four counters at zero.
     public static func defaultCounters() -> [Counter] {
         [
-            Counter(id: 1, name: "PUSH-UPS", count: 0, colorKey: "lime", order: 0),
-            Counter(id: 2, name: "COFFEE", count: 0, colorKey: "coffee", order: 1),
-            Counter(id: 3, name: "STEPS", count: 0, colorKey: "steps", order: 2),
-            Counter(id: 4, name: "BUGS", count: 0, colorKey: "bugs", order: 3),
+            Counter(id: 1, name: "COUNTER 1", count: 0, colorKey: "lime", order: 0),
+            Counter(id: 2, name: "COUNTER 2", count: 0, colorKey: "coffee", order: 1),
+            Counter(id: 3, name: "COUNTER 3", count: 0, colorKey: "steps", order: 2),
+            Counter(id: 4, name: "COUNTER 4", count: 0, colorKey: "bugs", order: 3),
         ]
     }
 }

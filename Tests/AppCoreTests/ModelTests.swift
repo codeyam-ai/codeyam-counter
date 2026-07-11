@@ -38,7 +38,7 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(model.counterCount, 4)
         XCTAssertTrue(model.counters.allSatisfy { $0.count == 0 })
         XCTAssertEqual(model.selectedIndex, 0)
-        XCTAssertEqual(model.activeCounter.name, "PUSH-UPS")
+        XCTAssertEqual(model.activeCounter.name, "COUNTER 1")
     }
 
     // Incrementing raises only the active counter's count by one.
@@ -259,8 +259,8 @@ final class ModelTests: XCTestCase {
     // length is unchanged, the id is still present, its name is empty (isBlank),
     // its count is reset to 0, and it stays selected so it can be revived.
     func testDeleteBlanksInPlace() {
-        let model = makeModel() // PUSH-UPS, COFFEE, STEPS, BUGS
-        model.select(id: 2) // COFFEE active
+        let model = makeModel() // COUNTER 1, COUNTER 2, COUNTER 3, COUNTER 4
+        model.select(id: 2) // COUNTER 2 active
         model.increment()   // give it a non-zero count first
         model.deleteCounter(id: 2)
         XCTAssertEqual(model.counterCount, 4)
@@ -277,7 +277,7 @@ final class ModelTests: XCTestCase {
     // without resurrecting a name — incrementing does not clear blankness.
     func testBlankSlotIncrementsWithoutReviving() {
         let model = makeModel()
-        model.deleteCounter(id: 3) // blank STEPS, stays selected
+        model.deleteCounter(id: 3) // blank COUNTER 3, stays selected
         XCTAssertTrue(model.activeCounter.isBlank)
         model.increment()
         XCTAssertEqual(model.activeCounter.count, 1)
@@ -287,7 +287,7 @@ final class ModelTests: XCTestCase {
     // Giving a blank slot a name via settings revives it — it stops being blank.
     func testNamingBlankSlotRevivesIt() {
         let model = makeModel()
-        model.deleteCounter(id: 3) // blank STEPS, stays selected
+        model.deleteCounter(id: 3) // blank COUNTER 3, stays selected
         XCTAssertTrue(model.activeCounter.isBlank)
         model.updateActiveCounter(name: "YOGA", colorKey: "mint", allowNegative: true, step: 1)
         XCTAssertFalse(model.activeCounter.isBlank)
@@ -299,7 +299,7 @@ final class ModelTests: XCTestCase {
     // removed).
     func testDeleteLastCounterBlanksInPlaceAndKeepsSelection() {
         let model = makeModel()
-        model.select(index: 3) // BUGS, the last
+        model.select(index: 3) // COUNTER 4, the last
         model.deleteCounter(id: model.activeCounter.id)
         XCTAssertEqual(model.counterCount, 4)
         XCTAssertEqual(model.selectedIndex, 3)
@@ -424,11 +424,11 @@ final class ModelTests: XCTestCase {
     // Switching counters expires the undo offer — the captured value belonged to
     // the counter we left.
     func testSwitchingCounterClearsPendingUndo() {
-        let model = makeModel() // PUSH-UPS, COFFEE, STEPS, BUGS
-        model.increment()       // PUSH-UPS -> 1
+        let model = makeModel() // COUNTER 1, COUNTER 2, COUNTER 3, COUNTER 4
+        model.increment()       // COUNTER 1 -> 1
         model.reset()
         XCTAssertTrue(model.canUndoReset)
-        model.selectNext()      // move to COFFEE
+        model.selectNext()      // move to COUNTER 2
         XCTAssertFalse(model.canUndoReset)
         XCTAssertNil(model.resetUndo)
         // Returning to the original counter does not revive the offer.
@@ -880,7 +880,7 @@ final class ModelTests: XCTestCase {
         let seeded = #"[{"id":1,"name":"PUSH-UPS","count":7,"colorKey":"lime","allowNegative":true,"step":1,"order":0},{"id":2,"name":"COFFEE","count":3,"colorKey":"coffee","allowNegative":true,"step":1,"order":1}]"#
         suite.set(seeded, forKey: CounterModel.countersKey)
         let model = CounterModel(defaults: suite, policy: .requireProvenance)
-        XCTAssertEqual(model.counters.map(\.name), ["PUSH-UPS", "COFFEE", "STEPS", "BUGS"])
+        XCTAssertEqual(model.counters.map(\.name), ["COUNTER 1", "COUNTER 2", "COUNTER 3", "COUNTER 4"])
         XCTAssertEqual(model.counters.map(\.count), [0, 0, 0, 0])
     }
 

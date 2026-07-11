@@ -1,0 +1,26 @@
+{
+  "claimStartedAt": "2026-07-11T10:20:36Z",
+  "completedAt": "2026-07-11T11:31:30Z",
+  "completedBy": {
+    "agentProvider": "claude",
+    "codeyamEditorVersion": "0.1.0",
+    "currentStep": "ui-step22",
+    "machine": "Jareds-Laptop.local",
+    "pid": 27910,
+    "priority": 0,
+    "selectedPlan": "neutral-default-counter-names",
+    "sessionId": "b312a980-f24a-4ac8-bc43-6a25f8e9e67a",
+    "startedAt": "2026-07-11T10:20:36Z"
+  },
+  "createdAt": "2026-07-10T23:26:33Z",
+  "deliverables": [
+    "Sources/AppCore/Model.swift",
+    "Tests/AppCoreTests/ModelTests.swift",
+    "ui/src/helpers/stepLabels.generated.ts"
+  ],
+  "journalTimestamp": "2026-07-11T11:31:30Z",
+  "mode": "ui",
+  "planFile": "completed/neutral-default-counter-names.md",
+  "slug": "neutral-default-counter-names",
+  "title": "Neutral Default Counter Names"
+}
