@@ -10,41 +10,53 @@ source: manual
 Today the app fires a **single** haptic on every count change — the same
 `HapticOption` (`off/light/medium/heavy`) resolves for both increment and
 subtract, and it defaults to `.off`. The intent (never actually planned or
-built) was for increment and decrement to have **separate, independently
-configurable** haptics, each defaulting to **Medium**. This plan splits the one
-shared haptic setting into two — an **increment haptic** and a **decrement
-haptic** — at every layer: the app-wide `AppSettings` defaults, the per-counter
-overrides on `Counter`, the resolution the model performs when emitting change
-feedback, and both settings panels. The two default to `.medium`, so a fresh
-install (and any untrusted distribution container) feels a Medium tap up and a
-Medium tap down out of the box.
+built) was for increment and decrement to have **separate** haptics that feel
+**qualitatively different**, not just stronger/weaker. This plan (1) **expands
+the haptic vocabulary** with iOS's `soft` (dull, cushioned) and `rigid` (crisp,
+sharp) impact styles, and (2) splits the one shared haptic setting into two —
+an **increment haptic** and a **decrement haptic** — at every layer: the
+app-wide `AppSettings` defaults, the per-counter overrides on `Counter`, the
+resolution the model performs when emitting change feedback, and both settings
+panels. The two default to **different** feels — increment → **Rigid**,
+decrement → **Soft** — so a fresh install feels a crisp tap when adding and a
+dull tap when subtracting, out of the box. Both defaults are single-tap impacts,
+so rapid counting stays responsive.
 
 ## Key Decisions
 
-- **Two settings, not two fixed styles** — per the user's choice, increment and
-  decrement each get their own full `HapticOption` picker (off/light/medium/
-  heavy). This reuses the existing enum and picker UI rather than inventing a
-  second concept, and lets a user tune "up feels different from down" to taste.
-- **`HapticOption` enum is unchanged; it's the *number of slots* that doubles** —
-  keep `off/light/medium/heavy`. Everywhere there was one `hapticOption` /
-  `hapticOverride` / `effectiveHaptic`, there are now two, keyed by direction.
-- **Direction resolves in the model, not the feedback sink** — `CounterFeedback.changed(sound:haptic:)`
-  stays a single already-resolved haptic; the model picks the increment- vs
-  decrement-haptic *before* calling it. This keeps the production/Noop/spy
-  feedback implementations and `FeedbackTests` untouched, and localizes the new
-  branching to `emitChangeFeedback(direction:)`.
-- **Default flips from `.off` to `.medium`** — the built-in defaults become
-  Medium for both directions. Because the distribution `SeedPolicy` starts an
-  untrusted container from the *built-in* defaults, this correctly yields Medium
-  (not off) for a real install, while still ignoring stray injected scenario
-  keys. This is the deliberate change from `production-rejects-scenario-seed-data`,
-  whose `.off` init values were chosen against the *old* built-in default.
-- **Migrate the legacy `hapticOption` key so an existing "off" choice is
-  respected** — when the two new keys are absent but the old single
-  `hapticOption` key is present (a TestFlight user who already tuned it), seed
-  *both* new directions from that legacy value; otherwise use `.medium`. Avoids
-  silently re-enabling haptics for someone who turned them off. New keys win once
-  written.
+- **Distinct *character*, not just intensity** — per the user, up and down must
+  not feel the same. `light/medium/heavy` differ only in *amplitude* (same kind
+  of tap), so the plan adds `soft` and `rigid`, which iOS designs as
+  *qualitatively* different: `soft` is a dull/cushioned thud, `rigid` a
+  sharp/precise click. Increment defaults to `rigid`, decrement to `soft` — a
+  clearly-different pair that is still a single, low-latency tap (unlike the
+  multi-tap notification patterns, which feel sluggish when counting fast).
+- **Expand `HapticOption` rather than add a second concept** — the enum grows to
+  `off, light, medium, heavy, soft, rigid`. Every existing use site (the single
+  picker, the override, the generator mapping) keeps working; there are just two
+  more cases and, per Decision below, two direction-keyed *slots*.
+- **Two settings, each the full picker** — increment and decrement each get their
+  own `HapticOption` picker (now six options). Reuses the existing enum and
+  picker UI; lets a user retune the pairing (or match them, or turn one off).
+- **Direction resolves in the model, not the feedback sink** —
+  `CounterFeedback.changed(sound:haptic:)` stays a single already-resolved
+  haptic; the model picks the increment- vs decrement-haptic *before* calling it.
+  Only `SystemCounterFeedback.defaultHaptic` learns the two new styles; the
+  Noop/spy implementations and the gating logic are untouched.
+- **Defaults flip from `.off` to Rigid/Soft** — the built-in defaults become
+  `rigid` (increment) / `soft` (decrement). Because the distribution `SeedPolicy`
+  starts an untrusted container from the *built-in* defaults, this correctly
+  yields Rigid/Soft (not off) for a real install while still ignoring stray
+  injected scenario keys. This is the deliberate reversal of
+  `production-rejects-scenario-seed-data`, whose `.off` init values were chosen
+  against the *old* built-in default.
+- **Migrate the legacy `hapticOption` key** — when the two new keys are absent
+  but the old single `hapticOption` key is present (a TestFlight user who already
+  tuned it), seed *both* new directions from that legacy value; otherwise use the
+  Rigid/Soft defaults. This respects an existing "off" choice (both stay off);
+  note that a legacy non-off value migrates to *both* directions, so such a user
+  keeps a matched pair until they retune — acceptable for an explicit prior
+  choice. New keys win once written.
 - **Naming** — `incrementHapticOption` / `decrementHapticOption` on `AppSettings`
   (keys `"incrementHapticOption"` / `"decrementHapticOption"`);
   `incrementHapticOverride` / `decrementHapticOverride` on `Counter`;
@@ -52,7 +64,23 @@ Medium tap down out of the box.
 
 ## Implementation
 
-### 1. Split the app-wide haptic default into two directions
+### 1. Expand the haptic vocabulary
+
+**File**: `Sources/AppCore/AppSettings.swift` (the `HapticOption` enum)
+
+- Add two cases: `case off, light, medium, heavy, soft, rigid`. `label`
+  (`rawValue.uppercased()`) already yields `SOFT` / `RIGID` for the picker; no
+  other change to the enum. Update the doc comment to note that `soft`/`rigid`
+  are the qualitatively-distinct feels the default pairing uses.
+
+**File**: `Sources/AppCore/Feedback.swift` (`SystemCounterFeedback.defaultHaptic`)
+
+- Extend the `switch` to map the new cases to `UIImpactFeedbackGenerator.FeedbackStyle`:
+  `case .soft: style = .soft` and `case .rigid: style = .rigid` (both iOS 13+;
+  the app is iPhone-only/modern). `.off` still early-returns. The switch stays
+  exhaustive, so adding the cases is a compile requirement, not optional.
+
+### 2. Split the app-wide haptic default into two directions
 
 **File**: `Sources/AppCore/AppSettings.swift`
 
@@ -61,21 +89,21 @@ Medium tap down out of the box.
   `decrementHapticOption`, each persisting on `didSet` (to
   `incrementHapticOptionKey` / `decrementHapticOptionKey`) and stamping
   provenance exactly as the old one did.
-- Add the two key constants; remove `hapticOptionKey` **but keep its string
-  value referenced** in the migration read below. Suggest a
-  `legacyHapticOptionKey = "hapticOption"` constant so the migration is explicit.
+- Add the two key constants; keep the legacy string referenced via a
+  `legacyHapticOptionKey = "hapticOption"` constant for the migration read.
 - In `init`, compute each direction's initial value. When `trusted`:
   1. If the new direction key is present, decode it.
   2. Else if the legacy `"hapticOption"` key is present, decode that (shared
      fallback for both directions).
-  3. Else `.medium`.
-  When **untrusted** (distribution, unstamped container): `.medium` for both —
-  ignore all seeded keys. (This replaces the old `.off`.)
+  3. Else the built-in default: `.rigid` for increment, `.soft` for decrement.
+  When **untrusted** (distribution, unstamped container): the built-in
+  defaults — `.rigid` / `.soft` — ignoring all seeded keys. (Replaces the
+  old `.off`.)
 - Update the seeding-contract doc comment atop `AppSettings`: two haptic keys,
-  both default **Medium**, note the legacy-key migration and that an untrusted
-  container now starts at Medium.
+  defaults **Rigid (increment) / Soft (decrement)**, the legacy-key migration,
+  and that an untrusted container now starts at Rigid/Soft.
 
-### 2. Split the per-counter haptic override
+### 3. Split the per-counter haptic override
 
 **File**: `Sources/AppCore/Model.swift` (the `Counter` struct)
 
@@ -94,7 +122,7 @@ Medium tap down out of the box.
   { incrementHapticOverride ?? d }` and the decrement twin.
 - Update the doc comments on the override fields to describe direction.
 
-### 3. Resolve direction when emitting feedback
+### 4. Resolve direction when emitting feedback
 
 **File**: `Sources/AppCore/Model.swift` (`CounterModel`)
 
@@ -112,7 +140,7 @@ Medium tap down out of the box.
   resolved pair — sound is direction-independent, haptic is the direction's
   resolved value.
 
-### 4. Wire the direction-aware closure in the view
+### 5. Wire the direction-aware closure in the view
 
 **File**: `Sources/AppCore/ContentView.swift`
 
@@ -129,7 +157,7 @@ Medium tap down out of the box.
   }
   ```
 
-### 5. Two haptic controls in the App Settings panel
+### 6. Two haptic controls in the App Settings panel
 
 **File**: `Sources/AppCore/Views/AppSettingsPanel.swift`
 
@@ -138,9 +166,10 @@ Medium tap down out of the box.
   (picker id `app-settings-increment-haptic`) and `SettingsField("DECREMENT
   HAPTIC")` bound to `settings.decrementHapticOption` (id
   `app-settings-decrement-haptic`), each reusing the existing `optionPicker`
-  over `HapticOption.allCases`. Keep SOUND and HANDEDNESS as-is.
+  over `HapticOption.allCases`. The picker already scrolls when options overflow,
+  so the two extra cases need no layout change. Keep SOUND and HANDEDNESS as-is.
 
-### 6. Two haptic override controls in the per-counter panel
+### 7. Two haptic override controls in the per-counter panel
 
 **File**: `Sources/AppCore/Views/CounterSettingsPanel.swift`
 
@@ -155,7 +184,7 @@ Medium tap down out of the box.
   instead of one:
   `(String, String, Bool, Int, Bool?, SoundOption?, HapticOption?, HapticOption?)`.
 
-### 7. Thread the extra override through the save path
+### 8. Thread the extra override through the save path
 
 **File**: `Sources/AppCore/Model.swift` (`updateActiveCounter`) and its caller
 in `ContentView.swift`
@@ -167,7 +196,7 @@ in `ContentView.swift`
 - Update the `ContentView` call site that passes the panel's `onSave` values
   into `updateActiveCounter` to forward both.
 
-### 8. Update scenario seed keys
+### 9. Update scenario seed keys
 
 **Files**: the four scenarios seeding `hapticOption` under `.codeyam/scenarios/`:
 `counter-app-settings-open.json`, `counter-all-counters-list.json`,
@@ -176,25 +205,23 @@ in `ContentView.swift`
 
 - Replace each `preferences.hapticOption` with the two new keys
   `incrementHapticOption` / `decrementHapticOption`. For the three currently
-  `"off"`, either keep them `"off"` (to preserve those captures' silence) or drop
-  the key to let the new Medium default apply — prefer keeping `"off"` so their
-  captures are unchanged. For `counter-app-settings-sound-and-haptic-on` (now
-  `"medium"`), set both to `"medium"` so the panel renders the new two-control
-  layout with Medium selected.
-- Note: the legacy-key migration in Step 1 means any scenario left on the old
+  `"off"`, keep both `"off"` so those captures stay silent/unchanged. For
+  `counter-app-settings-sound-and-haptic-on` (now `"medium"`), set
+  `incrementHapticOption: "rigid"` / `decrementHapticOption: "soft"` so the panel
+  renders the new two-control layout with the distinct default pairing.
+- Note: the legacy-key migration in Step 2/3 means any scenario left on the old
   `hapticOption` key still decodes (into both directions), so this step is about
   showing the *new* controls correctly, not about avoiding a crash.
 
 ## Reused existing code
 
-- `HapticOption` enum from `Sources/AppCore/AppSettings.swift` — reused verbatim
-  for both directions (glossary: none registered for the enum itself; it backs
-  `AppSettings`).
+- `HapticOption` enum from `Sources/AppCore/AppSettings.swift` — extended with
+  `soft`/`rigid`, reused for both directions.
 - `CounterFeedback` / `SystemCounterFeedback` / `NoopCounterFeedback` from
   `Sources/AppCore/Feedback.swift` (glossary entries: `CounterFeedback`,
-  `SystemCounterFeedback`, `NoopCounterFeedback`) — **unchanged**; the
-  `changed(sound:haptic:)` seam already takes a resolved haptic, so direction
-  resolution happens upstream in the model.
+  `SystemCounterFeedback`, `NoopCounterFeedback`) — the `changed(sound:haptic:)`
+  seam is unchanged; only `defaultHaptic`'s style `switch` gains two cases, and
+  direction resolution happens upstream in the model.
 - `AppSettings` seeding/`SeedPolicy` provenance pattern from
   `Sources/AppCore/AppSettings.swift` + `Sources/AppCore/SeedPolicy.swift` —
   the two new keys persist and gate identically to `soundOption`.
@@ -209,11 +236,14 @@ in `ContentView.swift`
 
 **File**: `Tests/AppCoreTests/AppSettingsTests.swift`
 
-- Round-trip both new keys through a scratch `UserDefaults(suiteName:)`.
-- New default is `.medium` for both when no keys present (trusted).
+- Round-trip both new keys through a scratch `UserDefaults(suiteName:)`,
+  including the new `soft`/`rigid` values.
+- New defaults are `.rigid` (increment) and `.soft` (decrement) when no keys
+  present (trusted) — and they are **not equal** (the "must feel different"
+  guarantee, pinned as a test).
 - Legacy `hapticOption` present + new keys absent → both directions adopt the
   legacy value.
-- Untrusted (distribution) container → both `.medium`, ignoring seeded keys.
+- Untrusted (distribution) container → `.rigid` / `.soft`, ignoring seeded keys.
 
 **File**: `Tests/AppCoreTests/ModelTests.swift`
 
@@ -221,27 +251,34 @@ in `ContentView.swift`
   when the override is `nil` and the pinned value when set (including explicit
   `.off`).
 - Feedback spy: `increment()` fires the **increment** haptic and `subtract()`
-  fires the **decrement** haptic (extends the existing feedback-spy test);
-  the no-op subtract clamp still fires nothing; `reset`/`undoReset` stay silent.
+  fires the **decrement** haptic, and with the defaults those two differ
+  (`rigid` vs `soft`); the no-op subtract clamp still fires nothing;
+  `reset`/`undoReset` stay silent.
 - Legacy single `hapticOverride` on a decoded counter maps to both directions.
 
-**File**: `Tests/AppCoreTests/FeedbackTests.swift` — expected **no change**
-(the `changed(sound:haptic:)` gating is direction-agnostic).
+**File**: `Tests/AppCoreTests/FeedbackTests.swift`
+
+- The gating (non-`.off` fires, `.off` does not) is unchanged; add coverage that
+  `soft`/`rigid` are treated as non-`.off` so they fire (extends the existing
+  gating assertions over the new cases).
 
 Run with `codeyam-editor editor refresh-tests`.
 
 ## Scenarios to Demonstrate
 
-- **App Settings open — directional haptics at default** — panel showing
-  INCREMENT HAPTIC = Medium and DECREMENT HAPTIC = Medium (the new out-of-box
-  state), replacing the old single HAPTIC control.
-- **Asymmetric haptics** — INCREMENT HAPTIC = Heavy, DECREMENT HAPTIC = Light,
-  demonstrating the two are independent.
-- **Decrement silenced, increment on** — INCREMENT HAPTIC = Medium, DECREMENT
-  HAPTIC = Off (a common "only feel it when I add" preference).
+- **App Settings open — distinct default haptics** — panel showing INCREMENT
+  HAPTIC = Rigid and DECREMENT HAPTIC = Soft (the new out-of-box pairing),
+  replacing the old single HAPTIC control.
+- **Both haptics off** — INCREMENT = Off, DECREMENT = Off, for a user who wants
+  silence/no haptic.
+- **Decrement silenced, increment on** — INCREMENT = Rigid, DECREMENT = Off (a
+  common "only feel it when I add" preference).
+- **Custom distinct pairing** — INCREMENT = Heavy, DECREMENT = Light, showing the
+  two are freely and independently configurable.
 - **Per-counter override — increment pinned** — a counter's settings panel with
-  INCREMENT HAPTIC pinned to Heavy while DECREMENT HAPTIC stays on Default.
+  INCREMENT HAPTIC pinned to Rigid while DECREMENT HAPTIC stays on Default.
 - **Per-counter override — both follow default** — settings panel with both
-  haptic controls on Default, following the app-wide Medium/Medium.
+  haptic controls on Default, following the app-wide Rigid/Soft pairing.
 - **App-settings sound + directional haptics on** — updates the existing
-  `counter-app-settings-sound-and-haptic-on` capture to the two-control layout.
+  `counter-app-settings-sound-and-haptic-on` capture to the two-control layout
+  with Rigid/Soft.
