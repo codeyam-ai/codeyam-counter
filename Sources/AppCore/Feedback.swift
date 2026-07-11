@@ -56,6 +56,8 @@ public struct SystemCounterFeedback: CounterFeedback {
         case .light: style = .light
         case .medium: style = .medium
         case .heavy: style = .heavy
+        case .soft: style = .soft
+        case .rigid: style = .rigid
         }
         UIImpactFeedbackGenerator(style: style).impactOccurred()
         #endif

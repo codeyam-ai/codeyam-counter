@@ -50,6 +50,15 @@ final class FeedbackTests: XCTestCase {
         XCTAssertEqual(sounds(), [])
     }
 
+    // The two new qualitatively-distinct styles gate exactly like the amplitude
+    // styles: non-`.off`, so they fire the haptic emitter carrying their choice.
+    func testSoftAndRigidAreTreatedAsNonOff() {
+        let (feedback, haptics, _) = spied()
+        feedback.changed(sound: .off, haptic: .soft)
+        feedback.changed(sound: .off, haptic: .rigid)
+        XCTAssertEqual(haptics(), [.soft, .rigid])
+    }
+
     // The no-op default implementation never touches its arguments — a smoke
     // check that calling it with any options is safe and silent.
     func testNoopFeedbackDoesNothing() {

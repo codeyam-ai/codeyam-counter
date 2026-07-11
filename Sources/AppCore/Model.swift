@@ -24,10 +24,16 @@ public struct Counter: Identifiable, Codable, Equatable {
     /// `AppSettings.soundOption`; any value (including an explicit `.off`) pins
     /// that sound for this counter. Persisted as its `rawValue` string.
     public var soundOverride: SoundOption?
-    /// Per-counter override of the app-wide haptic-on-change default. `nil` follows
-    /// `AppSettings.hapticOption`; any value (including an explicit `.off`) pins
-    /// that haptic for this counter. Persisted as its `rawValue` string.
-    public var hapticOverride: HapticOption?
+    /// Per-counter override of the app-wide increment haptic default. `nil`
+    /// follows `AppSettings.incrementHapticOption`; any value (including an
+    /// explicit `.off`) pins that haptic for increments on this counter. Persisted
+    /// as its `rawValue` string.
+    public var incrementHapticOverride: HapticOption?
+    /// Per-counter override of the app-wide decrement haptic default. `nil`
+    /// follows `AppSettings.decrementHapticOption`; any value (including an
+    /// explicit `.off`) pins that haptic for subtracts on this counter. Persisted
+    /// as its `rawValue` string.
+    public var decrementHapticOverride: HapticOption?
 
     /// The sentinel `colorKey` a counter carries while blank — an empty string,
     /// which `CounterTheme.dotColor` never needs to resolve because a blank slot
@@ -41,7 +47,8 @@ public struct Counter: Identifiable, Codable, Equatable {
     public var isBlank: Bool { name.trimmingCharacters(in: .whitespaces).isEmpty }
 
     public init(id: Int, name: String, count: Int, colorKey: String, allowNegative: Bool = true, step: Int = 1, order: Int,
-                handednessOverride: Bool? = nil, soundOverride: SoundOption? = nil, hapticOverride: HapticOption? = nil) {
+                handednessOverride: Bool? = nil, soundOverride: SoundOption? = nil,
+                incrementHapticOverride: HapticOption? = nil, decrementHapticOverride: HapticOption? = nil) {
         self.id = id
         self.name = name
         self.count = count
@@ -51,14 +58,33 @@ public struct Counter: Identifiable, Codable, Equatable {
         self.order = order
         self.handednessOverride = handednessOverride
         self.soundOverride = soundOverride
-        self.hapticOverride = hapticOverride
+        self.incrementHapticOverride = incrementHapticOverride
+        self.decrementHapticOverride = decrementHapticOverride
+    }
+
+    /// Encoded/decoded keys — the current stored properties. Declared explicitly
+    /// (rather than synthesized) so `init(from:)` and the synthesized `encode`
+    /// agree once a legacy-only key (`LegacyCodingKeys.hapticOverride`) has to be
+    /// read separately during migration.
+    private enum CodingKeys: String, CodingKey {
+        case id, name, count, colorKey, allowNegative, step, order
+        case handednessOverride, soundOverride
+        case incrementHapticOverride, decrementHapticOverride
+    }
+
+    /// The pre-split single haptic override key, read only as a migration
+    /// fallback. Not a current stored property, so it lives in its own key set.
+    private enum LegacyCodingKeys: String, CodingKey {
+        case hapticOverride
     }
 
     // Custom decoding so counters persisted before `step` (and the original
     // pre-`allowNegative` seeds) still decode, falling back to the same defaults
     // as `init`. The override fields likewise decode as `nil` when absent, and the
     // enum overrides decode from their `rawValue` string, staying `nil` on any
-    // unrecognized value so a stray seed never crashes the load.
+    // unrecognized value so a stray seed never crashes the load. A counter written
+    // before the haptic split carries a single `hapticOverride`; when the new
+    // per-direction keys are absent it migrates into *both* directions.
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id = try c.decode(Int.self, forKey: .id)
@@ -70,7 +96,20 @@ public struct Counter: Identifiable, Codable, Equatable {
         order = try c.decode(Int.self, forKey: .order)
         handednessOverride = try c.decodeIfPresent(Bool.self, forKey: .handednessOverride)
         soundOverride = (try c.decodeIfPresent(String.self, forKey: .soundOverride)).flatMap(SoundOption.init(rawValue:))
-        hapticOverride = (try c.decodeIfPresent(String.self, forKey: .hapticOverride)).flatMap(HapticOption.init(rawValue:))
+
+        let increment = (try c.decodeIfPresent(String.self, forKey: .incrementHapticOverride)).flatMap(HapticOption.init(rawValue:))
+        let decrement = (try c.decodeIfPresent(String.self, forKey: .decrementHapticOverride)).flatMap(HapticOption.init(rawValue:))
+        // Migration: when neither new key decoded, adopt the legacy single override
+        // for both directions (a stray/unrecognized legacy value stays nil).
+        let legacyContainer = try decoder.container(keyedBy: LegacyCodingKeys.self)
+        let legacy = (try legacyContainer.decodeIfPresent(String.self, forKey: .hapticOverride)).flatMap(HapticOption.init(rawValue:))
+        if increment == nil && decrement == nil, let legacy {
+            incrementHapticOverride = legacy
+            decrementHapticOverride = legacy
+        } else {
+            incrementHapticOverride = increment
+            decrementHapticOverride = decrement
+        }
     }
 
     // MARK: - Effective settings
@@ -83,9 +122,13 @@ public struct Counter: Identifiable, Codable, Equatable {
     /// (including an explicit `.off`), otherwise the supplied app-wide default.
     public func effectiveSound(default d: SoundOption) -> SoundOption { soundOverride ?? d }
 
-    /// The haptic this counter actually fires on a change: its override when set
+    /// The haptic this counter actually fires on an increment: its override when
+    /// set (including an explicit `.off`), otherwise the supplied app-wide default.
+    public func effectiveIncrementHaptic(default d: HapticOption) -> HapticOption { incrementHapticOverride ?? d }
+
+    /// The haptic this counter actually fires on a subtract: its override when set
     /// (including an explicit `.off`), otherwise the supplied app-wide default.
-    public func effectiveHaptic(default d: HapticOption) -> HapticOption { hapticOverride ?? d }
+    public func effectiveDecrementHaptic(default d: HapticOption) -> HapticOption { decrementHapticOverride ?? d }
 }
 
 /// A pending undo for a single reset: the counter that was zeroed and the value
@@ -150,11 +193,13 @@ public final class CounterModel: ObservableObject {
     /// injects `SystemCounterFeedback`, tests inject a spy.
     private let feedback: CounterFeedback
 
-    /// The effective (sound, haptic) options to emit on the next change, evaluated
-    /// fresh at each increment/subtract. The view sets this from `AppSettings`;
-    /// keeping it a closure lets a later plan swap in per-counter resolution
-    /// without touching the model. Defaults to all-off.
-    public var effectiveFeedback: () -> (sound: SoundOption, haptic: HapticOption) = { (.off, .off) }
+    /// The effective feedback options to emit on the next change, evaluated fresh
+    /// at each increment/subtract. Sound is shared across directions; the haptic
+    /// is resolved per direction (increment vs decrement) so the model — not the
+    /// feedback sink — picks which one fires. The view sets this from
+    /// `AppSettings` and the active counter's overrides; keeping it a closure lets
+    /// per-counter resolution re-evaluate without re-wiring. Defaults to all-off.
+    public var effectiveFeedback: () -> (sound: SoundOption, incrementHaptic: HapticOption, decrementHaptic: HapticOption) = { (.off, .off, .off) }
 
     public static let countersKey = "counters"
     public static let selectedKey = "selectedCounterId"
@@ -310,7 +355,7 @@ public final class CounterModel: ObservableObject {
         counters[selectedIndex].count += step
         recordEvent(delta: step)
         persistCounters()
-        emitChangeFeedback()
+        emitChangeFeedback(.increment)
     }
 
     public func subtract() {
@@ -331,7 +376,7 @@ public final class CounterModel: ObservableObject {
         counters[selectedIndex].count += applied
         recordEvent(delta: applied)
         persistCounters()
-        emitChangeFeedback()
+        emitChangeFeedback(.decrement)
     }
 
     /// Appends a change to the active counter's current history, lazily opening a
@@ -349,12 +394,17 @@ public final class CounterModel: ObservableObject {
         persistHistories()
     }
 
-    /// Emit change feedback for the just-applied increment/subtract using the
-    /// currently resolved flags. `reset`/`undoReset` deliberately do not call
-    /// this — only a live count change gives feedback.
-    private func emitChangeFeedback() {
+    /// The direction of a count change, selecting which resolved haptic fires.
+    private enum ChangeDirection { case increment, decrement }
+
+    /// Emit change feedback for the just-applied change using the currently
+    /// resolved flags, picking the increment or decrement haptic per `direction`.
+    /// `reset`/`undoReset` deliberately do not call this — only a live count
+    /// change gives feedback.
+    private func emitChangeFeedback(_ direction: ChangeDirection) {
         let flags = effectiveFeedback()
-        feedback.changed(sound: flags.sound, haptic: flags.haptic)
+        let haptic = direction == .increment ? flags.incrementHaptic : flags.decrementHaptic
+        feedback.changed(sound: flags.sound, haptic: haptic)
     }
 
     /// Zeros the active counter, remembering its prior value so the bottom row
@@ -400,13 +450,15 @@ public final class CounterModel: ObservableObject {
     // MARK: - Editing, deleting, restoring
 
     /// Applies the settings panel's edits to the active counter and persists.
-    /// The three overrides carry a `nil` to mean "follow the app default"; the
-    /// panel passes them straight through so a counter can be pinned or reset to
-    /// default in the same save.
+    /// The overrides carry a `nil` to mean "follow the app default"; the panel
+    /// passes them straight through so a counter can be pinned or reset to default
+    /// in the same save. The two haptic overrides are independent so a counter can
+    /// pin one direction while the other follows the app-wide pairing.
     public func updateActiveCounter(name: String, colorKey: String, allowNegative: Bool, step: Int,
                                     handednessOverride: Bool? = nil,
                                     soundOverride: SoundOption? = nil,
-                                    hapticOverride: HapticOption? = nil) {
+                                    incrementHapticOverride: HapticOption? = nil,
+                                    decrementHapticOverride: HapticOption? = nil) {
         guard counters.indices.contains(selectedIndex) else { return }
         // Editing the counter invalidates the captured pre-reset value.
         resetUndo = nil
@@ -416,7 +468,8 @@ public final class CounterModel: ObservableObject {
         counters[selectedIndex].step = max(1, step)
         counters[selectedIndex].handednessOverride = handednessOverride
         counters[selectedIndex].soundOverride = soundOverride
-        counters[selectedIndex].hapticOverride = hapticOverride
+        counters[selectedIndex].incrementHapticOverride = incrementHapticOverride
+        counters[selectedIndex].decrementHapticOverride = decrementHapticOverride
         persistCounters()
     }
 
@@ -439,7 +492,8 @@ public final class CounterModel: ObservableObject {
         // A revived slot starts on the app defaults, so drop any pinned overrides.
         counters[idx].handednessOverride = nil
         counters[idx].soundOverride = nil
-        counters[idx].hapticOverride = nil
+        counters[idx].incrementHapticOverride = nil
+        counters[idx].decrementHapticOverride = nil
         // A blank slot starts clean — drop the old counter's recorded runs.
         histories[counters[idx].id] = nil
         selectedIndex = idx

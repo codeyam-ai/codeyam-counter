@@ -11,9 +11,15 @@ public enum SoundOption: String, CaseIterable, Codable {
 }
 
 /// The haptic fired on a count change. `off` is silent; the rest map to
-/// `UIImpactFeedbackGenerator` intensities (resolved in `SystemCounterFeedback`).
+/// `UIImpactFeedbackGenerator` styles (resolved in `SystemCounterFeedback`).
+///
+/// `light`/`medium`/`heavy` differ only in *amplitude* — the same kind of tap,
+/// stronger or weaker. `soft` and `rigid` are *qualitatively* different feels:
+/// `soft` is a dull, cushioned thud and `rigid` a crisp, sharp click. The
+/// default directional pairing (increment `rigid`, decrement `soft`) uses those
+/// two so adding and subtracting feel distinct, not merely louder/quieter.
 public enum HapticOption: String, CaseIterable, Codable {
-    case off, light, medium, heavy
+    case off, light, medium, heavy, soft, rigid
 
     public var label: String { rawValue.uppercased() }
 }
@@ -27,19 +33,30 @@ public enum HapticOption: String, CaseIterable, Codable {
 ///   - `leftHanded` — the mirrored bottom-bar layout (reuses the key formerly
 ///     read by `ContentView`'s `@AppStorage("leftHanded")`)
 ///   - `soundOption` — which sound (if any) plays on each increment/subtract
-///   - `hapticOption` — which haptic (if any) fires on each increment/subtract
-/// Handedness defaults off; sound/haptic default to `.off`. A seeded preference
-/// can arrive as a string (the editor injects via `defaults write`): handedness
-/// coerces via `bool(forKey:)`, and the option enums decode their `rawValue` from
-/// `string(forKey:)`, falling back to `.off` when absent or unrecognized.
+///   - `incrementHapticOption` — which haptic (if any) fires on each increment
+///   - `decrementHapticOption` — which haptic (if any) fires on each subtract
+/// Handedness defaults off; sound defaults to `.off`. The two haptics default to
+/// a deliberately *distinct* pairing — **increment `rigid`, decrement `soft`** —
+/// so a fresh install feels a crisp tap when adding and a dull tap when
+/// subtracting, out of the box. A seeded preference can arrive as a string (the
+/// editor injects via `defaults write`): handedness coerces via `bool(forKey:)`,
+/// and the option enums decode their `rawValue` from `string(forKey:)`, falling
+/// back to the built-in default when absent or unrecognized.
+///
+/// Legacy migration: a TestFlight user who tuned the pre-split single haptic
+/// carries the old `hapticOption` key and neither new key. When a direction's
+/// new key is absent but that legacy key is present, both directions seed from
+/// the legacy value (so an explicit "off" stays off, and a tuned value becomes a
+/// matched pair until retuned). New per-direction keys win once written.
 ///
 /// A distribution build requires the app's own provenance marker
 /// (`SeedPolicy.requireProvenance`) before adopting any of these keys — the same
 /// gate `CounterModel` applies, sharing the one marker across both stores.
 /// Under that policy an unstamped container starts from the built-in defaults
-/// (right-handed, sound/haptic `.off`), so stray injected/stale scenario keys
-/// are ignored; a real user's own changed settings are trusted once the app has
-/// persisted (and stamped the marker). Debug builds keep trusting injected state.
+/// (right-handed, sound `.off`, haptics `rigid`/`soft`), so stray injected/stale
+/// scenario keys are ignored; a real user's own changed settings are trusted once
+/// the app has persisted (and stamped the marker). Debug builds keep trusting
+/// injected state.
 ///
 /// This is the single default source that per-counter overrides resolve against
 /// in later plans, so it is deliberately UI-agnostic and independently testable.
@@ -56,9 +73,15 @@ public final class AppSettings: ObservableObject {
             SeedPolicy.stampProvenance(in: defaults)
         }
     }
-    @Published public var hapticOption: HapticOption {
+    @Published public var incrementHapticOption: HapticOption {
         didSet {
-            defaults.set(hapticOption.rawValue, forKey: Self.hapticOptionKey)
+            defaults.set(incrementHapticOption.rawValue, forKey: Self.incrementHapticOptionKey)
+            SeedPolicy.stampProvenance(in: defaults)
+        }
+    }
+    @Published public var decrementHapticOption: HapticOption {
+        didSet {
+            defaults.set(decrementHapticOption.rawValue, forKey: Self.decrementHapticOptionKey)
             SeedPolicy.stampProvenance(in: defaults)
         }
     }
@@ -67,7 +90,17 @@ public final class AppSettings: ObservableObject {
 
     public static let leftHandedKey = "leftHanded"
     public static let soundOptionKey = "soundOption"
-    public static let hapticOptionKey = "hapticOption"
+    public static let incrementHapticOptionKey = "incrementHapticOption"
+    public static let decrementHapticOptionKey = "decrementHapticOption"
+    /// The pre-split single-haptic key. Read only as a migration fallback when a
+    /// direction's new key is absent (a user who tuned haptics before the split).
+    public static let legacyHapticOptionKey = "hapticOption"
+
+    /// The built-in default increment haptic — a crisp `rigid` tap.
+    public static let defaultIncrementHaptic: HapticOption = .rigid
+    /// The built-in default decrement haptic — a dull `soft` tap, distinct from
+    /// the increment default so up and down feel different out of the box.
+    public static let defaultDecrementHaptic: HapticOption = .soft
 
     public init(defaults: UserDefaults = .standard, policy: SeedPolicy = .current) {
         self.defaults = defaults
@@ -81,8 +114,29 @@ public final class AppSettings: ObservableObject {
         self.soundOption = trusted
             ? (SoundOption(rawValue: defaults.string(forKey: Self.soundOptionKey) ?? "") ?? .off)
             : .off
-        self.hapticOption = trusted
-            ? (HapticOption(rawValue: defaults.string(forKey: Self.hapticOptionKey) ?? "") ?? .off)
-            : .off
+        self.incrementHapticOption = trusted
+            ? Self.loadHaptic(from: defaults, key: Self.incrementHapticOptionKey,
+                              default: Self.defaultIncrementHaptic)
+            : Self.defaultIncrementHaptic
+        self.decrementHapticOption = trusted
+            ? Self.loadHaptic(from: defaults, key: Self.decrementHapticOptionKey,
+                              default: Self.defaultDecrementHaptic)
+            : Self.defaultDecrementHaptic
+    }
+
+    /// Resolve one direction's haptic at launch: the new per-direction key wins;
+    /// otherwise migrate the legacy single `hapticOption` key (both directions
+    /// share it) if present; otherwise the built-in default for that direction.
+    private static func loadHaptic(from defaults: UserDefaults, key: String,
+                                   default fallback: HapticOption) -> HapticOption {
+        if let stored = defaults.string(forKey: key),
+           let option = HapticOption(rawValue: stored) {
+            return option
+        }
+        if let legacy = defaults.string(forKey: legacyHapticOptionKey),
+           let option = HapticOption(rawValue: legacy) {
+            return option
+        }
+        return fallback
     }
 }

@@ -6,7 +6,7 @@ import SwiftUI
 /// "DONE" saves.
 public struct CounterSettingsPanel: View {
     let counter: Counter
-    let onSave: (String, String, Bool, Int, Bool?, SoundOption?, HapticOption?) -> Void
+    let onSave: (String, String, Bool, Int, Bool?, SoundOption?, HapticOption?, HapticOption?) -> Void
     let onDelete: () -> Void
     let onClose: () -> Void
 
@@ -14,18 +14,20 @@ public struct CounterSettingsPanel: View {
     @State private var colorKey: String
     @State private var allowNegative: Bool
     @State private var step: Int
-    /// The three per-counter overrides, each `nil` while the counter follows the
-    /// app default. Seeded from the counter and passed back on DONE.
+    /// The per-counter overrides, each `nil` while the counter follows the app
+    /// default. The two haptic directions are independent. Seeded from the counter
+    /// and passed back on DONE.
     @State private var handednessOverride: Bool?
     @State private var soundOverride: SoundOption?
-    @State private var hapticOverride: HapticOption?
+    @State private var incrementHapticOverride: HapticOption?
+    @State private var decrementHapticOverride: HapticOption?
     /// Two-tap delete guard: the first tap arms the button, a second tap within
     /// ~3s deletes; it auto-disarms so an accidental single tap never wipes a
     /// counter.
     @State private var confirmingDelete = false
 
     public init(counter: Counter,
-                onSave: @escaping (String, String, Bool, Int, Bool?, SoundOption?, HapticOption?) -> Void,
+                onSave: @escaping (String, String, Bool, Int, Bool?, SoundOption?, HapticOption?, HapticOption?) -> Void,
                 onDelete: @escaping () -> Void,
                 onClose: @escaping () -> Void) {
         self.counter = counter
@@ -43,7 +45,8 @@ public struct CounterSettingsPanel: View {
         _step = State(initialValue: counter.step)
         _handednessOverride = State(initialValue: counter.handednessOverride)
         _soundOverride = State(initialValue: counter.soundOverride)
-        _hapticOverride = State(initialValue: counter.hapticOverride)
+        _incrementHapticOverride = State(initialValue: counter.incrementHapticOverride)
+        _decrementHapticOverride = State(initialValue: counter.decrementHapticOverride)
     }
 
     public var body: some View {
@@ -90,10 +93,17 @@ public struct CounterSettingsPanel: View {
                                optionLabel: { $0.label })
             }
 
-            SettingsField("HAPTIC") {
+            SettingsField("INCREMENT HAPTIC") {
                 OverridePicker(options: HapticOption.allCases,
-                               selection: $hapticOverride,
-                               idPrefix: "settings-haptic",
+                               selection: $incrementHapticOverride,
+                               idPrefix: "settings-increment-haptic",
+                               optionLabel: { $0.label })
+            }
+
+            SettingsField("DECREMENT HAPTIC") {
+                OverridePicker(options: HapticOption.allCases,
+                               selection: $decrementHapticOverride,
+                               idPrefix: "settings-decrement-haptic",
                                optionLabel: { $0.label })
             }
 
@@ -147,7 +157,8 @@ public struct CounterSettingsPanel: View {
             Spacer()
             Button(action: {
                 onSave(name, colorKey, allowNegative, step,
-                       handednessOverride, soundOverride, hapticOverride)
+                       handednessOverride, soundOverride,
+                       incrementHapticOverride, decrementHapticOverride)
                 onClose()
             }) {
                 Text("DONE")

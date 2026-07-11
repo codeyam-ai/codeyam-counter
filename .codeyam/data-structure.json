@@ -14,7 +14,8 @@
       { "name": "order", "type": "number", "required": true },
       { "name": "handednessOverride", "type": "boolean", "required": false, "description": "Per-counter override of the app-wide handedness default. null = follow AppSettings.leftHanded; true = force left-handed layout while active; false = force right-handed. Legacy counters without this field decode as null." },
       { "name": "soundOverride", "type": "string", "required": false, "description": "Per-counter override of the app-wide sound-on-change default, stored as a SoundOption rawValue ('off'/'tock'/'pop'/'click'/'bloop'/'ding'). null = follow AppSettings.soundOption; a value pins that sound for this counter (including an explicit 'off'). Legacy/unrecognized values decode as null." },
-      { "name": "hapticOverride", "type": "string", "required": false, "description": "Per-counter override of the app-wide haptic-on-change default, stored as a HapticOption rawValue ('off'/'light'/'medium'/'heavy'). null = follow AppSettings.hapticOption; a value pins that haptic for this counter (including an explicit 'off'). Legacy/unrecognized values decode as null." }
+      { "name": "incrementHapticOverride", "type": "string", "required": false, "description": "Per-counter override of the app-wide increment haptic default, stored as a HapticOption rawValue ('off'/'light'/'medium'/'heavy'/'soft'/'rigid'). null = follow AppSettings.incrementHapticOption; a value pins that haptic for increments on this counter (including an explicit 'off'). A legacy single 'hapticOverride' value migrates into both direction overrides. Legacy/unrecognized values decode as null." },
+      { "name": "decrementHapticOverride", "type": "string", "required": false, "description": "Per-counter override of the app-wide decrement haptic default, stored as a HapticOption rawValue ('off'/'light'/'medium'/'heavy'/'soft'/'rigid'). null = follow AppSettings.decrementHapticOption; a value pins that haptic for subtracts on this counter (including an explicit 'off'). A legacy single 'hapticOverride' value migrates into both direction overrides. Legacy/unrecognized values decode as null." }
     ]
   },
   {
@@ -29,13 +30,14 @@
   },
   {
     "name": "AppSettings",
-    "description": "System-wide app defaults persisted in UserDefaults and restored on launch. Consolidates the handedness preference (formerly a lone @AppStorage(\"leftHanded\")) with the sound-on-change and haptic-on-change choices. Serves as the single default source that per-counter overrides resolve against in later plans.",
+    "description": "System-wide app defaults persisted in UserDefaults and restored on launch. Consolidates the handedness preference (formerly a lone @AppStorage(\"leftHanded\")) with the sound-on-change and the two directional haptic-on-change choices (separate increment and decrement haptics). Serves as the single default source that per-counter overrides resolve against in later plans.",
     "category": "datastore",
     "order": 3,
     "fields": [
       { "name": "leftHanded", "type": "boolean", "required": true, "description": "Whether the bottom control bar renders its mirrored left-handed layout. UserDefaults key 'leftHanded' (reused from the prior @AppStorage). Defaults to false (right-handed)." },
       { "name": "soundOption", "type": "string", "required": true, "description": "Which sound (if any) plays on increment/subtract. UserDefaults key 'soundOption'; one of 'off', 'tock', 'pop', 'click', 'bloop', 'ding'. Defaults to 'off'." },
-      { "name": "hapticOption", "type": "string", "required": true, "description": "Which haptic (if any) fires on increment/subtract. UserDefaults key 'hapticOption'; one of 'off', 'light', 'medium', 'heavy'. Defaults to 'off'." }
+      { "name": "incrementHapticOption", "type": "string", "required": true, "description": "Which haptic (if any) fires on increment. UserDefaults key 'incrementHapticOption'; one of 'off', 'light', 'medium', 'heavy', 'soft', 'rigid'. Defaults to 'rigid' (a crisp tap). On a container with no new key, migrates from the legacy 'hapticOption' key if present." },
+      { "name": "decrementHapticOption", "type": "string", "required": true, "description": "Which haptic (if any) fires on subtract. UserDefaults key 'decrementHapticOption'; one of 'off', 'light', 'medium', 'heavy', 'soft', 'rigid'. Defaults to 'soft' (a dull tap) — deliberately distinct from the increment default so up and down feel different. On a container with no new key, migrates from the legacy 'hapticOption' key if present." }
     ]
   },
   {

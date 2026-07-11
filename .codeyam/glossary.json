@@ -10,7 +10,7 @@
   },
   {
     "conformsToView": false,
-    "description": "Observable store for system-wide app defaults (handedness, sound-on-change choice, haptic-on-change choice) persisted in UserDefaults. Handedness coerces via bool(forKey:); the SoundOption/HapticOption enums decode their rawValue from string(forKey:), each falling back to .off. The single default source per-counter overrides resolve against in later plans.",
+    "description": "Observable store for system-wide app defaults (handedness, sound-on-change choice, and two directional haptic-on-change choices) persisted in UserDefaults. Handedness coerces via bool(forKey:); the SoundOption/HapticOption enums decode their rawValue from string(forKey:). soundOption falls back to .off; incrementHapticOption/decrementHapticOption default to a distinct pairing (increment .rigid, decrement .soft) and migrate a legacy single 'hapticOption' key into both directions when the new keys are absent. The single default source per-counter overrides resolve against.",
     "filePath": "Sources/AppCore/AppSettings.swift",
     "name": "AppSettings",
     "testFile": "Tests/AppCoreTests/AppSettingsTests.swift"
@@ -64,7 +64,7 @@
   },
   {
     "conformsToView": false,
-    "description": "A single named tally (id, name, count, colorKey, allowNegative, step, order) plus three optional per-counter overrides of the app-wide defaults: handednessOverride (Bool?), soundOverride (SoundOption?), and hapticOverride (HapticOption?). A nil override follows AppSettings; a set value pins it. Carries the effectiveLeftHanded/effectiveSound/effectiveHaptic resolvers that return the override when present else the supplied app default, and decodes legacy or unrecognized override values as nil so older persisted counters load unchanged.",
+    "description": "A single named tally (id, name, count, colorKey, allowNegative, step, order) plus optional per-counter overrides of the app-wide defaults: handednessOverride (Bool?), soundOverride (SoundOption?), and two directional haptics incrementHapticOverride/decrementHapticOverride (HapticOption?). A nil override follows AppSettings; a set value pins it. Carries the effectiveLeftHanded/effectiveSound/effectiveIncrementHaptic/effectiveDecrementHaptic resolvers that return the override when present else the supplied app default, and on decode migrates a legacy single 'hapticOverride' into both directions and decodes unrecognized override values as nil so older persisted counters load unchanged.",
     "filePath": "Sources/AppCore/Model.swift",
     "name": "Counter",
     "testFile": "Tests/AppCoreTests/ModelTests.swift"
@@ -153,7 +153,7 @@
     ]
   },
   {
-    "description": "Observable store backing the counter screen. Loads seeded or default counters and the selected id from UserDefaults at launch, tracks the active selection, and applies increment, subtract with optional clamping when negatives are disallowed, reset, and wrap-around swipe selection, persisting every change back to UserDefaults. On each count change it emits feedback resolved through the active counters effective sound/haptic overrides via the effectiveFeedback closure, and updateActiveCounter round-trips the per-counter handedness/sound/haptic overrides.",
+    "description": "Observable store backing the counter screen. Loads seeded or default counters and the selected id from UserDefaults at launch, tracks the active selection, and applies increment, subtract with optional clamping when negatives are disallowed, reset, and wrap-around swipe selection, persisting every change back to UserDefaults. On each count change it emits feedback resolved through the active counter's effective sound and per-direction haptic overrides via the effectiveFeedback closure, picking the increment vs decrement haptic by direction before calling the feedback sink; updateActiveCounter round-trips the per-counter handedness/sound and both directional haptic overrides.",
     "filePath": "Sources/AppCore/Model.swift",
     "name": "CounterModel",
     "testFile": "Tests/AppCoreTests/ModelTests.swift"
@@ -301,7 +301,7 @@
   },
   {
     "conformsToView": false,
-    "description": "Production CounterFeedback. Owns the option gating (a non-off haptic fires the haptic emitter with its intensity; a non-off sound fires the sound emitter with its choice) with injectable emitters so the gating is unit-tested; the real UIKit impact haptic and AudioServicesPlaySystemSound live in the thin defaultHaptic/defaultSound passthroughs behind a canImport(UIKit) guard.",
+    "description": "Production CounterFeedback. Owns the option gating (a non-off haptic fires the haptic emitter with its style; a non-off sound fires the sound emitter with its choice) with injectable emitters so the gating is unit-tested; the real UIKit impact haptic maps every HapticOption style including soft and rigid, and AudioServicesPlaySystemSound lives in the thin defaultHaptic/defaultSound passthroughs behind a canImport(UIKit) guard.",
     "filePath": "Sources/AppCore/Feedback.swift",
     "name": "SystemCounterFeedback",
     "testFile": "Tests/AppCoreTests/FeedbackTests.swift"

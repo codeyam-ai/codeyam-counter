@@ -68,12 +68,13 @@ public struct ContentView: View {
                     } content: {
                         CounterSettingsPanel(
                             counter: model.activeCounter,
-                            onSave: { name, colorKey, allowNegative, step, handedness, sound, haptic in
+                            onSave: { name, colorKey, allowNegative, step, handedness, sound, incrementHaptic, decrementHaptic in
                                 model.updateActiveCounter(name: name, colorKey: colorKey,
                                                           allowNegative: allowNegative, step: step,
                                                           handednessOverride: handedness,
                                                           soundOverride: sound,
-                                                          hapticOverride: haptic)
+                                                          incrementHapticOverride: incrementHaptic,
+                                                          decrementHapticOverride: decrementHaptic)
                             },
                             onDelete: { withAnimation { model.deleteCounter(id: model.activeCounter.id) } },
                             onClose: { withAnimation { showSettings = false } }
@@ -143,7 +144,8 @@ public struct ContentView: View {
             model.effectiveFeedback = {
                 let c = model.activeCounter
                 return (c.effectiveSound(default: settings.soundOption),
-                        c.effectiveHaptic(default: settings.hapticOption))
+                        c.effectiveIncrementHaptic(default: settings.incrementHapticOption),
+                        c.effectiveDecrementHaptic(default: settings.decrementHapticOption))
             }
         }
         .gesture(

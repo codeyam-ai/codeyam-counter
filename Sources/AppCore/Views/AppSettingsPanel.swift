@@ -36,12 +36,20 @@ public struct AppSettingsPanel: View {
                              id: "app-settings-sound")
             }
 
-            SettingsField("HAPTIC ON CHANGE") {
+            SettingsField("INCREMENT HAPTIC") {
                 optionPicker(options: HapticOption.allCases,
-                             selected: settings.hapticOption,
+                             selected: settings.incrementHapticOption,
                              label: { $0.label },
-                             onSelect: { settings.hapticOption = $0 },
-                             id: "app-settings-haptic")
+                             onSelect: { settings.incrementHapticOption = $0 },
+                             id: "app-settings-increment-haptic")
+            }
+
+            SettingsField("DECREMENT HAPTIC") {
+                optionPicker(options: HapticOption.allCases,
+                             selected: settings.decrementHapticOption,
+                             label: { $0.label },
+                             onSelect: { settings.decrementHapticOption = $0 },
+                             id: "app-settings-decrement-haptic")
             }
 
             allCountersButton

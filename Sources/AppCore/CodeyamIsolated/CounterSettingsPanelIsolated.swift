@@ -17,7 +17,7 @@ struct CounterSettingsPanelIsolated: View {
     @ViewBuilder private var content: some View {
         CounterSettingsPanel(
             counter: scenarioCounter,
-            onSave: { _, _, _, _, _, _, _ in }, onDelete: {}, onClose: {})
+            onSave: { _, _, _, _, _, _, _, _ in }, onDelete: {}, onClose: {})
     }
 
     /// The counter the panel edits, varied by scenario so a static capture can
@@ -26,8 +26,11 @@ struct CounterSettingsPanelIsolated: View {
     private var scenarioCounter: Counter {
         switch scenario {
         case "overrides-pinned":
+            // Increment haptic pinned (Rigid) while the decrement haptic stays on
+            // Default — shows the two haptic controls are independently overridable.
             return Counter(id: 1, name: "PUSH-UPS", count: 12, colorKey: "lime", order: 0,
-                           handednessOverride: true, soundOverride: .off, hapticOverride: .light)
+                           handednessOverride: true, soundOverride: .off,
+                           incrementHapticOverride: .rigid, decrementHapticOverride: nil)
         default:
             return Counter(id: 1, name: "PUSH-UPS", count: 12, colorKey: "lime", order: 0)
         }

@@ -1,10 +1,6 @@
 {
   "files": {
-    ".claude/hooks/editor-pretool-hook.py": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift": {
+    "Sources/AppCore/CodeyamIsolated/GraphHistorySelectorIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -12,67 +8,17 @@
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/Views/CounterSettingsPanel.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/CodeyamIsolated/AddCounterDotIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Tests/AppCoreTests/AppSettingsTests.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Tests/AppCoreTests/ThemeTests.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/Views/GraphEventList.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/SeedPolicy.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/AppSettings.swift": {
-      "imports": [],
-      "importedBy": []
-    },
     "Sources/AppCore/Views/HeaderAnchoredOverlay.swift": {
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/Views/CounterSwitcherCard.swift": {
-      "imports": [],
+    ".claude/skills/review-session/scripts/extract-session.mjs": {
+      "imports": [
+        ".claude/skills/review-session/scripts/extract-session-helpers.mjs"
+      ],
       "importedBy": []
     },
-    ".claude/hooks/_step_metadata.py": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/Views/CounterListPanel.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/Model.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/CodeyamIsolated/GraphHeaderIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Tests/AppCoreTests/FeedbackTests.swift": {
+    "ui/src/helpers/stepLabels.generated.ts": {
       "imports": [],
       "importedBy": []
     },
@@ -80,11 +26,23 @@
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/Feedback.swift": {
+    ".claude/hooks/editor-step-hook.py": {
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/Views/GraphHistorySelector.swift": {
+    "Sources/AppCore/Views/CounterSettingsPanel.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Tests/AppCoreTests/ThemeTests.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -92,25 +50,23 @@
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/Views/HeaderBar.swift": {
+    "Sources/AppCore/Views/CounterGraphChart.swift": {
       "imports": [],
       "importedBy": []
     },
-    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
-      "imports": [],
-      "importedBy": [
-        ".claude/skills/review-session/scripts/extract-session.mjs"
-      ]
-    },
-    "Sources/AppCore/CodeyamIsolated/GraphHistorySelectorIsolated.swift": {
+    "Sources/AppCore/AppSettings.swift": {
       "imports": [],
       "importedBy": []
     },
-    ".claude/hooks/editor-step-hook.py": {
+    "Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ui/src/helpers/stepLabels.generated.ts": {
+    "Sources/AppCore/Views/CounterListPanel.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -124,11 +80,37 @@
         ".claude/skills/review-session/scripts/find-last-session.mjs"
       ]
     },
-    "Sources/AppCore/Views/ControlButton.swift": {
+    "Sources/AppCore/Views/BottomControlRow.swift": {
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/Views/CounterGraphChart.swift": {
+    "Sources/AppCore/Views/AppSettingsPanel.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/Views/AddCounterDot.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    ".claude/hooks/editor-pretool-hook.py": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/CodeyamIsolated/GraphEventListIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
+      "imports": [],
+      "importedBy": [
+        ".claude/skills/review-session/scripts/extract-session.mjs"
+      ]
+    },
+    "Sources/AppCore/Views/GraphHistorySelector.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -136,7 +118,47 @@
       "imports": [],
       "importedBy": []
     },
+    "Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Tests/AppCoreTests/FeedbackTests.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/Views/CounterSwitcherCard.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/Feedback.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/CodeyamIsolated/AddCounterDotIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/Views/GraphEventList.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/SeedPolicy.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/ContentView.swift": {
+      "imports": [],
+      "importedBy": []
+    },
     "Sources/AppCore/Views/OverridePicker.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/Model.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "Sources/AppCore/Views/ControlButton.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -146,11 +168,7 @@
       ],
       "importedBy": []
     },
-    "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/Views/CounterDot.swift": {
+    "Sources/AppCore/History.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -158,46 +176,40 @@
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift": {
+    "Sources/AppCore/Views/CounterDot.swift": {
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift": {
+    "Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/Views/AddCounterDot.swift": {
+    ".claude/hooks/_step_metadata.py": {
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/Views/BottomControlRow.swift": {
+    "Tests/AppCoreTests/AppSettingsTests.swift": {
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/ContentView.swift": {
+    "Sources/AppCore/Views/HeaderBar.swift": {
       "imports": [],
       "importedBy": []
     },
-    "Sources/AppCore/History.swift": {
+    "Sources/AppCore/CodeyamIsolated/GraphHeaderIsolated.swift": {
       "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/Views/AppSettingsPanel.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "Sources/AppCore/CodeyamIsolated/GraphEventListIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    ".claude/skills/review-session/scripts/extract-session.mjs": {
-      "imports": [
-        ".claude/skills/review-session/scripts/extract-session-helpers.mjs"
-      ],
       "importedBy": []
     }
   },
   "entities": {
+    ".claude/skills/review-session/scripts/find-last-session.mjs::__file_root__": {
+      "filePath": ".claude/skills/review-session/scripts/find-last-session.mjs",
+      "name": "__file_root__",
+      "imports": [
+        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs::claudeProjectHashFromPath"
+      ],
+      "importedBy": []
+    },
     ".claude/skills/review-session/scripts/extract-session.mjs::__file_root__": {
       "filePath": ".claude/skills/review-session/scripts/extract-session.mjs",
       "name": "__file_root__",
@@ -206,15 +218,7 @@
         ".claude/skills/review-session/scripts/extract-session-helpers.mjs::detectFormatFromPath"
       ],
       "importedBy": []
-    },
-    ".claude/skills/review-session/scripts/find-last-session.mjs::__file_root__": {
-      "filePath": ".claude/skills/review-session/scripts/find-last-session.mjs",
-      "name": "__file_root__",
-      "imports": [
-        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs::claudeProjectHashFromPath"
-      ],
-      "importedBy": []
     }
   },
-  "lastUpdated": "2026-07-11T11:34:39Z"
+  "lastUpdated": "2026-07-11T16:05:38Z"
 }

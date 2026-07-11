@@ -1,12 +1,48 @@
 {
   "tests": [
     {
-      "description": "a fresh store is right-handed with sound and haptic off",
+      "description": "The two default haptics are qualitatively distinct, pinning the must-feel-different guarantee.",
       "file": "Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
-      "key": "AppCoreTests.AppSettingsTests › testDefaultsAreRightHandedAndSilent",
-      "line": 11,
-      "registeredAt": "2026-07-04T12:53:22.252039+00:00",
+      "key": "AppCoreTests.AppSettingsTests › testDefaultHapticsAreDistinct",
+      "line": 22,
+      "registeredAt": "2026-07-11T16:00:10.523682+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A fresh store is right-handed, silent, and carries the distinct default haptic pairing of increment Rigid and decrement Soft.",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testDefaultsAreRightHandedSilentWithDistinctHaptics",
+      "line": 12,
+      "registeredAt": "2026-07-11T16:00:33.340613+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A legacy single hapticOption value seeds both new direction haptics when the new per-direction keys are absent.",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testLegacyHapticKeyMigratesToBothDirections",
+      "line": 58,
+      "registeredAt": "2026-07-11T16:00:33.604273+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A legacy hapticOption of off migrates to both directions off rather than the new Rigid or Soft defaults.",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testLegacyHapticOffMigratesToBothOff",
+      "line": 68,
+      "registeredAt": "2026-07-11T16:00:33.865054+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A present per-direction haptic key wins over the legacy hapticOption key for that direction.",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testNewHapticKeyWinsOverLegacy",
+      "line": 77,
+      "registeredAt": "2026-07-11T16:00:34.119362+00:00",
       "runner": "tests"
     },
     {
@@ -14,7 +50,7 @@
       "file": "Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testOptionCasesCoverTheChoiceSets",
-      "line": 67,
+      "line": 126,
       "registeredAt": "2026-07-04T12:24:39.010618+00:00",
       "runner": "tests"
     },
@@ -23,7 +59,7 @@
       "file": "Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testOptionsAreIndependent",
-      "line": 57,
+      "line": 104,
       "registeredAt": "2026-07-04T12:53:22.503570+00:00",
       "runner": "tests"
     },
@@ -32,7 +68,7 @@
       "file": "Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload",
-      "line": 43,
+      "line": 88,
       "registeredAt": "2026-07-04T12:53:22.783015+00:00",
       "runner": "tests"
     },
@@ -41,17 +77,26 @@
       "file": "Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences",
-      "line": 20,
+      "line": 30,
       "registeredAt": "2026-07-04T12:53:23.046729+00:00",
       "runner": "tests"
     },
     {
-      "description": "an unknown or missing option rawValue falls back to off",
+      "description": "A distribution-policy launch over an unstamped container ignores seeded and legacy haptic keys and starts from the Rigid and Soft defaults.",
       "file": "Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
-      "key": "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToOff",
-      "line": 32,
-      "registeredAt": "2026-07-04T12:24:38.860895+00:00",
+      "key": "AppCoreTests.AppSettingsTests › testReleasePolicyIgnoresSeededHapticsWithoutProvenance",
+      "line": 116,
+      "registeredAt": "2026-07-11T16:00:34.407458+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An unrecognized or missing haptic or sound value falls back to that direction's built-in default.",
+      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToDefault",
+      "line": 45,
+      "registeredAt": "2026-07-11T16:00:34.723644+00:00",
       "runner": "tests"
     },
     {
@@ -86,8 +131,17 @@
       "file": "Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testNoopFeedbackDoesNothing",
-      "line": 55,
+      "line": 64,
       "registeredAt": "2026-07-04T11:09:15.907933+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The soft and rigid styles gate as non-off, firing the haptic emitter carrying their chosen style.",
+      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.FeedbackTests › testSoftAndRigidAreTreatedAsNonOff",
+      "line": 55,
+      "registeredAt": "2026-07-11T16:00:34.982929+00:00",
       "runner": "tests"
     },
     {
@@ -184,7 +238,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff",
-      "line": 559,
+      "line": 561,
       "registeredAt": "2026-07-04T12:53:23.299113+00:00",
       "runner": "tests"
     },
@@ -232,7 +286,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEffectiveResolversFollowDefaultWhenNil",
-      "line": 572,
+      "line": 574,
       "registeredAt": "2026-07-04T16:07:40.967372+00:00",
       "runner": "tests"
     },
@@ -241,7 +295,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet",
-      "line": 582,
+      "line": 586,
       "registeredAt": "2026-07-04T16:07:41.344837+00:00",
       "runner": "tests"
     },
@@ -259,8 +313,17 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter",
-      "line": 680,
+      "line": 732,
       "registeredAt": "2026-07-04T16:07:41.605697+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A counter can pin one haptic direction while the other follows the app default.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testHapticDirectionsResolveIndependently",
+      "line": 598,
+      "registeredAt": "2026-07-11T16:00:35.266395+00:00",
       "runner": "tests"
     },
     {
@@ -287,12 +350,12 @@
       "runner": "tests"
     },
     {
-      "description": "increment fires one feedback call with the resolved sound and haptic options",
+      "description": "Incrementing fires the resolved increment haptic rather than the decrement one.",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
-      "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithResolvedOptions",
+      "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithIncrementHaptic",
       "line": 514,
-      "registeredAt": "2026-07-04T12:53:23.550004+00:00",
+      "registeredAt": "2026-07-11T16:00:35.612625+00:00",
       "runner": "tests"
     },
     {
@@ -325,7 +388,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback",
-      "line": 655,
+      "line": 700,
       "registeredAt": "2026-07-04T16:07:41.873484+00:00",
       "runner": "tests"
     },
@@ -343,8 +406,17 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCountersDecodeWithNilOverrides",
-      "line": 632,
+      "line": 652,
       "registeredAt": "2026-07-04T16:07:42.146558+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A counter persisted with the legacy single hapticOverride migrates that value into both direction overrides on decode.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testLegacySingleHapticOverrideMigratesToBothDirections",
+      "line": 665,
+      "registeredAt": "2026-07-11T16:00:35.878852+00:00",
       "runner": "tests"
     },
     {
@@ -371,6 +443,15 @@
       "runner": "tests"
     },
     {
+      "description": "A new per-direction override key in persisted JSON wins over a legacy single override present alongside it.",
+      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "format": "junit-xml",
+      "key": "AppCoreTests.ModelTests › testNewHapticOverrideKeyWinsOverLegacyOnDecode",
+      "line": 676,
+      "registeredAt": "2026-07-11T16:00:36.148736+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "The no-op subtract clamp records no event and opens no history.",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testNoOpSubtractClampRecordsNoEvent",
@@ -382,7 +463,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testOverrideTracksOrPinsAgainstChangingDefault",
-      "line": 619,
+      "line": 639,
       "registeredAt": "2026-07-04T16:07:42.410664+00:00",
       "runner": "tests"
     },
@@ -433,7 +514,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAndUndoResetStaySilent",
-      "line": 548,
+      "line": 550,
       "registeredAt": "2026-07-04T12:53:23.830725+00:00",
       "runner": "tests"
     },
@@ -576,12 +657,12 @@
       "runner": "tests"
     },
     {
-      "description": "a subtract that changes the count fires feedback with both options",
+      "description": "Subtracting fires the resolved decrement haptic, distinct from the increment default under the Rigid or Soft pairing.",
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
-      "key": "AppCoreTests.ModelTests › testSubtractFiresFeedback",
-      "line": 525,
-      "registeredAt": "2026-07-04T12:53:24.097317+00:00",
+      "key": "AppCoreTests.ModelTests › testSubtractFiresFeedbackWithDecrementHaptic",
+      "line": 526,
+      "registeredAt": "2026-07-11T16:00:36.419588+00:00",
       "runner": "tests"
     },
     {
@@ -607,7 +688,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback",
-      "line": 537,
+      "line": 539,
       "registeredAt": "2026-07-04T12:53:24.353911+00:00",
       "runner": "tests"
     },
@@ -655,7 +736,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil",
-      "line": 644,
+      "line": 689,
       "registeredAt": "2026-07-04T16:07:42.681056+00:00",
       "runner": "tests"
     },
@@ -673,7 +754,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil",
-      "line": 608,
+      "line": 626,
       "registeredAt": "2026-07-04T16:07:42.951657+00:00",
       "runner": "tests"
     },
@@ -691,7 +772,7 @@
       "file": "Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides",
-      "line": 592,
+      "line": 607,
       "registeredAt": "2026-07-04T16:07:43.238399+00:00",
       "runner": "tests"
     },

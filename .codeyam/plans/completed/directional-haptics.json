@@ -1,0 +1,24 @@
+{
+  "completedAt": "2026-07-11T16:02:37Z",
+  "createdAt": "2026-07-11T10:25:23Z",
+  "deliverables": [
+    "App.xcodeproj/project.pbxproj",
+    "Sources/AppCore/AppSettings.swift",
+    "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+    "Sources/AppCore/ContentView.swift",
+    "Sources/AppCore/Feedback.swift",
+    "Sources/AppCore/Model.swift",
+    "Sources/AppCore/Views/AppSettingsPanel.swift",
+    "Sources/AppCore/Views/CounterSettingsPanel.swift",
+    "Tests/AppCoreTests/AppSettingsTests.swift",
+    "Tests/AppCoreTests/FeedbackTests.swift",
+    "Tests/AppCoreTests/ModelTests.swift",
+    "ui/src/helpers/stepLabels.generated.ts"
+  ],
+  "journalTimestamp": "2026-07-11T16:02:37Z",
+  "mode": "ui",
+  "planFile": "completed/directional-haptics.md",
+  "slug": "directional-haptics",
+  "title": "Directional Haptics (Increment vs Decrement)"
+}

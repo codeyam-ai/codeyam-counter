@@ -25,13 +25,28 @@ struct AppSettingsPanelIsolated: View {
         let settings = AppSettings(defaults: suite)
         switch scenario {
         case "SoundAndHapticOn":
+            // Sound on plus the distinct default haptic pairing (Rigid increment /
+            // Soft decrement) — the new two-control layout.
             settings.soundOption = .ding
-            settings.hapticOption = .medium
+            settings.incrementHapticOption = .rigid
+            settings.decrementHapticOption = .soft
+        case "BothHapticsOff":
+            // A user who wants no haptic feedback in either direction.
+            settings.soundOption = .off
+            settings.incrementHapticOption = .off
+            settings.decrementHapticOption = .off
+        case "CustomPairing":
+            // The two directions freely and independently retuned to a custom
+            // distinct pair (increment Heavy / decrement Light).
+            settings.soundOption = .off
+            settings.incrementHapticOption = .heavy
+            settings.decrementHapticOption = .light
         case "LeftHanded":
             settings.defaultLeftHanded = true
         default:
+            // The out-of-box defaults: sound off, haptics at the built-in Rigid /
+            // Soft pairing (left untouched so the panel shows the real default).
             settings.soundOption = .off
-            settings.hapticOption = .off
             settings.defaultLeftHanded = false
         }
         return settings
