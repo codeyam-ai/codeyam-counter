@@ -26,6 +26,15 @@ struct BottomControlRowIsolated: View {
                              graphOpen: true,
                              onSubtract: {}, onReset: {}, onGraph: {}, onIncrement: {})
                 .frame(height: 96)
+        case "IncrementPressed":
+            // Shared pressed state forced on: the downward extension renders dimmed
+            // while SUBTRACT/RESET/GRAPH stay at full strength — only the increment
+            // face responds to the shared press.
+            BottomControlRow(leftHanded: false, continuationWidth: 98, resetIsUndo: false,
+                             graphOpen: false,
+                             incrementPressed: .constant(true),
+                             onSubtract: {}, onReset: {}, onGraph: {}, onIncrement: {})
+                .frame(height: 96)
         default:
             BottomControlRow(leftHanded: false, continuationWidth: 98, resetIsUndo: false,
                              graphOpen: false,

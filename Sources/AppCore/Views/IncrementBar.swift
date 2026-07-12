@@ -8,11 +8,20 @@ import SwiftUI
 public struct IncrementBar: View {
     let leftHanded: Bool
     let plusColumnWidth: CGFloat
+    /// Shared pressed state for the whole increment button. Both this top face and
+    /// the downward extension write into it and dim from it, so pressing either
+    /// dims both. Defaults to `.constant(false)` so isolated scaffolds render the
+    /// static, un-pressed appearance.
+    @Binding var pressed: Bool
     let onIncrement: () -> Void
 
-    public init(leftHanded: Bool, plusColumnWidth: CGFloat, onIncrement: @escaping () -> Void) {
+    public init(leftHanded: Bool,
+                plusColumnWidth: CGFloat,
+                pressed: Binding<Bool> = .constant(false),
+                onIncrement: @escaping () -> Void) {
         self.leftHanded = leftHanded
         self.plusColumnWidth = plusColumnWidth
+        self._pressed = pressed
         self.onIncrement = onIncrement
     }
 
@@ -30,7 +39,7 @@ public struct IncrementBar: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(CounterTheme.accent)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(IncrementFaceButtonStyle(pressed: $pressed))
         .accessibilityIdentifier("increment")
     }
 

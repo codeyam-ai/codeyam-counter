@@ -1,0 +1,16 @@
+{
+  "name": "BottomControlRow - Increment pressed",
+  "id": "514b330c-f3e5-49d9-8826-9b9931bc82a3",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "IncrementPressed",
+      "CODEYAM_ISOLATE_COMPONENT": "BottomControlRow"
+    }
+  },
+  "componentName": "BottomControlRow",
+  "scenarioType": "component"
+}

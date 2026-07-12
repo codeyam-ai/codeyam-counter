@@ -32,7 +32,8 @@
     "name": "BottomControlRow",
     "scenarios": [
       "bottomcontrolrow-default",
-      "bottomcontrolrow-undo-pending"
+      "bottomcontrolrow-undo-pending",
+      "bottomcontrolrow-increment-pressed"
     ]
   },
   {
@@ -75,7 +76,9 @@
     "filePath": "Sources/AppCore/Views/CounterBottomBar.swift",
     "name": "CounterBottomBar",
     "scenarios": [
-      "counterbottombar-default"
+      "counterbottombar-default",
+      "counterbottombar-increment-pressed",
+      "counterbottombar-left-handed-pressed"
     ]
   },
   {
@@ -263,7 +266,17 @@
     "filePath": "Sources/AppCore/Views/IncrementBar.swift",
     "name": "IncrementBar",
     "scenarios": [
-      "incrementbar-default"
+      "incrementbar-default",
+      "incrementbar-pressed"
+    ]
+  },
+  {
+    "conformsToView": false,
+    "description": "Shared press styling for the two faces of the increment button: dims its label from a shared pressed binding and syncs its own isPressed back into that binding, so pressing either face dims both and the L-shape reads as one surface.",
+    "filePath": "Sources/AppCore/Views/IncrementFaceButtonStyle.swift",
+    "name": "IncrementFaceButtonStyle",
+    "scenarios": [
+      "counterbottombar-increment-pressed"
     ]
   },
   {

@@ -1,0 +1,16 @@
+{
+  "name": "IncrementBar - Pressed",
+  "id": "95fa3971-19cf-4184-abb8-ae9b95e328e7",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "IncrementBar",
+      "CODEYAM_ISOLATE_SCENARIO": "Pressed"
+    }
+  },
+  "componentName": "IncrementBar",
+  "scenarioType": "component"
+}

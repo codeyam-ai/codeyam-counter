@@ -1,0 +1,16 @@
+{
+  "name": "CounterBottomBar - Increment pressed",
+  "id": "0c281952-3d6d-45b2-a62e-b66d0c5a464a",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterBottomBar",
+      "CODEYAM_ISOLATE_SCENARIO": "IncrementPressed"
+    }
+  },
+  "componentName": "CounterBottomBar",
+  "scenarioType": "component"
+}

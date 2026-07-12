@@ -1,0 +1,155 @@
+{
+  "timestamp": "2026-07-12T12:48:34Z",
+  "title": "Increment Button Presses As One Surface",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe increment button is drawn as two separate `Button`s: the full-width top\n(`IncrementBar`) and the downward extension that drops into the lower control\nrow (`incrementContinuation` inside `BottomControlRow`). Together they read as a\nsingle L-shaped button, but each uses `.buttonStyle(.plain)`, whose press\nfeedback dims only the face that was actually touched. So tapping the top bar\ndims the top while the downward extension stays at full accent color (and vice\nversa), breaking the illusion that the two areas are one button. The fix is to\nshare a single pressed state across both faces so pressing either one dims\n**both** in unison.\n\n## Key Decisions\n\n- **Share one pressed state rather than merge the views.** The two faces are\n  non-contiguous in the view tree (the lower control row's SUBTRACT/RESET/GRAPH\n  sit between them in the layout), so they cannot cleanly become one `Button`.\n  Instead, both faces are children of `CounterBottomBar`, so we hoist a single\n  `@State private var incrementPressed` there and pass it as a `Binding` to both\n  faces. Each face reports its own press into the shared binding and renders its\n  dim from the shared value — so either face pressing dims both.\n- **Replace `.buttonStyle(.plain)` on the two increment faces with a small\n  custom `ButtonStyle`** (`IncrementFaceButtonStyle`) that (a) syncs its own\n  `configuration.isPressed` into the shared `pressed` binding and (b) dims the\n  label opacity based on the shared value. This preserves the existing \"dims a\n  bit on press\" look while making it consistent across both faces. The other\n  controls (SUBTRACT/RESET/GRAPH) keep `.buttonStyle(.plain)` and are untouched.\n- **Default the new binding to `.constant(false)`** in each view's `init`, so the\n  isolated capture scaffolds (`IncrementBarIsolated`, `BottomControlRowIsolated`)\n  and any other call sites compile unchanged — they simply render the static,\n  un-pressed appearance.\n\n## Implementation\n\n### 1. Add a shared-press button style\n\n**New file**: `Sources/AppCore/Views/IncrementFaceButtonStyle.swift`\n\nA `ButtonStyle` that both increment faces use. It takes a `@Binding var pressed:\nBool`, dims its label when `pressed` is true, and writes its own\n`configuration.isPressed` back into the binding so the *other* face mirrors it:\n\n```swift\nimport SwiftUI\n\n/// Shared press styling for the two faces of the increment button (the top\n/// `IncrementBar` and the `incrementContinuation` in `BottomControlRow`). The\n/// button is drawn as two separate hit areas, so each face syncs its own\n/// `isPressed` into a shared `pressed` binding and dims from that shared value —\n/// pressing either face dims BOTH, so the whole thing reads as one surface.\nstruct IncrementFaceButtonStyle: ButtonStyle {\n    @Binding var pressed: Bool\n\n    func makeBody(configuration: Configuration) -> some View {\n        configuration.label\n            .opacity(pressed ? 0.72 : 1)\n            .onChange(of: configuration.isPressed) { _, isPressed in\n                pressed = isPressed\n            }\n    }\n}\n```\n\nUse the two-parameter `onChange(of:)` closure form matching the project's\ndeployment target (fall back to the single-parameter deprecated form only if the\ntarget predates iOS 17). The `0.72` dim should be tuned to match the current\n`.plain` press feel — pick whatever reads as the same \"dims a bit\" the button\nshows today.\n\n### 2. Drive both faces from one pressed state\n\n**File**: `Sources/AppCore/Views/CounterBottomBar.swift`\n\nAdd `@State private var incrementPressed = false`. Pass `$incrementPressed` into\nboth children:\n\n- `IncrementBar(leftHanded:plusColumnWidth:pressed:onIncrement:)`\n- `BottomControlRow(... incrementPressed: $incrementPressed ...)`\n\n### 3. Apply the shared style to the top face\n\n**File**: `Sources/AppCore/Views/IncrementBar.swift`\n\nAdd a `@Binding var pressed: Bool` (init param defaulting to `.constant(false)`).\nReplace `.buttonStyle(.plain)` on the top `Button` with\n`.buttonStyle(IncrementFaceButtonStyle(pressed: $pressed))`. The accent\nbackground and label already live inside the button's label, so they dim together\ncorrectly.\n\n### 4. Apply the shared style to the downward extension\n\n**File**: `Sources/AppCore/Views/BottomControlRow.swift`\n\nAdd a `@Binding var incrementPressed: Bool` (init param defaulting to\n`.constant(false)`). In `incrementContinuation`, replace `.buttonStyle(.plain)`\nwith `.buttonStyle(IncrementFaceButtonStyle(pressed: $incrementPressed))`. Leave\n`controlsGroup` (SUBTRACT/RESET/GRAPH) and its `.plain` buttons unchanged.\n\n### 5. Isolated scaffolds — no change required\n\n**Files**: `Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift`,\n`Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift`\n\nThe defaulted `.constant(false)` bindings mean these compile without edits and\nkeep rendering the static, un-pressed appearance. Optionally, a new isolated\nscenario could force `pressed`/`incrementPressed` to `true` to capture the\n\"pressed\" look, but that is not required for the fix.\n\n## Reused existing code\n\n- `IncrementBar` from `Sources/AppCore/Views/IncrementBar.swift` (glossary entry:\n  `IncrementBar`) — the top face; gains the shared `pressed` binding.\n- `BottomControlRow` from `Sources/AppCore/Views/BottomControlRow.swift`\n  (glossary entry: `BottomControlRow`) — owns `incrementContinuation`, the\n  downward extension; gains the shared `incrementPressed` binding.\n- `CounterBottomBar` from `Sources/AppCore/Views/CounterBottomBar.swift` — the\n  common parent that already composes both faces; hosts the shared `@State`.\n- `CounterTheme.accent` from `Sources/AppCore/Theme.swift` (glossary entry:\n  `CounterTheme`) — the lime accent both faces fill with; unchanged.\n\n## Reproduction Test\n\nPinning this behavior: pressing either increment face should dim both faces\ntogether.\n\n**Target**: no unit-level reproduction test. This is a SwiftUI press-state\nrendering regression in view code with no isolatable pure-logic seam — the\nfaulty behavior is that two `.buttonStyle(.plain)` buttons dim independently,\nwhich is only observable by driving a live press and comparing the two faces'\nrendered color. There is no model/helper function whose output changes.\n\nStatus: PROPOSED — demonstrate via the \"increment pressed\" scenario below\n(capture the button mid-press and confirm both the top bar and the downward\nextension are dimmed to the same shade).\n\n## Scenarios to Demonstrate\n\n- **Increment button at rest** — both faces show full accent; the two areas read\n  as one continuous surface.\n- **Increment button pressed (top bar tapped)** — both the top bar and the\n  downward extension are dimmed together to the same shade.\n- **Increment button pressed (extension tapped)** — pressing the downward\n  extension dims the top bar too, symmetric with the above.\n- **Left-handed layout, pressed** — mirrored layout (`leftHanded: true`); the\n  extension and top bar still dim in unison on the opposite side.\n- **Other controls unaffected** — pressing SUBTRACT / RESET / GRAPH dims only\n  that control, never the increment faces.",
+  "description": "The increment button is drawn as two separate buttons — the full-width top bar (IncrementBar) and the downward extension (incrementContinuation in BottomControlRow) — that together read as one L-shaped surface. Previously each used .buttonStyle(.plain), so pressing one face dimmed only that face while the other stayed at full accent, breaking the single-button illusion. Introduced a shared IncrementFaceButtonStyle that dims from and writes into one pressed binding hoisted as @State in CounterBottomBar and passed to both faces, so pressing either face now dims both in unison. SUBTRACT/RESET/GRAPH keep their independent .plain styling and are unaffected.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/increment-button-unified-press-color.md\t.codeyam/plans/completed/increment-button-unified-press-color.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-undo-pending--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/incrementbar-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".gitattributes",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/BottomControlRow.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterBottomBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/IncrementBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": "ui/src/helpers/stepLabels.generated.ts",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/bottomcontrolrow-increment-pressed.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterbottombar-increment-pressed.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counterbottombar-left-handed-pressed.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/incrementbar-pressed.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-increment-pressed--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-increment-pressed--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-left-handed-pressed--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/incrementbar-pressed--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/IncrementFaceButtonStyle.swift",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "BottomControlRow - Default",
+      "screenshotPath": "bottomcontrolrow-default--iphone-16.png"
+    },
+    {
+      "name": "BottomControlRow - Increment pressed",
+      "screenshotPath": "bottomcontrolrow-increment-pressed--iphone-16.png"
+    },
+    {
+      "name": "BottomControlRow - Undo Pending",
+      "screenshotPath": "bottomcontrolrow-undo-pending--iphone-16.png"
+    },
+    {
+      "name": "CounterBottomBar - Default",
+      "screenshotPath": "counterbottombar-default--iphone-16.png"
+    },
+    {
+      "name": "CounterBottomBar - Increment pressed",
+      "screenshotPath": "counterbottombar-increment-pressed--iphone-16.png"
+    },
+    {
+      "name": "CounterBottomBar - Left-handed pressed",
+      "screenshotPath": "counterbottombar-left-handed-pressed--iphone-16.png"
+    },
+    {
+      "name": "IncrementBar - Default",
+      "screenshotPath": "incrementbar-default--iphone-16.png"
+    },
+    {
+      "name": "IncrementBar - Pressed",
+      "screenshotPath": "incrementbar-pressed--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 99,
+    "passed": 99,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 99,
+        "passed": 99
+      }
+    ]
+  }
+}

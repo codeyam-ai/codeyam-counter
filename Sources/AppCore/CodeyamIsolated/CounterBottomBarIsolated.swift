@@ -15,8 +15,26 @@ struct CounterBottomBarIsolated: View {
     }
 
     @ViewBuilder private var content: some View {
-        CounterBottomBar(leftHanded: false, screenHeight: 852, screenWidth: 393, resetIsUndo: false,
-                         graphOpen: false,
-                         onIncrement: {}, onSubtract: {}, onReset: {}, onGraph: {})
+        switch scenario {
+        case "IncrementPressed":
+            // The whole increment button pressed: both the top bar and the downward
+            // extension dim together to the same shade, so the L-shape reads as one
+            // surface.
+            CounterBottomBar(leftHanded: false, screenHeight: 852, screenWidth: 393, resetIsUndo: false,
+                             graphOpen: false,
+                             onIncrement: {}, onSubtract: {}, onReset: {}, onGraph: {},
+                             initiallyPressed: true)
+        case "LeftHandedPressed":
+            // Mirrored layout, pressed: the extension and top bar still dim in unison
+            // on the opposite side.
+            CounterBottomBar(leftHanded: true, screenHeight: 852, screenWidth: 393, resetIsUndo: false,
+                             graphOpen: false,
+                             onIncrement: {}, onSubtract: {}, onReset: {}, onGraph: {},
+                             initiallyPressed: true)
+        default:
+            CounterBottomBar(leftHanded: false, screenHeight: 852, screenWidth: 393, resetIsUndo: false,
+                             graphOpen: false,
+                             onIncrement: {}, onSubtract: {}, onReset: {}, onGraph: {})
+        }
     }
 }

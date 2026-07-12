@@ -15,7 +15,16 @@ struct IncrementBarIsolated: View {
     }
 
     @ViewBuilder private var content: some View {
-        IncrementBar(leftHanded: false, plusColumnWidth: 98, onIncrement: {})
-            .frame(height: 150)
+        switch scenario {
+        case "Pressed":
+            // Shared pressed state forced on: the top face renders dimmed, matching
+            // what the downward extension shows at the same moment.
+            IncrementBar(leftHanded: false, plusColumnWidth: 98,
+                         pressed: .constant(true), onIncrement: {})
+                .frame(height: 150)
+        default:
+            IncrementBar(leftHanded: false, plusColumnWidth: 98, onIncrement: {})
+                .frame(height: 150)
+        }
     }
 }

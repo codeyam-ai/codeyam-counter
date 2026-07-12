@@ -16,6 +16,11 @@ public struct BottomControlRow: View {
     /// a CLOSE affordance (reclicking it dismisses the graph). The slot keeps its
     /// `"graph"` accessibility identifier in both modes; `onGraph` toggles upstream.
     let graphOpen: Bool
+    /// Shared pressed state for the whole increment button, driven jointly with
+    /// the top `IncrementBar`. The downward extension writes into it and dims from
+    /// it, so pressing either face dims both. Defaults to `.constant(false)` so
+    /// isolated scaffolds render the static, un-pressed appearance.
+    @Binding var incrementPressed: Bool
     let onSubtract: () -> Void
     let onReset: () -> Void
     let onGraph: () -> Void
@@ -25,6 +30,7 @@ public struct BottomControlRow: View {
                 continuationWidth: CGFloat,
                 resetIsUndo: Bool,
                 graphOpen: Bool,
+                incrementPressed: Binding<Bool> = .constant(false),
                 onSubtract: @escaping () -> Void,
                 onReset: @escaping () -> Void,
                 onGraph: @escaping () -> Void,
@@ -33,6 +39,7 @@ public struct BottomControlRow: View {
         self.continuationWidth = continuationWidth
         self.resetIsUndo = resetIsUndo
         self.graphOpen = graphOpen
+        self._incrementPressed = incrementPressed
         self.onSubtract = onSubtract
         self.onReset = onReset
         self.onGraph = onGraph
@@ -90,7 +97,7 @@ public struct BottomControlRow: View {
                 .frame(width: continuationWidth)
                 .frame(maxHeight: .infinity)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(IncrementFaceButtonStyle(pressed: $incrementPressed))
         .accessibilityIdentifier("increment-continuation")
     }
 }

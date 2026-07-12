@@ -1,0 +1,16 @@
+{
+  "name": "CounterBottomBar - Left-handed pressed",
+  "id": "4d7765ce-2f77-411b-997c-65b609fa4760",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "CounterBottomBar",
+      "CODEYAM_ISOLATE_SCENARIO": "LeftHandedPressed"
+    }
+  },
+  "componentName": "CounterBottomBar",
+  "scenarioType": "component"
+}

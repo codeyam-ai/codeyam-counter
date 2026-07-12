@@ -18,6 +18,12 @@ public struct CounterBottomBar: View {
     let onReset: () -> Void
     let onGraph: () -> Void
 
+    /// One pressed state shared by both increment faces. Hoisted here because the
+    /// two faces are non-contiguous in the layout (the control row sits between
+    /// them) and cannot be one `Button`; the shared binding makes pressing either
+    /// face dim both, so the L-shape reads as a single surface.
+    @State private var incrementPressed: Bool
+
     public init(leftHanded: Bool,
                 screenHeight: CGFloat,
                 screenWidth: CGFloat,
@@ -26,12 +32,17 @@ public struct CounterBottomBar: View {
                 onIncrement: @escaping () -> Void,
                 onSubtract: @escaping () -> Void,
                 onReset: @escaping () -> Void,
-                onGraph: @escaping () -> Void) {
+                onGraph: @escaping () -> Void,
+                initiallyPressed: Bool = false) {
         self.leftHanded = leftHanded
         self.screenHeight = screenHeight
         self.screenWidth = screenWidth
         self.resetIsUndo = resetIsUndo
         self.graphOpen = graphOpen
+        // Demo/preview seam: seed the shared pressed state so isolated captures can
+        // show the pressed appearance (both faces dimmed in unison). Real call sites
+        // omit it and start un-pressed.
+        self._incrementPressed = State(initialValue: initiallyPressed)
         self.onIncrement = onIncrement
         self.onSubtract = onSubtract
         self.onReset = onReset
@@ -45,13 +56,17 @@ public struct CounterBottomBar: View {
         let columnWidth = screenWidth / 4
 
         return VStack(spacing: 0) {
-            IncrementBar(leftHanded: leftHanded, plusColumnWidth: columnWidth, onIncrement: onIncrement)
+            IncrementBar(leftHanded: leftHanded,
+                         plusColumnWidth: columnWidth,
+                         pressed: $incrementPressed,
+                         onIncrement: onIncrement)
                 .frame(height: topBarHeight)
             BottomControlRow(
                 leftHanded: leftHanded,
                 continuationWidth: columnWidth,
                 resetIsUndo: resetIsUndo,
                 graphOpen: graphOpen,
+                incrementPressed: $incrementPressed,
                 onSubtract: onSubtract,
                 onReset: onReset,
                 onGraph: onGraph,
