@@ -9,51 +9,76 @@ import SwiftUI
 /// the per-counter panel there is no save/cancel — toggling is immediate.
 public struct AppSettingsPanel: View {
     @ObservedObject var settings: AppSettings
+    /// Room available below the anchoring header, supplied by `HeaderAnchoredOverlay`.
+    /// The field body scrolls within this bound so the pinned DONE stays reachable.
+    let availableHeight: CGFloat
     let onOpenList: () -> Void
     let onClose: () -> Void
+    /// Whether the FEEDBACK & OVERRIDES section starts expanded. App Settings has
+    /// no per-counter override state to key off, so it collapses by default in
+    /// production; feedback-focused isolated scenarios opt specific cases open.
+    @State private var showFeedback: Bool
 
     public init(settings: AppSettings,
+                availableHeight: CGFloat,
+                initiallyExpandedFeedback: Bool = false,
                 onOpenList: @escaping () -> Void,
                 onClose: @escaping () -> Void) {
         self.settings = settings
+        self.availableHeight = availableHeight
         self.onOpenList = onOpenList
         self.onClose = onClose
+        _showFeedback = State(initialValue: initiallyExpandedFeedback)
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        // Cap the card to the room below the anchor, less the top inset, the
+        // card's own vertical padding, and a bottom breathing margin.
+        let maxCardHeight = max(160, availableHeight - 12 - 40 - 24)
+
+        return VStack(alignment: .leading, spacing: 18) {
             header
 
-            SettingsField("HANDEDNESS") {
-                handednessControl
-            }
+            BoundedScroll {
+                VStack(alignment: .leading, spacing: 18) {
+                    SettingsField("HANDEDNESS") {
+                        handednessControl
+                    }
 
-            SettingsField("SOUND ON CHANGE") {
-                optionPicker(options: SoundOption.allCases,
-                             selected: settings.soundOption,
-                             label: { $0.label },
-                             onSelect: { settings.soundOption = $0 },
-                             id: "app-settings-sound")
-            }
+                    FeedbackDisclosureToggle(expanded: $showFeedback,
+                                             identifier: "app-settings-feedback-toggle")
 
-            SettingsField("INCREMENT HAPTIC") {
-                optionPicker(options: HapticOption.allCases,
-                             selected: settings.incrementHapticOption,
-                             label: { $0.label },
-                             onSelect: { settings.incrementHapticOption = $0 },
-                             id: "app-settings-increment-haptic")
-            }
+                    if showFeedback {
+                        SettingsField("SOUND ON CHANGE") {
+                            optionPicker(options: SoundOption.allCases,
+                                         selected: settings.soundOption,
+                                         label: { $0.label },
+                                         onSelect: { settings.soundOption = $0 },
+                                         id: "app-settings-sound")
+                        }
 
-            SettingsField("DECREMENT HAPTIC") {
-                optionPicker(options: HapticOption.allCases,
-                             selected: settings.decrementHapticOption,
-                             label: { $0.label },
-                             onSelect: { settings.decrementHapticOption = $0 },
-                             id: "app-settings-decrement-haptic")
-            }
+                        SettingsField("INCREMENT HAPTIC") {
+                            optionPicker(options: HapticOption.allCases,
+                                         selected: settings.incrementHapticOption,
+                                         label: { $0.label },
+                                         onSelect: { settings.incrementHapticOption = $0 },
+                                         id: "app-settings-increment-haptic")
+                        }
 
-            allCountersButton
+                        SettingsField("DECREMENT HAPTIC") {
+                            optionPicker(options: HapticOption.allCases,
+                                         selected: settings.decrementHapticOption,
+                                         label: { $0.label },
+                                         onSelect: { settings.decrementHapticOption = $0 },
+                                         id: "app-settings-decrement-haptic")
+                        }
+                    }
+
+                    allCountersButton
+                }
+            }
         }
+        .frame(maxHeight: maxCardHeight, alignment: .top)
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .top)
         .background(CounterTheme.panel)

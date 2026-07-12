@@ -7,16 +7,19 @@ struct CounterSettingsPanelIsolated: View {
     let scenario: String
 
     var body: some View {
-        content
-            .padding(24)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(CounterTheme.bg)
-            .ignoresSafeArea()
+        GeometryReader { proxy in
+            content(availableHeight: proxy.size.height)
+                .padding(24)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        }
+        .background(CounterTheme.bg)
+        .ignoresSafeArea()
     }
 
-    @ViewBuilder private var content: some View {
+    @ViewBuilder private func content(availableHeight: CGFloat) -> some View {
         CounterSettingsPanel(
             counter: scenarioCounter,
+            availableHeight: availableHeight,
             onSave: { _, _, _, _, _, _, _, _ in }, onDelete: {}, onClose: {})
     }
 

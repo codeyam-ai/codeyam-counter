@@ -6,6 +6,10 @@ import SwiftUI
 /// "DONE" saves.
 public struct CounterSettingsPanel: View {
     let counter: Counter
+    /// Room available below the anchoring header, supplied by `HeaderAnchoredOverlay`.
+    /// The field body scrolls within this bound so a fully expanded panel can never
+    /// run off the bottom of the screen and the pinned DONE stays reachable.
+    let availableHeight: CGFloat
     let onSave: (String, String, Bool, Int, Bool?, SoundOption?, HapticOption?, HapticOption?) -> Void
     let onDelete: () -> Void
     let onClose: () -> Void
@@ -21,16 +25,22 @@ public struct CounterSettingsPanel: View {
     @State private var soundOverride: SoundOption?
     @State private var incrementHapticOverride: HapticOption?
     @State private var decrementHapticOverride: HapticOption?
+    /// Whether the FEEDBACK & OVERRIDES section is expanded. Seeded open when the
+    /// counter already pins any override so a user who set them sees them right
+    /// away; collapsed otherwise so the resting panel stays short.
+    @State private var showFeedback: Bool
     /// Two-tap delete guard: the first tap arms the button, a second tap within
     /// ~3s deletes; it auto-disarms so an accidental single tap never wipes a
     /// counter.
     @State private var confirmingDelete = false
 
     public init(counter: Counter,
+                availableHeight: CGFloat,
                 onSave: @escaping (String, String, Bool, Int, Bool?, SoundOption?, HapticOption?, HapticOption?) -> Void,
                 onDelete: @escaping () -> Void,
                 onClose: @escaping () -> Void) {
         self.counter = counter
+        self.availableHeight = availableHeight
         self.onSave = onSave
         self.onDelete = onDelete
         self.onClose = onClose
@@ -47,68 +57,84 @@ public struct CounterSettingsPanel: View {
         _soundOverride = State(initialValue: counter.soundOverride)
         _incrementHapticOverride = State(initialValue: counter.incrementHapticOverride)
         _decrementHapticOverride = State(initialValue: counter.decrementHapticOverride)
+        _showFeedback = State(initialValue: counter.hasFeedbackOverride)
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        // Cap the panel card to the room below the anchor, less the top inset,
+        // the card's own vertical padding, and a bottom breathing margin — so the
+        // whole panel (chrome included) fits on screen and the body scrolls.
+        let maxCardHeight = max(160, availableHeight - 12 - 40 - 24)
+
+        return VStack(alignment: .leading, spacing: 18) {
             header
 
-            SettingsField("NAME") {
-                TextField("", text: $name)
-                    .font(.system(size: 20, weight: .heavy))
-                    .foregroundColor(CounterTheme.ink)
-                    .autocorrectionDisabled()
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 10)
-                    .background(CounterTheme.surface)
-                    .overlay(Rectangle().stroke(CounterTheme.line, lineWidth: 1))
-                    .accessibilityIdentifier("settings-name")
+            BoundedScroll {
+                VStack(alignment: .leading, spacing: 18) {
+                    SettingsField("NAME") {
+                        TextField("", text: $name)
+                            .font(.system(size: 20, weight: .heavy))
+                            .foregroundColor(CounterTheme.ink)
+                            .autocorrectionDisabled()
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 10)
+                            .background(CounterTheme.surface)
+                            .overlay(Rectangle().stroke(CounterTheme.line, lineWidth: 1))
+                            .accessibilityIdentifier("settings-name")
+                    }
+
+                    SettingsField("COLOR") {
+                        CounterColorPicker(selection: $colorKey)
+                    }
+
+                    CounterStepStepper(step: $step)
+
+                    Toggle(isOn: $allowNegative) {
+                        Text("ALLOW NEGATIVE")
+                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .foregroundColor(CounterTheme.ink)
+                    }
+                    .tint(CounterTheme.accent)
+                    .accessibilityIdentifier("settings-allow-negative")
+
+                    FeedbackDisclosureToggle(expanded: $showFeedback,
+                                             identifier: "settings-feedback-toggle")
+
+                    if showFeedback {
+                        SettingsField("HANDEDNESS") {
+                            OverridePicker(options: [true, false],
+                                           selection: $handednessOverride,
+                                           idPrefix: "settings-handedness",
+                                           optionLabel: { $0 ? "LEFT" : "RIGHT" })
+                        }
+
+                        SettingsField("SOUND") {
+                            OverridePicker(options: SoundOption.allCases,
+                                           selection: $soundOverride,
+                                           idPrefix: "settings-sound",
+                                           optionLabel: { $0.label })
+                        }
+
+                        SettingsField("INCREMENT HAPTIC") {
+                            OverridePicker(options: HapticOption.allCases,
+                                           selection: $incrementHapticOverride,
+                                           idPrefix: "settings-increment-haptic",
+                                           optionLabel: { $0.label })
+                        }
+
+                        SettingsField("DECREMENT HAPTIC") {
+                            OverridePicker(options: HapticOption.allCases,
+                                           selection: $decrementHapticOverride,
+                                           idPrefix: "settings-decrement-haptic",
+                                           optionLabel: { $0.label })
+                        }
+                    }
+
+                    deleteButton
+                }
             }
-
-            SettingsField("COLOR") {
-                CounterColorPicker(selection: $colorKey)
-            }
-
-            CounterStepStepper(step: $step)
-
-            Toggle(isOn: $allowNegative) {
-                Text("ALLOW NEGATIVE")
-                    .font(.system(size: 10, weight: .bold, design: .monospaced))
-                    .foregroundColor(CounterTheme.ink)
-            }
-            .tint(CounterTheme.accent)
-            .accessibilityIdentifier("settings-allow-negative")
-
-            SettingsField("HANDEDNESS") {
-                OverridePicker(options: [true, false],
-                               selection: $handednessOverride,
-                               idPrefix: "settings-handedness",
-                               optionLabel: { $0 ? "LEFT" : "RIGHT" })
-            }
-
-            SettingsField("SOUND") {
-                OverridePicker(options: SoundOption.allCases,
-                               selection: $soundOverride,
-                               idPrefix: "settings-sound",
-                               optionLabel: { $0.label })
-            }
-
-            SettingsField("INCREMENT HAPTIC") {
-                OverridePicker(options: HapticOption.allCases,
-                               selection: $incrementHapticOverride,
-                               idPrefix: "settings-increment-haptic",
-                               optionLabel: { $0.label })
-            }
-
-            SettingsField("DECREMENT HAPTIC") {
-                OverridePicker(options: HapticOption.allCases,
-                               selection: $decrementHapticOverride,
-                               idPrefix: "settings-decrement-haptic",
-                               optionLabel: { $0.label })
-            }
-
-            deleteButton
         }
+        .frame(maxHeight: maxCardHeight, alignment: .top)
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .top)
         .background(CounterTheme.panel)

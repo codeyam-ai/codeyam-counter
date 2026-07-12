@@ -1,0 +1,16 @@
+{
+  "name": "FeedbackDisclosureToggle - Expanded",
+  "id": "f3e235b5-6c4c-430d-9c4b-f37c84a61537",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "FeedbackDisclosureToggle",
+      "CODEYAM_ISOLATE_SCENARIO": "Expanded"
+    }
+  },
+  "componentName": "FeedbackDisclosureToggle",
+  "scenarioType": "component"
+}

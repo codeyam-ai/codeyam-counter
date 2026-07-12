@@ -17,7 +17,8 @@
       "soundOption": "ding",
       "deletedDefaultIds": "[]",
       "selectedCounterId": 1,
-      "appSettingsOpen": true
+      "appSettingsOpen": true,
+      "appSettingsFeedbackOpen": true
     },
     "statusBar": {
       "time": "9:41"

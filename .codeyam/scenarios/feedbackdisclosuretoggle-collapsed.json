@@ -1,0 +1,16 @@
+{
+  "name": "FeedbackDisclosureToggle - Collapsed",
+  "id": "1d3ad1e9-e556-4b4e-a8e8-a95ce5f4a177",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "FeedbackDisclosureToggle",
+      "CODEYAM_ISOLATE_SCENARIO": "Collapsed"
+    }
+  },
+  "componentName": "FeedbackDisclosureToggle",
+  "scenarioType": "component"
+}

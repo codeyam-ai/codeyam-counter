@@ -7,15 +7,24 @@ struct AppSettingsPanelIsolated: View {
     let scenario: String
 
     var body: some View {
-        content
-            .padding(.vertical, 24)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(CounterTheme.bg)
-            .ignoresSafeArea()
+        GeometryReader { proxy in
+            content(availableHeight: proxy.size.height)
+                .padding(.vertical, 24)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        }
+        .background(CounterTheme.bg)
+        .ignoresSafeArea()
     }
 
-    @ViewBuilder private var content: some View {
-        AppSettingsPanel(settings: sampleSettings, onOpenList: {}, onClose: {})
+    // The App Settings scenarios exist to demonstrate sound/haptic state, so those
+    // cases open FEEDBACK & OVERRIDES for the capture; `default`/`LeftHanded`
+    // demonstrate the resting/handedness state and stay collapsed.
+    @ViewBuilder private func content(availableHeight: CGFloat) -> some View {
+        let expandFeedback = ["SoundAndHapticOn", "BothHapticsOff", "CustomPairing"].contains(scenario)
+        AppSettingsPanel(settings: sampleSettings,
+                         availableHeight: availableHeight,
+                         initiallyExpandedFeedback: expandFeedback,
+                         onOpenList: {}, onClose: {})
     }
 
     // A throwaway per-scenario UserDefaults suite so the toggles start in the

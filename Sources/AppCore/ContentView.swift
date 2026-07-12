@@ -22,6 +22,10 @@ public struct ContentView: View {
     /// The activity graph overlay for the active counter. Seedable via `graphOpen`
     /// so a static capture can show the chart without a live tap on GRAPH.
     @State private var showGraph: Bool
+    /// Whether the App Settings panel opens with its FEEDBACK & OVERRIDES section
+    /// expanded. Production opens it collapsed; a scenario seeds `appSettingsFeedbackOpen`
+    /// so a static capture can show the sound/haptic rows without a live tap.
+    @State private var appSettingsFeedbackOpen: Bool
 
     public init() {
         // The panel-open flags are pure-UI seed keys the real app never persists,
@@ -33,6 +37,7 @@ public struct ContentView: View {
         _showAppSettings = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "appSettingsOpen"))
         _showCounterList = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "counterListOpen"))
         _showGraph = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "graphOpen"))
+        _appSettingsFeedbackOpen = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "appSettingsFeedbackOpen"))
     }
 
     public var body: some View {
@@ -65,9 +70,10 @@ public struct ContentView: View {
                     HeaderAnchoredOverlay {
                         headerBar.hidden().allowsHitTesting(false)
                         switcherCard.hidden().allowsHitTesting(false)
-                    } content: {
+                    } content: { availableHeight in
                         CounterSettingsPanel(
                             counter: model.activeCounter,
+                            availableHeight: availableHeight,
                             onSave: { name, colorKey, allowNegative, step, handedness, sound, incrementHaptic, decrementHaptic in
                                 model.updateActiveCounter(name: name, colorKey: colorKey,
                                                           allowNegative: allowNegative, step: step,
@@ -88,9 +94,11 @@ public struct ContentView: View {
                 if showAppSettings {
                     HeaderAnchoredOverlay {
                         headerBar.hidden().allowsHitTesting(false)
-                    } content: {
+                    } content: { availableHeight in
                         AppSettingsPanel(
                             settings: settings,
+                            availableHeight: availableHeight,
+                            initiallyExpandedFeedback: appSettingsFeedbackOpen,
                             onOpenList: { withAnimation { showCounterList = true } },
                             onClose: { withAnimation { showAppSettings = false } }
                         )

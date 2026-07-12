@@ -1,0 +1,16 @@
+{
+  "name": "BoundedScroll - Overflowing",
+  "id": "b41cd447-8590-4e45-bba3-18126dd649c0",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Overflowing",
+      "CODEYAM_ISOLATE_COMPONENT": "BoundedScroll"
+    }
+  },
+  "componentName": "BoundedScroll",
+  "scenarioType": "component"
+}

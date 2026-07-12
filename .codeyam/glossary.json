@@ -37,6 +37,16 @@
     ]
   },
   {
+    "conformsToView": true,
+    "description": "A vertical scroll region that content-hugs its child up to the height its parent allows, then scrolls. Used by both settings panels to bound the field body under a pinned header so a fully expanded panel never overflows the screen and DONE stays reachable.",
+    "filePath": "Sources/AppCore/Views/PanelScrollSupport.swift",
+    "name": "BoundedScroll",
+    "scenarios": [
+      "boundedscroll-default",
+      "boundedscroll-overflowing"
+    ]
+  },
+  {
     "description": "The counter screen. Owns the model and handedness preference, wires the swipe-to-switch gesture, and composes the header, switcher card, giant numeral, and bottom bar.",
     "filePath": "Sources/AppCore/ContentView.swift",
     "name": "ContentView",
@@ -202,6 +212,16 @@
     "filePath": "Sources/AppCore/History.swift",
     "name": "CumulativePoint",
     "testFile": "Tests/AppCoreTests/ModelTests.swift"
+  },
+  {
+    "conformsToView": true,
+    "description": "The shared FEEDBACK & OVERRIDES disclosure header used by both settings panels to collapse their sound/haptic/override rows. A chevron rotates from pointing right when collapsed to down when expanded; the whole row is tappable.",
+    "filePath": "Sources/AppCore/Views/PanelScrollSupport.swift",
+    "name": "FeedbackDisclosureToggle",
+    "scenarios": [
+      "feedbackdisclosuretoggle-collapsed",
+      "feedbackdisclosuretoggle-expanded"
+    ]
   },
   {
     "conformsToView": true,

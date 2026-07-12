@@ -132,6 +132,17 @@ public struct Counter: Identifiable, Codable, Equatable {
     /// The haptic this counter actually fires on a subtract: its override when set
     /// (including an explicit `.off`), otherwise the supplied app-wide default.
     public func effectiveDecrementHaptic(default d: HapticOption) -> HapticOption { decrementHapticOverride ?? d }
+
+    /// Whether this counter pins ANY per-counter feedback/handedness override.
+    /// Drives the settings panel's FEEDBACK & OVERRIDES section: a counter that
+    /// already carries an override opens the section so the user sees it; one on
+    /// pure defaults leaves it collapsed for a compact resting panel.
+    public var hasFeedbackOverride: Bool {
+        handednessOverride != nil
+            || soundOverride != nil
+            || incrementHapticOverride != nil
+            || decrementHapticOverride != nil
+    }
 }
 
 /// A pending undo for a single reset: the counter that was zeroed and the value

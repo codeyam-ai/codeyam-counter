@@ -109,6 +109,62 @@
       "runner": "tests"
     },
     {
+      "description": "Every override pinned at once still reads hasFeedbackOverride true.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.CounterFeedbackOverrideTests › testAllOverridesSetReturnsTrue",
+      "registeredAt": "2026-07-12T15:21:48Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A blank slot with no overrides leaves hasFeedbackOverride false.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.CounterFeedbackOverrideTests › testBlankSlotReturnsFalse",
+      "registeredAt": "2026-07-12T15:21:48Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A decrement-haptic override alone makes hasFeedbackOverride true.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.CounterFeedbackOverrideTests › testDecrementHapticOverrideAloneReturnsTrue",
+      "registeredAt": "2026-07-12T15:21:48Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An explicit off sound override is a deliberate pin, so hasFeedbackOverride is true.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.CounterFeedbackOverrideTests › testExplicitOffSoundOverrideReturnsTrue",
+      "registeredAt": "2026-07-12T15:21:48Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A handedness override alone makes hasFeedbackOverride true.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.CounterFeedbackOverrideTests › testHandednessOverrideAloneReturnsTrue",
+      "registeredAt": "2026-07-12T15:21:48Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An increment-haptic override alone makes hasFeedbackOverride true.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.CounterFeedbackOverrideTests › testIncrementHapticOverrideAloneReturnsTrue",
+      "registeredAt": "2026-07-12T15:21:48Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A counter on pure app-wide defaults pins nothing, so hasFeedbackOverride is false.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.CounterFeedbackOverrideTests › testNoOverridesReturnsFalse",
+      "registeredAt": "2026-07-12T15:21:48Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A sound override alone makes hasFeedbackOverride true.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.CounterFeedbackOverrideTests › testSoundOverrideAloneReturnsTrue",
+      "registeredAt": "2026-07-12T15:21:48Z",
+      "runner": "tests"
+    },
+    {
       "description": "Every distinct feel (soft, sharp, double, buzz) gates as non-off, so each fires the haptic emitter once carrying its own choice.",
       "file": "Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",

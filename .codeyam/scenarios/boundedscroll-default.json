@@ -1,0 +1,16 @@
+{
+  "name": "BoundedScroll - Default",
+  "id": "d4c6f46b-9a80-4396-a848-0cddade01d9f",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "BoundedScroll",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "BoundedScroll",
+  "scenarioType": "component"
+}

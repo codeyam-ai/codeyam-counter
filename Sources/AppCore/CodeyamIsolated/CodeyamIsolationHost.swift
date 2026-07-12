@@ -21,6 +21,8 @@ public enum CodeyamIsolationHost {
             return AnyView(AppSettingsPanelIsolated(scenario: scenario))
         case "BottomControlRow":
             return AnyView(BottomControlRowIsolated(scenario: scenario))
+        case "BoundedScroll":
+            return AnyView(BoundedScrollIsolated(scenario: scenario))
         case "ControlButton":
             return AnyView(ControlButtonIsolated(scenario: scenario))
         case "CountHero":
@@ -43,6 +45,8 @@ public enum CodeyamIsolationHost {
             return AnyView(CounterStepStepperIsolated(scenario: scenario))
         case "CounterSwitcherCard":
             return AnyView(CounterSwitcherCardIsolated(scenario: scenario))
+        case "FeedbackDisclosureToggle":
+            return AnyView(FeedbackDisclosureToggleIsolated(scenario: scenario))
         case "GearButton":
             return AnyView(GearButtonIsolated(scenario: scenario))
         case "GraphEventList":
