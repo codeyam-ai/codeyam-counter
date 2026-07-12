@@ -10,18 +10,35 @@ public enum SoundOption: String, CaseIterable, Codable {
     public var label: String { rawValue.uppercased() }
 }
 
-/// The haptic fired on a count change. `off` is silent; the rest map to
-/// `UIImpactFeedbackGenerator` styles (resolved in `SystemCounterFeedback`).
-///
-/// `light`/`medium`/`heavy` differ only in *amplitude* — the same kind of tap,
-/// stronger or weaker. `soft` and `rigid` are *qualitatively* different feels:
-/// `soft` is a dull, cushioned thud and `rigid` a crisp, sharp click. The
-/// default directional pairing (increment `rigid`, decrement `soft`) uses those
-/// two so adding and subtracting feel distinct, not merely louder/quieter.
+/// The haptic fired on a count change. `off` is silent; the rest are
+/// *qualitatively distinct* feels (resolved in `SystemCounterFeedback`), all
+/// fired strong so none reads as merely "weak":
+///   - `soft` — a cushioned impact tap at full intensity
+///   - `sharp` — a crisp, hard-edged impact tap at full intensity
+///   - `double` — a rising two-tap notification pattern (`.success`)
+///   - `buzz` — a three-tap notification rumble (`.error`)
+/// The old `light`/`medium`/`heavy` amplitude ladder is gone: those varied only
+/// in strength (hard to tell apart) and are migrated to their nearest surviving
+/// feel by `resolve(_:)`. The default directional pairing (increment `sharp`,
+/// decrement `soft`) keeps the crisp-up / dull-down distinction unchanged.
 public enum HapticOption: String, CaseIterable, Codable {
-    case off, light, medium, heavy, soft, rigid
+    case off, soft, sharp, double, buzz
 
     public var label: String { rawValue.uppercased() }
+
+    /// Resolve a persisted rawValue (a per-direction key, the legacy single key,
+    /// or a `Counter` override) into a current case, mapping the removed
+    /// amplitude/`rigid` values to their nearest surviving feel. Returns `nil`
+    /// only for a genuinely unknown token, so callers can fall back to a default.
+    public static func resolve(_ raw: String?) -> HapticOption? {
+        guard let raw else { return nil }
+        if let current = HapticOption(rawValue: raw) { return current }
+        switch raw {
+        case "rigid", "heavy", "medium": return .sharp
+        case "light":                     return .soft
+        default:                          return nil
+        }
+    }
 }
 
 /// System-wide app defaults, consolidated into one observable store.
@@ -36,7 +53,7 @@ public enum HapticOption: String, CaseIterable, Codable {
 ///   - `incrementHapticOption` — which haptic (if any) fires on each increment
 ///   - `decrementHapticOption` — which haptic (if any) fires on each subtract
 /// Handedness defaults off; sound defaults to `.off`. The two haptics default to
-/// a deliberately *distinct* pairing — **increment `rigid`, decrement `soft`** —
+/// a deliberately *distinct* pairing — **increment `sharp`, decrement `soft`** —
 /// so a fresh install feels a crisp tap when adding and a dull tap when
 /// subtracting, out of the box. A seeded preference can arrive as a string (the
 /// editor injects via `defaults write`): handedness coerces via `bool(forKey:)`,
@@ -53,7 +70,7 @@ public enum HapticOption: String, CaseIterable, Codable {
 /// (`SeedPolicy.requireProvenance`) before adopting any of these keys — the same
 /// gate `CounterModel` applies, sharing the one marker across both stores.
 /// Under that policy an unstamped container starts from the built-in defaults
-/// (right-handed, sound `.off`, haptics `rigid`/`soft`), so stray injected/stale
+/// (right-handed, sound `.off`, haptics `sharp`/`soft`), so stray injected/stale
 /// scenario keys are ignored; a real user's own changed settings are trusted once
 /// the app has persisted (and stamped the marker). Debug builds keep trusting
 /// injected state.
@@ -96,8 +113,8 @@ public final class AppSettings: ObservableObject {
     /// direction's new key is absent (a user who tuned haptics before the split).
     public static let legacyHapticOptionKey = "hapticOption"
 
-    /// The built-in default increment haptic — a crisp `rigid` tap.
-    public static let defaultIncrementHaptic: HapticOption = .rigid
+    /// The built-in default increment haptic — a crisp `sharp` tap.
+    public static let defaultIncrementHaptic: HapticOption = .sharp
     /// The built-in default decrement haptic — a dull `soft` tap, distinct from
     /// the increment default so up and down feel different out of the box.
     public static let defaultDecrementHaptic: HapticOption = .soft
@@ -129,12 +146,12 @@ public final class AppSettings: ObservableObject {
     /// share it) if present; otherwise the built-in default for that direction.
     private static func loadHaptic(from defaults: UserDefaults, key: String,
                                    default fallback: HapticOption) -> HapticOption {
-        if let stored = defaults.string(forKey: key),
-           let option = HapticOption(rawValue: stored) {
+        // Route both keys through `resolve(...)` so a persisted amplitude/`rigid`
+        // rawValue migrates to its nearest surviving feel instead of being dropped.
+        if let option = HapticOption.resolve(defaults.string(forKey: key)) {
             return option
         }
-        if let legacy = defaults.string(forKey: legacyHapticOptionKey),
-           let option = HapticOption(rawValue: legacy) {
+        if let option = HapticOption.resolve(defaults.string(forKey: legacyHapticOptionKey)) {
             return option
         }
         return fallback

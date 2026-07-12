@@ -10,7 +10,7 @@
   },
   {
     "conformsToView": false,
-    "description": "Observable store for system-wide app defaults (handedness, sound-on-change choice, and two directional haptic-on-change choices) persisted in UserDefaults. Handedness coerces via bool(forKey:); the SoundOption/HapticOption enums decode their rawValue from string(forKey:). soundOption falls back to .off; incrementHapticOption/decrementHapticOption default to a distinct pairing (increment .rigid, decrement .soft) and migrate a legacy single 'hapticOption' key into both directions when the new keys are absent. The single default source per-counter overrides resolve against.",
+    "description": "Observable store for system-wide app defaults (handedness, sound-on-change choice, and two directional haptic-on-change choices) persisted in UserDefaults. Handedness coerces via bool(forKey:); the SoundOption/HapticOption enums decode their rawValue from string(forKey:) through HapticOption.resolve so removed amplitude/rigid values migrate to a surviving feel. soundOption falls back to .off; incrementHapticOption/decrementHapticOption default to a distinct pairing (increment .sharp, decrement .soft) and migrate a legacy single hapticOption key into both directions when the new keys are absent. The single default source per-counter overrides resolve against.",
     "filePath": "Sources/AppCore/AppSettings.swift",
     "name": "AppSettings",
     "testFile": "Tests/AppCoreTests/AppSettingsTests.swift"
@@ -242,6 +242,12 @@
     ]
   },
   {
+    "description": "Static migration helper on HapticOption that resolves a persisted rawValue - a per-direction key, the legacy single key, or a Counter override - into a current case, mapping the removed amplitude values rigid/heavy/medium to sharp and light to soft, and returning nil for a genuinely unknown token so callers fall back to a default.",
+    "filePath": "Sources/AppCore/AppSettings.swift",
+    "name": "HapticOption.resolve",
+    "testFile": "Tests/AppCoreTests/AppSettingsTests.swift"
+  },
+  {
     "conformsToView": true,
     "description": "Structural container that anchors a floating panel below the screen's fixed top chrome: a hidden non-interactive header (and optional switcher) copy reserves exact-height space, the panel content is drawn beneath it, and a trailing spacer pushes everything to the top. No branching or data of its own; its visual output is entirely its children, exercised through ContentView's four overlay application scenarios.",
     "filePath": "Sources/AppCore/Views/HeaderAnchoredOverlay.swift",
@@ -314,7 +320,7 @@
   },
   {
     "conformsToView": false,
-    "description": "Production CounterFeedback. Owns the option gating (a non-off haptic fires the haptic emitter with its style; a non-off sound fires the sound emitter with its choice) with injectable emitters so the gating is unit-tested; the real UIKit impact haptic maps every HapticOption style including soft and rigid, and AudioServicesPlaySystemSound lives in the thin defaultHaptic/defaultSound passthroughs behind a canImport(UIKit) guard.",
+    "description": "Production CounterFeedback. Owns the option gating (a non-off haptic fires the haptic emitter; a non-off sound fires the sound emitter with its choice) with injectable emitters so the gating is unit-tested. The real defaultHaptic maps each qualitatively-distinct HapticOption: soft and sharp are UIImpactFeedbackGenerator soft/rigid taps fired at full intensity, while double and buzz are UINotificationFeedbackGenerator success/error patterns; defaultSound plays a distinct AudioServicesPlaySystemSound per choice. Both passthroughs sit behind a canImport(UIKit) guard.",
     "filePath": "Sources/AppCore/Feedback.swift",
     "name": "SystemCounterFeedback",
     "testFile": "Tests/AppCoreTests/FeedbackTests.swift"

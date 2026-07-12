@@ -26,11 +26,11 @@ struct CounterSettingsPanelIsolated: View {
     private var scenarioCounter: Counter {
         switch scenario {
         case "overrides-pinned":
-            // Increment haptic pinned (Rigid) while the decrement haptic stays on
+            // Increment haptic pinned (Sharp) while the decrement haptic stays on
             // Default — shows the two haptic controls are independently overridable.
             return Counter(id: 1, name: "PUSH-UPS", count: 12, colorKey: "lime", order: 0,
                            handednessOverride: true, soundOverride: .off,
-                           incrementHapticOverride: .rigid, decrementHapticOverride: nil)
+                           incrementHapticOverride: .sharp, decrementHapticOverride: nil)
         default:
             return Counter(id: 1, name: "PUSH-UPS", count: 12, colorKey: "lime", order: 0)
         }

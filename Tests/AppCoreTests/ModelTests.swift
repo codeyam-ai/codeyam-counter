@@ -514,11 +514,11 @@ final class ModelTests: XCTestCase {
     func testIncrementFiresFeedbackWithIncrementHaptic() {
         let spy = FeedbackSpy()
         let model = spiedModel([Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0)], spy: spy)
-        model.effectiveFeedback = { (sound: .pop, incrementHaptic: .rigid, decrementHaptic: .soft) }
+        model.effectiveFeedback = { (sound: .pop, incrementHaptic: .sharp, decrementHaptic: .soft) }
         model.increment()
         XCTAssertEqual(spy.calls.count, 1)
         XCTAssertEqual(spy.calls[0].sound, .pop)
-        XCTAssertEqual(spy.calls[0].haptic, .rigid, "increment fires the increment haptic")
+        XCTAssertEqual(spy.calls[0].haptic, .sharp, "increment fires the increment haptic")
     }
 
     // A subtract that actually changes the count emits the *decrement* haptic, and
@@ -526,12 +526,12 @@ final class ModelTests: XCTestCase {
     func testSubtractFiresFeedbackWithDecrementHaptic() {
         let spy = FeedbackSpy()
         let model = spiedModel([Counter(id: 1, name: "REPS", count: 5, colorKey: "lime", order: 0)], spy: spy)
-        model.effectiveFeedback = { (sound: .ding, incrementHaptic: .rigid, decrementHaptic: .soft) }
+        model.effectiveFeedback = { (sound: .ding, incrementHaptic: .sharp, decrementHaptic: .soft) }
         model.subtract()
         XCTAssertEqual(spy.calls.count, 1)
         XCTAssertEqual(spy.calls[0].sound, .ding)
         XCTAssertEqual(spy.calls[0].haptic, .soft, "subtract fires the decrement haptic")
-        XCTAssertNotEqual(spy.calls[0].haptic, .rigid, "up and down feel different by default")
+        XCTAssertNotEqual(spy.calls[0].haptic, .sharp, "up and down feel different by default")
     }
 
     // The no-op clamp (negatives disallowed, already at zero) changes nothing, so
@@ -541,7 +541,7 @@ final class ModelTests: XCTestCase {
         let model = spiedModel(
             [Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", allowNegative: false, order: 0)],
             spy: spy)
-        model.effectiveFeedback = { (sound: .tock, incrementHaptic: .rigid, decrementHaptic: .soft) }
+        model.effectiveFeedback = { (sound: .tock, incrementHaptic: .sharp, decrementHaptic: .soft) }
         model.subtract()
         XCTAssertTrue(spy.calls.isEmpty)
     }
@@ -550,7 +550,7 @@ final class ModelTests: XCTestCase {
     func testResetAndUndoResetStaySilent() {
         let spy = FeedbackSpy()
         let model = spiedModel([Counter(id: 1, name: "REPS", count: 4, colorKey: "lime", order: 0)], spy: spy)
-        model.effectiveFeedback = { (sound: .tock, incrementHaptic: .rigid, decrementHaptic: .soft) }
+        model.effectiveFeedback = { (sound: .tock, incrementHaptic: .sharp, decrementHaptic: .soft) }
         model.reset()
         model.undoReset()
         XCTAssertTrue(spy.calls.isEmpty)
@@ -576,7 +576,7 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(c.effectiveLeftHanded(default: true), true)
         XCTAssertEqual(c.effectiveLeftHanded(default: false), false)
         XCTAssertEqual(c.effectiveSound(default: .ding), .ding)
-        XCTAssertEqual(c.effectiveIncrementHaptic(default: .rigid), .rigid)
+        XCTAssertEqual(c.effectiveIncrementHaptic(default: .sharp), .sharp)
         XCTAssertEqual(c.effectiveDecrementHaptic(default: .soft), .soft)
     }
 
@@ -586,19 +586,19 @@ final class ModelTests: XCTestCase {
     func testEffectiveResolversPinOverrideWhenSet() {
         let c = Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0,
                         handednessOverride: true, soundOverride: .off,
-                        incrementHapticOverride: .rigid, decrementHapticOverride: .off)
+                        incrementHapticOverride: .sharp, decrementHapticOverride: .off)
         XCTAssertEqual(c.effectiveLeftHanded(default: false), true, "override wins over default")
         XCTAssertEqual(c.effectiveSound(default: .ding), .off, "explicit .off override silences a noisy default")
-        XCTAssertEqual(c.effectiveIncrementHaptic(default: .light), .rigid, "increment override pins")
-        XCTAssertEqual(c.effectiveDecrementHaptic(default: .heavy), .off, "explicit .off decrement override wins")
+        XCTAssertEqual(c.effectiveIncrementHaptic(default: .soft), .sharp, "increment override pins")
+        XCTAssertEqual(c.effectiveDecrementHaptic(default: .double), .off, "explicit .off decrement override wins")
     }
 
     // A counter can pin one haptic direction while the other follows the app
     // default (a nil override for that direction).
     func testHapticDirectionsResolveIndependently() {
         let c = Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0,
-                        incrementHapticOverride: .rigid, decrementHapticOverride: nil)
-        XCTAssertEqual(c.effectiveIncrementHaptic(default: .light), .rigid, "increment pinned")
+                        incrementHapticOverride: .sharp, decrementHapticOverride: nil)
+        XCTAssertEqual(c.effectiveIncrementHaptic(default: .double), .sharp, "increment pinned")
         XCTAssertEqual(c.effectiveDecrementHaptic(default: .soft), .soft, "decrement follows the app default")
     }
 
@@ -609,16 +609,16 @@ final class ModelTests: XCTestCase {
         let model = CounterModel(defaults: suite)
         model.updateActiveCounter(name: "PUSH-UPS", colorKey: "lime", allowNegative: true, step: 1,
                                   handednessOverride: true, soundOverride: .bloop,
-                                  incrementHapticOverride: .heavy, decrementHapticOverride: .light)
+                                  incrementHapticOverride: .double, decrementHapticOverride: .buzz)
         XCTAssertEqual(model.activeCounter.handednessOverride, true)
         XCTAssertEqual(model.activeCounter.soundOverride, .bloop)
-        XCTAssertEqual(model.activeCounter.incrementHapticOverride, .heavy)
-        XCTAssertEqual(model.activeCounter.decrementHapticOverride, .light)
+        XCTAssertEqual(model.activeCounter.incrementHapticOverride, .double)
+        XCTAssertEqual(model.activeCounter.decrementHapticOverride, .buzz)
         let reloaded = CounterModel(defaults: suite)
         XCTAssertEqual(reloaded.activeCounter.handednessOverride, true)
         XCTAssertEqual(reloaded.activeCounter.soundOverride, .bloop)
-        XCTAssertEqual(reloaded.activeCounter.incrementHapticOverride, .heavy)
-        XCTAssertEqual(reloaded.activeCounter.decrementHapticOverride, .light)
+        XCTAssertEqual(reloaded.activeCounter.incrementHapticOverride, .double)
+        XCTAssertEqual(reloaded.activeCounter.decrementHapticOverride, .buzz)
     }
 
     // Saving with nil overrides clears any previously pinned values (the panel's
@@ -626,7 +626,7 @@ final class ModelTests: XCTestCase {
     func testUpdateActiveCounterClearsOverridesWhenNil() {
         let model = seededModel([Counter(id: 1, name: "REPS", count: 0, colorKey: "lime", order: 0,
                                          handednessOverride: false, soundOverride: .ding,
-                                         incrementHapticOverride: .medium, decrementHapticOverride: .heavy)])
+                                         incrementHapticOverride: .double, decrementHapticOverride: .buzz)])
         model.updateActiveCounter(name: "REPS", colorKey: "lime", allowNegative: true, step: 1)
         XCTAssertNil(model.activeCounter.handednessOverride)
         XCTAssertNil(model.activeCounter.soundOverride)
@@ -661,24 +661,25 @@ final class ModelTests: XCTestCase {
     }
 
     // A counter persisted with the pre-split single `hapticOverride` key migrates
-    // that value into BOTH direction overrides on decode.
+    // that value into BOTH direction overrides on decode. A stored amplitude value
+    // (`heavy`) also migrates to its nearest surviving feel (`sharp`).
     func testLegacySingleHapticOverrideMigratesToBothDirections() {
         let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
         let legacyJSON = #"[{"id":1,"name":"PUSH-UPS","count":2,"colorKey":"lime","allowNegative":true,"step":1,"order":0,"hapticOverride":"heavy"}]"#
         suite.set(legacyJSON, forKey: CounterModel.countersKey)
         let model = CounterModel(defaults: suite)
-        XCTAssertEqual(model.activeCounter.incrementHapticOverride, .heavy)
-        XCTAssertEqual(model.activeCounter.decrementHapticOverride, .heavy)
+        XCTAssertEqual(model.activeCounter.incrementHapticOverride, .sharp)
+        XCTAssertEqual(model.activeCounter.decrementHapticOverride, .sharp)
     }
 
     // A new per-direction override key in persisted JSON wins over any legacy
     // single key present alongside it.
     func testNewHapticOverrideKeyWinsOverLegacyOnDecode() {
         let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
-        let json = #"[{"id":1,"name":"PUSH-UPS","count":0,"colorKey":"lime","allowNegative":true,"step":1,"order":0,"hapticOverride":"heavy","incrementHapticOverride":"light"}]"#
+        let json = #"[{"id":1,"name":"PUSH-UPS","count":0,"colorKey":"lime","allowNegative":true,"step":1,"order":0,"hapticOverride":"heavy","incrementHapticOverride":"double"}]"#
         suite.set(json, forKey: CounterModel.countersKey)
         let model = CounterModel(defaults: suite)
-        XCTAssertEqual(model.activeCounter.incrementHapticOverride, .light, "new key present")
+        XCTAssertEqual(model.activeCounter.incrementHapticOverride, .double, "new key present")
         // With at least one new key present, the legacy migration does not run;
         // the absent decrement key stays nil (follows the app default).
         XCTAssertNil(model.activeCounter.decrementHapticOverride)
@@ -701,26 +702,26 @@ final class ModelTests: XCTestCase {
         let spy = FeedbackSpy()
         let model = spiedModel([
             Counter(id: 1, name: "A", count: 0, colorKey: "lime", order: 0, soundOverride: .off,
-                    incrementHapticOverride: .heavy, decrementHapticOverride: .light),
+                    incrementHapticOverride: .double, decrementHapticOverride: .buzz),
             Counter(id: 2, name: "B", count: 5, colorKey: "coffee", order: 1),
         ], spy: spy)
-        // Mirror ContentView: app defaults are (sound .ding, increment .rigid,
+        // Mirror ContentView: app defaults are (sound .ding, increment .sharp,
         // decrement .soft), resolved through whichever counter is active at emit.
         model.effectiveFeedback = {
             let c = model.activeCounter
             return (c.effectiveSound(default: .ding),
-                    c.effectiveIncrementHaptic(default: .rigid),
+                    c.effectiveIncrementHaptic(default: .sharp),
                     c.effectiveDecrementHaptic(default: .soft))
         }
-        // Counter A overrides: sound .off (silenced); increment haptic .heavy pinned.
+        // Counter A overrides: sound .off (silenced); increment haptic .double pinned.
         model.increment()
         XCTAssertEqual(spy.calls.last?.sound, .off)
-        XCTAssertEqual(spy.calls.last?.haptic, .heavy, "increment uses the pinned increment override")
-        // Counter B follows the app defaults — increment fires the default .rigid.
+        XCTAssertEqual(spy.calls.last?.haptic, .double, "increment uses the pinned increment override")
+        // Counter B follows the app defaults — increment fires the default .sharp.
         model.select(id: 2)
         model.increment()
         XCTAssertEqual(spy.calls.last?.sound, .ding)
-        XCTAssertEqual(spy.calls.last?.haptic, .rigid, "follower increment uses the app default")
+        XCTAssertEqual(spy.calls.last?.haptic, .sharp, "follower increment uses the app default")
         // Counter B subtract fires the default decrement haptic .soft, distinct
         // from the increment default.
         model.subtract()
@@ -958,17 +959,17 @@ final class ModelTests: XCTestCase {
 
     // AppSettings applies the same gate: a distribution-policy launch over an
     // unstamped container ignores injected sound/haptic/handedness keys and
-    // starts from the built-in defaults (sound off, haptics Rigid/Soft).
+    // starts from the built-in defaults (sound off, haptics Sharp/Soft).
     func testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance() {
         let suite = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
         suite.set(true, forKey: AppSettings.leftHandedKey)
         suite.set(SoundOption.ding.rawValue, forKey: AppSettings.soundOptionKey)
-        suite.set(HapticOption.heavy.rawValue, forKey: AppSettings.incrementHapticOptionKey)
-        suite.set(HapticOption.light.rawValue, forKey: AppSettings.decrementHapticOptionKey)
+        suite.set(HapticOption.double.rawValue, forKey: AppSettings.incrementHapticOptionKey)
+        suite.set(HapticOption.buzz.rawValue, forKey: AppSettings.decrementHapticOptionKey)
         let settings = AppSettings(defaults: suite, policy: .requireProvenance)
         XCTAssertFalse(settings.defaultLeftHanded)
         XCTAssertEqual(settings.soundOption, .off)
-        XCTAssertEqual(settings.incrementHapticOption, .rigid)
+        XCTAssertEqual(settings.incrementHapticOption, .sharp)
         XCTAssertEqual(settings.decrementHapticOption, .soft)
     }
 

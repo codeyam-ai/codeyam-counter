@@ -36,7 +36,7 @@ struct OverridePickerIsolated: View {
                                optionLabel: { $0.label }))
             row("HAPTIC",
                 OverridePicker(options: HapticOption.allCases,
-                               selection: .constant(pinned ? HapticOption?.some(.light) : HapticOption?.none),
+                               selection: .constant(pinned ? HapticOption?.some(.sharp) : HapticOption?.none),
                                idPrefix: "iso-haptic",
                                optionLabel: { $0.label }))
         }

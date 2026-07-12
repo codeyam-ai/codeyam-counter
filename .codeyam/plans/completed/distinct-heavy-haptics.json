@@ -1,0 +1,42 @@
+{
+  "claimStartedAt": "2026-07-12T13:06:24Z",
+  "completedAt": "2026-07-12T14:23:33Z",
+  "completedBy": {
+    "agentProvider": "claude",
+    "codeyamEditorVersion": "0.1.0",
+    "currentStep": "ui-step22",
+    "machine": "Jareds-Laptop.local",
+    "originId": "76154a71-f874-468a-81e0-7e448385c871",
+    "pid": 84996,
+    "priority": 0,
+    "selectedPlan": "distinct-heavy-haptics",
+    "sessionId": "3ec220a7-81b4-462b-a889-c5154b822d1e",
+    "startedAt": "2026-07-12T13:06:24Z"
+  },
+  "createdAt": "2026-07-12T10:53:01Z",
+  "deliverables": [
+    ".gitattributes",
+    "Sources/AppCore/AppSettings.swift",
+    "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/OverridePickerIsolated.swift",
+    "Sources/AppCore/Feedback.swift",
+    "Sources/AppCore/Model.swift",
+    "Sources/AppCore/Views/BottomControlRow.swift",
+    "Sources/AppCore/Views/CounterBottomBar.swift",
+    "Sources/AppCore/Views/IncrementBar.swift",
+    "Sources/AppCore/Views/IncrementFaceButtonStyle.swift",
+    "Tests/AppCoreTests/AppSettingsTests.swift",
+    "Tests/AppCoreTests/FeedbackTests.swift",
+    "Tests/AppCoreTests/ModelTests.swift",
+    "ui/src/helpers/stepLabels.generated.ts"
+  ],
+  "journalTimestamp": "2026-07-12T14:23:33Z",
+  "mode": "ui",
+  "planFile": "completed/distinct-heavy-haptics.md",
+  "slug": "distinct-heavy-haptics",
+  "title": "Distinct Heavy Haptics"
+}

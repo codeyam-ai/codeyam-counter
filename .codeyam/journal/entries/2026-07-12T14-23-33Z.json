@@ -1,0 +1,145 @@
+{
+  "timestamp": "2026-07-12T14:23:33Z",
+  "title": "Distinct Heavy Haptics",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe haptic option list is confusing: `light`/`medium`/`heavy` are just amplitude\nvariants of the same tap (which is stronger? does it matter?), padding the picker\nwithout adding meaningfully different feels. Replace those three amplitude cases\nwith a small set of **qualitatively distinct** feels that are all strong (\"heavy\"):\nthe new `HapticOption` set is **OFF, SOFT, SHARP, DOUBLE, BUZZ**. `SOFT` and\n`SHARP` are impact taps fired at full intensity (cushioned vs. crisp); `DOUBLE`\nand `BUZZ` are inherently strong multi-tap notification patterns (a rising\ntwo-tap and a three-tap rumble). The per-counter panel keeps its **DEFAULT**\n(follow-app) chip unchanged — only the option list behind it changes. The\ndirectional default pairing stays distinct: increment `SHARP`, decrement `SOFT`\n(the same crisp-up / dull-down feel as today's rigid/soft, just renamed).\n\n## Key Decisions\n\n- **Distinct feels, not amplitudes** — drop `light`/`medium`/`heavy`; keep the two\n  qualitatively-different impacts (`soft`, and `rigid` renamed to `sharp`) and add\n  two notification-generator patterns (`double` = `.success`, `buzz` = `.error`).\n  These four are easy to tell apart on-device; amplitude siblings were not.\n- **All fired strong** — the two impacts pass `intensity: 1.0` to\n  `UIImpactFeedbackGenerator.impactOccurred(intensity:)` so neither reads as\n  \"weak\"; the notification patterns are already pronounced. This satisfies the\n  \"all Heavy\" intent without keeping an amplitude ladder.\n- **Rename `rigid` → `sharp`** rather than keep the raw value — \"SHARP\" describes\n  the feel and pairs cleanly with \"SOFT\". Handled by a persisted-value migration\n  so no tuned user or seeded scenario silently resets.\n- **Keep the follow-app DEFAULT chip** (confirmed with the user) — the\n  `HapticOption?` override model and `OverridePicker`'s DEFAULT chip are unchanged;\n  this plan only edits the enum, its feedback mapping, the defaults, and the\n  read-path migration.\n- **Migrate persisted/legacy rawValues** — old strings (`light`, `medium`,\n  `heavy`, `rigid`) still live in `UserDefaults` (per-direction keys and the\n  legacy single key) and in persisted `Counter` overrides. Map them to the nearest\n  surviving feel on read so a returning TestFlight user keeps a sensible tap\n  instead of snapping back to the default.\n\n## Implementation\n\n### 1. Redefine the haptic option set\n\n**File**: `Sources/AppCore/AppSettings.swift`\n\nReplace the `HapticOption` cases with `off, soft, sharp, double, buzz` and refresh\nthe doc comment (drop the amplitude framing). Add a persisted-value migration\nhelper so removed/renamed rawValues resolve to a surviving case:\n\n```swift\npublic enum HapticOption: String, CaseIterable, Codable {\n    case off, soft, sharp, double, buzz\n\n    public var label: String { rawValue.uppercased() }\n\n    /// Resolve a persisted rawValue (a per-direction key, the legacy single key,\n    /// or a `Counter` override) into a current case, mapping the removed\n    /// amplitude/`rigid` values to their nearest surviving feel. Returns `nil`\n    /// only for a genuinely unknown token, so callers can fall back to a default.\n    public static func resolve(_ raw: String?) -> HapticOption? {\n        guard let raw else { return nil }\n        if let current = HapticOption(rawValue: raw) { return current }\n        switch raw {\n        case \"rigid\", \"heavy\", \"medium\": return .sharp\n        case \"light\":                     return .soft\n        default:                          return nil\n        }\n    }\n}\n```\n\nUpdate the two default constants:\n\n- `defaultIncrementHaptic` → `.sharp` (was `.rigid`)\n- `defaultDecrementHaptic` → `.soft` (unchanged)\n\nUpdate `AppSettings.loadHaptic(...)` to route both the new per-direction key and\nthe legacy `hapticOption` key through `HapticOption.resolve(...)` instead of the\nbare `HapticOption(rawValue:)`, so migrated values survive. Refresh the type-level\ndoc comment that names the `rigid`/`soft` defaults to say `sharp`/`soft`.\n\n### 2. Map the new feels to real haptic hardware\n\n**File**: `Sources/AppCore/Feedback.swift`\n\nRewrite `SystemCounterFeedback.defaultHaptic(_:)` to branch by feel: the impacts\nfire at full intensity, the patterns use `UINotificationFeedbackGenerator`:\n\n```swift\nprivate static func defaultHaptic(_ option: HapticOption) {\n    #if canImport(UIKit)\n    switch option {\n    case .off:\n        return\n    case .soft:\n        UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 1.0)\n    case .sharp:\n        UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 1.0)\n    case .double:\n        UINotificationFeedbackGenerator().notificationOccurred(.success)\n    case .buzz:\n        UINotificationFeedbackGenerator().notificationOccurred(.error)\n    }\n    #endif\n}\n```\n\nThe `changed(sound:haptic:)` gating (`if haptic != .off { emitHaptic(haptic) }`)\nis unchanged — every non-`.off` case still fires exactly once.\n\n### 3. Migrate persisted per-counter overrides on decode\n\n**File**: `Sources/AppCore/Model.swift`\n\nIn `Counter.init(from:)`, the increment/decrement haptic overrides and the legacy\nsingle `hapticOverride` are currently decoded via `HapticOption.init(rawValue:)`\n(around lines 100–108). Route each through `HapticOption.resolve(...)` so a\npersisted `rigid`/`heavy`/etc. override migrates to `sharp`/`soft` instead of\ndecoding to `nil` (which would silently drop the override and fall back to the app\ndefault). No signature or other logic changes.\n\n### 4. Pickers need no structural change\n\n**Files**: `Sources/AppCore/Views/CounterSettingsPanel.swift`,\n`Sources/AppCore/Views/AppSettingsPanel.swift`, `Sources/AppCore/Views/OverridePicker.swift`\n\nAll three drive their chips off `HapticOption.allCases` + `label`, so the new set\nflows through automatically and the per-counter DEFAULT chip stays. No edits\nexpected here beyond confirming the rendered rows read\n`[ DEFAULT ] [ OFF ] [ SOFT ] [ SHARP ] [ DOUBLE ] [ BUZZ ]` (per-counter) and the\nsame without DEFAULT (app settings). Verify the wider row still scrolls cleanly.\n\n### 5. Update tests to the new cases\n\n**File**: `Tests/AppCoreTests/AppSettingsTests.swift`\n\n- `testUnknownOptionFallsBackToDefault` uses `\"buzz\"` as its \"unrecognized\"\n  increment value — **`buzz` is now a real case**, so this test would change\n  meaning. Swap the token to a still-unknown one (e.g. `\"kazoo\"`/`\"wobble\"`) and\n  update the expected increment default from `.rigid` to `.sharp`. Update the\n  decrement default assertion (`.soft`) — unchanged value, still correct.\n- Default-pairing assertions (`incrementHapticOption == .rigid`) → `.sharp`.\n- Legacy-migration tests that seed `\"heavy\"` and expect `.heavy` must now expect\n  the migrated `.sharp` (e.g. `testLegacyHapticKeyMigratesToBothDirections`,\n  `testNewHapticKeyWinsOverLegacy`). Legacy `\"off\"` still → `.off`.\n- Round-trip/independence tests that set `.heavy`/`.light` should use surviving\n  cases (`.sharp`/`.soft`/`.double`/`.buzz`).\n- Add one test asserting `HapticOption.resolve(\"rigid\") == .sharp`,\n  `resolve(\"heavy\") == .sharp`, `resolve(\"light\") == .soft`, and\n  `resolve(\"nonsense\") == nil`.\n\n**File**: `Tests/AppCoreTests/FeedbackTests.swift`\n\n- Replace `.heavy`/`.light`/`.medium` references with new cases.\n- `testSoftAndRigidAreTreatedAsNonOff` → retarget to `.soft`/`.sharp` (and rename),\n  and extend to cover `.double`/`.buzz` firing the haptic emitter (they gate the\n  same way — non-`.off`).\n\n**File**: `Tests/AppCoreTests/ModelTests.swift`\n\n- If any test seeds a persisted/legacy haptic override rawValue, update expected\n  values for the migration (e.g. a stored `\"rigid\"` override now resolves to\n  `.sharp`). Confirm the legacy `hapticOverride` decode test still passes through\n  `resolve(...)`.\n\nRun the affected tests with\n`codeyam-editor editor refresh-tests --test <name>` after implementation.\n\n## Reused existing code\n\n- `HapticOption` enum + `label` — `Sources/AppCore/AppSettings.swift`\n- `SystemCounterFeedback` / `CounterFeedback` seam and its injectable emitters —\n  `Sources/AppCore/Feedback.swift`\n- `AppSettings.loadHaptic` legacy-migration path and the `defaultIncrementHaptic`/\n  `defaultDecrementHaptic` constants — `Sources/AppCore/AppSettings.swift`\n- `Counter.init(from:)` legacy `hapticOverride` decode + `effectiveIncrementHaptic`\n  / `effectiveDecrementHaptic` — `Sources/AppCore/Model.swift`\n- `OverridePicker` (DEFAULT chip) and the app-settings `optionPicker` — reused\n  as-is, driven by `HapticOption.allCases`\n\n## Scenarios to Demonstrate\n\n- App Settings panel with the new haptic rows —\n  `[ OFF ] [ SOFT ] [ SHARP ] [ DOUBLE ] [ BUZZ ]` — increment `SHARP`,\n  decrement `SOFT` selected (fresh-install default).\n- Per-counter settings panel showing INCREMENT/DECREMENT HAPTIC with the DEFAULT\n  chip retained ahead of the new options.\n- A counter that overrides increment to `DOUBLE` and decrement to `BUZZ`.\n- Migration: a container seeded with legacy `incrementHapticOption = \"rigid\"` and\n  `decrementHapticOption = \"heavy\"` renders as `SHARP` / `SHARP`.\n- All haptics `OFF` (both directions) — silent.",
+  "description": "Replaced the confusing amplitude-based haptic option ladder (light/medium/heavy plus soft/rigid) with five qualitatively distinct feels — OFF, SOFT, SHARP, DOUBLE, BUZZ — all fired strong: SOFT/SHARP are impact taps at full intensity, DOUBLE/BUZZ are pronounced notification patterns. Renamed rigid to sharp, kept the distinct increment-Sharp / decrement-Soft default pairing and the per-counter DEFAULT chip, and added a HapticOption.resolve migration so persisted legacy values (rigid/heavy/medium→sharp, light→soft) survive on read across UserDefaults keys and Counter overrides.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/distinct-heavy-haptics.md\t.codeyam/plans/completed/distinct-heavy-haptics.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-both-haptics-off--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-custom-distinct-pairing--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-sound-and-haptic-on--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-overrides-pinned--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/overridepicker-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/overridepicker-pinned--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/AppSettings.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/OverridePickerIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Feedback.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/FeedbackTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "added"
+    }
+  ],
+  "testResults": {
+    "total": 100,
+    "passed": 100,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 100,
+        "passed": 100
+      }
+    ]
+  }
+}

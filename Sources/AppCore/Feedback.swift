@@ -50,16 +50,21 @@ public struct SystemCounterFeedback: CounterFeedback {
 
     private static func defaultHaptic(_ option: HapticOption) {
         #if canImport(UIKit)
-        let style: UIImpactFeedbackGenerator.FeedbackStyle
+        // Each case is a qualitatively distinct feel. The two impacts fire at full
+        // intensity so neither reads as weak; the notification patterns are already
+        // pronounced multi-taps. `.off` never reaches the emitter (gated upstream).
         switch option {
-        case .off: return
-        case .light: style = .light
-        case .medium: style = .medium
-        case .heavy: style = .heavy
-        case .soft: style = .soft
-        case .rigid: style = .rigid
+        case .off:
+            return
+        case .soft:
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 1.0)
+        case .sharp:
+            UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 1.0)
+        case .double:
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        case .buzz:
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
-        UIImpactFeedbackGenerator(style: style).impactOccurred()
         #endif
     }
 

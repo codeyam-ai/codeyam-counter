@@ -97,12 +97,15 @@ public struct Counter: Identifiable, Codable, Equatable {
         handednessOverride = try c.decodeIfPresent(Bool.self, forKey: .handednessOverride)
         soundOverride = (try c.decodeIfPresent(String.self, forKey: .soundOverride)).flatMap(SoundOption.init(rawValue:))
 
-        let increment = (try c.decodeIfPresent(String.self, forKey: .incrementHapticOverride)).flatMap(HapticOption.init(rawValue:))
-        let decrement = (try c.decodeIfPresent(String.self, forKey: .decrementHapticOverride)).flatMap(HapticOption.init(rawValue:))
+        // Route each override through `resolve(...)` so a persisted amplitude/`rigid`
+        // rawValue migrates to its nearest surviving feel instead of decoding to nil
+        // (which would silently drop the override and fall back to the app default).
+        let increment = HapticOption.resolve(try c.decodeIfPresent(String.self, forKey: .incrementHapticOverride))
+        let decrement = HapticOption.resolve(try c.decodeIfPresent(String.self, forKey: .decrementHapticOverride))
         // Migration: when neither new key decoded, adopt the legacy single override
         // for both directions (a stray/unrecognized legacy value stays nil).
         let legacyContainer = try decoder.container(keyedBy: LegacyCodingKeys.self)
-        let legacy = (try legacyContainer.decodeIfPresent(String.self, forKey: .hapticOverride)).flatMap(HapticOption.init(rawValue:))
+        let legacy = HapticOption.resolve(try legacyContainer.decodeIfPresent(String.self, forKey: .hapticOverride))
         if increment == nil && decrement == nil, let legacy {
             incrementHapticOverride = legacy
             decrementHapticOverride = legacy
