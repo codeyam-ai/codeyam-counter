@@ -842,6 +842,62 @@
       "runner": "tests"
     },
     {
+      "description": "Exhaustive invariant: from every starting combination, neither toggle can leave both settings panels open at once.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.SettingsOverlaysTests › testNoToggleEverLeavesBothOpen",
+      "registeredAt": "2026-07-13T20:42:47Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Nothing is open out of the box: a default SettingsOverlays has neither settings panel showing.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.SettingsOverlaysTests › testNothingIsOpenByDefault",
+      "registeredAt": "2026-07-13T20:42:47Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The core exclusivity rule: opening App Settings while the per-counter panel is up force-closes the per-counter panel.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.SettingsOverlaysTests › testOpeningAppSettingsClosesTheCounterPanel",
+      "registeredAt": "2026-07-13T20:42:47Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Opening App Settings from a clean screen just opens it, leaving the per-counter panel closed.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.SettingsOverlaysTests › testOpeningAppSettingsFromClosedOpensIt",
+      "registeredAt": "2026-07-13T20:42:47Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The exclusivity rule in the other direction: opening the per-counter panel force-closes App Settings.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.SettingsOverlaysTests › testOpeningCounterSettingsClosesAppSettings",
+      "registeredAt": "2026-07-13T20:42:47Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Opening the per-counter panel from a clean screen just opens it, leaving App Settings closed.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.SettingsOverlaysTests › testOpeningCounterSettingsFromClosedOpensIt",
+      "registeredAt": "2026-07-13T20:42:47Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Toggling an already-open App Settings closes it and does not open the per-counter panel in its place.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.SettingsOverlaysTests › testTogglingOpenAppSettingsClosesItAndOpensNothing",
+      "registeredAt": "2026-07-13T20:42:47Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Toggling an already-open per-counter panel closes it and does not open App Settings in its place.",
+      "format": "junit-xml",
+      "key": "AppCoreTests.SettingsOverlaysTests › testTogglingOpenCounterSettingsClosesItAndOpensNothing",
+      "registeredAt": "2026-07-13T20:42:47Z",
+      "runner": "tests"
+    },
+    {
       "description": "Unknown colorKey falls back to the lime accent hex",
       "file": "Tests/AppCoreTests/ThemeTests.swift",
       "format": "junit-xml",

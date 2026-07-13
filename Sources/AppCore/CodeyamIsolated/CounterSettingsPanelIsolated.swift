@@ -8,8 +8,13 @@ struct CounterSettingsPanelIsolated: View {
 
     var body: some View {
         GeometryReader { proxy in
-            content(availableHeight: proxy.size.height)
-                .padding(24)
+            // Hand the panel the room left AFTER this scaffold's own inset (top +
+            // bottom), so its content-hugging card caps inside the padded area
+            // rather than overflowing it.
+            content(availableHeight: proxy.size.height - 36)
+                .padding(.horizontal, 12)
+                .padding(.top, 24)
+                .padding(.bottom, 12)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
         .background(CounterTheme.bg)

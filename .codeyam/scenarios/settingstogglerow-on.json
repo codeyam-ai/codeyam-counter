@@ -1,0 +1,16 @@
+{
+  "name": "SettingsToggleRow - On",
+  "id": "da23267d-8308-412e-a977-5f86f617e87a",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "SettingsToggleRow",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "SettingsToggleRow",
+  "scenarioType": "component"
+}

@@ -61,15 +61,17 @@ public struct CounterSettingsPanel: View {
     }
 
     public var body: some View {
-        // Cap the panel card to the room below the anchor, less the top inset,
-        // the card's own vertical padding, and a bottom breathing margin — so the
-        // whole panel (chrome included) fits on screen and the body scrolls.
-        let maxCardHeight = max(160, availableHeight - 12 - 40 - 24)
+        // Cap the SCROLL, not the card: the card then hugs `header + scroll`, so a
+        // short panel stays compact and a fully-expanded one caps just above the
+        // screen bottom. Subtracts the top inset (12), the card's vertical padding
+        // (2 x 20), the pinned header row and its spacing (~58), and a bottom
+        // breathing margin (24).
+        let maxScrollHeight = max(120, availableHeight - 12 - 40 - 58 - 24)
 
         return VStack(alignment: .leading, spacing: 18) {
             header
 
-            BoundedScroll {
+            BoundedScroll(maxHeight: maxScrollHeight) {
                 VStack(alignment: .leading, spacing: 18) {
                     SettingsField("NAME") {
                         TextField("", text: $name)
@@ -89,17 +91,14 @@ public struct CounterSettingsPanel: View {
 
                     CounterStepStepper(step: $step)
 
-                    Toggle(isOn: $allowNegative) {
-                        Text("ALLOW NEGATIVE")
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
-                            .foregroundColor(CounterTheme.ink)
-                    }
-                    .tint(CounterTheme.accent)
-                    .accessibilityIdentifier("settings-allow-negative")
+                    SettingsToggleRow("ALLOW NEGATIVE",
+                                      isOn: $allowNegative,
+                                      identifier: "settings-allow-negative")
 
                     FeedbackDisclosureToggle(expanded: $showFeedback,
                                              title: "FEEDBACK & HANDEDNESS",
-                                             identifier: "settings-feedback-toggle")
+                                             identifier: "settings-feedback-toggle",
+                                             caption: "Override application-wide settings")
 
                     if showFeedback {
                         SettingsField("HANDEDNESS") {
@@ -135,7 +134,6 @@ public struct CounterSettingsPanel: View {
                 }
             }
         }
-        .frame(maxHeight: maxCardHeight, alignment: .top)
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .top)
         .background(CounterTheme.panel)

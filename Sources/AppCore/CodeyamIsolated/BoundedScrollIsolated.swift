@@ -17,14 +17,13 @@ struct BoundedScrollIsolated: View {
             Group {
                 switch scenario {
                 case "Overflowing":
-                    // Many rows bounded to a short frame → the body scrolls within it.
-                    BoundedScroll {
+                    // Many rows against a short cap → the body scrolls within it.
+                    BoundedScroll(maxHeight: 320) {
                         rows(count: 12)
                     }
-                    .frame(height: 320)
                 default:
-                    // A few rows in ample space → the region hugs its content.
-                    BoundedScroll {
+                    // A few rows under a generous cap → the region hugs its content.
+                    BoundedScroll(maxHeight: 600) {
                         rows(count: 3)
                     }
                 }

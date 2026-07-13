@@ -365,6 +365,23 @@
   },
   {
     "conformsToView": false,
+    "description": "The open/closed state of the two settings overlays, which are mutually exclusive: only one settings panel may be on screen at a time. Modeled as one value rather than two independent booleans so the never-both-open rule lives in one testable place instead of being re-derived at each tap site. Only the toggles enforce exclusivity; closing a panel never reopens the other.",
+    "filePath": "Sources/AppCore/SettingsOverlays.swift",
+    "name": "SettingsOverlays",
+    "testFile": "Tests/AppCoreTests/SettingsOverlaysTests.swift"
+  },
+  {
+    "conformsToView": true,
+    "description": "A labeled on/off row in a settings panel: a monospaced label on the left, the switch pinned right. Used for ALLOW NEGATIVE. Its trailing inset is load-bearing rather than decorative — iOS draws the switch knob slightly past the control's layout bounds, so a switch sitting flush against the enclosing scroll region's edge gets its knob sliced by the scroll's clip; the inset keeps it clear of that boundary.",
+    "filePath": "Sources/AppCore/Views/SettingsToggleRow.swift",
+    "name": "SettingsToggleRow",
+    "scenarios": [
+      "settingstogglerow-on",
+      "settingstogglerow-off"
+    ]
+  },
+  {
+    "conformsToView": false,
     "description": "Production CounterFeedback. Owns the option gating (a non-off haptic fires the haptic emitter; a non-off sound fires the sound emitter with its choice) with injectable emitters so the gating is unit-tested. The real defaultHaptic maps each qualitatively-distinct HapticOption: soft and sharp are UIImpactFeedbackGenerator soft/rigid taps fired at full intensity, while double and buzz are UINotificationFeedbackGenerator success/error patterns; defaultSound plays a distinct AudioServicesPlaySystemSound per choice. Both passthroughs sit behind a canImport(UIKit) guard.",
     "filePath": "Sources/AppCore/Feedback.swift",
     "name": "SystemCounterFeedback",

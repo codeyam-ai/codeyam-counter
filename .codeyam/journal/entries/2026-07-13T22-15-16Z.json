@@ -1,0 +1,475 @@
+{
+  "timestamp": "2026-07-13T22:15:16Z",
+  "title": "Settings Modal Layout & Single-Open",
+  "type": "feature",
+  "userRequest": "## Summary\n\nTidy up the two settings overlays. App Settings should stop hiding its\nsound/haptic controls behind a collapsible disclosure and simply show them all\nthe time. The per-counter settings panel keeps its collapsible FEEDBACK &\nHANDEDNESS section (collapsed by default, still auto-expanding only when the\ncounter already pins an override) and gains a caption under that header reading\n\"Override application-wide settings\" so it's clear the section overrides the\napp-wide defaults. Opening App Settings and the per-counter Settings must be\nmutually exclusive — only one settings overlay can be open at a time. Finally,\nfix the ALLOW NEGATIVE toggle getting visually cut off, and make both panel\ncards hug their content while capping at the bottom of the screen.\n\n## Key Decisions\n\n- **App Settings: remove the disclosure, always show sound/haptics.** The\n  `FeedbackDisclosureToggle` in `AppSettingsPanel` exists only to hide three\n  option pickers; App Settings has no per-counter override state to justify a\n  collapsed resting state, so the toggle and its `showFeedback` gating go away\n  and the SOUND/HAPTIC rows render unconditionally.\n- **Per-counter panel: keep the disclosure as-is (collapsed by default, expand\n  when overridden).** Per the clarification, leave the existing\n  `_showFeedback = State(initialValue: counter.hasFeedbackOverride)` seed\n  untouched — it's already collapsed by default and only auto-expands for a\n  counter that pins an override, which is the desired behavior. The only new\n  thing in this section is the caption.\n- **Caption is always visible**, sitting directly beneath the\n  FEEDBACK & HANDEDNESS disclosure row (shown whether collapsed or expanded), so\n  the user understands the section's purpose before opening it.\n- **Single settings overlay.** Toggling one settings panel open force-closes the\n  other. Scoped to the two settings overlays (`showSettings`,\n  `showAppSettings`) — the counter list and graph overlays are out of scope.\n- **Sizing:** the panel cards already use `BoundedScroll` to content-hug up to a\n  cap; the fix is to make the cap land exactly at the bottom of the screen and\n  ensure short content truly shrinks the card rather than reserving extra\n  height, so the modal is only as tall as it needs to be but never runs off the\n  bottom.\n\n## Implementation\n\n### 1. Remove the collapsible section from App Settings\n\n**File**: `Sources/AppCore/Views/AppSettingsPanel.swift`\n\n- Delete the `FeedbackDisclosureToggle(... \"SOUND & HAPTICS\" ...)` row and the\n  `if showFeedback { ... }` wrapper so the SOUND ON CHANGE, INCREMENT HAPTIC,\n  and DECREMENT HAPTIC `SettingsField`s always render.\n- Remove the `showFeedback` `@State` and the `initiallyExpandedFeedback` init\n  parameter (and the doc comment referencing the default-collapsed behavior).\n- Keep HANDEDNESS, the option pickers, and the ALL COUNTERS button exactly as\n  they are.\n\n### 2. Drop the now-unused App Settings feedback-seed wiring\n\n**File**: `Sources/AppCore/ContentView.swift`\n\n- Remove the `appSettingsFeedbackOpen` `@State`, its `init` seed read\n  (`UserDefaults ... \"appSettingsFeedbackOpen\"`), and the\n  `initiallyExpandedFeedback: appSettingsFeedbackOpen` argument at the\n  `AppSettingsPanel(...)` call site (lines ~28, ~40, ~101).\n\n**File**: `Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift`\n\n- Remove the `expandFeedback` computation and the `initiallyExpandedFeedback:`\n  argument. The `SoundAndHapticOn` / `BothHapticsOff` / `CustomPairing`\n  scenarios still demonstrate their distinct sound/haptic states — those rows\n  are now always visible, so the scenarios read correctly without the seed.\n\n### 3. Enforce a single open settings overlay\n\n**File**: `Sources/AppCore/ContentView.swift`\n\n- In `headerBar` (`onSettingsTap`), when opening App Settings also clear\n  `showSettings`. In `switcherCard` (`onGearTap`), when opening the per-counter\n  panel also clear `showAppSettings`. Guard on the toggle so closing the already-\n  open panel still just closes it. Sketch:\n  - `onSettingsTap`: `withAnimation { showAppSettings.toggle(); if showAppSettings { showSettings = false } }`\n  - `onGearTap`: `withAnimation { showSettings.toggle(); if showSettings { showAppSettings = false } }`\n\n### 4. Add the override caption to the counter panel's feedback section\n\n**File**: `Sources/AppCore/Views/CounterSettingsPanel.swift`\n\n- Directly after the `FeedbackDisclosureToggle(... \"FEEDBACK & HANDEDNESS\" ...)`\n  row (and before the `if showFeedback` block), add an always-visible caption\n  `Text(\"Override application-wide settings\")` styled as a muted mono caption\n  consistent with existing panel captions (e.g. `CounterTheme.inkMuted`, small\n  monospaced weight, matching the `SettingsField` label treatment). Give it an\n  accessibility identifier such as `settings-feedback-override-caption`.\n- Leave the `_showFeedback` seed unchanged (collapsed by default, auto-expands\n  when the counter pins an override).\n\n### 5. Fix the ALLOW NEGATIVE toggle being cut off\n\n**File**: `Sources/AppCore/Views/CounterSettingsPanel.swift`\n\nThe current `Toggle(isOn:) { Text(\"ALLOW NEGATIVE\") }` places SwiftUI's trailing\nswitch flush against the card's inner edge, where it visually clips. Restructure\nthe row into an explicit full-width layout so the label and the switch each get\nguaranteed room:\n\n- Use `HStack { Text(\"ALLOW NEGATIVE\")...; Spacer(); Toggle(\"\", isOn: $allowNegative).labelsHidden() }`\n  with `.frame(maxWidth: .infinity)`, keeping `.tint(CounterTheme.accent)` and\n  the `settings-allow-negative` accessibility identifier on the control.\n- Verify at edit time on the live simulator that the switch no longer clips at\n  the right edge in both the resting and expanded panel states.\n\n### 6. Size the panel cards to content, capped at the screen bottom\n\n**Files**: `Sources/AppCore/Views/CounterSettingsPanel.swift`,\n`Sources/AppCore/Views/AppSettingsPanel.swift` (and, if needed,\n`Sources/AppCore/Views/PanelScrollSupport.swift` for `BoundedScroll`)\n\n- Both panels compute `maxCardHeight = max(160, availableHeight - 12 - 40 - 24)`\n  and apply `.frame(maxHeight: maxCardHeight, alignment: .top)`. Confirm the\n  card genuinely shrinks to its content when short (it should, via\n  `BoundedScroll`'s content-hugging cap) and only reaches `maxCardHeight` when\n  content overflows — so the bottom edge sits just above the screen bottom\n  rather than the card reserving unused height.\n- Re-check the subtracted insets (`12` top pad, `40` DONE row, `24` breathing\n  margin) so the fully-expanded card's bottom border lands at/above the screen\n  bottom with a small margin, not off-screen. Adjust the breathing constant if\n  the always-expanded App Settings now overflows.\n- This is a visual/layout tuning step — validate on the live preview across the\n  short (resting) and tall (expanded / always-expanded App Settings) states.\n\n## Reused existing code\n\n- `AppSettingsPanel` from `Sources/AppCore/Views/AppSettingsPanel.swift`\n  (glossary entry: `AppSettingsPanel`)\n- `CounterSettingsPanel` from `Sources/AppCore/Views/CounterSettingsPanel.swift`\n  (glossary entry: `CounterSettingsPanel`)\n- `FeedbackDisclosureToggle` from `Sources/AppCore/Views/PanelScrollSupport.swift`\n  (glossary entry: `FeedbackDisclosureToggle`) — retained for the counter panel\n- `BoundedScroll` from `Sources/AppCore/Views/PanelScrollSupport.swift`\n  (glossary entry: `BoundedScroll`) — the content-hugging scroll cap\n- `SettingsField` from `Sources/AppCore/Views/SettingsField.swift`\n  (glossary entry: `SettingsField`) — caption/label styling reference\n- `hasFeedbackOverride` from `Sources/AppCore/Model.swift` — the per-counter\n  auto-expand seed, left unchanged\n\n## Reproduction Test\n\nVisual/layout changes (disclosure removal, caption, single-open toggle wiring,\ntoggle clipping, card sizing) with no isolatable unit-level repro — these are\nSwiftUI view-composition and geometry behaviors that only manifest on the\nrendered simulator. Demonstrate via the scenarios below (the App Settings\nisolated scenarios show the always-visible sound/haptic rows; the counter\nsettings scenarios show the caption and un-clipped toggle).\n\n## Scenarios to Demonstrate\n\n- App Settings open — sound/haptic rows visible with no disclosure toggle\n  (previously `appsettingspanel-default`, now always showing the rows)\n- App Settings with a distinct sound/haptic pairing — rows visible without any\n  expand step (`appsettingspanel-sound-and-haptic-on`)\n- Per-counter settings, no overrides — FEEDBACK & HANDEDNESS collapsed with the\n  \"Override application-wide settings\" caption visible under the header\n- Per-counter settings, overrides pinned — section auto-expanded, caption still\n  visible above the override rows (`countersettingspanel-overrides-pinned`)\n- Per-counter settings — ALLOW NEGATIVE toggle fully visible, switch not clipped\n- Single-open behavior — opening App Settings while the per-counter panel is\n  open closes the per-counter panel (and vice versa)\n- Tall/expanded panel — card caps at the bottom of the screen and scrolls; short\n  panel hugs its content",
+  "description": "Tidied up both settings overlays. App Settings drops its collapsible disclosure so the SOUND ON CHANGE / INCREMENT HAPTIC / DECREMENT HAPTIC rows are always visible; the per-counter panel keeps its collapsible FEEDBACK & HANDEDNESS section but gains an always-visible 'Override application-wide settings' caption tucked under the header. The two settings panels are now mutually exclusive — opening one force-closes the other — via a new SettingsOverlays value type covered by 8 unit tests, including an exhaustive check that no toggle from any starting state can leave both open. Both panel cards now hug their content and cap at the screen bottom, and the ALLOW NEGATIVE switch no longer clips.\n\nTwo root causes differed from what the plan assumed. The card-sizing bug was not BoundedScroll: a diagnostic showed the scroll cap working while the card stayed full-height, because a SwiftUI .frame(maxHeight:) is flexible and fills the proposal rather than hugging — so the cap moved onto the scroll region and the card now hugs header + scroll. The ALLOW NEGATIVE clipping was not Toggle's label layout either: iOS draws the switch knob slightly past the control's layout bounds, so a switch sitting flush against the scroll region's clip edge gets its knob sliced; a 4pt trailing inset is the actual fix, and the new SettingsToggleRow component is captured inside a clipped scroll so its scenarios prove it.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/settings-modal-layout-and-single-open.md\t.codeyam/plans/completed/settings-modal-layout-and-single-open.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-app-settings-sound-and-haptic-on.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-both-haptics-off--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-both-haptics-off--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-custom-distinct-pairing--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-custom-distinct-pairing--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-sound-and-haptic-on--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-sound-and-haptic-on--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/boundedscroll-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/boundedscroll-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/boundedscroll-overflowing--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/boundedscroll-overflowing--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-added-blank-slot-selected--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-install-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open-empty-history--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open-empty-history--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open-left-handed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-override-active-counter--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-overrides-pinned--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-overrides-pinned--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/feedbackdisclosuretoggle-collapsed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/feedbackdisclosuretoggle-expanded--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/BoundedScrollIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/AppSettingsPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterSettingsPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/PanelScrollSupport.swift",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-settings-expanded-with-overrides.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-expanded-with-overrides--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/settingstogglerow-off--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/settingstogglerow-on--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/settingstogglerow-off.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/settingstogglerow-on.json",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/SettingsToggleRowIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/SettingsOverlays.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/SettingsToggleRow.swift",
+      "status": "added"
+    },
+    {
+      "path": "Tests/AppCoreTests/SettingsOverlaysTests.swift",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - Added blank slot selected",
+      "screenshotPath": "counter-added-blank-slot-selected--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list",
+      "screenshotPath": "counter-all-counters-list--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list with blank slot",
+      "screenshotPath": "counter-all-counters-list-with-blank-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings open",
+      "screenshotPath": "counter-app-settings-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on",
+      "screenshotPath": "counter-app-settings-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "Counter - Blank slot incremented",
+      "screenshotPath": "counter-blank-slot-incremented--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh install default",
+      "screenshotPath": "counter-fresh-install-default--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open",
+      "screenshotPath": "counter-graph-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open empty history",
+      "screenshotPath": "counter-graph-open-empty-history--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open left-handed",
+      "screenshotPath": "counter-graph-open-left-handed--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left override active counter",
+      "screenshotPath": "counter-left-override-active-counter--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings expanded with overrides",
+      "screenshotPath": "counter-settings-expanded-with-overrides--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Both haptics off",
+      "screenshotPath": "appsettingspanel-both-haptics-off--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Custom distinct pairing",
+      "screenshotPath": "appsettingspanel-custom-distinct-pairing--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Default",
+      "screenshotPath": "appsettingspanel-default--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Sound and haptic on",
+      "screenshotPath": "appsettingspanel-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "BoundedScroll - Default",
+      "screenshotPath": "boundedscroll-default--iphone-16.png"
+    },
+    {
+      "name": "BoundedScroll - Overflowing",
+      "screenshotPath": "boundedscroll-overflowing--iphone-16.png"
+    },
+    {
+      "name": "CounterSettingsPanel - Default",
+      "screenshotPath": "countersettingspanel-default--iphone-16.png"
+    },
+    {
+      "name": "CounterSettingsPanel - Overrides pinned",
+      "screenshotPath": "countersettingspanel-overrides-pinned--iphone-16.png"
+    },
+    {
+      "name": "FeedbackDisclosureToggle - Collapsed",
+      "screenshotPath": "feedbackdisclosuretoggle-collapsed--iphone-16.png"
+    },
+    {
+      "name": "FeedbackDisclosureToggle - Expanded",
+      "screenshotPath": "feedbackdisclosuretoggle-expanded--iphone-16.png"
+    },
+    {
+      "name": "SettingsToggleRow - Off",
+      "screenshotPath": "settingstogglerow-off--iphone-16.png"
+    },
+    {
+      "name": "SettingsToggleRow - On",
+      "screenshotPath": "settingstogglerow-on--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 116,
+    "passed": 116,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 116,
+        "passed": 116
+      }
+    ]
+  }
+}

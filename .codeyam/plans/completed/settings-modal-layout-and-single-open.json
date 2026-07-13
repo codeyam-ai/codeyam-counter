@@ -1,0 +1,40 @@
+{
+  "claimStartedAt": "2026-07-13T20:19:16Z",
+  "completedAt": "2026-07-13T22:15:16Z",
+  "completedBy": {
+    "agentProvider": "claude",
+    "codeyamEditorVersion": "0.1.0",
+    "currentStep": "ui-step22",
+    "machine": "Jareds-Laptop.local",
+    "originId": "76154a71-f874-468a-81e0-7e448385c871",
+    "pid": 3414,
+    "priority": 0,
+    "selectedPlan": "settings-modal-layout-and-single-open",
+    "sessionId": "60ba9bd8-1f80-4efa-bce7-cae3f5ee3a71",
+    "startedAt": "2026-07-13T20:19:16Z"
+  },
+  "createdAt": "2026-07-13T18:03:41Z",
+  "deliverables": [
+    "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/BoundedScrollIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+    "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift",
+    "Sources/AppCore/CodeyamIsolated/SettingsToggleRowIsolated.swift",
+    "Sources/AppCore/ContentView.swift",
+    "Sources/AppCore/SettingsOverlays.swift",
+    "Sources/AppCore/Views/AppSettingsPanel.swift",
+    "Sources/AppCore/Views/CounterSettingsPanel.swift",
+    "Sources/AppCore/Views/GraphCloseButton.swift",
+    "Sources/AppCore/Views/GraphPage.swift",
+    "Sources/AppCore/Views/PanelScrollSupport.swift",
+    "Sources/AppCore/Views/SettingsToggleRow.swift",
+    "Tests/AppCoreTests/SettingsOverlaysTests.swift"
+  ],
+  "journalTimestamp": "2026-07-13T22:15:16Z",
+  "mode": "ui",
+  "planFile": "completed/settings-modal-layout-and-single-open.md",
+  "slug": "settings-modal-layout-and-single-open",
+  "title": "Settings Modal Layout & Single-Open"
+}

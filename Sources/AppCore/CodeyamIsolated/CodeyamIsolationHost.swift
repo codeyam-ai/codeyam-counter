@@ -65,6 +65,8 @@ public enum CodeyamIsolationHost {
             return AnyView(IncrementBarIsolated(scenario: scenario))
         case "OverridePicker":
             return AnyView(OverridePickerIsolated(scenario: scenario))
+        case "SettingsToggleRow":
+            return AnyView(SettingsToggleRowIsolated(scenario: scenario))
         default:
             return AnyView(Text("Unknown isolated component: \(component)"))
         }

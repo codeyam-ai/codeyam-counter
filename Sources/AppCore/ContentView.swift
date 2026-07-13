@@ -22,10 +22,6 @@ public struct ContentView: View {
     /// The activity graph overlay for the active counter. Seedable via `graphOpen`
     /// so a static capture can show the chart without a live tap on GRAPH.
     @State private var showGraph: Bool
-    /// Whether the App Settings panel opens with its SOUND & HAPTICS section
-    /// expanded. Production opens it collapsed; a scenario seeds `appSettingsFeedbackOpen`
-    /// so a static capture can show the sound/haptic rows without a live tap.
-    @State private var appSettingsFeedbackOpen: Bool
 
     public init() {
         // The panel-open flags are pure-UI seed keys the real app never persists,
@@ -37,7 +33,6 @@ public struct ContentView: View {
         _showAppSettings = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "appSettingsOpen"))
         _showCounterList = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "counterListOpen"))
         _showGraph = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "graphOpen"))
-        _appSettingsFeedbackOpen = State(initialValue: trusted && UserDefaults.standard.bool(forKey: "appSettingsFeedbackOpen"))
     }
 
     public var body: some View {
@@ -110,7 +105,6 @@ public struct ContentView: View {
                         AppSettingsPanel(
                             settings: settings,
                             availableHeight: availableHeight,
-                            initiallyExpandedFeedback: appSettingsFeedbackOpen,
                             onOpenList: { withAnimation { showCounterList = true } },
                             onClose: { withAnimation { showAppSettings = false } }
                         )
@@ -182,7 +176,9 @@ public struct ContentView: View {
     }
 
     private var headerBar: some View {
-        HeaderBar(onSettingsTap: { withAnimation { showAppSettings.toggle() } })
+        HeaderBar(onSettingsTap: {
+            withAnimation { applyOverlays(overlays.togglingAppSettings()) }
+        })
     }
 
     private var switcherCard: some View {
@@ -192,7 +188,21 @@ public struct ContentView: View {
             activeName: model.activeCounter.name,
             onSelect: { id in withAnimation { model.select(id: id); showSettings = false } },
             onAdd: { withAnimation { model.addCounter(); showSettings = false } },
-            onGearTap: { withAnimation { showSettings.toggle() } }
+            onGearTap: {
+                withAnimation { applyOverlays(overlays.togglingCounterSettings()) }
+            }
         )
+    }
+
+    /// The two settings panels as one value, so the mutually-exclusive open rule
+    /// is decided by `SettingsOverlays` (and unit-tested there) rather than
+    /// re-derived at each tap site.
+    private var overlays: SettingsOverlays {
+        SettingsOverlays(counterSettings: showSettings, appSettings: showAppSettings)
+    }
+
+    private func applyOverlays(_ next: SettingsOverlays) {
+        showSettings = next.counterSettings
+        showAppSettings = next.appSettings
     }
 }

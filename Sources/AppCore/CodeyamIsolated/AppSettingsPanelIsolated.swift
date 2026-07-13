@@ -8,22 +8,23 @@ struct AppSettingsPanelIsolated: View {
 
     var body: some View {
         GeometryReader { proxy in
-            content(availableHeight: proxy.size.height)
-                .padding(.vertical, 24)
+            // Hand the panel the room left AFTER this scaffold's own inset (top +
+            // bottom), so its content-hugging card caps inside the padded area
+            // rather than overflowing it.
+            content(availableHeight: proxy.size.height - 36)
+                .padding(.top, 24)
+                .padding(.bottom, 12)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
         .background(CounterTheme.bg)
         .ignoresSafeArea()
     }
 
-    // The App Settings scenarios exist to demonstrate sound/haptic state, so those
-    // cases open SOUND & HAPTICS for the capture; `default`/`LeftHanded`
-    // demonstrate the resting/handedness state and stay collapsed.
+    // The sound/haptic rows are always visible now, so every scenario shows its
+    // feedback state with no expand step — no seed needed.
     @ViewBuilder private func content(availableHeight: CGFloat) -> some View {
-        let expandFeedback = ["SoundAndHapticOn", "BothHapticsOff", "CustomPairing"].contains(scenario)
         AppSettingsPanel(settings: sampleSettings,
                          availableHeight: availableHeight,
-                         initiallyExpandedFeedback: expandFeedback,
                          onOpenList: {}, onClose: {})
     }
 
