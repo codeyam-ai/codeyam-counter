@@ -234,6 +234,15 @@
   },
   {
     "conformsToView": true,
+    "description": "The graph page's dismissal control: a centered CLOSE pill — xmark glyph plus a monospaced label — rendered directly below the chart panel and inset to match it. Because the graph hides the whole bottom bar while open, this is the only way out of the graph, replacing the bottom row's former GRAPH-to-CLOSE toggle.",
+    "filePath": "Sources/AppCore/Views/GraphCloseButton.swift",
+    "name": "GraphCloseButton",
+    "scenarios": [
+      "graphclosebutton-default"
+    ]
+  },
+  {
+    "conformsToView": true,
     "description": "The graph overlay's most-recent-first list of a run's events; each row shows a signed delta and the relative time since the run began, and it renders nothing when the run has no events.",
     "filePath": "Sources/AppCore/Views/GraphEventList.swift",
     "name": "GraphEventList",
@@ -259,6 +268,16 @@
     "scenarios": [
       "graphhistoryselector-current-run",
       "graphhistoryselector-older-run"
+    ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The graph surface as a whole page: CounterGraphView's activity chart stacked above its own centered GraphCloseButton. While this is up ContentView hides the count hero and the entire bottom control assembly, so these two are the only things on screen below the header.",
+    "filePath": "Sources/AppCore/Views/GraphPage.swift",
+    "name": "GraphPage",
+    "scenarios": [
+      "graphpage-rich-history",
+      "graphpage-empty-history"
     ]
   },
   {

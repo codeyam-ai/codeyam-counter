@@ -1,0 +1,27 @@
+{
+  "name": "Counter - Graph open empty history",
+  "id": "8f9624b6-d282-435e-9164-5ff2cffd4e18",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "appSettingsOpen": false,
+      "settingsOpen": false,
+      "counterHistories": "{\"1\": [{\"startedAt\": \"2026-07-04T09:41:00Z\", \"events\": []}]}",
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 0, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "leftHanded": false,
+      "counterListOpen": false,
+      "selectedCounterId": 1,
+      "deletedDefaultIds": "[]",
+      "graphOpen": true
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

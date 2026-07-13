@@ -1,0 +1,359 @@
+{
+  "timestamp": "2026-07-13T20:12:43Z",
+  "title": "Graph as its own page with a centered close button",
+  "type": "feature",
+  "userRequest": "## Summary\n\nWhen the activity graph is open it currently floats as an overlay while the\nwhole `CounterBottomBar` (increment bar + SUBTRACT / RESET / GRAPH→CLOSE row)\nstays visible and interactive beneath it. Make the graph read as its own page:\nhide the bottom control assembly entirely while the graph is open, and give the\ngraph a dedicated CLOSE affordance — a centered button rendered directly below\nthe chart panel — instead of relying on the bottom row's CLOSE state.\n\n## Key Decisions\n\n- **Hide the whole bottom assembly, don't just dim it** — In `ContentView`'s\n  base `VStack`, swap `CounterBottomBar` for a `Spacer()` when `showGraph` is\n  true. The graph overlay already draws on top from just below the header, so\n  collapsing the bottom bar to empty space is all that's needed for the region\n  below the graph to read as blank page. This keeps the increment/subtract/reset\n  controls from being reachable (or visible) while the graph is up.\n- **New centered CLOSE button below the graph, inside the overlay content** —\n  Add the button to the graph overlay's `content` closure in `ContentView` so it\n  sits directly beneath `CounterGraphView`, horizontally centered. It calls\n  `withAnimation { showGraph = false }` — the same dismissal the bottom row's\n  CLOSE used to trigger via `onGraph`.\n- **Extract the button as its own `GraphCloseButton` view** — Matches the\n  project's one-component-per-file convention (every graph section is its own\n  file with an isolated scaffold) and lets it get a codeyam isolated scenario.\n  Styled with the app's monospaced type and panel/stroke treatment so it reads\n  as part of the graph surface.\n- **Keep `graphOpen` plumbing on the bottom bar intact** — `CounterBottomBar` /\n  `BottomControlRow` keep their `graphOpen` param and the GRAPH→CLOSE toggle.\n  In the real app the bottom bar is now hidden whenever the graph is open, so\n  that CLOSE state is dormant in production, but the param still drives the\n  existing `BottomControlRow`/`CounterBottomBar` isolated scaffolds and their\n  scenarios. Removing it would churn those scaffolds and scenarios for no user\n  benefit. `onGraph` still opens the graph from the visible GRAPH slot.\n\n## Implementation\n\n### 1. Hide the bottom bar while the graph is open\n\n**File**: `Sources/AppCore/ContentView.swift`\n\nIn the base-layer `VStack` (currently header → switcher → `CountHero` →\n`CounterBottomBar`), render the `CounterBottomBar` only when `!showGraph`,\nsubstituting a `Spacer()` when `showGraph` is true so the layout still fills the\nscreen:\n\n```swift\nCountHero(count: model.activeCounter.count)\nif showGraph {\n    Spacer()\n} else {\n    CounterBottomBar( … existing arguments unchanged … )\n}\n```\n\nThe `CounterBottomBar` arguments (including `graphOpen: showGraph`) stay exactly\nas they are — the bar simply isn't built while the graph is up.\n\n### 2. Add the centered CLOSE button to the graph overlay\n\n**File**: `Sources/AppCore/ContentView.swift`\n\nIn the `if showGraph { HeaderAnchoredOverlay { … } content: { … } }` block, wrap\nthe existing `CounterGraphView(…)` in a `VStack` and place the new\n`GraphCloseButton` below it, centered:\n\n```swift\ncontent: {\n    VStack(spacing: 16) {\n        CounterGraphView(\n            counterName: model.activeCounter.isBlank ? \"—\" : model.activeCounter.name,\n            colorKey: model.activeCounter.colorKey,\n            histories: model.activeHistories\n        )\n        .id(model.activeCounter.id)\n\n        GraphCloseButton(action: { withAnimation { showGraph = false } })\n    }\n}\n```\n\n`CounterGraphView` keeps its own internal horizontal padding; `GraphCloseButton`\nshould center itself within the overlay width (see below).\n\n### 3. New `GraphCloseButton` component\n\n**New file**: `Sources/AppCore/Views/GraphCloseButton.swift`\n\nA small, self-contained button that dismisses the graph. Centered, app-themed:\n\n- An `xmark` SF Symbol + `CLOSE` monospaced label (mirrors the glyph/label pair\n  the bottom row's CLOSE used, so the affordance stays familiar), or a simple\n  `CLOSE` text pill — keep it minimal and consistent with `ControlButton`'s\n  monospaced treatment.\n- Styled with `CounterTheme` (`panel` background, `lineStrong`/`line` stroke,\n  `ink` foreground) so it reads as part of the graph surface.\n- `buttonStyle(.plain)`, `frame(maxWidth: .infinity)` with the button content\n  centered (e.g. wrap the label in an `HStack { Spacer(); … ; Spacer() }` or fix\n  the pill width and center it) and matching horizontal padding to\n  `CounterGraphView` (22) so it aligns under the chart panel.\n- `accessibilityIdentifier(\"graph-close\")` so scenarios/tests can target it.\n- `init(action: @escaping () -> Void)`.\n\n### 4. Isolated scaffold for the new component\n\n**New file**: `Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift`\n\nFollow the sibling pattern (e.g. `CounterGraphViewIsolated.swift`,\n`ControlButtonIsolated.swift`): a DEBUG-gated isolation host entry that renders\n`GraphCloseButton` with a no-op action so it can be captured as an isolated\nscenario. Match whatever registration mechanism `CodeyamIsolationHost.swift`\nuses for the other isolated views.\n\n## Reused existing code\n\n- `CounterGraphView` from `Sources/AppCore/Views/CounterGraphView.swift`\n  (glossary entry: `CounterGraphView`) — unchanged; now wrapped with the close\n  button in the overlay.\n- `HeaderAnchoredOverlay` from\n  `Sources/AppCore/Views/HeaderAnchoredOverlay.swift` — the graph overlay\n  scaffold whose `content` closure now also holds the close button.\n- `CounterBottomBar` from `Sources/AppCore/Views/CounterBottomBar.swift`\n  (glossary entry: `CounterBottomBar`) — now conditionally rendered; its\n  `graphOpen` param retained for isolated scaffolds.\n- `ControlButton` from `Sources/AppCore/Views/ControlButton.swift` (glossary\n  entry: `ControlButton`) — reference for the new button's monospaced\n  glyph+label styling and `.plain` button style.\n- `CounterTheme` (`Sources/AppCore/Theme.swift`) — `panel`, `line`,\n  `lineStrong`, `ink` for the button's surface and stroke.\n- `CodeyamIsolationHost.swift` and the `CodeyamIsolated/` scaffolds — pattern\n  the new `GraphCloseButtonIsolated.swift` follows.\n\n## Reproduction Test\n\nNot a bug fix — this is a UI enhancement, so no reproduction test. The behavior\nchange is visual/structural (which chrome is shown when the graph is open) and\nis demonstrated by the scenarios below rather than a unit assertion.\n\n## Scenarios to Demonstrate\n\n- **Graph open, rich history** — update the existing `counter-graph-open`\n  application scenario (`graphOpen: true`) to confirm the bottom bar is gone and\n  the centered CLOSE button sits below the chart.\n- **Graph open, empty history** — a counter with no activity: NO ACTIVITY YET\n  panel plus the centered CLOSE button, still no bottom bar.\n- **Graph closed (default counter screen)** — unchanged: bottom bar with the\n  GRAPH slot visible, no close button — confirms the bottom controls return when\n  the graph is dismissed.\n- **`GraphCloseButton` isolated** — the new component on its own via the\n  isolated scaffold.\n- **Left-handed, graph open** — confirms hiding the bottom bar and centering the\n  close button is handedness-agnostic (the mirrored bottom row simply isn't\n  shown).",
+  "description": "The activity graph now reads as its own page instead of an overlay floating above live controls. While the graph is open, ContentView hides both the count numeral and the entire bottom control assembly (increment bar plus the SUBTRACT / RESET / GRAPH row), and a new centered GraphCloseButton renders directly below the chart as the only way back — the increment and reset controls are no longer visible or reachable behind the chart. The graph overlay's inline layout was extracted into a GraphPage component, so ContentView composes components rather than raw view code. Hiding the bottom bar alone was not enough: the overlay is transparent, so the giant count numeral bled through the gap between the chart panel and the close button, which is why the hero is hidden too.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/graph-full-page-with-close-button.md\t.codeyam/plans/completed/graph-full-page-with-close-button.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/boundedscroll-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-added-blank-slot-selected--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-added-blank-slot-selected--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-deleted-default-ghost-slot--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-install-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-large-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-override-active-counter--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-long-name--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-negative-value--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/GraphCloseButton.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/GraphPage.swift",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-graph-open-empty-history.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-graph-open-left-handed.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/graphclosebutton-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/graphpage-empty-history.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/graphpage-rich-history.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open-empty-history--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open-empty-history--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open-left-handed--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open-left-handed--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/graphclosebutton-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/graphclosebutton-default--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/graphpage-empty-history--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/graphpage-empty-history--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/graphpage-rich-history--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/graphpage-rich-history--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - Added blank slot selected",
+      "screenshotPath": "counter-added-blank-slot-selected--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list",
+      "screenshotPath": "counter-all-counters-list--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list with blank slot",
+      "screenshotPath": "counter-all-counters-list-with-blank-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings open",
+      "screenshotPath": "counter-app-settings-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on",
+      "screenshotPath": "counter-app-settings-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "Counter - Blank slot incremented",
+      "screenshotPath": "counter-blank-slot-incremented--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh install default",
+      "screenshotPath": "counter-fresh-install-default--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open",
+      "screenshotPath": "counter-graph-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open empty history",
+      "screenshotPath": "counter-graph-open-empty-history--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open left-handed",
+      "screenshotPath": "counter-graph-open-left-handed--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left override active counter",
+      "screenshotPath": "counter-left-override-active-counter--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    },
+    {
+      "name": "GraphCloseButton - Default",
+      "screenshotPath": "graphclosebutton-default--iphone-16.png"
+    },
+    {
+      "name": "GraphPage - Empty history",
+      "screenshotPath": "graphpage-empty-history--iphone-16.png"
+    },
+    {
+      "name": "GraphPage - Rich history",
+      "screenshotPath": "graphpage-rich-history--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 108,
+    "passed": 108,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 108,
+        "passed": 108
+      }
+    ]
+  }
+}

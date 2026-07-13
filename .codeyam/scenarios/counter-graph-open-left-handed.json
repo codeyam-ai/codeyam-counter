@@ -1,0 +1,27 @@
+{
+  "name": "Counter - Graph open left-handed",
+  "id": "076cacc8-a95e-4d41-afeb-fef85260baf3",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counterListOpen": false,
+      "deletedDefaultIds": "[]",
+      "settingsOpen": false,
+      "appSettingsOpen": false,
+      "leftHanded": true,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "selectedCounterId": 3,
+      "counterHistories": "{\"3\": [{\"startedAt\": \"2026-07-04T09:41:00Z\", \"events\": [{\"at\": \"2026-07-04T09:41:20Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:41:55Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:42:31Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:43:04Z\", \"delta\": -1}, {\"at\": \"2026-07-04T09:43:40Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:44:18Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:44:52Z\", \"delta\": 1}]}]}",
+      "graphOpen": true
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

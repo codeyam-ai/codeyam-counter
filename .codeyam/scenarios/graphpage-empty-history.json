@@ -1,0 +1,16 @@
+{
+  "name": "GraphPage - Empty history",
+  "id": "8597bbc7-3cdd-4fa5-b437-d93cd3ba17b5",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "empty",
+      "CODEYAM_ISOLATE_COMPONENT": "GraphPage"
+    }
+  },
+  "componentName": "GraphPage",
+  "scenarioType": "component"
+}

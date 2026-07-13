@@ -49,18 +49,30 @@ public struct ContentView: View {
                 VStack(spacing: 0) {
                     headerBar
                     switcherCard
-                    CountHero(count: model.activeCounter.count)
-                    CounterBottomBar(
-                        leftHanded: model.activeCounter.effectiveLeftHanded(default: settings.defaultLeftHanded),
-                        screenHeight: geo.size.height,
-                        screenWidth: geo.size.width,
-                        resetIsUndo: model.canUndoReset,
-                        graphOpen: showGraph,
-                        onIncrement: { model.increment() },
-                        onSubtract: { model.subtract() },
-                        onReset: { withAnimation { model.canUndoReset ? model.undoReset() : model.reset() } },
-                        onGraph: { withAnimation { showGraph.toggle() } }
-                    )
+                    // The graph reads as its own page: while it's open the count
+                    // numeral and the whole bottom control assembly are gone, so
+                    // everything around the chart is blank and the increment /
+                    // subtract / reset controls are neither visible nor reachable.
+                    // The hero must go too, not just the bar — the graph overlay
+                    // is transparent, so a numeral left behind shows through the
+                    // gap between the chart panel and the CLOSE button. The
+                    // graph's own centered CLOSE button brings the screen back.
+                    if showGraph {
+                        Spacer()
+                    } else {
+                        CountHero(count: model.activeCounter.count)
+                        CounterBottomBar(
+                            leftHanded: model.activeCounter.effectiveLeftHanded(default: settings.defaultLeftHanded),
+                            screenHeight: geo.size.height,
+                            screenWidth: geo.size.width,
+                            resetIsUndo: model.canUndoReset,
+                            graphOpen: showGraph,
+                            onIncrement: { model.increment() },
+                            onSubtract: { model.subtract() },
+                            onReset: { withAnimation { model.canUndoReset ? model.undoReset() : model.reset() } },
+                            onGraph: { withAnimation { showGraph.toggle() } }
+                        )
+                    }
                 }
 
                 // Floating per-counter settings panel: anchored directly under the
@@ -134,10 +146,11 @@ public struct ContentView: View {
                     HeaderAnchoredOverlay {
                         headerBar.hidden().allowsHitTesting(false)
                     } content: {
-                        CounterGraphView(
+                        GraphPage(
                             counterName: model.activeCounter.isBlank ? "—" : model.activeCounter.name,
                             colorKey: model.activeCounter.colorKey,
-                            histories: model.activeHistories
+                            histories: model.activeHistories,
+                            onClose: { withAnimation { showGraph = false } }
                         )
                         .id(model.activeCounter.id)
                     }

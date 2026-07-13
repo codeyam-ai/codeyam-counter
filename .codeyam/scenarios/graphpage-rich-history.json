@@ -1,0 +1,16 @@
+{
+  "name": "GraphPage - Rich history",
+  "id": "244b408f-38f2-4850-9a50-ec6065fabff0",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "GraphPage"
+    }
+  },
+  "componentName": "GraphPage",
+  "scenarioType": "component"
+}

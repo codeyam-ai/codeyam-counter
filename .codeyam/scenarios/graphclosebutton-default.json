@@ -1,0 +1,16 @@
+{
+  "name": "GraphCloseButton - Default",
+  "id": "2fe086db-c005-4e5f-9e39-cf94d9519d59",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Default",
+      "CODEYAM_ISOLATE_COMPONENT": "GraphCloseButton"
+    }
+  },
+  "componentName": "GraphCloseButton",
+  "scenarioType": "component"
+}

@@ -49,12 +49,16 @@ public enum CodeyamIsolationHost {
             return AnyView(FeedbackDisclosureToggleIsolated(scenario: scenario))
         case "GearButton":
             return AnyView(GearButtonIsolated(scenario: scenario))
+        case "GraphCloseButton":
+            return AnyView(GraphCloseButtonIsolated(scenario: scenario))
         case "GraphEventList":
             return AnyView(GraphEventListIsolated(scenario: scenario))
         case "GraphHeader":
             return AnyView(GraphHeaderIsolated(scenario: scenario))
         case "GraphHistorySelector":
             return AnyView(GraphHistorySelectorIsolated(scenario: scenario))
+        case "GraphPage":
+            return AnyView(GraphPageIsolated(scenario: scenario))
         case "HeaderBar":
             return AnyView(HeaderBarIsolated(scenario: scenario))
         case "IncrementBar":
