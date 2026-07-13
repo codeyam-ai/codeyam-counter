@@ -14,7 +14,7 @@ public struct AppSettingsPanel: View {
     let availableHeight: CGFloat
     let onOpenList: () -> Void
     let onClose: () -> Void
-    /// Whether the FEEDBACK & OVERRIDES section starts expanded. App Settings has
+    /// Whether the SOUND & HAPTICS section starts expanded. App Settings has
     /// no per-counter override state to key off, so it collapses by default in
     /// production; feedback-focused isolated scenarios opt specific cases open.
     @State private var showFeedback: Bool
@@ -46,6 +46,7 @@ public struct AppSettingsPanel: View {
                     }
 
                     FeedbackDisclosureToggle(expanded: $showFeedback,
+                                             title: "SOUND & HAPTICS",
                                              identifier: "app-settings-feedback-toggle")
 
                     if showFeedback {

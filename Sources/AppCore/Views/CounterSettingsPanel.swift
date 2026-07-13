@@ -25,7 +25,7 @@ public struct CounterSettingsPanel: View {
     @State private var soundOverride: SoundOption?
     @State private var incrementHapticOverride: HapticOption?
     @State private var decrementHapticOverride: HapticOption?
-    /// Whether the FEEDBACK & OVERRIDES section is expanded. Seeded open when the
+    /// Whether the FEEDBACK & HANDEDNESS section is expanded. Seeded open when the
     /// counter already pins any override so a user who set them sees them right
     /// away; collapsed otherwise so the resting panel stays short.
     @State private var showFeedback: Bool
@@ -98,6 +98,7 @@ public struct CounterSettingsPanel: View {
                     .accessibilityIdentifier("settings-allow-negative")
 
                     FeedbackDisclosureToggle(expanded: $showFeedback,
+                                             title: "FEEDBACK & HANDEDNESS",
                                              identifier: "settings-feedback-toggle")
 
                     if showFeedback {

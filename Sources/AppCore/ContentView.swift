@@ -22,7 +22,7 @@ public struct ContentView: View {
     /// The activity graph overlay for the active counter. Seedable via `graphOpen`
     /// so a static capture can show the chart without a live tap on GRAPH.
     @State private var showGraph: Bool
-    /// Whether the App Settings panel opens with its FEEDBACK & OVERRIDES section
+    /// Whether the App Settings panel opens with its SOUND & HAPTICS section
     /// expanded. Production opens it collapsed; a scenario seeds `appSettingsFeedbackOpen`
     /// so a static capture can show the sound/haptic rows without a live tap.
     @State private var appSettingsFeedbackOpen: Bool

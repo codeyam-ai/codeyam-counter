@@ -5,7 +5,7 @@ import XCTest
 // `--xunit-output` file (see ModelTests for the full rationale).
 //
 // Covers `Counter.hasFeedbackOverride`, the heuristic that decides whether the
-// settings panel's FEEDBACK & OVERRIDES section opens on appear.
+// settings panel's FEEDBACK & HANDEDNESS section opens on appear.
 final class CounterFeedbackOverrideTests: XCTestCase {
     // A counter left on pure app-wide defaults pins nothing, so the section
     // stays collapsed.

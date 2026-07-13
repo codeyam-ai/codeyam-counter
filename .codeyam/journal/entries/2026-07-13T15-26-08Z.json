@@ -1,0 +1,243 @@
+{
+  "timestamp": "2026-07-13T15:26:08Z",
+  "title": "Rename Settings Feedback Section Titles",
+  "type": "feature",
+  "userRequest": "## Summary\n\nBoth the App Settings and Counter Settings panels render a shared collapsible\ndisclosure section whose header reads `FEEDBACK & OVERRIDES`. In App Settings\nthis is doubly wrong: those controls set the app-wide *defaults*, not overrides\nof anything. Drop \"OVERRIDES\" from both panels and give each section a title\nthat describes the controls it reveals: `SOUND & HAPTICS` for App Settings\n(sound-on-change + increment/decrement haptic) and `FEEDBACK & HANDEDNESS` for\nCounter Settings (which also exposes a per-counter handedness control). This is\na label-only change — no behavior, state, accessibility identifiers, or persisted\ndata change.\n\n## Key Decisions\n\n- **Parameterize the shared toggle rather than fork it.** `FeedbackDisclosureToggle`\n  hardcodes `Text(\"FEEDBACK & OVERRIDES\")` and is used by both panels. Add a\n  `title: String` property so each panel passes its own descriptive label,\n  keeping the single shared component (chevron, styling, tap behavior) intact.\n- **Titles chosen to match the visible controls.** App Settings section →\n  `SOUND & HAPTICS` (its three fields are Sound on change, Increment haptic,\n  Decrement haptic). Counter Settings section → `FEEDBACK & HANDEDNESS` (adds a\n  Handedness field on top of the sound/haptic fields, so \"feedback\" plus the\n  explicit handedness reads accurately).\n- **Keep all accessibility identifiers unchanged.** The `app-settings-feedback-toggle`\n  and `settings-feedback-toggle` identifiers are referenced by scenarios/tooling;\n  only the human-visible `Text` changes. No test asserts the literal\n  \"FEEDBACK & OVERRIDES\" string (it only appears in code comments), so this is\n  safe.\n\n## Implementation\n\n### 1. Add a `title` property to the shared disclosure toggle\n\n**File**: `Sources/AppCore/Views/PanelScrollSupport.swift`\n\n`FeedbackDisclosureToggle` currently hardcodes `Text(\"FEEDBACK & OVERRIDES\")`.\nAdd a `let title: String` stored property and render `Text(title)` in its place.\nUpdate the doc comment (line ~36) that calls it \"The shared 'FEEDBACK & OVERRIDES'\ndisclosure header\" to describe it generically as a titled/collapsible feedback\ndisclosure header whose label is supplied by the caller. Everything else\n(font, tracking, chevron rotation, `accessibilityIdentifier(identifier)`,\ntap-to-toggle) stays the same.\n\n### 2. Pass the App Settings title\n\n**File**: `Sources/AppCore/Views/AppSettingsPanel.swift`\n\nAt the `FeedbackDisclosureToggle(...)` call (line ~48), pass\n`title: \"SOUND & HAPTICS\"` alongside the existing\n`identifier: \"app-settings-feedback-toggle\"`. Update the stale\n`showFeedback` doc comment (line ~17, \"Whether the FEEDBACK & OVERRIDES section\nstarts expanded\") to reference the section by its new name / role.\n\n### 3. Pass the Counter Settings title\n\n**File**: `Sources/AppCore/Views/CounterSettingsPanel.swift`\n\nAt the `FeedbackDisclosureToggle(...)` call (line ~100), pass\n`title: \"FEEDBACK & HANDEDNESS\"` alongside the existing\n`identifier: \"settings-feedback-toggle\"`. Update the stale `showFeedback`\ndoc comment (line ~28, \"Whether the FEEDBACK & OVERRIDES section is expanded\")\nto reference the section by its new name.\n\n### 4. Refresh remaining stale references to the old section name (comments only)\n\n**File**: `Sources/AppCore/ContentView.swift`, `Sources/AppCore/Model.swift`,\n`Sources/AppCore/CodeyamIsolated/FeedbackDisclosureToggleIsolated.swift`,\n`Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift`,\n`Tests/AppCoreTests/CounterFeedbackOverrideTests.swift`\n\nSeveral doc/inline comments name the section \"FEEDBACK & OVERRIDES\"\n(e.g. `ContentView.swift:25`, `Model.swift:137`). These are comments only — no\nfunctional impact — but should be updated to the panel-appropriate name so the\ncodebase stays self-consistent. No assertion or identifier depends on the old\nstring.\n\n## Reused existing code\n\n- `FeedbackDisclosureToggle` from `Sources/AppCore/Views/PanelScrollSupport.swift`\n  (glossary entry: `FeedbackDisclosureToggle`) — the single shared header being\n  parameterized.\n- `AppSettingsPanel` from `Sources/AppCore/Views/AppSettingsPanel.swift`\n  (glossary entry: `AppSettingsPanel`) — passes the new App Settings title.\n- `CounterSettingsPanel` from `Sources/AppCore/Views/CounterSettingsPanel.swift`\n  (glossary entry: `CounterSettingsPanel`) — passes the new Counter Settings title.\n- `FeedbackDisclosureToggleIsolated` from\n  `Sources/AppCore/CodeyamIsolated/FeedbackDisclosureToggleIsolated.swift`\n  (glossary entry: `FeedbackDisclosureToggleIsolated`) — isolated harness that\n  instantiates the toggle; must pass a `title` once the property is required.\n\n## Scenarios to Demonstrate\n\n- App Settings panel, feedback section expanded — header reads `SOUND & HAPTICS`,\n  showing Sound on change / Increment haptic / Decrement haptic.\n- App Settings panel, feedback section collapsed — header reads `SOUND & HAPTICS`\n  with the chevron pointing right.\n- Counter Settings panel, feedback section expanded on a counter with pinned\n  overrides — header reads `FEEDBACK & HANDEDNESS`, showing Handedness / Sound /\n  Increment haptic / Decrement haptic.\n- Counter Settings panel, feedback section collapsed on a fresh counter — header\n  reads `FEEDBACK & HANDEDNESS` with the chevron pointing right.\n- `FeedbackDisclosureToggle` isolated component, both expanded and collapsed\n  states, verifying the parameterized title renders.",
+  "description": "Dropped \"OVERRIDES\" from the collapsible feedback section in both settings panels and gave each a title that describes the controls it actually reveals. FeedbackDisclosureToggle — the single shared header used by both panels — hardcoded Text(\"FEEDBACK & OVERRIDES\"); it now takes a `title` property, so App Settings passes \"SOUND & HAPTICS\" (its fields set app-wide defaults, not overrides of anything) and Counter Settings passes \"FEEDBACK & HANDEDNESS\" (it also exposes a per-counter handedness control). Label-only: chevron, styling, tap-to-toggle, accessibility identifiers, and persisted data are all unchanged, and the isolated harness gained a Handedness stand-in row so its header matches what it discloses. Note: the six app scenarios that render a settings panel still show the old header in their screenshots — the native app-scenario deviceState seed does not reach the capture (apply_ios_device_state -> terminate-before-write -> relaunch clobbers the seeded defaults), a known codeyam-editor issue with a fix already planned. The eight component scenarios seed via launchEnv, capture correctly, and are the ones that demonstrate the rename.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/rename-feedback-section-titles.md\t.codeyam/plans/completed/rename-feedback-section-titles.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-both-haptics-off--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-custom-distinct-pairing--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-sound-and-haptic-on--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-overrides-pinned--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/feedbackdisclosuretoggle-collapsed--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/feedbackdisclosuretoggle-expanded--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/FeedbackDisclosureToggleIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/AppSettingsPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterSettingsPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/PanelScrollSupport.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/CounterFeedbackOverrideTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - Added blank slot selected",
+      "screenshotPath": "counter-added-blank-slot-selected--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list",
+      "screenshotPath": "counter-all-counters-list--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list with blank slot",
+      "screenshotPath": "counter-all-counters-list-with-blank-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings open",
+      "screenshotPath": "counter-app-settings-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on",
+      "screenshotPath": "counter-app-settings-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "Counter - Blank slot incremented",
+      "screenshotPath": "counter-blank-slot-incremented--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh install default",
+      "screenshotPath": "counter-fresh-install-default--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open",
+      "screenshotPath": "counter-graph-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left override active counter",
+      "screenshotPath": "counter-left-override-active-counter--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Both haptics off",
+      "screenshotPath": "appsettingspanel-both-haptics-off--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Custom distinct pairing",
+      "screenshotPath": "appsettingspanel-custom-distinct-pairing--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Default",
+      "screenshotPath": "appsettingspanel-default--iphone-16.png"
+    },
+    {
+      "name": "AppSettingsPanel - Sound and haptic on",
+      "screenshotPath": "appsettingspanel-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "BoundedScroll - Default",
+      "screenshotPath": "boundedscroll-default--iphone-16.png"
+    },
+    {
+      "name": "BoundedScroll - Overflowing",
+      "screenshotPath": "boundedscroll-overflowing--iphone-16.png"
+    },
+    {
+      "name": "CounterSettingsPanel - Default",
+      "screenshotPath": "countersettingspanel-default--iphone-16.png"
+    },
+    {
+      "name": "CounterSettingsPanel - Overrides pinned",
+      "screenshotPath": "countersettingspanel-overrides-pinned--iphone-16.png"
+    },
+    {
+      "name": "FeedbackDisclosureToggle - Collapsed",
+      "screenshotPath": "feedbackdisclosuretoggle-collapsed--iphone-16.png"
+    },
+    {
+      "name": "FeedbackDisclosureToggle - Expanded",
+      "screenshotPath": "feedbackdisclosuretoggle-expanded--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 108,
+    "passed": 108,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 108,
+        "passed": 108
+      }
+    ]
+  }
+}

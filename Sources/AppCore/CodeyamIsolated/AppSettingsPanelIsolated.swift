@@ -17,7 +17,7 @@ struct AppSettingsPanelIsolated: View {
     }
 
     // The App Settings scenarios exist to demonstrate sound/haptic state, so those
-    // cases open FEEDBACK & OVERRIDES for the capture; `default`/`LeftHanded`
+    // cases open SOUND & HAPTICS for the capture; `default`/`LeftHanded`
     // demonstrate the resting/handedness state and stay collapsed.
     @ViewBuilder private func content(availableHeight: CGFloat) -> some View {
         let expandFeedback = ["SoundAndHapticOn", "BothHapticsOff", "CustomPairing"].contains(scenario)

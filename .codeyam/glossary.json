@@ -215,7 +215,7 @@
   },
   {
     "conformsToView": true,
-    "description": "The shared FEEDBACK & OVERRIDES disclosure header used by both settings panels to collapse their sound/haptic/override rows. A chevron rotates from pointing right when collapsed to down when expanded; the whole row is tappable.",
+    "description": "The shared collapsible disclosure header used by both settings panels to collapse their feedback rows. Each panel supplies its own title describing the controls it reveals: SOUND & HAPTICS in App Settings, FEEDBACK & HANDEDNESS in Counter Settings. A chevron rotates from pointing right when collapsed to down when expanded; the whole row is tappable.",
     "filePath": "Sources/AppCore/Views/PanelScrollSupport.swift",
     "name": "FeedbackDisclosureToggle",
     "scenarios": [

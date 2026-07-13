@@ -33,17 +33,19 @@ private struct ContentHeightKey: PreferenceKey {
     }
 }
 
-/// The shared "FEEDBACK & OVERRIDES" disclosure header used by both settings
-/// panels to collapse their sound/haptic/override rows. A chevron rotates from
-/// pointing right (collapsed) to down (expanded); the whole row is tappable.
+/// The shared collapsible disclosure header used by both settings panels to
+/// collapse their feedback rows. Each panel supplies its own `title` describing
+/// the controls it reveals. A chevron rotates from pointing right (collapsed) to
+/// down (expanded); the whole row is tappable.
 struct FeedbackDisclosureToggle: View {
     @Binding var expanded: Bool
+    let title: String
     let identifier: String
 
     var body: some View {
         Button(action: { withAnimation(.easeInOut(duration: 0.2)) { expanded.toggle() } }) {
             HStack {
-                Text("FEEDBACK & OVERRIDES")
+                Text(title)
                     .font(.system(size: 10, weight: .bold, design: .monospaced))
                     .tracking(0.8)
                     .foregroundColor(CounterTheme.inkMuted)
