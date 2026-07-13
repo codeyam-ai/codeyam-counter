@@ -1,0 +1,319 @@
+{
+  "timestamp": "2026-07-13T14:22:17Z",
+  "title": "Increment Button Press Dim Sync",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe increment button is drawn as an L-shape from two non-contiguous hit areas —\nthe full-width top face (`IncrementBar`) and the downward extension\n(`incrementContinuation` in `BottomControlRow`) — because the control row sits\nbetween them and they cannot be a single `Button`. Both faces share one\n`incrementPressed` state and dim from it via `IncrementFaceButtonStyle`, so the\nwhole thing is *supposed* to read as one surface. In practice, when you press\nthe button the two faces do not dim in unison: the face you actually touch fades\nsmoothly while the other face snaps (or lags), so the L-shape visibly breaks\ninto two pieces during the press. Fix the shared button style so both faces\nanimate their dim identically and in the same frame.\n\n## Key Decisions\n\n- **Root cause is animation, not value.** Both faces' opacity is a pure function\n  of the shared `pressed` binding, so their *target* opacity is always\n  consistent. The de-sync is that the pressed face's opacity change rides\n  SwiftUI's implicit button-press animation transaction (the gesture that set\n  `configuration.isPressed`), while the other face — which only re-renders\n  because the shared `@State` flipped — changes with a different/absent\n  transaction. One eases, the other snaps.\n- **Fix centrally in `IncrementFaceButtonStyle`, not per-view.** Both faces use\n  this one style, so pinning an explicit, identical `.animation(_, value:\n  pressed)` there forces both to interpolate opacity with the same curve and\n  duration, overriding whatever ambient transaction each face happens to be in.\n  This keeps the two faces in lockstep without touching `IncrementBar` or\n  `BottomControlRow`.\n- **Explicit animation keyed on `pressed`** (rather than removing animation\n  entirely) is chosen so the dim still feels responsive, and because scoping the\n  animation to `value: pressed` makes it deterministic and identical across both\n  style instances — the thing that guarantees sync.\n\n## Implementation\n\n### 1. Pin an identical, explicit dim animation on both faces\n\n**File**: `Sources/AppCore/Views/IncrementFaceButtonStyle.swift`\n\nIn `makeBody`, attach an explicit animation to the opacity that is keyed on the\nshared `pressed` value, so both style instances animate the dim with the exact\nsame curve and duration regardless of which face is being pressed:\n\n```swift\nfunc makeBody(configuration: Configuration) -> some View {\n    configuration.label\n        .opacity(pressed ? 0.72 : 1)\n        .animation(.easeOut(duration: 0.12), value: pressed)\n        .onChange(of: configuration.isPressed) { isPressed in\n            pressed = isPressed\n        }\n}\n```\n\nBecause the opacity is driven by the shared `pressed` (not each face's own\n`configuration.isPressed`), and the animation is scoped to `value: pressed`,\nboth faces recompute and animate to the same opacity on the same state change —\noverriding the pressed face's implicit press-transaction so it can no longer\nrun a different (or instantaneous) curve than its partner. Keep the existing\ndoc comment accurate; extend it briefly to note that the explicit\n`.animation(value: pressed)` is what keeps the two faces in sync during the\npress, not just the shared binding.\n\nNo changes are needed in `IncrementBar.swift`, `BottomControlRow.swift`, or\n`CounterBottomBar.swift` — the shared style is the single point that governs both\nfaces.\n\n## Reused existing code\n\n- `IncrementFaceButtonStyle` from\n  `Sources/AppCore/Views/IncrementFaceButtonStyle.swift` (glossary entry:\n  `IncrementFaceButtonStyle`) — the single shared style both faces already use;\n  the fix lives entirely here.\n- `IncrementBar` from `Sources/AppCore/Views/IncrementBar.swift` (glossary entry:\n  `IncrementBar`) — top face; unchanged, already binds into the shared `pressed`.\n- `BottomControlRow` / `incrementContinuation` from\n  `Sources/AppCore/Views/BottomControlRow.swift` — downward extension; unchanged.\n- `CounterBottomBar` from `Sources/AppCore/Views/CounterBottomBar.swift` — hoists\n  the shared `incrementPressed` state; unchanged.\n\n## Reproduction Test\n\nPins the bug that the two increment faces dim out of sync while the button is\npressed.\n\n**Target**: No unit-level reproduction is genuinely writable. This is a\nframe-timing / animation-curve regression — both faces already resolve to the\nsame target opacity (0.72), so a value assertion would pass even with the bug\npresent. The defect is only observable as motion on the simulator (one face\neases, the other snaps), which a unit test cannot see.\n\nStatus: NO UNIT REPRO — visual/animation regression. Demonstrate via the\nexisting pressed-state scenarios rather than a fabricated red:\n`counterbottombar-increment-pressed` (both faces dimmed in unison — the target\nstate), plus `incrementbar-pressed` and `bottomcontrolrow-increment-pressed` for\neach face in isolation. Confirm the fix by pressing the live button and watching\nboth faces fade together.\n\n## Scenarios to Demonstrate\n\n- `counterbottombar-increment-pressed` — the whole L-shape pressed; top bar and\n  downward extension dimmed to the same shade, reading as one surface (primary\n  proof of the fix).\n- `counterbottombar-lefthandedpressed` — mirrored layout pressed; the extension\n  and top bar still dim in unison on the opposite side.\n- `incrementbar-pressed` — top face alone in its pressed (dimmed) appearance.\n- `bottomcontrolrow-increment-pressed` — downward extension dimmed while\n  SUBTRACT/RESET/GRAPH stay at full strength.\n- Default/un-pressed states (`incrementbar-default`, `counterbottombar` default)\n  — both faces at full opacity, confirming the animation doesn't leave a\n  residual dim.",
+  "description": "The increment button is an L-shape drawn from two non-contiguous hit areas — the full-width IncrementBar on top and the incrementContinuation extending down past the RESET/SUBTRACT/GRAPH row — so it cannot be a single Button. Both faces already shared one `pressed` binding and therefore always agreed on the target opacity (0.72), but they did not agree on how to get there: the face you actually touched animated its dim inside SwiftUI's implicit press transaction while its partner re-rendered from the bare state change with a different (or no) transaction, so one eased and the other snapped and the L visibly split in two mid-press. Fixed with a single explicit `.animation(.easeOut(duration: 0.12), value: pressed)` in the shared IncrementFaceButtonStyle, which pins both faces to one identical curve. No unit test: both faces resolve to the same target opacity with or without the fix, so a value assertion passes either way — the defect exists only in the frames between, and is covered by the seven pressed/default scenarios cited on the glossary entry plus a live press on the simulator.\n\nCOLLATERAL FIX (found by the audit's SCENARIO_DISTINCT_CAPTURE_COLLISION gate, unrelated to the animation change): 11 committed app-scenario screenshots were byte-identical, every one of them showing counter-active-count's state (PUSH-UPS at 7) no matter what the scenario seeded — counter-graph-open, for instance, showed no graph at all. The seeds were never reaching those captures because the app relaunched onto stale persisted UserDefaults from a prior install. Recovered by uninstalling the app to clear the persisted domain, reinstalling fresh, and recapturing: 11 scenarios now yield 11 distinct, correctly-seeded frames. Byte-identity across distinct seeds is the signature of this failure; if it recurs, uninstall + fresh install before recapturing.\n\nTOOLING NOTES (codeyam-editor, reported separately; none affect this change's correctness):\n(1) `seeded-capture-check` false-positives on every small-component scenario — it keeps only the coarse 16x16 dHash and discards the PNG bytes, so a small component on a mostly-black phone frame cannot move the hash. All 31 pairs it flagged here are false (0 byte-identical; every pair differs by 0.02–15.1% of pixels). Its siblings scenario_review and distinct_capture_check use the region-aware is_visual_duplicate_frames and get it right.\n(2) The Swift dependency graph has no edges between same-module files (Swift imports modules, not files), so analyze-imports cannot link IncrementFaceButtonStyle.swift to the components that use it. Consequence: `scenario-for-changes` returns nothing and `show-results` includes 0/68 scenarios for a change of this shape.\n(3) `recapture-stale` captures correctly on a native stack but then does a follow-up GET to localhost:14100 (a web dev-server URL) to verify, which 502s — the captures land, but the run errors and the .hash sidecars are not written until it is re-run.",
+  "modifiedFiles": [
+    {
+      "path": ".claude/skills/codeyam-onboard/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-review-pr/review-procedure.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-see-app/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-see-recent-change/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/increment-button-press-dim-sync.md\t.codeyam/plans/completed/increment-button-press-dim-sync.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-install-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fresh-start--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-override-active-counter--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-count-by-5--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-settings-open-over-number--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-twenty-counters--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-undo-reset-available--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/IncrementFaceButtonStyle.swift",
+      "status": "modified"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "AddCounterDot - Default"
+    },
+    {
+      "name": "AppSettingsPanel - Both haptics off"
+    },
+    {
+      "name": "AppSettingsPanel - Custom distinct pairing"
+    },
+    {
+      "name": "AppSettingsPanel - Default"
+    },
+    {
+      "name": "AppSettingsPanel - Sound and haptic on"
+    },
+    {
+      "name": "BottomControlRow - Default"
+    },
+    {
+      "name": "BottomControlRow - Increment pressed"
+    },
+    {
+      "name": "BottomControlRow - Undo Pending"
+    },
+    {
+      "name": "BoundedScroll - Default"
+    },
+    {
+      "name": "BoundedScroll - Overflowing"
+    },
+    {
+      "name": "ControlButton - Default"
+    },
+    {
+      "name": "Counter - Active count"
+    },
+    {
+      "name": "Counter - Added blank slot selected"
+    },
+    {
+      "name": "Counter - All but one deleted"
+    },
+    {
+      "name": "Counter - All counters list with blank slot"
+    },
+    {
+      "name": "Counter - All counters list"
+    },
+    {
+      "name": "Counter - App Settings open"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on"
+    },
+    {
+      "name": "Counter - Blank slot incremented"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot"
+    },
+    {
+      "name": "Counter - Fresh install default"
+    },
+    {
+      "name": "Counter - Fresh start"
+    },
+    {
+      "name": "Counter - Graph open"
+    },
+    {
+      "name": "Counter - Large value"
+    },
+    {
+      "name": "Counter - Left-handed layout"
+    },
+    {
+      "name": "Counter - Left override active counter"
+    },
+    {
+      "name": "Counter - Long name"
+    },
+    {
+      "name": "Counter - Negative value"
+    },
+    {
+      "name": "Counter - Settings count by 5"
+    },
+    {
+      "name": "Counter - Settings open over number"
+    },
+    {
+      "name": "Counter - Twenty counters"
+    },
+    {
+      "name": "Counter - Undo reset available"
+    },
+    {
+      "name": "CounterBottomBar - Default"
+    },
+    {
+      "name": "CounterBottomBar - Increment pressed"
+    },
+    {
+      "name": "CounterBottomBar - Left-handed pressed"
+    },
+    {
+      "name": "CounterColorPicker - Coffee"
+    },
+    {
+      "name": "CounterColorPicker - Lime"
+    },
+    {
+      "name": "CounterDot - Active"
+    },
+    {
+      "name": "CounterDot - Blank incremented"
+    },
+    {
+      "name": "CounterDot - Ghost"
+    },
+    {
+      "name": "CounterGraphChart - Mixed run"
+    },
+    {
+      "name": "CounterGraphChart - Negative range"
+    },
+    {
+      "name": "CounterGraphView - Empty history"
+    },
+    {
+      "name": "CounterGraphView - Paging histories"
+    },
+    {
+      "name": "CounterGraphView - Rich history"
+    },
+    {
+      "name": "CounterListPanel - Default"
+    },
+    {
+      "name": "CounterListPanel - With blank slot"
+    },
+    {
+      "name": "CounterSettingsPanel - Default"
+    },
+    {
+      "name": "CounterSettingsPanel - Overrides pinned"
+    },
+    {
+      "name": "CounterStepStepper - Step Five"
+    },
+    {
+      "name": "CounterStepStepper - Step One"
+    },
+    {
+      "name": "CounterSwitcherCard - Blank slots"
+    },
+    {
+      "name": "CounterSwitcherCard - Default"
+    },
+    {
+      "name": "CountHero - Default"
+    },
+    {
+      "name": "CountHero - Large"
+    },
+    {
+      "name": "FeedbackDisclosureToggle - Collapsed"
+    },
+    {
+      "name": "FeedbackDisclosureToggle - Expanded"
+    },
+    {
+      "name": "GearButton - Default"
+    },
+    {
+      "name": "GraphEventList - Default"
+    },
+    {
+      "name": "GraphHeader - Blank name"
+    },
+    {
+      "name": "GraphHeader - Default"
+    },
+    {
+      "name": "GraphHistorySelector - Current run"
+    },
+    {
+      "name": "GraphHistorySelector - Older run"
+    },
+    {
+      "name": "HeaderBar - Default"
+    },
+    {
+      "name": "IncrementBar - Default"
+    },
+    {
+      "name": "IncrementBar - Pressed"
+    },
+    {
+      "name": "OverridePicker - Default"
+    },
+    {
+      "name": "OverridePicker - Pinned"
+    }
+  ],
+  "testResults": {
+    "total": 108,
+    "passed": 108,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 108,
+        "passed": 108
+      }
+    ]
+  }
+}

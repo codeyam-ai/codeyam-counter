@@ -298,11 +298,17 @@
   },
   {
     "conformsToView": false,
-    "description": "Shared press styling for the two faces of the increment button: dims its label from a shared pressed binding and syncs its own isPressed back into that binding, so pressing either face dims both and the L-shape reads as one surface.",
+    "description": "Shared press styling for the two faces of the increment button: dims its label from a shared pressed binding and syncs its own isPressed back into that binding, so pressing either face dims both and the L-shape reads as one surface. An explicit .animation keyed on the shared pressed value pins both faces to one identical dim curve — without it the touched face rides SwiftUI's implicit press transaction while its partner snaps, and the L visibly splits in two mid-press.",
     "filePath": "Sources/AppCore/Views/IncrementFaceButtonStyle.swift",
     "name": "IncrementFaceButtonStyle",
     "scenarios": [
-      "counterbottombar-increment-pressed"
+      "counterbottombar-increment-pressed",
+      "counterbottombar-left-handed-pressed",
+      "counterbottombar-default",
+      "incrementbar-pressed",
+      "incrementbar-default",
+      "bottomcontrolrow-increment-pressed",
+      "bottomcontrolrow-default"
     ]
   },
   {
