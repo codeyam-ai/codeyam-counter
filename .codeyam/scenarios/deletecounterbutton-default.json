@@ -1,0 +1,16 @@
+{
+  "name": "DeleteCounterButton - Default",
+  "id": "61af6fc0-d782-4838-8458-fec4e5e88ea5",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_COMPONENT": "DeleteCounterButton",
+      "CODEYAM_ISOLATE_SCENARIO": "Default"
+    }
+  },
+  "componentName": "DeleteCounterButton",
+  "scenarioType": "component"
+}

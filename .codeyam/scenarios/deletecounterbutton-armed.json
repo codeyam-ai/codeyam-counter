@@ -1,0 +1,16 @@
+{
+  "name": "DeleteCounterButton - Armed",
+  "id": "2f75205b-e751-4e52-8460-cbcc8d1cc494",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "launchEnv": {
+      "CODEYAM_ISOLATE_SCENARIO": "Armed",
+      "CODEYAM_ISOLATE_COMPONENT": "DeleteCounterButton"
+    }
+  },
+  "componentName": "DeleteCounterButton",
+  "scenarioType": "component"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Counter - Fifth counter before delete",
+  "id": "a039194a-6482-41ed-8446-2976e660e553",
+  "url": "/",
+  "dimensions": [
+    "iPhone 16"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 12, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 840, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 5, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}, {\"id\": 5, \"name\": \"WATER\", \"count\": 6, \"colorKey\": \"teal\", \"allowNegative\": true, \"step\": 1, \"order\": 4}]",
+      "settingsOpen": false,
+      "leftHanded": false,
+      "selectedCounterId": 5
+    },
+    "statusBar": {
+      "time": "9:41"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "Sources/AppCore/ContentView.swift"
+}

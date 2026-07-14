@@ -29,10 +29,6 @@ public struct CounterSettingsPanel: View {
     /// counter already pins any override so a user who set them sees them right
     /// away; collapsed otherwise so the resting panel stays short.
     @State private var showFeedback: Bool
-    /// Two-tap delete guard: the first tap arms the button, a second tap within
-    /// ~3s deletes; it auto-disarms so an accidental single tap never wipes a
-    /// counter.
-    @State private var confirmingDelete = false
 
     public init(counter: Counter,
                 availableHeight: CGFloat,
@@ -130,7 +126,10 @@ public struct CounterSettingsPanel: View {
                         }
                     }
 
-                    deleteButton
+                    DeleteCounterButton(onDelete: {
+                        onDelete()
+                        onClose()
+                    })
                 }
             }
         }
@@ -140,37 +139,6 @@ public struct CounterSettingsPanel: View {
         .overlay(Rectangle().stroke(CounterTheme.lineStrong, lineWidth: 1))
         .padding(.horizontal, 22)
         .padding(.top, 12)
-    }
-
-    // The delete control. Disarmed: an outlined coffee-colored "DELETE COUNTER".
-    // First tap arms it into a filled "TAP AGAIN TO CONFIRM" state that
-    // auto-disarms after ~3s; a second tap while armed performs the delete. The
-    // `settings-delete` identifier stays on the button in both states so the
-    // armed state is a label/style swap rather than a new control.
-    private var deleteButton: some View {
-        let coffee = CounterTheme.dotColor("coffee")
-        return Button(action: {
-            if confirmingDelete {
-                onDelete()
-                onClose()
-            } else {
-                confirmingDelete = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    confirmingDelete = false
-                }
-            }
-        }) {
-            Text(confirmingDelete ? "TAP AGAIN TO CONFIRM" : "DELETE COUNTER")
-                .font(.system(size: 13, weight: .heavy, design: .monospaced))
-                .tracking(1)
-                .foregroundColor(confirmingDelete ? CounterTheme.onAccent : coffee)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(confirmingDelete ? coffee : Color.clear)
-                .overlay(Rectangle().stroke(coffee.opacity(confirmingDelete ? 1 : 0.6), lineWidth: 1))
-        }
-        .buttonStyle(.plain)
-        .accessibilityIdentifier("settings-delete")
     }
 
     private var header: some View {

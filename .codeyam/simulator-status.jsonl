@@ -2,7 +2,4 @@
 {"state":"simulator-booted","udid":"3433E243-29C1-4A3B-A31A-6E8F3ADD4804","name":"iPhone 16 Pro"}
 {"state":"building-app","elapsedSec":0}
 {"state":"building-app","elapsedSec":5}
-{"state":"building-app","elapsedSec":10}
-{"state":"building-app","elapsedSec":15}
-{"state":"building-app","elapsedSec":20}
 {"state":"app-launched","udid":"3433E243-29C1-4A3B-A31A-6E8F3ADD4804","appBundleId":"com.codeyam.counter"}

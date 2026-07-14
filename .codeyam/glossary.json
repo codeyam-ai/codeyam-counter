@@ -166,14 +166,14 @@
     ]
   },
   {
-    "description": "Observable store backing the counter screen. Loads seeded or default counters and the selected id from UserDefaults at launch, tracks the active selection, and applies increment, subtract with optional clamping when negatives are disallowed, reset, and wrap-around swipe selection, persisting every change back to UserDefaults. On each count change it emits feedback resolved through the active counter's effective sound and per-direction haptic overrides via the effectiveFeedback closure, picking the increment vs decrement haptic by direction before calling the feedback sink; updateActiveCounter round-trips the per-counter handedness/sound and both directional haptic overrides.",
+    "description": "Observable store backing the counter screen. Loads seeded or default counters and the selected id from UserDefaults at launch, tracks the active selection, and applies increment, subtract with optional clamping when negatives are disallowed, reset, and wrap-around swipe selection, persisting every change back to UserDefaults. On each count change it emits feedback resolved through the active counter's effective sound and per-direction haptic overrides via the effectiveFeedback closure, picking the increment vs decrement haptic by direction before calling the feedback sink; updateActiveCounter round-trips the per-counter handedness/sound and both directional haptic overrides. deleteCounter is keyed on position via baseSlotCount: the first four positions are permanent base slots that are blanked in place so the row never shrinks below them, while a counter added beyond them is removed outright and the previous counter becomes active, dropping its recorded runs.",
     "filePath": "Sources/AppCore/Model.swift",
     "name": "CounterModel",
     "testFile": "Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "conformsToView": true,
-    "description": "Inline settings panel that expands over the count numeral. Composes the labeled name field, color picker, step stepper, an allow-negative toggle, three per-counter override rows (HANDEDNESS, SOUND, HAPTIC via OverridePicker) that pin or defer to the app-wide settings, and a destructive Delete; local state holds in-progress edits and DONE saves them back to the active counter.",
+    "description": "Inline settings panel that expands over the count numeral. Composes the labeled name field, color picker, step stepper, an allow-negative toggle, three per-counter override rows (HANDEDNESS, SOUND, HAPTIC via OverridePicker) that pin or defer to the app-wide settings, and DeleteCounterButton for the destructive delete, whose callback deletes the active counter and then closes the panel; local state holds in-progress edits and DONE saves them back to the active counter.",
     "filePath": "Sources/AppCore/Views/CounterSettingsPanel.swift",
     "name": "CounterSettingsPanel",
     "scenarios": [
@@ -212,6 +212,16 @@
     "filePath": "Sources/AppCore/History.swift",
     "name": "CumulativePoint",
     "testFile": "Tests/AppCoreTests/ModelTests.swift"
+  },
+  {
+    "conformsToView": true,
+    "description": "The destructive delete control in the counter settings panel, guarded by a two-tap confirm. Disarmed it is an outlined coffee-colored DELETE COUNTER; the first tap arms it into a filled TAP AGAIN TO CONFIRM that auto-disarms after about 3s, so an accidental single tap never wipes a counter, and a second tap while armed invokes onDelete. The whole outlined frame is the tap target via contentShape, because the disarmed button's clear background is not hit-testable on its own. A confirming init parameter seeds the armed state so a static scenario can capture it without a live tap.",
+    "filePath": "Sources/AppCore/Views/DeleteCounterButton.swift",
+    "name": "DeleteCounterButton",
+    "scenarios": [
+      "deletecounterbutton-default",
+      "deletecounterbutton-armed"
+    ]
   },
   {
     "conformsToView": true,

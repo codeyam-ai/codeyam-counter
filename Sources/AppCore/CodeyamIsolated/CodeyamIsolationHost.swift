@@ -45,6 +45,8 @@ public enum CodeyamIsolationHost {
             return AnyView(CounterStepStepperIsolated(scenario: scenario))
         case "CounterSwitcherCard":
             return AnyView(CounterSwitcherCardIsolated(scenario: scenario))
+        case "DeleteCounterButton":
+            return AnyView(DeleteCounterButtonIsolated(scenario: scenario))
         case "FeedbackDisclosureToggle":
             return AnyView(FeedbackDisclosureToggleIsolated(scenario: scenario))
         case "GearButton":

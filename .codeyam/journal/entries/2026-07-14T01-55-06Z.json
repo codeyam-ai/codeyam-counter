@@ -1,0 +1,159 @@
+{
+  "timestamp": "2026-07-14T01:55:06Z",
+  "title": "Delete Extra Counters Removes And Selects Previous",
+  "type": "feature",
+  "userRequest": "## Summary\n\nDeleting a counter that lives in position 5 or later should truly remove it\nfrom the list and leave the user on the *previous* counter — not blank it in\nplace. Today `CounterModel.deleteCounter(id:)` always blanks a counter in place\n(empties its name, resets it, keeps the slot and selection), which is the right\nbehavior for the four permanent base slots but wrong for extra, user-added\ncounters: those should disappear entirely and hand focus back to the counter\nbefore them. This plan splits `deleteCounter` into two behaviors keyed on the\ncounter's position: positions 1–4 keep blank-in-place; position 5+ is removed\nand the previous counter becomes active.\n\n## Key Decisions\n\n- **\"First four\" means the first four positions (indices 0–3), not the four\n  default ids.** Chosen by the user over an id-based rule. The base row always\n  keeps at least four slots; anything the user swiped-to-add past the fourth is\n  fully removable. Positional is simpler and matches what the user sees in the\n  switcher.\n- **On removal, select the previous counter (`idx - 1`).** The user explicitly\n  asked to \"be placed on the previous counter.\" Because removal only happens\n  when `idx >= 4`, `idx - 1` is always `>= 3` and always a valid index — no\n  clamping or empty-list edge case is reachable.\n- **Removal drops the counter's history and clears any pending reset-undo**, matching\n  what blank-in-place already does (`histories[id] = nil`, `resetUndo = nil`),\n  so no orphaned run history lingers under a now-absent id.\n- **No UI/delete-button gating.** The DELETE COUNTER control in the settings\n  panel stays visible and identical for every counter; only the model's reaction\n  differs by position. This keeps the change contained to `Model.swift` and\n  avoids touching the two-tap confirm affordance.\n- **Reorder the `order` fields after removal is unnecessary** — `order` is only\n  used to sort on load and to compute the next id/order on add\n  (`max(order) + 1`). Leaving a gap in `order` after a removal is harmless, so\n  the plan does not renumber.\n\n## Implementation\n\n### 1. Branch `deleteCounter` on position\n\n**File**: `Sources/AppCore/Model.swift`\n\nIn `deleteCounter(id:)` (currently ~line 497), after resolving `idx`, add an\nearly branch: when `idx >= 4`, remove the counter and select the previous one\ninstead of blanking. Keep the existing blank-in-place body for `idx < 4`.\n\nSketch:\n\n```swift\npublic func deleteCounter(id: Int) {\n    guard let idx = counters.firstIndex(where: { $0.id == id }) else { return }\n    resetUndo = nil\n\n    // Counters past the four permanent base slots are removed outright, not\n    // blanked in place, and focus falls back to the previous counter. idx >= 4\n    // guarantees idx - 1 is a valid index, so no clamp is needed.\n    if idx >= 4 {\n        histories[counters[idx].id] = nil\n        counters.remove(at: idx)\n        selectedIndex = idx - 1\n        persistCounters()\n        persistSelection()\n        persistHistories()\n        return\n    }\n\n    // ... existing blank-in-place body unchanged (positions 1–4) ...\n}\n```\n\nUpdate the doc comment above `deleteCounter` (and the related note on\n`positionLabel` at ~line 307 that says \"deleting a counter blanks it in place\nwithout shrinking the row\") to reflect that this now only holds for the first\nfour positions; positions 5+ shrink the row.\n\n### 2. (Verify only) header total and switcher react to a shorter list\n\n**File**: `Sources/AppCore/Model.swift` (no code change expected)\n\n`counterCount` and `positionLabel` are already derived from `counters.count`\nand `selectedIndex`, and the switcher/header read those. Removing an element and\nlowering `selectedIndex` should flow through automatically — confirm the\n\"NN / NN COUNTERS\" header and the switcher dots update via a scenario, no code\nchange anticipated.\n\n## Reused existing code\n\n- `CounterModel.deleteCounter(id:)` from `Sources/AppCore/Model.swift` — the\n  method being split (glossary entry: `CounterModel`).\n- `histories` / `persistHistories()` / `persistCounters()` / `persistSelection()`\n  from `Sources/AppCore/Model.swift` — existing persistence helpers reused\n  verbatim on the removal path.\n- `addCounter()` from `Sources/AppCore/Model.swift` — the \"swipe past the last\n  counter\" path that creates the position-5+ counters this behavior targets;\n  used to set up the reproduction test.\n- `positionLabel` / `counterCount` from `Sources/AppCore/Model.swift` — already\n  drive the header total off `counters.count`, so they need no change.\n\n## Reproduction Test\n\nPins that deleting a counter in position 5+ removes it from the list and selects\nthe previous counter, instead of blanking it in place.\n\n**Target**: `Tests/AppCoreTests/ModelTests.swift` — run with\n`codeyam-editor editor refresh-tests --test testDeleteBeyondFirstFourRemovesAndSelectsPrevious`.\n\n```swift\n// Deleting a counter past the first four positions removes it outright and\n// moves selection to the previous counter, rather than blanking it in place.\nfunc testDeleteBeyondFirstFourRemovesAndSelectsPrevious() {\n    let model = makeModel()   // COUNTER 1...4 (the four base slots)\n    model.addCounter()        // a 5th counter at index 4, now selected\n    XCTAssertEqual(model.counterCount, 5)\n    XCTAssertEqual(model.selectedIndex, 4)\n    let fifthId = model.activeCounter.id\n\n    model.deleteCounter(id: fifthId)\n\n    // The 5th counter is gone, not blanked in place.\n    XCTAssertEqual(model.counterCount, 4)\n    XCTAssertNil(model.counters.first { $0.id == fifthId })\n    // Focus falls back to the previous counter.\n    XCTAssertEqual(model.selectedIndex, 3)\n}\n```\n\nStatus: PROPOSED — confirm red at execution. Expected failure: current\n`deleteCounter` blanks in place, so `counterCount` stays `5` and the\n`XCTAssertEqual(model.counterCount, 4)` assertion fails (the counter is still\npresent as a blank slot, so the `XCTAssertNil` would also fail).\n\n## Scenarios to Demonstrate\n\n- **Delete a 5th counter** — a list of five named counters with the 5th active;\n  after delete, four counters remain and COUNTER 4 (position 4) is active with\n  the header reading \"04 / 04 COUNTERS\".\n- **Delete a middle extra counter** — six counters, position 5 active; after\n  delete, the former 6th slides into position 5 and selection lands on\n  position 4.\n- **First-four unchanged (regression guard)** — four base counters, COUNTER 2\n  active with a non-zero count; delete blanks it in place, row stays at four\n  slots, blank slot stays selected.\n- **Delete the last (6th) counter** — six counters, the last active; delete\n  removes it and selects the new last (position 5).",
+  "description": "Deleting a counter is now keyed on its position. The first four positions are permanent base slots that still blank in place (name cleared, count zeroed, slot kept and selected), so the switcher row never shrinks below four; a counter the user added beyond them is now removed outright and the previous counter becomes active, with its recorded runs dropped rather than orphaned. The rule lives in the new CounterModel.baseSlotCount constant instead of a bare `idx >= 4`. While testing the flow, a real tap-target bug surfaced in the delete control: its disarmed state draws on a Color.clear background, which SwiftUI does not hit-test, so only the letterforms accepted taps while the padding and full-width strip inside the outline were dead. The control was extracted into DeleteCounterButton (own file, two captured states) and given .contentShape(Rectangle()) so the whole outlined frame is tappable. Note for anyone re-running the checks: `seeded-capture-check` fails project-wide here with pre-existing perceptual-hash false positives — it scores visual difference over the entire 1206x2622 device frame, so a legitimate small-component state change registers as a sub-1% pixel delta and is misread as an unseeded capture. No flagged pair is byte-identical (all have distinct sha256 and file sizes) and every capture visibly renders its seed, so the seeds are landing; the bug is upstream in the codeyam-editor binary, not in this repo, and predates this session.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/delete-extra-counters-removes-and-selects-previous.md\t.codeyam/plans/completed/delete-extra-counters-removes-and-selects-previous.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-overrides-pinned--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterSettingsPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-fifth-counter-before-delete.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-fifth-counter-deleted.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/deletecounterbutton-armed.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/deletecounterbutton-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fifth-counter-before-delete--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fifth-counter-before-delete--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fifth-counter-deleted--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fifth-counter-deleted--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/deletecounterbutton-armed--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/deletecounterbutton-armed--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/deletecounterbutton-default--iphone-16.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/deletecounterbutton-default--iphone-16.png.hash",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/DeleteCounterButtonIsolated.swift",
+      "status": "added"
+    },
+    {
+      "path": "Sources/AppCore/Views/DeleteCounterButton.swift",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "CounterSettingsPanel - Default",
+      "screenshotPath": "countersettingspanel-default--iphone-16.png"
+    },
+    {
+      "name": "CounterSettingsPanel - Overrides pinned",
+      "screenshotPath": "countersettingspanel-overrides-pinned--iphone-16.png"
+    },
+    {
+      "name": "DeleteCounterButton - Armed",
+      "screenshotPath": "deletecounterbutton-armed--iphone-16.png"
+    },
+    {
+      "name": "DeleteCounterButton - Default",
+      "screenshotPath": "deletecounterbutton-default--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 121,
+    "passed": 121,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 121,
+        "passed": 121
+      }
+    ]
+  }
+}

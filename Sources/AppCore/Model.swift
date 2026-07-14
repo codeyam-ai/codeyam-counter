@@ -224,6 +224,12 @@ public final class CounterModel: ObservableObject {
     /// The most recent runs kept per counter; the 11th reset drops the oldest.
     public static let maxHistoriesPerCounter = 10
 
+    /// The permanent base slots. Counters in these first positions are blanked in
+    /// place on delete so the row never shrinks below them; counters the user adds
+    /// beyond them are removed outright. Positional, not id-based — what the user
+    /// sees in the switcher is what the rule applies to.
+    public static let baseSlotCount = 4
+
     public init(defaults: UserDefaults = .standard, feedback: CounterFeedback = NoopCounterFeedback(),
                 policy: SeedPolicy = .current) {
         self.defaults = defaults
@@ -305,8 +311,9 @@ public final class CounterModel: ObservableObject {
     public var counterCount: Int { counters.count }
 
     /// 1-based position of the active counter, for the "01 / 04 COUNTERS" header.
-    /// A blank slot is still a slot, so the total counts blanks too — deleting a
-    /// counter blanks it in place without shrinking the row.
+    /// A blank slot is still a slot, so the total counts blanks too — deleting one
+    /// of the first four counters blanks it in place without shrinking the row.
+    /// Deleting a counter past those four removes it, so the total does drop.
     public var positionLabel: String {
         String(format: "%02d / %02d", selectedIndex + 1, counters.count)
     }
@@ -487,17 +494,37 @@ public final class CounterModel: ObservableObject {
         persistCounters()
     }
 
-    /// Blanks a counter *in place* rather than removing it: empties its name,
-    /// resets count to 0, and drops it to neutral color/step/allow-negative,
-    /// keeping its `id` and `order`. The slot stays in `counters` (so the header
-    /// total is unchanged) and stays selected, so the user can immediately revive
-    /// it — by giving it a name in settings, or by incrementing it into a solid
-    /// blank dot. Tapping the blank slot only selects it; it does not resurrect
-    /// the old counter.
+    /// Deleting behaves differently either side of the four permanent base slots.
+    ///
+    /// In the first four positions the counter is blanked *in place* rather than
+    /// removed: its name is emptied, count reset to 0, and color/step/allow-negative
+    /// dropped to neutral, keeping its `id` and `order`. The slot stays in `counters`
+    /// (so the header total is unchanged) and stays selected, so the user can
+    /// immediately revive it — by giving it a name in settings, or by incrementing it
+    /// into a solid blank dot. Tapping the blank slot only selects it; it does not
+    /// resurrect the old counter.
+    ///
+    /// Past those four (position 5+, i.e. counters the user added), the counter is
+    /// removed outright and the previous counter becomes active — the row shrinks.
     public func deleteCounter(id: Int) {
         guard let idx = counters.firstIndex(where: { $0.id == id }) else { return }
-        // The captured pre-reset value no longer applies once a counter is blanked.
+        // The captured pre-reset value no longer applies once a counter is deleted.
         resetUndo = nil
+
+        // Counters past the permanent base slots are removed outright, not blanked
+        // in place, and focus falls back to the previous counter. The rule only
+        // fires at or beyond `baseSlotCount` (>= 1), so `idx - 1` is always a valid
+        // index and needs no clamp.
+        if idx >= Self.baseSlotCount {
+            histories[counters[idx].id] = nil
+            counters.remove(at: idx)
+            selectedIndex = idx - 1
+            persistCounters()
+            persistSelection()
+            persistHistories()
+            return
+        }
+
         counters[idx].name = ""
         counters[idx].colorKey = Counter.blankColorKey
         counters[idx].count = 0

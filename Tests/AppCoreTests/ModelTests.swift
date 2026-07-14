@@ -306,6 +306,87 @@ final class ModelTests: XCTestCase {
         XCTAssertTrue(model.activeCounter.isBlank)
     }
 
+    // Past the four permanent base slots, deleting removes the counter outright
+    // instead of blanking it in place, and selection falls back to the previous
+    // counter.
+    func testDeleteBeyondFirstFourRemovesAndSelectsPrevious() {
+        let model = makeModel() // COUNTER 1...4 (the four base slots)
+        model.addCounter()      // a 5th counter at index 4, now selected
+        XCTAssertEqual(model.counterCount, 5)
+        XCTAssertEqual(model.selectedIndex, 4)
+        let fifthId = model.activeCounter.id
+
+        model.deleteCounter(id: fifthId)
+
+        // The 5th counter is gone, not blanked in place.
+        XCTAssertEqual(model.counterCount, 4)
+        XCTAssertNil(model.counters.first { $0.id == fifthId })
+        // Focus falls back to the previous counter.
+        XCTAssertEqual(model.selectedIndex, 3)
+    }
+
+    // The blank-in-place / remove split is keyed on `baseSlotCount`, so the row can
+    // never shrink below it no matter how many base slots are deleted.
+    func testDeletingEveryBaseSlotNeverShrinksTheRow() {
+        let model = makeModel()
+        XCTAssertEqual(model.counterCount, CounterModel.baseSlotCount)
+        for id in model.counters.map(\.id) {
+            model.deleteCounter(id: id)
+        }
+        XCTAssertEqual(model.counterCount, CounterModel.baseSlotCount)
+        XCTAssertTrue(model.counters.allSatisfy { $0.isBlank })
+    }
+
+    // Deleting an extra counter that is not the last one closes the gap: the
+    // counter after it slides down into its position.
+    func testDeletingMiddleExtraCounterSlidesFollowingCounterDown() {
+        let model = makeModel()
+        model.addCounter() // index 4
+        model.updateActiveCounter(name: "WATER", colorKey: "teal", allowNegative: true, step: 1)
+        model.addCounter() // index 5
+        model.updateActiveCounter(name: "MILES", colorKey: "mint", allowNegative: true, step: 1)
+        XCTAssertEqual(model.counterCount, 6)
+
+        let waterId = model.counters[4].id
+        model.deleteCounter(id: waterId)
+
+        XCTAssertEqual(model.counterCount, 5)
+        // MILES slid down from index 5 into the removed counter's slot.
+        XCTAssertEqual(model.counters[4].name, "MILES")
+        // Selection lands on the counter before the removed one.
+        XCTAssertEqual(model.selectedIndex, 3)
+    }
+
+    // Deleting the last extra counter selects the new last counter.
+    func testDeletingLastExtraCounterSelectsNewLast() {
+        let model = makeModel()
+        model.addCounter() // index 4
+        model.addCounter() // index 5, selected
+        XCTAssertEqual(model.selectedIndex, 5)
+
+        model.deleteCounter(id: model.activeCounter.id)
+
+        XCTAssertEqual(model.counterCount, 5)
+        XCTAssertEqual(model.selectedIndex, 4)
+        // Selection is still in range — the new last counter.
+        XCTAssertEqual(model.selectedIndex, model.counterCount - 1)
+    }
+
+    // Removing an extra counter drops its recorded runs rather than orphaning them
+    // under an id that is no longer present.
+    func testDeletingExtraCounterDropsItsHistory() {
+        let model = makeModel()
+        model.addCounter()
+        let extraId = model.activeCounter.id
+        model.increment()
+        model.reset() // records a run for the extra counter
+        XCTAssertFalse(model.activeHistories.isEmpty)
+
+        model.deleteCounter(id: extraId)
+
+        XCTAssertNil(model.histories[extraId])
+    }
+
     // Legacy migration: a model seeded with `deletedDefaultIds` and a counters
     // array missing those ids exposes blank counters at the right orders (so a
     // user who deleted a default under the old model still sees a blank slot).
