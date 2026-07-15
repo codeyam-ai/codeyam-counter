@@ -3,7 +3,9 @@
 import os
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-ROOT = "/Users/jaredcosulich/workspace/codeyam/codeyam-counter"
+# Repo root, derived from this script's location (.codeyam/store/appstore/gen_assets.py)
+# so the generator is portable and carries no hardcoded laptop path.
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 SHOTS = os.path.join(ROOT, ".codeyam/scenarios/screenshots")
 OUT = os.path.join(ROOT, ".codeyam/store/appstore")
 os.makedirs(os.path.join(OUT, "icon"), exist_ok=True)

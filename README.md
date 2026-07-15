@@ -1,49 +1,19 @@
-# Swift + SwiftUI iOS App
+# CodeYam Counter
 
-A native iOS application using SwiftUI and a shared SwiftPM AppCore library.
+[![CI](https://github.com/codeyam-ai/codeyam-counter/actions/workflows/ci.yml/badge.svg)](https://github.com/codeyam-ai/codeyam-counter/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-## Testing
+**A fast, tactile multi-counter for iPhone.**
 
-Write tests with **XCTest** (`import XCTest`, `final class …: XCTestCase`,
-`func testName()`). XCTest is the framework the editor's runner captures: the
-editor parses the XCTest `--xunit-output` file, and **swift-testing** (`import
-Testing`, `@Test func`) results do **not** reliably land there on Xcode 16.x /
-Swift 6.x — under `--parallel`, the swift-testing run can overwrite the xunit
-with `tests="0"`, so the editor sees no tests. Put your tests in
-`Tests/AppCoreTests/` with a `//` comment directly above each `func testX()`
-describing what it verifies (the editor parses that comment as the test's
-description).
+CodeYam Counter keeps several running tallies at once — reps, coffees, laps,
+anything worth counting. Each counter gets its own name and color, one tap
+increments, and every count is charted over time so you can see your history at
+a glance. It's a native iOS app built with SwiftUI on top of a shared `AppCore`
+SwiftPM library.
 
-Tests run via:
-
-    swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
-
-- `--parallel` is required: modern SwiftPM only writes the XCTest xunit to
-  `--xunit-output` when run in parallel, so without it the project reports
-  zero tests.
-- `--disable-swift-testing` makes the xunit deterministic: it stops the
-  swift-testing harness from also claiming `--xunit-output` and racing the
-  XCTest writer, which otherwise nondeterministically truncates the file to
-  `tests="0"`.
-
-To register your tests with the editor after writing them, run:
-
-    codeyam-editor editor reconcile-registry --auto-apply
-
-This diffs the runner output against the registry and auto-adds new tests —
-line numbers and descriptions are resolved automatically, so you do not need
-to pass `--line` by hand.
-
-## Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for
-build/test instructions and the PR process, and note our
-[Code of Conduct](CODE_OF_CONDUCT.md). To report a security issue, see
-[SECURITY.md](SECURITY.md).
-
-## License
-
-Released under the [MIT License](LICENSE).
+<p align="center">
+  <img src=".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png" alt="CodeYam Counter tracking a set of push-ups" width="300">
+</p>
 
 <!-- codeyam:run-and-edit:start -->
 ## Develop this project with codeyam-editor
@@ -58,6 +28,24 @@ codeyam-editor editor
 swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
 ```
 <!-- codeyam:run-and-edit:end -->
+
+## Build and run locally
+
+Requires macOS with a recent Xcode (Swift 6 toolchain) and an iOS 15+
+simulator or device.
+
+```bash
+# Clone the repo
+git clone https://github.com/codeyam-ai/codeyam-counter && cd codeyam-counter
+
+# Build the shared AppCore library and run the tests
+swift build
+swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
+```
+
+Open `App.xcodeproj` in Xcode and run the **App** scheme on an iOS simulator or
+device. See [MOBILE_SETUP.md](MOBILE_SETUP.md) for simulator prerequisites and
+[CONTRIBUTING.md](CONTRIBUTING.md) for the full build/test workflow.
 
 <!-- codeyam:scenario-gallery:start -->
 ## Scenario gallery
@@ -96,3 +84,14 @@ States captured as runnable scenarios with codeyam-editor:
 
 <img src=".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png" alt="Counter - Blank slot incremented" width="280">
 <!-- codeyam:scenario-gallery:end -->
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for
+build/test instructions and the PR process, and note our
+[Code of Conduct](CODE_OF_CONDUCT.md). To report a security issue, see
+[SECURITY.md](SECURITY.md).
+
+## License
+
+[MIT](./LICENSE) © 2026 Codeyam
