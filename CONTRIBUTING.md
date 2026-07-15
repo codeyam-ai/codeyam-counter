@@ -36,12 +36,13 @@ unillustrated.
 ## Building and testing by hand
 
 If you're working without the editor, the standard SwiftPM workflow is fully
-supported. The app target lives in `App/` (Xcode project `App.xcodeproj`); the
-testable logic lives in the `AppCore` SwiftPM library under `Sources/AppCore`.
+supported. The app target lives in `ios/App/` (Xcode project
+`ios/App.xcodeproj`); the testable logic lives in the `AppCore` SwiftPM library
+under `ios/Sources/AppCore`.
 
 ```bash
-swift build
-swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
+swift build --package-path ios
+swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
 ```
 
 - `--parallel` is required — modern SwiftPM only writes the XCTest xunit
@@ -49,7 +50,7 @@ swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-test
 - `--disable-swift-testing` keeps the xunit output deterministic (it stops the
   swift-testing harness from racing the XCTest writer).
 
-Put each test in `Tests/AppCoreTests/` with a `//` comment directly above each
+Put each test in `ios/Tests/AppCoreTests/` with a `//` comment directly above each
 `func testX()` describing what it verifies and why it matters. If you add tests
 by hand, register them with the editor so they stay tracked alongside the
 scenarios:
@@ -63,7 +64,7 @@ codeyam-editor editor reconcile-registry --auto-apply
 1. Fork and create a topic branch off `main`.
 2. Make your change — ideally in codeyam-editor, so its scenarios and tests are
    captured and registered as you go.
-3. Ensure `swift build` and the test command above both pass.
+3. Ensure `swift build --package-path ios` and the test command above both pass.
 4. Open a PR describing what changed and why, and fill in the PR template.
 
 ## Code of conduct

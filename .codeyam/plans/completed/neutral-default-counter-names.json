@@ -14,8 +14,8 @@
   },
   "createdAt": "2026-07-10T23:26:33Z",
   "deliverables": [
-    "Sources/AppCore/Model.swift",
-    "Tests/AppCoreTests/ModelTests.swift",
+    "ios/Sources/AppCore/Model.swift",
+    "ios/Tests/AppCoreTests/ModelTests.swift",
     "ui/src/helpers/stepLabels.generated.ts"
   ],
   "journalTimestamp": "2026-07-11T11:31:30Z",

@@ -1,0 +1,637 @@
+{
+  "timestamp": "2026-07-15T19:56:19Z",
+  "title": "Migrate to ios and android Layout",
+  "type": "feature",
+  "userRequest": "## Summary\n\nRestructure the repo from a single root-level iOS app into a symmetric\ntwo-platform layout: move the existing Swift/SwiftUI app into `ios/` and reserve\n`android/` for the forthcoming Kotlin app. This plan is the foundation for the\nAndroid port — it does **not** add Android yet. Its second, equally important\njob is to prove that codeyam-editor still works end to end after the move\n(config resolution, `assess`, the iOS simulator preview, scenario capture,\n`swift test`, glossary/test-registry paths, and the audit gate).\n\n## Key Decisions\n\n- **Move the iOS app into `ios/`, keep `.codeyam/` and repo-level docs at root.**\n  The user chose the symmetric `ios/` + `android/` layout over keeping iOS at\n  root. `.codeyam/` stays repo-rooted (it is the shared codeyam workspace for\n  both apps); only the Swift app's own source/build files relocate.\n- **Move `App.xcodeproj`, `App/`, `Package.swift`, `Sources/`, `Tests/`, and\n  `.swiftpm/` together as one unit** so every relative reference inside them\n  (Package.swift's `path: \"Sources/AppCore\"`, the xcodeproj's file/group refs)\n  keeps resolving without editing the internals. Relative structure is\n  preserved; only the shared prefix changes to `ios/`.\n- **Run Swift tooling with `--package-path ios` from the repo root** rather than\n  `cd ios && …`, so `--xunit-output .codeyam/swift-tests.xml` still writes to the\n  repo-rooted path the runner config expects. This keeps `outputPath` unchanged.\n- **Repoint codeyam's derived indexes via reconcile, not by hand.** After the\n  move, glossary / test-registry / dependency-graph entries point at the old\n  `Sources/…` / `Tests/…` paths. Regenerate them with the existing reconcile\n  commands instead of editing the JSON stores manually.\n- **`editor.json` is hand-edited for the `apps[].dir` change** — `config-override`\n  only writes the gitignored `editor.local.json`, but the new layout must be\n  team-visible, so the base `editor.json` is the correct home for it.\n\n## Implementation\n\n### 1. Move the iOS app source into `ios/`\n\n**Files** (git-move to preserve history):\n\n- `App/` → `ios/App/`\n- `App.xcodeproj/` → `ios/App.xcodeproj/`\n- `.swiftpm/` → `ios/.swiftpm/`\n- `Package.swift` → `ios/Package.swift`\n- `Sources/` → `ios/Sources/`\n- `Tests/` → `ios/Tests/`\n\nUse `git mv` so blame/history follow. `MOBILE_SETUP.md`, `CHANGELOG.md`, and the\nother repo-level docs stay at root. `build/` and `.build/` are build output\n(gitignored) — do not track them; let them regenerate under the new root.\n\n### 2. Repoint the codeyam app registration\n\n**File**: `.codeyam/editor.json`\n\n- `apps[0].dir`: `\".\"` → `\"ios\"`.\n- `staticChecks[0].command`: `\"swift build\"` → `\"swift build --package-path ios\"`\n  (leave `filePatterns: [\"**/*.swift\"]` — they still match under `ios/`).\n- `testRunners[0].command` and `targetedCommand`: add `--package-path ios`\n  (e.g. `swift test --package-path ios --parallel --disable-swift-testing\n  --xunit-output .codeyam/swift-tests.xml`). Keep `outputPath`,\n  `testFilePatterns` (`**/Tests/**/*.swift` still matches), and\n  `sourceFilePatterns` as-is.\n\n**File**: `.codeyam/stack.json`\n\n- Confirm `simulator.scheme: \"App\"` still resolves after the move. If\n  `start-simulator` can no longer locate `App.xcodeproj` at the root, add the\n  minimal path hint it needs (the xcodeproj now lives at `ios/App.xcodeproj`).\n  Verify this empirically in step 6 rather than assuming.\n\n### 3. Update CI and release workflows\n\n**File**: `.github/workflows/ci.yml`\n\nRepoint the Swift build/test steps at the new location — either a\n`working-directory: ios` on the relevant steps or `--package-path ios` on the\n`swift build` / `swift test` invocations, matching whatever the job currently\nruns. Keep the `--xunit-output` path repo-rooted.\n\n**File**: `.github/workflows/testflight.yml`\n\nUpdate the `xcodebuild` project/workspace path to `ios/App.xcodeproj` (and any\n`-scheme App` working directory).\n\n### 4. Update repo-level docs and scripts\n\n**File**: `README.md`\n\n- \"Build and run locally\" block: `swift build` → `swift build --package-path ios`\n  and `swift test …` → `swift test --package-path ios …`.\n- \"Open `App.xcodeproj` in Xcode\" → \"Open `ios/App.xcodeproj`\".\n- Scenario-gallery screenshot paths under `.codeyam/scenarios/screenshots/`\n  are repo-rooted and unchanged.\n\n**File**: `MOBILE_SETUP.md`\n\n- Note the app now lives under `ios/`; the `start-simulator swift-ios-swiftui`\n  command is unchanged (codeyam reads the app dir from `editor.json`).\n\n**File**: `package.json`\n\n- Update the `description` if it names a path; the `testflight` scripts call\n  workflows by name and need no change.\n\n### 5. Repoint codeyam's derived metadata\n\n**Commands** (run from repo root, in order):\n\n- `codeyam-editor editor reconcile-glossary --auto-apply` — re-registers entities\n  at their new `ios/Sources/…` paths.\n- `codeyam-editor editor reconcile-registry --auto-apply` — repoints test-registry\n  entries to `ios/Tests/…`.\n- `codeyam-editor editor analyze-imports` (or `post-merge-drift-sweep`, which\n  chains all three) — refreshes the dependency graph.\n\nDo not hand-edit `glossary.json` / `test-registry.json` / `dependency-graph.json`.\n\n### 6. Verify codeyam-editor still works after the migration\n\nThis is the acceptance bar for the plan. Run and confirm each is green:\n\n- `codeyam-editor editor config-show` — `apps[0].dir` resolves to `ios`.\n- `codeyam-editor editor assess` — `sourceFiles` count matches pre-move (~75),\n  now discovered under `ios/`.\n- `swift build --package-path ios` — compiles.\n- `codeyam-editor editor refresh-tests` (or `swift test --package-path ios …`)\n  — full suite green, `.codeyam/swift-tests.xml` written.\n- `codeyam-editor editor start-simulator swift-ios-swiftui` — boots the iOS\n  simulator and launches the app from `ios/`.\n- Re-capture (or spot-verify) two existing scenarios — e.g.\n  `counter-active-count` and `counter-app-settings-open` — and confirm the\n  screenshots render the real app, not a blank frame.\n- The audit gate is green (glossary/test-registry consistent after reconcile).\n\n## Reused existing code\n\n- The existing Swift app (`ios/App/`, `ios/Sources/AppCore/`, `ios/Tests/`) is\n  moved, not rewritten — every entity keeps its glossary identity\n  (`CounterModel`, `Counter`, `CounterHistory`, `AppSettings`, `CounterTheme`,\n  …) after the reconcile repoint.\n- `codeyam-editor editor reconcile-glossary` / `reconcile-registry` /\n  `analyze-imports` / `post-merge-drift-sweep` — the canonical path-repoint\n  commands; no manual JSON edits.\n- `codeyam-editor editor start-simulator swift-ios-swiftui` — unchanged iOS\n  preview path, used here as the migration smoke test.\n- **Config-field survey:** this plan adds no new config field, threshold, or\n  gate dimension — it only edits existing `apps[].dir`, `staticChecks`, and\n  `testRunners` values, so there is nothing equivalent to duplicate.\n\n## Scenarios to Demonstrate\n\n- iOS app still boots and renders `counter-active-count` from `ios/` after the move.\n- `counter-app-settings-open` still captures correctly (proves scenario handlers\n  survive the path change).\n- `codeyam-editor editor assess` reports the same source/test inventory, now\n  rooted at `ios/` (proves config + glossary repoint).",
+  "description": "Restructured the repo from a root-level iOS app into a symmetric two-platform layout: git-moved the Swift/SwiftUI app (App/, App.xcodeproj, Package.swift, Sources/, Tests/) into ios/ with history preserved, and reserved android/ for the forthcoming Kotlin app. Repointed every reference to the new location: editor.json (apps.dir + swift build/test --package-path ios), CI (ci.yml, upload-testflight.sh), docs (README/MOBILE_SETUP/CONTRIBUTING), and all codeyam-derived metadata (glossary 44, test-registry 74, dependency-graph, per-test-evidence, 26 scenario pageFilePaths, 19 completed-plan manifests). Audit is green and config/assess resolve under ios/. Swift build/test and the iOS simulator preview cannot run on this Linux host, so those verifications are deferred to CI (now targeting the ios/ package on macOS); a gitignored editor.local.json points the local build check at true for this machine only.",
+  "modifiedFiles": [
+    {
+      "path": ".claude/hooks/editor-step-hook.py",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-audit/finalize-procedure.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-edit-plan/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-plan/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-prototype/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-slice/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/capture.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/editor.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/app-settings-and-feedback.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/app-store-metadata-and-home-screen-presentation.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/counter-graph-and-history.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/counter-management-and-graph-toggle.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/counter-settings-panel.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/delete-extra-counters-removes-and-selects-previous.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/directional-haptics.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/distinct-heavy-haptics.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/graph-full-page-with-close-button.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/increment-button-press-dim-sync.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/increment-button-unified-press-color.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/migrate-to-ios-and-android-layout.md\t.codeyam/plans/completed/migrate-to-ios-and-android-layout.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/neutral-default-counter-names.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/per-counter-overrides.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/persistent-blank-counter-slots.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/production-rejects-scenario-seed-data.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/rename-feedback-section-titles.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/scrollable-collapsible-settings-panels.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/settings-modal-layout-and-single-open.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/undo-reset-button.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-handlers.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-interactivity.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-issues.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-metrics.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-mocks.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-playwright.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-active-count.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-added-blank-slot-selected.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-all-but-one-deleted.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-all-counters-list-with-blank-slot.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-all-counters-list.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-app-settings-open.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-app-settings-sound-and-haptic-on.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-blank-slot-incremented.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-deleted-default-ghost-slot.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-fifth-counter-before-delete.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-fifth-counter-deleted.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-fresh-install-default.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-fresh-start.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-graph-open-empty-history.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-graph-open-left-handed.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-graph-open.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-large-value.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-left-handed-layout.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-left-override-active-counter.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-long-name.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-negative-value.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-settings-count-by-5.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-settings-expanded-with-overrides.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-settings-open-over-number.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-twenty-counters.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/counter-undo-reset-available.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/store/appstore/upload-testflight.sh",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "status": "modified"
+    },
+    {
+      "path": ".gitignore",
+      "status": "modified"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "status": "modified"
+    },
+    {
+      "path": "MOBILE_SETUP.md",
+      "status": "modified"
+    },
+    {
+      "path": "README.md",
+      "status": "modified"
+    },
+    {
+      "path": "App.xcodeproj/project.pbxproj\tios/App.xcodeproj/project.pbxproj",
+      "status": "modified"
+    },
+    {
+      "path": "App.xcodeproj/xcshareddata/xcschemes/App.xcscheme\tios/App.xcodeproj/xcshareddata/xcschemes/App.xcscheme",
+      "status": "modified"
+    },
+    {
+      "path": "App/App.swift\tios/App/App.swift",
+      "status": "modified"
+    },
+    {
+      "path": "App/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png\tios/App/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png",
+      "status": "modified"
+    },
+    {
+      "path": "App/Assets.xcassets/AppIcon.appiconset/Contents.json\tios/App/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "status": "modified"
+    },
+    {
+      "path": "App/Assets.xcassets/Contents.json\tios/App/Assets.xcassets/Contents.json",
+      "status": "modified"
+    },
+    {
+      "path": "App/Info.plist\tios/App/Info.plist",
+      "status": "modified"
+    },
+    {
+      "path": "Package.swift\tios/Package.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/AppSettings.swift\tios/Sources/AppCore/AppSettings.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/AddCounterDotIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/AddCounterDotIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/BoundedScrollIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/BoundedScrollIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift\tios/Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/ControlButtonIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/ControlButtonIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CountHeroIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CountHeroIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterColorPickerIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterColorPickerIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterDotIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterDotIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterGraphChartIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterGraphChartIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterGraphViewIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterGraphViewIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterListPanelIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterListPanelIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterStepStepperIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterStepStepperIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/DeleteCounterButtonIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/DeleteCounterButtonIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/FeedbackDisclosureToggleIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/FeedbackDisclosureToggleIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GearButtonIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/GearButtonIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GraphEventListIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/GraphEventListIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GraphHeaderIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/GraphHeaderIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GraphHistorySelectorIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/GraphHistorySelectorIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/OverridePickerIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/OverridePickerIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/CodeyamIsolated/SettingsToggleRowIsolated.swift\tios/Sources/AppCore/CodeyamIsolated/SettingsToggleRowIsolated.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/ContentView.swift\tios/Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Feedback.swift\tios/Sources/AppCore/Feedback.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/History.swift\tios/Sources/AppCore/History.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Model.swift\tios/Sources/AppCore/Model.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/SeedPolicy.swift\tios/Sources/AppCore/SeedPolicy.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/SettingsOverlays.swift\tios/Sources/AppCore/SettingsOverlays.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Theme.swift\tios/Sources/AppCore/Theme.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/AddCounterDot.swift\tios/Sources/AppCore/Views/AddCounterDot.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/AppSettingsPanel.swift\tios/Sources/AppCore/Views/AppSettingsPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/BottomControlRow.swift\tios/Sources/AppCore/Views/BottomControlRow.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/ControlButton.swift\tios/Sources/AppCore/Views/ControlButton.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CountHero.swift\tios/Sources/AppCore/Views/CountHero.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterBottomBar.swift\tios/Sources/AppCore/Views/CounterBottomBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterColorPicker.swift\tios/Sources/AppCore/Views/CounterColorPicker.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterDot.swift\tios/Sources/AppCore/Views/CounterDot.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterGraphChart.swift\tios/Sources/AppCore/Views/CounterGraphChart.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterGraphView.swift\tios/Sources/AppCore/Views/CounterGraphView.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterListPanel.swift\tios/Sources/AppCore/Views/CounterListPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterSettingsPanel.swift\tios/Sources/AppCore/Views/CounterSettingsPanel.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterStepStepper.swift\tios/Sources/AppCore/Views/CounterStepStepper.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/CounterSwitcherCard.swift\tios/Sources/AppCore/Views/CounterSwitcherCard.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/DeleteCounterButton.swift\tios/Sources/AppCore/Views/DeleteCounterButton.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/GearButton.swift\tios/Sources/AppCore/Views/GearButton.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/GraphCloseButton.swift\tios/Sources/AppCore/Views/GraphCloseButton.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/GraphEventList.swift\tios/Sources/AppCore/Views/GraphEventList.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/GraphHeader.swift\tios/Sources/AppCore/Views/GraphHeader.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/GraphHistorySelector.swift\tios/Sources/AppCore/Views/GraphHistorySelector.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/GraphPage.swift\tios/Sources/AppCore/Views/GraphPage.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/HeaderAnchoredOverlay.swift\tios/Sources/AppCore/Views/HeaderAnchoredOverlay.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/HeaderBar.swift\tios/Sources/AppCore/Views/HeaderBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/IncrementBar.swift\tios/Sources/AppCore/Views/IncrementBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/IncrementFaceButtonStyle.swift\tios/Sources/AppCore/Views/IncrementFaceButtonStyle.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/OverridePicker.swift\tios/Sources/AppCore/Views/OverridePicker.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/PanelScrollSupport.swift\tios/Sources/AppCore/Views/PanelScrollSupport.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/SettingsField.swift\tios/Sources/AppCore/Views/SettingsField.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Sources/AppCore/Views/SettingsToggleRow.swift\tios/Sources/AppCore/Views/SettingsToggleRow.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/AppSettingsTests.swift\tios/Tests/AppCoreTests/AppSettingsTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/CounterFeedbackOverrideTests.swift\tios/Tests/AppCoreTests/CounterFeedbackOverrideTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/FeedbackTests.swift\tios/Tests/AppCoreTests/FeedbackTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ModelTests.swift\tios/Tests/AppCoreTests/ModelTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/SettingsOverlaysTests.swift\tios/Tests/AppCoreTests/SettingsOverlaysTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "Tests/AppCoreTests/ThemeTests.swift\tios/Tests/AppCoreTests/ThemeTests.swift",
+      "status": "modified"
+    },
+    {
+      "path": "docker-compose.cloud.yml",
+      "status": "added"
+    },
+    {
+      "path": "package-lock.json",
+      "status": "added"
+    }
+  ],
+  "testResults": {
+    "total": 121,
+    "passed": 121,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 121,
+        "passed": 121
+      }
+    ]
+  }
+}

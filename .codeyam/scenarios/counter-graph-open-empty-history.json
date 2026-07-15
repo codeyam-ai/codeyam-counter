@@ -23,5 +23,5 @@
     }
   },
   "scenarioType": "application",
-  "pageFilePath": "Sources/AppCore/ContentView.swift"
+  "pageFilePath": "ios/Sources/AppCore/ContentView.swift"
 }

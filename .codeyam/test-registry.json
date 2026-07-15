@@ -2,7 +2,7 @@
   "tests": [
     {
       "description": "The two default haptics are qualitatively distinct, pinning the must-feel-different guarantee.",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testDefaultHapticsAreDistinct",
       "line": 22,
@@ -11,7 +11,7 @@
     },
     {
       "description": "A fresh store is right-handed, silent, and carries the distinct default haptic pairing of increment Rigid and decrement Soft.",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testDefaultsAreRightHandedSilentWithDistinctHaptics",
       "line": 12,
@@ -20,7 +20,7 @@
     },
     {
       "description": "A legacy single hapticOption value seeds both new direction haptics when the new per-direction keys are absent.",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testLegacyHapticKeyMigratesToBothDirections",
       "line": 59,
@@ -29,7 +29,7 @@
     },
     {
       "description": "A legacy hapticOption of off migrates to both directions off rather than the new Rigid or Soft defaults.",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testLegacyHapticOffMigratesToBothOff",
       "line": 69,
@@ -38,7 +38,7 @@
     },
     {
       "description": "A present per-direction haptic key wins over the legacy hapticOption key for that direction.",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testNewHapticKeyWinsOverLegacy",
       "line": 79,
@@ -47,7 +47,7 @@
     },
     {
       "description": "SoundOption and HapticOption allCases cover the picker choice sets and labels",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testOptionCasesCoverTheChoiceSets",
       "line": 143,
@@ -56,7 +56,7 @@
     },
     {
       "description": "changing one option does not disturb the other settings",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testOptionsAreIndependent",
       "line": 106,
@@ -65,7 +65,7 @@
     },
     {
       "description": "changed settings persist across a store reload",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload",
       "line": 90,
@@ -74,7 +74,7 @@
     },
     {
       "description": "reads seeded string-injected preferences including option enum rawValues",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences",
       "line": 30,
@@ -83,7 +83,7 @@
     },
     {
       "description": "A distribution-policy launch over an unstamped container ignores seeded and legacy haptic keys and starts from the Rigid and Soft defaults.",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testReleasePolicyIgnoresSeededHapticsWithoutProvenance",
       "line": 118,
@@ -92,7 +92,7 @@
     },
     {
       "description": "HapticOption.resolve migrates removed amplitude/rigid rawValues to their nearest surviving feel (rigid/heavy/medium to sharp, light to soft), passes current cases through, and returns nil for unknown or nil tokens.",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testResolveMigratesRemovedRawValues",
       "line": 129,
@@ -101,7 +101,7 @@
     },
     {
       "description": "An unrecognized or missing haptic or sound value falls back to that direction's built-in default.",
-      "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+      "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToDefault",
       "line": 45,
@@ -166,7 +166,7 @@
     },
     {
       "description": "Every distinct feel (soft, sharp, double, buzz) gates as non-off, so each fires the haptic emitter once carrying its own choice.",
-      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testAllDistinctFeelsAreTreatedAsNonOff",
       "line": 56,
@@ -175,7 +175,7 @@
     },
     {
       "description": "neither flag fires nothing",
-      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testBothOffFiresNothing",
       "line": 46,
@@ -184,7 +184,7 @@
     },
     {
       "description": "both flags on fires both emitters once each",
-      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testBothOptionsFireBoth",
       "line": 38,
@@ -193,7 +193,7 @@
     },
     {
       "description": "haptic flag on and sound off fires only the haptic emitter",
-      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testHapticOnlyFiresHapticWithIntensity",
       "line": 21,
@@ -202,7 +202,7 @@
     },
     {
       "description": "NoopCounterFeedback changed is a safe silent no-op for any flags",
-      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testNoopFeedbackDoesNothing",
       "line": 67,
@@ -211,7 +211,7 @@
     },
     {
       "description": "sound flag on and haptic off fires only the sound emitter",
-      "file": "Tests/AppCoreTests/FeedbackTests.swift",
+      "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.FeedbackTests › testSoundOnlyFiresSoundWithChoice",
       "line": 30,
@@ -220,7 +220,7 @@
     },
     {
       "description": "Consecutive addCounter calls stack multiple blank slots each with a distinct id",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testAddCounterAllowsConsecutiveBlankSlots",
       "line": 165,
@@ -229,7 +229,7 @@
     },
     {
       "description": "addCounter appends a blank slot with empty name blank color and count zero and selects it",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testAddCounterAppendsBlankAndSelectsIt",
       "line": 127,
@@ -238,7 +238,7 @@
     },
     {
       "description": "addCounter assigns an id and order one past the current maximums",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testAddCounterAssignsNextIdAndOrder",
       "line": 140,
@@ -247,7 +247,7 @@
     },
     {
       "description": "Adding a counter clears any pending reset-undo",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testAddCounterClearsPendingUndo",
       "line": 176,
@@ -256,7 +256,7 @@
     },
     {
       "description": "addCounter persists the grown counters list and new selection across a reload",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testAddCounterPersists",
       "line": 152,
@@ -300,7 +300,7 @@
     },
     {
       "description": "the default effectiveFeedback resolves to off/off options",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff",
       "line": 642,
@@ -337,7 +337,7 @@
     },
     {
       "description": "Deleting a counter clears the pending undo.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
       "line": 532,
@@ -374,7 +374,7 @@
     },
     {
       "description": "Editing the active counter invalidates the captured pre-reset value.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
       "line": 521,
@@ -383,7 +383,7 @@
     },
     {
       "description": "With no override set every effective resolver returns the supplied app default unchanged.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEffectiveResolversFollowDefaultWhenNil",
       "line": 655,
@@ -392,7 +392,7 @@
     },
     {
       "description": "A set override pins its own value regardless of the app default, including an explicit off winning over a non-off default.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet",
       "line": 667,
@@ -401,7 +401,7 @@
     },
     {
       "description": "Fresh model with no seed falls back to four starter counters at zero with the first selected",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
       "line": 36,
@@ -410,7 +410,7 @@
     },
     {
       "description": "A per-counter handedness override drives the effective bottom-bar layout independent of the app default.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter",
       "line": 814,
@@ -419,7 +419,7 @@
     },
     {
       "description": "A counter can pin one haptic direction while the other follows the app default.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testHapticDirectionsResolveIndependently",
       "line": 679,
@@ -442,7 +442,7 @@
     },
     {
       "description": "Incrementing the counter clears the pending undo.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
       "line": 483,
@@ -451,7 +451,7 @@
     },
     {
       "description": "Incrementing fires the resolved increment haptic rather than the decrement one.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithIncrementHaptic",
       "line": 595,
@@ -460,7 +460,7 @@
     },
     {
       "description": "A counter with step 5 increments in jumps of 5.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementHonorsStep",
       "line": 189,
@@ -469,7 +469,7 @@
     },
     {
       "description": "Increment raises only the active counter by one",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter",
       "line": 45,
@@ -485,7 +485,7 @@
     },
     {
       "description": "Feedback fired on increment resolves through the active counters override, its pinned sound and haptic winning over the app defaults.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback",
       "line": 782,
@@ -494,7 +494,7 @@
     },
     {
       "description": "Counters persisted before the step field existed decode with step defaulting to 1.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne",
       "line": 222,
@@ -503,7 +503,7 @@
     },
     {
       "description": "Legacy persisted counters written before the override fields decode with all three overrides nil.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacyCountersDecodeWithNilOverrides",
       "line": 733,
@@ -512,7 +512,7 @@
     },
     {
       "description": "A counter persisted with the legacy single hapticOverride migrates that value into both direction overrides on decode.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLegacySingleHapticOverrideMigratesToBothDirections",
       "line": 747,
@@ -521,7 +521,7 @@
     },
     {
       "description": "Loads seeded counters and selected id injected via UserDefaults",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
       "line": 427,
@@ -544,7 +544,7 @@
     },
     {
       "description": "A new per-direction override key in persisted JSON wins over a legacy single override present alongside it.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testNewHapticOverrideKeyWinsOverLegacyOnDecode",
       "line": 758,
@@ -560,7 +560,7 @@
     },
     {
       "description": "A nil-override counter tracks a changed app default while an overriding counter stays pinned.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testOverrideTracksOrPinsAgainstChangingDefault",
       "line": 720,
@@ -611,7 +611,7 @@
     },
     {
       "description": "reset and undoReset are not count changes and fire no feedback",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAndUndoResetStaySilent",
       "line": 631,
@@ -620,7 +620,7 @@
     },
     {
       "description": "Resetting a counter already at zero still enters undo mode; undoing restores zero as a harmless no-op.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
       "line": 471,
@@ -629,7 +629,7 @@
     },
     {
       "description": "Reset captures the pre-reset value and enters undo mode: count is zero and canUndoReset is true for the active counter.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
       "line": 446,
@@ -645,7 +645,7 @@
     },
     {
       "description": "Reset zeroes the active counter without touching the others",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
       "line": 74,
@@ -661,7 +661,7 @@
     },
     {
       "description": "The seed read coerces a string-injected value via integer(forKey:).",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
       "line": 557,
@@ -670,7 +670,7 @@
     },
     {
       "description": "A model seeded with the resetUndo key enters undo mode on launch when the active counter is at zero.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch",
       "line": 543,
@@ -679,7 +679,7 @@
     },
     {
       "description": "A seeded resetUndo key is ignored when the active count is non-zero, so a stale leftover key cannot falsely activate undo.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
       "line": 572,
@@ -695,7 +695,7 @@
     },
     {
       "description": "Selecting next within the list advances by one and does not grow the list",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSelectNextAdvancesWithinList",
       "line": 87,
@@ -704,7 +704,7 @@
     },
     {
       "description": "Selecting next past the last counter appends a fresh blank slot and selects it instead of wrapping",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSelectNextPastLastAppendsBlankAndSelectsIt",
       "line": 97,
@@ -713,7 +713,7 @@
     },
     {
       "description": "Select-previous within the list moves back by one",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSelectPreviousMovesBackWithinList",
       "line": 118,
@@ -722,7 +722,7 @@
     },
     {
       "description": "Select-previous wraps from the first counter to the last and never grows the list",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSelectPreviousWrapsFromFirstToLast",
       "line": 109,
@@ -731,7 +731,7 @@
     },
     {
       "description": "With negatives disallowed, a step that would overshoot below zero clamps to zero rather than skipping the change.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots",
       "line": 210,
@@ -740,7 +740,7 @@
     },
     {
       "description": "Subtract clamps at zero when allowNegative is false",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed",
       "line": 63,
@@ -749,7 +749,7 @@
     },
     {
       "description": "Subtracting clears the pending undo.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
       "line": 495,
@@ -758,7 +758,7 @@
     },
     {
       "description": "Subtracting fires the resolved decrement haptic, distinct from the increment default under the Rigid or Soft pairing.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractFiresFeedbackWithDecrementHaptic",
       "line": 607,
@@ -767,7 +767,7 @@
     },
     {
       "description": "Subtract goes below zero when allowNegative defaults to true",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault",
       "line": 55,
@@ -776,7 +776,7 @@
     },
     {
       "description": "Subtracting honors the step symmetrically when negatives are allowed.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
       "line": 200,
@@ -785,7 +785,7 @@
     },
     {
       "description": "the no-op subtract clamp fires no feedback",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback",
       "line": 620,
@@ -801,7 +801,7 @@
     },
     {
       "description": "Switching counters expires the undo offer and it does not revive on returning.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo",
       "line": 507,
@@ -824,7 +824,7 @@
     },
     {
       "description": "undoReset restores the captured value and exits undo mode.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
       "line": 458,
@@ -833,7 +833,7 @@
     },
     {
       "description": "An unrecognized override rawValue in seeded JSON decodes to nil rather than crashing the whole load.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil",
       "line": 771,
@@ -842,7 +842,7 @@
     },
     {
       "description": "A step value below 1 is clamped up to 1.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne",
       "line": 250,
@@ -851,7 +851,7 @@
     },
     {
       "description": "Saving with nil overrides clears any previously pinned override values.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil",
       "line": 707,
@@ -860,7 +860,7 @@
     },
     {
       "description": "updateActiveCounter applies every edited field and persists across a reload.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
       "line": 235,
@@ -869,7 +869,7 @@
     },
     {
       "description": "updateActiveCounter persists all three overrides across a reload with enum overrides surviving as their rawValue.",
-      "file": "Tests/AppCoreTests/ModelTests.swift",
+      "file": "ios/Tests/AppCoreTests/ModelTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides",
       "line": 688,
@@ -934,7 +934,7 @@
     },
     {
       "description": "Unknown colorKey falls back to the lime accent hex",
-      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ThemeTests › testDotHexFallsBackToLimeForUnknownKey",
       "line": 62,
@@ -943,7 +943,7 @@
     },
     {
       "description": "Each known colorKey maps to its design-token hex",
-      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys",
       "line": 54,
@@ -952,7 +952,7 @@
     },
     {
       "description": "Hex parsing is case-insensitive",
-      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ThemeTests › testIsCaseInsensitive",
       "line": 36,
@@ -961,7 +961,7 @@
     },
     {
       "description": "Each isolated color channel maps to the expected fraction of 255",
-      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ThemeTests › testIsolatesIndividualChannels",
       "line": 45,
@@ -970,7 +970,7 @@
     },
     {
       "description": "Lime accent hex decomposes into its three channels",
-      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ThemeTests › testParsesAccentLime",
       "line": 26,
@@ -979,7 +979,7 @@
     },
     {
       "description": "Black and white hex parse to the range endpoints",
-      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ThemeTests › testParsesBlackAndWhite",
       "line": 20,
@@ -988,7 +988,7 @@
     },
     {
       "description": "A leading hash is tolerated and parses identically",
-      "file": "Tests/AppCoreTests/ThemeTests.swift",
+      "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
       "format": "junit-xml",
       "key": "AppCoreTests.ThemeTests › testToleratesLeadingHash",
       "line": 31,

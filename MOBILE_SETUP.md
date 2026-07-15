@@ -1,5 +1,10 @@
 # Swift + SwiftUI iOS App Setup
 
+The iOS app lives under `ios/` (`ios/App.xcodeproj`, `ios/Sources/AppCore`,
+`ios/Tests`), alongside a reserved `android/` for the forthcoming Kotlin app.
+The `start-simulator swift-ios-swiftui` command below is unchanged — codeyam
+reads the app directory from `editor.json`.
+
 ## iOS verify — pre-flight checklist
 
 Before kicking off `xcodebuild` or simulator booting — any of which take minutes — run these checks first. Missing platform SDKs and simulator runtimes surface here in seconds.

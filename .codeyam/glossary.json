@@ -2,7 +2,7 @@
   {
     "conformsToView": true,
     "description": "The switcher's trailing muted plus circle; tapping it appends a new blank counter, the tap equivalent of swiping past the last counter.",
-    "filePath": "Sources/AppCore/Views/AddCounterDot.swift",
+    "filePath": "ios/Sources/AppCore/Views/AddCounterDot.swift",
     "name": "AddCounterDot",
     "scenarios": [
       "addcounterdot-default"
@@ -11,14 +11,14 @@
   {
     "conformsToView": false,
     "description": "Observable store for system-wide app defaults (handedness, sound-on-change choice, and two directional haptic-on-change choices) persisted in UserDefaults. Handedness coerces via bool(forKey:); the SoundOption/HapticOption enums decode their rawValue from string(forKey:) through HapticOption.resolve so removed amplitude/rigid values migrate to a surviving feel. soundOption falls back to .off; incrementHapticOption/decrementHapticOption default to a distinct pairing (increment .sharp, decrement .soft) and migrate a legacy single hapticOption key into both directions when the new keys are absent. The single default source per-counter overrides resolve against.",
-    "filePath": "Sources/AppCore/AppSettings.swift",
+    "filePath": "ios/Sources/AppCore/AppSettings.swift",
     "name": "AppSettings",
-    "testFile": "Tests/AppCoreTests/AppSettingsTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/AppSettingsTests.swift"
   },
   {
     "conformsToView": true,
     "description": "Floating overlay panel for system-wide App Settings, bound to AppSettings. Holds a HANDEDNESS segmented control, SOUND and HAPTIC option pickers (horizontally-scrolling pills that auto-scroll the active choice into view), and an ALL COUNTERS button; mirrors CounterSettingsPanel chrome (DONE to close). Each control writes straight through to the persisted default.",
-    "filePath": "Sources/AppCore/Views/AppSettingsPanel.swift",
+    "filePath": "ios/Sources/AppCore/Views/AppSettingsPanel.swift",
     "name": "AppSettingsPanel",
     "scenarios": [
       "appsettingspanel-default",
@@ -28,7 +28,7 @@
   {
     "conformsToView": true,
     "description": "The lower control row: three smaller controls plus the increment button's downward extension, mirrored for left-handed use with all four sections equal width.",
-    "filePath": "Sources/AppCore/Views/BottomControlRow.swift",
+    "filePath": "ios/Sources/AppCore/Views/BottomControlRow.swift",
     "name": "BottomControlRow",
     "scenarios": [
       "bottomcontrolrow-default",
@@ -39,7 +39,7 @@
   {
     "conformsToView": true,
     "description": "A vertical scroll region that content-hugs its child up to the height its parent allows, then scrolls. Used by both settings panels to bound the field body under a pinned header so a fully expanded panel never overflows the screen and DONE stays reachable.",
-    "filePath": "Sources/AppCore/Views/PanelScrollSupport.swift",
+    "filePath": "ios/Sources/AppCore/Views/PanelScrollSupport.swift",
     "name": "BoundedScroll",
     "scenarios": [
       "boundedscroll-default",
@@ -48,7 +48,7 @@
   },
   {
     "description": "The counter screen. Owns the model and handedness preference, wires the swipe-to-switch gesture, and composes the header, switcher card, giant numeral, and bottom bar.",
-    "filePath": "Sources/AppCore/ContentView.swift",
+    "filePath": "ios/Sources/AppCore/ContentView.swift",
     "name": "ContentView",
     "scenarios": [
       "counter-active-count"
@@ -57,7 +57,7 @@
   {
     "conformsToView": true,
     "description": "A small secondary control in the bottom row: a glyph above a mono label.",
-    "filePath": "Sources/AppCore/Views/ControlButton.swift",
+    "filePath": "ios/Sources/AppCore/Views/ControlButton.swift",
     "name": "ControlButton",
     "scenarios": [
       "controlbutton-default"
@@ -66,7 +66,7 @@
   {
     "conformsToView": true,
     "description": "The giant numeral showing the active counter's current value.",
-    "filePath": "Sources/AppCore/Views/CountHero.swift",
+    "filePath": "ios/Sources/AppCore/Views/CountHero.swift",
     "name": "CountHero",
     "scenarios": [
       "counthero-default",
@@ -76,14 +76,14 @@
   {
     "conformsToView": false,
     "description": "A single named tally (id, name, count, colorKey, allowNegative, step, order) plus optional per-counter overrides of the app-wide defaults: handednessOverride (Bool?), soundOverride (SoundOption?), and two directional haptics incrementHapticOverride/decrementHapticOverride (HapticOption?). A nil override follows AppSettings; a set value pins it. Carries the effectiveLeftHanded/effectiveSound/effectiveIncrementHaptic/effectiveDecrementHaptic resolvers that return the override when present else the supplied app default, and on decode migrates a legacy single 'hapticOverride' into both directions and decodes unrecognized override values as nil so older persisted counters load unchanged.",
-    "filePath": "Sources/AppCore/Model.swift",
+    "filePath": "ios/Sources/AppCore/Model.swift",
     "name": "Counter",
-    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "conformsToView": true,
     "description": "The whole bottom assembly: increment bar starting one-fifth up from the bottom and extending into the lower control row, computing the equal-quarter column width.",
-    "filePath": "Sources/AppCore/Views/CounterBottomBar.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterBottomBar.swift",
     "name": "CounterBottomBar",
     "scenarios": [
       "counterbottombar-default",
@@ -94,7 +94,7 @@
   {
     "conformsToView": true,
     "description": "Grid of selectable color swatches drawn from CounterTheme.palette; the selected key gets a lime ring and binds the chosen colorKey back to the settings panel.",
-    "filePath": "Sources/AppCore/Views/CounterColorPicker.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterColorPicker.swift",
     "name": "CounterColorPicker",
     "scenarios": [
       "countercolorpicker-lime",
@@ -104,7 +104,7 @@
   {
     "conformsToView": true,
     "description": "A single counter-selector dot; the active dot grows and gains a lime ring and glow.",
-    "filePath": "Sources/AppCore/Views/CounterDot.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterDot.swift",
     "name": "CounterDot",
     "scenarios": [
       "counterdot-active",
@@ -114,13 +114,13 @@
   {
     "conformsToView": false,
     "description": "A single recorded change within a CounterHistory: a timestamp and a signed delta (+step on increment, the applied amount on subtract). The no-op subtract clamp records none. Drives the graph chart markers and the event list.",
-    "filePath": "Sources/AppCore/History.swift",
+    "filePath": "ios/Sources/AppCore/History.swift",
     "name": "CounterEvent",
-    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "description": "Protocol seam for count-change feedback: changed(sound:haptic:) emits a sound and/or haptic per the resolved SoundOption/HapticOption, keeping CounterModel free of UIKit/audio knowledge so tests and non-UIKit builds substitute a silent implementation.",
-    "filePath": "Sources/AppCore/Feedback.swift",
+    "filePath": "ios/Sources/AppCore/Feedback.swift",
     "name": "CounterFeedback",
     "untestabilityReason": {
       "justification": "Protocol declaration; behavior is exercised through its implementations' tests in FeedbackTests.",
@@ -130,7 +130,7 @@
   {
     "conformsToView": true,
     "description": "A custom SwiftUI step-line chart of a history's running count over relative time, drawn with Path/shapes (Swift Charts needs iOS 16; this package targets iOS 15). Both axes are drawn and labeled with data-derived ticks: COUNT spans the actual range including 0, TIME spans 0 to the last event. Markers are colored by delta sign.",
-    "filePath": "Sources/AppCore/Views/CounterGraphChart.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterGraphChart.swift",
     "name": "CounterGraphChart",
     "scenarios": [
       "countergraphchart-mixed-run",
@@ -140,7 +140,7 @@
   {
     "conformsToView": true,
     "description": "The floating overlay showing a counter's activity: the labeled step-line chart plus a scrollable event list, with a selector to page between the up-to-10 stored histories. Reuses the settings-panel presentation with DONE to close; the accent follows the counter's color.",
-    "filePath": "Sources/AppCore/Views/CounterGraphView.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterGraphView.swift",
     "name": "CounterGraphView",
     "scenarios": [
       "countergraphview-rich-history",
@@ -151,14 +151,14 @@
   {
     "conformsToView": false,
     "description": "One run of a counter's activity between resets: a startedAt plus an ordered list of CounterEvents. Provides pure helpers for the cumulative running-count series and each event's relative offset from the start; persisted per-counter under the counterHistories key, capped at 10.",
-    "filePath": "Sources/AppCore/History.swift",
+    "filePath": "ios/Sources/AppCore/History.swift",
     "name": "CounterHistory",
-    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "conformsToView": true,
     "description": "Scrollable overlay listing every counter (colored dot + name + count), opened from App Settings. Tapping a row selects that counter and dismisses the list; blank slots render with the muted dot and em-dash placeholder. The active counter's row carries the accent ring.",
-    "filePath": "Sources/AppCore/Views/CounterListPanel.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterListPanel.swift",
     "name": "CounterListPanel",
     "scenarios": [
       "counterlistpanel-default",
@@ -167,14 +167,14 @@
   },
   {
     "description": "Observable store backing the counter screen. Loads seeded or default counters and the selected id from UserDefaults at launch, tracks the active selection, and applies increment, subtract with optional clamping when negatives are disallowed, reset, and wrap-around swipe selection, persisting every change back to UserDefaults. On each count change it emits feedback resolved through the active counter's effective sound and per-direction haptic overrides via the effectiveFeedback closure, picking the increment vs decrement haptic by direction before calling the feedback sink; updateActiveCounter round-trips the per-counter handedness/sound and both directional haptic overrides. deleteCounter is keyed on position via baseSlotCount: the first four positions are permanent base slots that are blanked in place so the row never shrinks below them, while a counter added beyond them is removed outright and the previous counter becomes active, dropping its recorded runs.",
-    "filePath": "Sources/AppCore/Model.swift",
+    "filePath": "ios/Sources/AppCore/Model.swift",
     "name": "CounterModel",
-    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "conformsToView": true,
     "description": "Inline settings panel that expands over the count numeral. Composes the labeled name field, color picker, step stepper, an allow-negative toggle, three per-counter override rows (HANDEDNESS, SOUND, HAPTIC via OverridePicker) that pin or defer to the app-wide settings, and DeleteCounterButton for the destructive delete, whose callback deletes the active counter and then closes the panel; local state holds in-progress edits and DONE saves them back to the active counter.",
-    "filePath": "Sources/AppCore/Views/CounterSettingsPanel.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterSettingsPanel.swift",
     "name": "CounterSettingsPanel",
     "scenarios": [
       "countersettingspanel-default",
@@ -184,7 +184,7 @@
   {
     "conformsToView": true,
     "description": "The COUNT BY control: a minus/value/plus stepper that sets how much each increment or subtract changes the count, clamping the lower bound at 1.",
-    "filePath": "Sources/AppCore/Views/CounterStepStepper.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterStepStepper.swift",
     "name": "CounterStepStepper",
     "scenarios": [
       "counterstepstepper-step-one",
@@ -194,7 +194,7 @@
   {
     "conformsToView": true,
     "description": "The switcher card: the row of selectable counter dots, the active counter name and swipe hint, and the inert settings gear.",
-    "filePath": "Sources/AppCore/Views/CounterSwitcherCard.swift",
+    "filePath": "ios/Sources/AppCore/Views/CounterSwitcherCard.swift",
     "name": "CounterSwitcherCard",
     "scenarios": [
       "counterswitchercard-default"
@@ -202,21 +202,21 @@
   },
   {
     "description": "Design-token palette for the counter screen plus pure helpers: dotHex maps a counter colorKey to its hex token with a lime fallback, and rgbComponents parses a hex string into 0...1 RGB channels backing the Color hex initializer.",
-    "filePath": "Sources/AppCore/Theme.swift",
+    "filePath": "ios/Sources/AppCore/Theme.swift",
     "name": "CounterTheme",
-    "testFile": "Tests/AppCoreTests/ThemeTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/ThemeTests.swift"
   },
   {
     "conformsToView": false,
     "description": "A single point on a history's running-count series: seconds elapsed since startedAt and the running count at that moment. A value type shared by the chart geometry and its tests.",
-    "filePath": "Sources/AppCore/History.swift",
+    "filePath": "ios/Sources/AppCore/History.swift",
     "name": "CumulativePoint",
-    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "conformsToView": true,
     "description": "The destructive delete control in the counter settings panel, guarded by a two-tap confirm. Disarmed it is an outlined coffee-colored DELETE COUNTER; the first tap arms it into a filled TAP AGAIN TO CONFIRM that auto-disarms after about 3s, so an accidental single tap never wipes a counter, and a second tap while armed invokes onDelete. The whole outlined frame is the tap target via contentShape, because the disarmed button's clear background is not hit-testable on its own. A confirming init parameter seeds the armed state so a static scenario can capture it without a live tap.",
-    "filePath": "Sources/AppCore/Views/DeleteCounterButton.swift",
+    "filePath": "ios/Sources/AppCore/Views/DeleteCounterButton.swift",
     "name": "DeleteCounterButton",
     "scenarios": [
       "deletecounterbutton-default",
@@ -226,7 +226,7 @@
   {
     "conformsToView": true,
     "description": "The shared collapsible disclosure header used by both settings panels to collapse their feedback rows. Each panel supplies its own title describing the controls it reveals: SOUND & HAPTICS in App Settings, FEEDBACK & HANDEDNESS in Counter Settings. A chevron rotates from pointing right when collapsed to down when expanded; the whole row is tappable.",
-    "filePath": "Sources/AppCore/Views/PanelScrollSupport.swift",
+    "filePath": "ios/Sources/AppCore/Views/PanelScrollSupport.swift",
     "name": "FeedbackDisclosureToggle",
     "scenarios": [
       "feedbackdisclosuretoggle-collapsed",
@@ -236,7 +236,7 @@
   {
     "conformsToView": true,
     "description": "The inert settings gear on the switcher card; settings are deferred.",
-    "filePath": "Sources/AppCore/Views/GearButton.swift",
+    "filePath": "ios/Sources/AppCore/Views/GearButton.swift",
     "name": "GearButton",
     "scenarios": [
       "gearbutton-default"
@@ -245,7 +245,7 @@
   {
     "conformsToView": true,
     "description": "The graph page's dismissal control: a centered CLOSE pill — xmark glyph plus a monospaced label — rendered directly below the chart panel and inset to match it. Because the graph hides the whole bottom bar while open, this is the only way out of the graph, replacing the bottom row's former GRAPH-to-CLOSE toggle.",
-    "filePath": "Sources/AppCore/Views/GraphCloseButton.swift",
+    "filePath": "ios/Sources/AppCore/Views/GraphCloseButton.swift",
     "name": "GraphCloseButton",
     "scenarios": [
       "graphclosebutton-default"
@@ -254,7 +254,7 @@
   {
     "conformsToView": true,
     "description": "The graph overlay's most-recent-first list of a run's events; each row shows a signed delta and the relative time since the run began, and it renders nothing when the run has no events.",
-    "filePath": "Sources/AppCore/Views/GraphEventList.swift",
+    "filePath": "ios/Sources/AppCore/Views/GraphEventList.swift",
     "name": "GraphEventList",
     "scenarios": [
       "grapheventlist-default"
@@ -263,7 +263,7 @@
   {
     "conformsToView": true,
     "description": "The graph overlay's header — a small GRAPH caption above the active counter's name.",
-    "filePath": "Sources/AppCore/Views/GraphHeader.swift",
+    "filePath": "ios/Sources/AppCore/Views/GraphHeader.swift",
     "name": "GraphHeader",
     "scenarios": [
       "graphheader-default",
@@ -273,7 +273,7 @@
   {
     "conformsToView": true,
     "description": "Prev/next pager across a counter's stored runs, with a CURRENT / minus-N recency label between the arrows; drives the shared index binding and disables the arrow at each end.",
-    "filePath": "Sources/AppCore/Views/GraphHistorySelector.swift",
+    "filePath": "ios/Sources/AppCore/Views/GraphHistorySelector.swift",
     "name": "GraphHistorySelector",
     "scenarios": [
       "graphhistoryselector-current-run",
@@ -283,7 +283,7 @@
   {
     "conformsToView": true,
     "description": "The graph surface as a whole page: CounterGraphView's activity chart stacked above its own centered GraphCloseButton. While this is up ContentView hides the count hero and the entire bottom control assembly, so these two are the only things on screen below the header.",
-    "filePath": "Sources/AppCore/Views/GraphPage.swift",
+    "filePath": "ios/Sources/AppCore/Views/GraphPage.swift",
     "name": "GraphPage",
     "scenarios": [
       "graphpage-rich-history",
@@ -292,14 +292,14 @@
   },
   {
     "description": "Static migration helper on HapticOption that resolves a persisted rawValue - a per-direction key, the legacy single key, or a Counter override - into a current case, mapping the removed amplitude values rigid/heavy/medium to sharp and light to soft, and returning nil for a genuinely unknown token so callers fall back to a default.",
-    "filePath": "Sources/AppCore/AppSettings.swift",
+    "filePath": "ios/Sources/AppCore/AppSettings.swift",
     "name": "HapticOption.resolve",
-    "testFile": "Tests/AppCoreTests/AppSettingsTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/AppSettingsTests.swift"
   },
   {
     "conformsToView": true,
     "description": "Structural container that anchors a floating panel below the screen's fixed top chrome: a hidden non-interactive header (and optional switcher) copy reserves exact-height space, the panel content is drawn beneath it, and a trailing spacer pushes everything to the top. No branching or data of its own; its visual output is entirely its children, exercised through ContentView's four overlay application scenarios.",
-    "filePath": "Sources/AppCore/Views/HeaderAnchoredOverlay.swift",
+    "filePath": "ios/Sources/AppCore/Views/HeaderAnchoredOverlay.swift",
     "name": "HeaderAnchoredOverlay",
     "untestabilityReason": {
       "justification": "Generic structural overlay scaffold (VStack of a hidden anchor spacer, arbitrary panel content, and a trailing Spacer) with no branching, data, or visual identity of its own; its appearance is entirely the child panel, covered by the settings/app-settings/counter-list/graph application scenarios.",
@@ -309,7 +309,7 @@
   {
     "conformsToView": true,
     "description": "Top app-chrome row showing the brand name and the NN / 04 COUNTERS position label.",
-    "filePath": "Sources/AppCore/Views/HeaderBar.swift",
+    "filePath": "ios/Sources/AppCore/Views/HeaderBar.swift",
     "name": "HeaderBar",
     "scenarios": [
       "headerbar-default"
@@ -318,7 +318,7 @@
   {
     "conformsToView": true,
     "description": "The higher row of the increment button: the TAP TO INCREMENT label and the plus, centered over the increment column and mirrored for left-handed use.",
-    "filePath": "Sources/AppCore/Views/IncrementBar.swift",
+    "filePath": "ios/Sources/AppCore/Views/IncrementBar.swift",
     "name": "IncrementBar",
     "scenarios": [
       "incrementbar-default",
@@ -328,7 +328,7 @@
   {
     "conformsToView": false,
     "description": "Shared press styling for the two faces of the increment button: dims its label from a shared pressed binding and syncs its own isPressed back into that binding, so pressing either face dims both and the L-shape reads as one surface. An explicit .animation keyed on the shared pressed value pins both faces to one identical dim curve — without it the touched face rides SwiftUI's implicit press transaction while its partner snaps, and the L visibly splits in two mid-press.",
-    "filePath": "Sources/AppCore/Views/IncrementFaceButtonStyle.swift",
+    "filePath": "ios/Sources/AppCore/Views/IncrementFaceButtonStyle.swift",
     "name": "IncrementFaceButtonStyle",
     "scenarios": [
       "counterbottombar-increment-pressed",
@@ -343,14 +343,14 @@
   {
     "conformsToView": false,
     "description": "The default CounterFeedback: does nothing, keeping unit tests, SwiftUI previews, and the macOS build silent and deterministic.",
-    "filePath": "Sources/AppCore/Feedback.swift",
+    "filePath": "ios/Sources/AppCore/Feedback.swift",
     "name": "NoopCounterFeedback",
-    "testFile": "Tests/AppCoreTests/FeedbackTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/FeedbackTests.swift"
   },
   {
     "conformsToView": true,
     "description": "Reusable default-or-value chooser for the per-counter settings panel: a leading DEFAULT chip meaning follow the app-wide setting, then one chip per concrete option, with the selected chip filled in the accent so a static capture shows the current choice. Generic over any Hashable option; the chip row scrolls horizontally for the wider SOUND and HAPTIC lists. Backs the panel's HANDEDNESS, SOUND, and HAPTIC override rows.",
-    "filePath": "Sources/AppCore/Views/OverridePicker.swift",
+    "filePath": "ios/Sources/AppCore/Views/OverridePicker.swift",
     "name": "OverridePicker",
     "scenarios": [
       "overridepicker-default",
@@ -360,13 +360,13 @@
   {
     "conformsToView": false,
     "description": "Build-configuration-aware decision for whether the app trusts UserDefaults state present at launch. Debug builds use .trustInjected so codeyam scenario seed data is adopted; distribution builds use .requireProvenance and honor store state only once the apps own provenance marker (counterStoreProvenance) is present. trustsStore reads that gate and stampProvenance writes the marker whenever the app itself persists, so stray injected or stale scenario keys are ignored in a Release build while a real users own data survives.",
-    "filePath": "Sources/AppCore/SeedPolicy.swift",
+    "filePath": "ios/Sources/AppCore/SeedPolicy.swift",
     "name": "SeedPolicy",
-    "testFile": "Tests/AppCoreTests/ModelTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/ModelTests.swift"
   },
   {
     "description": "A labeled section in the settings panel: a small mono caption above its forwarded content, used by the name field and color picker for consistent headings.",
-    "filePath": "Sources/AppCore/Views/SettingsField.swift",
+    "filePath": "ios/Sources/AppCore/Views/SettingsField.swift",
     "name": "SettingsField",
     "untestabilityReason": {
       "justification": "Presentation-only layout wrapper: a caption Text above forwarded content, no branching or iteration.",
@@ -376,14 +376,14 @@
   {
     "conformsToView": false,
     "description": "The open/closed state of the two settings overlays, which are mutually exclusive: only one settings panel may be on screen at a time. Modeled as one value rather than two independent booleans so the never-both-open rule lives in one testable place instead of being re-derived at each tap site. Only the toggles enforce exclusivity; closing a panel never reopens the other.",
-    "filePath": "Sources/AppCore/SettingsOverlays.swift",
+    "filePath": "ios/Sources/AppCore/SettingsOverlays.swift",
     "name": "SettingsOverlays",
-    "testFile": "Tests/AppCoreTests/SettingsOverlaysTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/SettingsOverlaysTests.swift"
   },
   {
     "conformsToView": true,
     "description": "A labeled on/off row in a settings panel: a monospaced label on the left, the switch pinned right. Used for ALLOW NEGATIVE. Its trailing inset is load-bearing rather than decorative — iOS draws the switch knob slightly past the control's layout bounds, so a switch sitting flush against the enclosing scroll region's edge gets its knob sliced by the scroll's clip; the inset keeps it clear of that boundary.",
-    "filePath": "Sources/AppCore/Views/SettingsToggleRow.swift",
+    "filePath": "ios/Sources/AppCore/Views/SettingsToggleRow.swift",
     "name": "SettingsToggleRow",
     "scenarios": [
       "settingstogglerow-on",
@@ -393,8 +393,8 @@
   {
     "conformsToView": false,
     "description": "Production CounterFeedback. Owns the option gating (a non-off haptic fires the haptic emitter; a non-off sound fires the sound emitter with its choice) with injectable emitters so the gating is unit-tested. The real defaultHaptic maps each qualitatively-distinct HapticOption: soft and sharp are UIImpactFeedbackGenerator soft/rigid taps fired at full intensity, while double and buzz are UINotificationFeedbackGenerator success/error patterns; defaultSound plays a distinct AudioServicesPlaySystemSound per choice. Both passthroughs sit behind a canImport(UIKit) guard.",
-    "filePath": "Sources/AppCore/Feedback.swift",
+    "filePath": "ios/Sources/AppCore/Feedback.swift",
     "name": "SystemCounterFeedback",
-    "testFile": "Tests/AppCoreTests/FeedbackTests.swift"
+    "testFile": "ios/Tests/AppCoreTests/FeedbackTests.swift"
   }
 ]

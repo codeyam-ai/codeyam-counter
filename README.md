@@ -42,11 +42,11 @@ CodeYam Counter is currently a native iOS app, built with SwiftUI on a shared
 git clone https://github.com/codeyam-ai/codeyam-counter && cd codeyam-counter
 
 # Build the shared AppCore library and run the tests
-swift build
-swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
+swift build --package-path ios
+swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
 ```
 
-Open `App.xcodeproj` in Xcode and run the **App** scheme on an iOS simulator or
+Open `ios/App.xcodeproj` in Xcode and run the **App** scheme on an iOS simulator or
 device. See [MOBILE_SETUP.md](MOBILE_SETUP.md) for simulator prerequisites and
 [CONTRIBUTING.md](CONTRIBUTING.md) for the full build/test workflow.
 

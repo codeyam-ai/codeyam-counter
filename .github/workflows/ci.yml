@@ -18,7 +18,7 @@ jobs:
         run: swift --version
 
       - name: Build
-        run: swift build
+        run: swift build --package-path ios
 
       - name: Test
-        run: swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
+        run: swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml

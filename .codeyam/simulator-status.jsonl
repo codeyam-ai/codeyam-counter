@@ -1,5 +1,2 @@
 {"state":"preflight-running"}
-{"state":"simulator-booted","udid":"3433E243-29C1-4A3B-A31A-6E8F3ADD4804","name":"iPhone 16 Pro"}
-{"state":"building-app","elapsedSec":0}
-{"state":"building-app","elapsedSec":5}
-{"state":"app-launched","udid":"3433E243-29C1-4A3B-A31A-6E8F3ADD4804","appBundleId":"com.codeyam.counter"}
+{"state":"preflight-failed","check":"xcode-installed","message":"iOS Simulator preview requires macOS; on cloud VMs use the documented alternatives (see docs/ios-cloud-preview.md)."}

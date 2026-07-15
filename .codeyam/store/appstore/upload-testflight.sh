@@ -19,7 +19,7 @@
 #
 set -euo pipefail
 
-PROJECT="App.xcodeproj"
+PROJECT="ios/App.xcodeproj"
 SCHEME="App"
 CONFIG="Release"
 ARCHIVE_PATH="build/App.xcarchive"

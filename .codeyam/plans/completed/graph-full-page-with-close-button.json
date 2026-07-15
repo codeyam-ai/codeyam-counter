@@ -15,12 +15,12 @@
   },
   "createdAt": "2026-07-13T00:00:00Z",
   "deliverables": [
-    "Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
-    "Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift",
-    "Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift",
-    "Sources/AppCore/ContentView.swift",
-    "Sources/AppCore/Views/GraphCloseButton.swift",
-    "Sources/AppCore/Views/GraphPage.swift"
+    "ios/Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+    "ios/Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift",
+    "ios/Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift",
+    "ios/Sources/AppCore/ContentView.swift",
+    "ios/Sources/AppCore/Views/GraphCloseButton.swift",
+    "ios/Sources/AppCore/Views/GraphPage.swift"
   ],
   "journalTimestamp": "2026-07-13T20:12:43Z",
   "mode": "ui",

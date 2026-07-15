@@ -19,7 +19,7 @@
     ".claude/skills/codeyam-review-pr/review-procedure.md",
     ".claude/skills/codeyam-see-app/SKILL.md",
     ".claude/skills/codeyam-see-recent-change/SKILL.md",
-    "Sources/AppCore/Views/IncrementFaceButtonStyle.swift"
+    "ios/Sources/AppCore/Views/IncrementFaceButtonStyle.swift"
   ],
   "journalTimestamp": "2026-07-13T14:22:17Z",
   "mode": "ui",

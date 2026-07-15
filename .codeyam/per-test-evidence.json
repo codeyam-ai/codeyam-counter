@@ -1,6 +1,6 @@
 {
   "AppCoreTests.AppSettingsTests › testDefaultHapticsAreDistinct": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -58,7 +58,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testDefaultsAreRightHandedSilentWithDistinctHaptics": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -116,7 +116,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testLegacyHapticKeyMigratesToBothDirections": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -174,7 +174,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testLegacyHapticOffMigratesToBothOff": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -232,7 +232,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testNewHapticKeyWinsOverLegacy": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -290,7 +290,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testOptionCasesCoverTheChoiceSets": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -348,7 +348,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testOptionsAreIndependent": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -406,7 +406,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -464,7 +464,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -522,7 +522,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testReleasePolicyIgnoresSeededHapticsWithoutProvenance": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -580,7 +580,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testResolveMigratesRemovedRawValues": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -638,7 +638,7 @@
     ]
   },
   "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToDefault": {
-    "file": "Tests/AppCoreTests/AppSettingsTests.swift",
+    "file": "ios/Tests/AppCoreTests/AppSettingsTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1120,7 +1120,7 @@
     ]
   },
   "AppCoreTests.FeedbackTests › testAllDistinctFeelsAreTreatedAsNonOff": {
-    "file": "Tests/AppCoreTests/FeedbackTests.swift",
+    "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1178,7 +1178,7 @@
     ]
   },
   "AppCoreTests.FeedbackTests › testBothOffFiresNothing": {
-    "file": "Tests/AppCoreTests/FeedbackTests.swift",
+    "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1236,7 +1236,7 @@
     ]
   },
   "AppCoreTests.FeedbackTests › testBothOptionsFireBoth": {
-    "file": "Tests/AppCoreTests/FeedbackTests.swift",
+    "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1294,7 +1294,7 @@
     ]
   },
   "AppCoreTests.FeedbackTests › testHapticOnlyFiresHapticWithIntensity": {
-    "file": "Tests/AppCoreTests/FeedbackTests.swift",
+    "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1352,7 +1352,7 @@
     ]
   },
   "AppCoreTests.FeedbackTests › testNoopFeedbackDoesNothing": {
-    "file": "Tests/AppCoreTests/FeedbackTests.swift",
+    "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1410,7 +1410,7 @@
     ]
   },
   "AppCoreTests.FeedbackTests › testSoundOnlyFiresSoundWithChoice": {
-    "file": "Tests/AppCoreTests/FeedbackTests.swift",
+    "file": "ios/Tests/AppCoreTests/FeedbackTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1468,7 +1468,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testAddCounterAllowsConsecutiveBlankSlots": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1526,7 +1526,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testAddCounterAppendsBlankAndSelectsIt": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1584,7 +1584,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testAddCounterAssignsNextIdAndOrder": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1642,7 +1642,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testAddCounterClearsPendingUndo": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -1700,7 +1700,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testAddCounterPersists": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2048,7 +2048,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testDefaultEffectiveFeedbackIsAllOff": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2293,7 +2293,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2403,7 +2403,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2461,7 +2461,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testEffectiveResolversFollowDefaultWhenNil": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2519,7 +2519,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2577,7 +2577,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2635,7 +2635,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2693,7 +2693,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testHapticDirectionsResolveIndependently": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2867,7 +2867,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testIncrementClearsPendingUndo": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2925,7 +2925,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithIncrementHaptic": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -2983,7 +2983,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testIncrementHonorsStep": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -3041,7 +3041,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testIncrementRaisesActiveCounter": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -3157,7 +3157,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -3215,7 +3215,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testLegacyCounterWithoutStepDecodesToStepOne": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -3273,7 +3273,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testLegacyCountersDecodeWithNilOverrides": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -3331,7 +3331,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testLegacySingleHapticOverrideMigratesToBothDirections": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -3389,7 +3389,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -3563,7 +3563,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testNewHapticOverrideKeyWinsOverLegacyOnDecode": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -3679,7 +3679,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testOverrideTracksOrPinsAgainstChangingDefault": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4085,7 +4085,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testResetAndUndoResetStaySilent": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4143,7 +4143,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4201,7 +4201,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4317,7 +4317,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testResetZeroesActiveCounter": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4433,7 +4433,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4491,7 +4491,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSeededResetUndoKeyEntersUndoModeOnLaunch": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4549,7 +4549,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4665,7 +4665,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSelectNextAdvancesWithinList": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4723,7 +4723,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSelectNextPastLastAppendsBlankAndSelectsIt": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4781,7 +4781,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSelectPreviousMovesBackWithinList": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4839,7 +4839,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSelectPreviousWrapsFromFirstToLast": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4897,7 +4897,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -4955,7 +4955,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSubtractClampsWhenNegativesDisallowed": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5013,7 +5013,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSubtractClearsPendingUndo": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5071,7 +5071,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSubtractFiresFeedbackWithDecrementHaptic": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5129,7 +5129,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSubtractGoesNegativeByDefault": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5187,7 +5187,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSubtractHonorsStep": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5245,7 +5245,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5361,7 +5361,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testSwitchingCounterClearsPendingUndo": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5535,7 +5535,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5593,7 +5593,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5651,7 +5651,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5709,7 +5709,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5767,7 +5767,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -5825,7 +5825,7 @@
     ]
   },
   "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides": {
-    "file": "Tests/AppCoreTests/ModelTests.swift",
+    "file": "ios/Tests/AppCoreTests/ModelTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -6107,7 +6107,7 @@
     ]
   },
   "AppCoreTests.ThemeTests › testDotHexFallsBackToLimeForUnknownKey": {
-    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -6165,7 +6165,7 @@
     ]
   },
   "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys": {
-    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -6223,7 +6223,7 @@
     ]
   },
   "AppCoreTests.ThemeTests › testIsCaseInsensitive": {
-    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -6281,7 +6281,7 @@
     ]
   },
   "AppCoreTests.ThemeTests › testIsolatesIndividualChannels": {
-    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -6339,7 +6339,7 @@
     ]
   },
   "AppCoreTests.ThemeTests › testParsesAccentLime": {
-    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -6397,7 +6397,7 @@
     ]
   },
   "AppCoreTests.ThemeTests › testParsesBlackAndWhite": {
-    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
@@ -6455,7 +6455,7 @@
     ]
   },
   "AppCoreTests.ThemeTests › testToleratesLeadingHash": {
-    "file": "Tests/AppCoreTests/ThemeTests.swift",
+    "file": "ios/Tests/AppCoreTests/ThemeTests.swift",
     "lastRunAt": "2026-07-14T01:56:20.728487+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",

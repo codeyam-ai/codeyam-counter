@@ -2,7 +2,7 @@
   "$comment": "Per-developer settings (port, provider, proxy ports, startCommand, etc.) belong in editor.local.json. That file is gitignored and is deep-merged on top of this one at load time. See CLAUDE.md or run `codeyam-editor editor config-show` to inspect the effective config.",
   "apps": [
     {
-      "dir": ".",
+      "dir": "ios",
       "name": "CodeYam Counter",
       "type": "mobile"
     }
@@ -201,7 +201,7 @@
   "startCommand": "",
   "staticChecks": [
     {
-      "command": "swift build",
+      "command": "swift build --package-path ios",
       "description": "Build / compile check (swift build)",
       "excludePatterns": [
         "**/.build/**",
@@ -220,7 +220,7 @@
   "testPartitions": [],
   "testRunners": [
     {
-      "command": "swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml",
+      "command": "swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml",
       "excludePatterns": [
         "**/.build/**",
         "**/build/**"
@@ -231,7 +231,7 @@
       "sourceFilePatterns": [
         "**/*.swift"
       ],
-      "targetedCommand": "swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml --filter \"{test_names}\"",
+      "targetedCommand": "swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml --filter \"{test_names}\"",
       "testFilePatterns": [
         "**/Tests/**/*.swift",
         "**/*Tests.swift"
