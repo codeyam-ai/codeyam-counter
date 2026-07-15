@@ -3,13 +3,12 @@
 [![CI](https://github.com/codeyam-ai/codeyam-counter/actions/workflows/ci.yml/badge.svg)](https://github.com/codeyam-ai/codeyam-counter/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-**A fast, tactile multi-counter for iPhone.**
+**A fast, tactile way to count anything.**
 
 CodeYam Counter keeps several running tallies at once — reps, coffees, laps,
 anything worth counting. Each counter gets its own name and color, one tap
 increments, and every count is charted over time so you can see your history at
-a glance. It's a native iOS app built with SwiftUI on top of a shared `AppCore`
-SwiftPM library.
+a glance.
 
 <p align="center">
   <img src=".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png" alt="CodeYam Counter tracking a set of push-ups" width="300">
@@ -21,18 +20,19 @@ SwiftPM library.
 This project is built with [codeyam-editor](https://codeyam.com) — code and runnable data scenarios are authored side by side against a live preview.
 
 ```bash
+# Install codeyam-editor
+npm install -g @codeyam-editor/codeyam-editor@latest
+
 # Launch the editor (split-screen terminal + live preview)
 codeyam-editor editor
-
-# Run the tests
-swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
 ```
 <!-- codeyam:run-and-edit:end -->
 
 ## Build and run locally
 
-Requires macOS with a recent Xcode (Swift 6 toolchain) and an iOS 15+
-simulator or device.
+CodeYam Counter is currently a native iOS app, built with SwiftUI on a shared
+`AppCore` SwiftPM library. Building it requires macOS with a recent Xcode
+(Swift 6 toolchain) and an iOS 15+ simulator or device.
 
 ```bash
 # Clone the repo
