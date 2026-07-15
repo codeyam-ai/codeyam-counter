@@ -20,6 +20,9 @@ a glance.
 This project is built with [codeyam-editor](https://codeyam.com) — code and runnable data scenarios are authored side by side against a live preview.
 
 ```bash
+# Clone the repo
+git clone https://github.com/codeyam-ai/codeyam-counter && cd codeyam-counter
+
 # Install codeyam-editor
 npm install -g @codeyam-editor/codeyam-editor@latest
 
