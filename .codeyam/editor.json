@@ -5,6 +5,11 @@
       "dir": "ios",
       "name": "CodeYam Counter",
       "type": "mobile"
+    },
+    {
+      "dir": "android",
+      "name": "CodeYam Counter (Android)",
+      "type": "mobile"
     }
   ],
   "audit": {
@@ -212,6 +217,19 @@
         "**/*.swift"
       ],
       "name": "build"
+    },
+    {
+      "command": "android/gradlew -p android compileDebugKotlin",
+      "description": "Android build / compile check (Gradle compileDebugKotlin)",
+      "excludePatterns": [
+        "**/.gradle/**",
+        "**/build/**"
+      ],
+      "filePatterns": [
+        "android/**/*.kt",
+        "android/**/*.kts"
+      ],
+      "name": "android-build"
     }
   ],
   "testParallelism": {
@@ -235,6 +253,23 @@
       "testFilePatterns": [
         "**/Tests/**/*.swift",
         "**/*Tests.swift"
+      ]
+    },
+    {
+      "command": "android/gradlew -p android test",
+      "excludePatterns": [
+        "**/.gradle/**",
+        "**/build/**"
+      ],
+      "name": "android-tests",
+      "outputFormat": "junit-xml",
+      "outputPath": "android/app/build/test-results/testDebugUnitTest",
+      "sourceFilePatterns": [
+        "android/**/*.kt"
+      ],
+      "testFilePatterns": [
+        "android/**/src/test/**/*.kt",
+        "android/**/*Test.kt"
       ]
     }
   ]

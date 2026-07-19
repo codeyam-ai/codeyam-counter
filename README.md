@@ -50,10 +50,32 @@ Open `ios/App.xcodeproj` in Xcode and run the **App** scheme on an iOS simulator
 device. See [MOBILE_SETUP.md](MOBILE_SETUP.md) for simulator prerequisites and
 [CONTRIBUTING.md](CONTRIBUTING.md) for the full build/test workflow.
 
+### Android (work in progress)
+
+A native Android port lives in [`android/`](android/) — Kotlin + Jetpack Compose
+on Gradle. It is currently an empty, runnable shell; the counter logic and UI are
+being ported in follow-up work. Build and preview it from the emulator:
+
+```bash
+# Compile and run the Android unit tests
+android/gradlew -p android compileDebugKotlin
+android/gradlew -p android test
+
+# Boot the Android emulator preview
+codeyam-editor editor start-simulator kotlin-android-compose
+```
+
+Full Android setup docs (SDK/emulator prerequisites) land alongside the CI work;
+see [android/MOBILE_SETUP.md](android/MOBILE_SETUP.md) in the meantime.
+
 <!-- codeyam:scenario-gallery:start -->
 ## Scenario gallery
 
 States captured as runnable scenarios with codeyam-editor:
+
+### Android Shell - Starter screen
+
+<img src=".codeyam/scenarios/screenshots/android-shell-starter-screen--phone-portrait.png" alt="Android Shell - Starter screen" width="280">
 
 ### Counter - Active count
 
@@ -82,10 +104,6 @@ States captured as runnable scenarios with codeyam-editor:
 ### Counter - App Settings sound and haptic on
 
 <img src=".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png" alt="Counter - App Settings sound and haptic on" width="280">
-
-### Counter - Blank slot incremented
-
-<img src=".codeyam/scenarios/screenshots/counter-blank-slot-incremented--iphone-16.png" alt="Counter - Blank slot incremented" width="280">
 <!-- codeyam:scenario-gallery:end -->
 
 ## Contributing

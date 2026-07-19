@@ -1,0 +1,233 @@
+{
+  "timestamp": "2026-07-18T21:52:49Z",
+  "title": "Port AppCore Logic to Kotlin",
+  "type": "feature",
+  "userRequest": "## Summary\n\nPort the iOS app's platform-independent domain logic — the counter model,\nhistory/aggregation, seed policy, app settings, feedback abstraction, and theme\nvalues — from Swift (`ios/Sources/AppCore/`) to Kotlin in the Android app, along\nwith a faithful port of their unit tests. This establishes logic parity between\nthe two apps with no Android UI yet: the Kotlin model behaves identically to\n`CounterModel`, proven by the same test cases. UI work is the next plan.\n\n## Key Decisions\n\n- **Port pure logic first, UI later.** `Model.swift`, `History.swift`,\n  `SeedPolicy.swift`, `AppSettings.swift`, `SettingsOverlays.swift`,\n  `Feedback.swift`, and `Theme.swift` are (almost) UI-free and are the\n  correctness core of the app. Porting them with their tests up front means the\n  Compose UI later sits on an already-verified foundation.\n- **Test-for-test parity, not approximate.** Each Swift test case\n  (`ModelTests`, `AppSettingsTests`, `SettingsOverlaysTests`, `FeedbackTests`,\n  `CounterFeedbackOverrideTests`, `ThemeTests`) gets a Kotlin equivalent with the\n  same inputs and expectations, so any behavioral drift between platforms fails\n  a test. `ModelTests.swift` is 1066 lines — the single biggest correctness\n  asset in the repo — and is ported in full.\n- **Keep the Kotlin API idiomatic.** Swift `struct`/`enum`/`ObservableObject`\n  map to Kotlin `data class` / `enum class` / a `ViewModel`-style holder. The\n  goal is behavioral parity, not a line-by-line transliteration — Kotlin naming\n  and null-safety conventions win where they differ.\n- **Feedback is an interface, mirroring the Swift protocol.** `CounterFeedback`\n  (with `NoopCounterFeedback` / `SystemCounterFeedback`) becomes a Kotlin\n  interface with a no-op and a system (haptic/sound) implementation, so the\n  model stays free of Android framework types and stays unit-testable.\n\n## Implementation\n\n### 1. Port the counter model and history\n\n**New files** (under `android/app/src/main/java/<pkg>/model/`, exact package per\nthe scaffold):\n\n- `Counter.kt`, `CounterModel.kt` — ported from\n  `ios/Sources/AppCore/Model.swift` (glossary: `Counter`, `CounterModel`).\n- `CounterHistory.kt` — `CounterEvent`, `CounterHistory`, `CumulativePoint`\n  from `ios/Sources/AppCore/History.swift`.\n- `SeedPolicy.kt` — from `ios/Sources/AppCore/SeedPolicy.swift`.\n\nPreserve the increment/step/delete/reorder semantics and the cumulative-history\naggregation exactly as the Swift model implements them.\n\n### 2. Port settings, feedback, and theme\n\n**New files**:\n\n- `AppSettings.kt` — `AppSettings` + `HapticOption.resolve` from\n  `ios/Sources/AppCore/AppSettings.swift`.\n- `SettingsOverlays.kt` — from `ios/Sources/AppCore/SettingsOverlays.swift`.\n- `CounterFeedback.kt` — the `CounterFeedback` interface plus\n  `NoopCounterFeedback` and `SystemCounterFeedback` (Android haptics/sound)\n  from `ios/Sources/AppCore/Feedback.swift`.\n- `CounterTheme.kt` — the theme/color tokens from\n  `ios/Sources/AppCore/Theme.swift`.\n\n### 3. Port the unit tests\n\n**New files** (under `android/app/src/test/java/<pkg>/`, JVM unit tests —\n`kotlin.test` / JUnit per the scaffold's test config):\n\n- `CounterModelTest.kt` ← `ModelTests.swift` (full port, all cases).\n- `AppSettingsTest.kt` ← `AppSettingsTests.swift`.\n- `SettingsOverlaysTest.kt` ← `SettingsOverlaysTests.swift`.\n- `FeedbackTest.kt` ← `FeedbackTests.swift` + `CounterFeedbackOverrideTests.swift`.\n- `CounterThemeTest.kt` ← `ThemeTests.swift`.\n\nEvery test keeps its mandatory description comment. Run with\n`codeyam-editor editor refresh-tests` so the Gradle test runner (wired in the\nscaffold plan) executes them and the results register.\n\n### 4. Register the ported entities and tests\n\n**Commands**:\n\n- `codeyam-editor editor reconcile-glossary --auto-apply` then\n  `glossary-update` to fill descriptions/tags for the new Kotlin entities,\n  cross-referencing their Swift counterparts.\n- `codeyam-editor editor reconcile-registry --auto-apply` to register the new\n  Kotlin tests and link them to the ported entities.\n\n## Reused existing code\n\n- `ios/Sources/AppCore/Model.swift` (`CounterModel`, `Counter`) — ported source\n  of truth for counter behavior.\n- `ios/Sources/AppCore/History.swift` (`CounterHistory`, `CounterEvent`,\n  `CumulativePoint`) — history/aggregation logic.\n- `ios/Sources/AppCore/SeedPolicy.swift` (`SeedPolicy`) — initial-state seeding.\n- `ios/Sources/AppCore/AppSettings.swift` (`AppSettings`, `HapticOption.resolve`),\n  `SettingsOverlays.swift` (`SettingsOverlays`), `Feedback.swift`\n  (`CounterFeedback`, `NoopCounterFeedback`, `SystemCounterFeedback`),\n  `Theme.swift` (`CounterTheme`) — settings/feedback/theme sources.\n- `ios/Tests/AppCoreTests/*` — the parity test suite being ported case-for-case.\n- **Config-field survey:** this plan adds source + tests only; it introduces no\n  new codeyam config field or gate dimension.\n\n## Scenarios to Demonstrate\n\n- Kotlin `CounterModel` increment/step/reset produces the same sequence of\n  counts as the Swift model for the same operations (covered by the ported\n  `CounterModelTest`).\n- History cumulative points match the Swift `CumulativePoint` output for a\n  representative event stream.\n- `HapticOption.resolve` and settings-overlay resolution match the Swift results\n  across the same inputs.\n- All ported Kotlin tests pass under `refresh-tests`, and the audit reports the\n  new entities as tested (no untested-entity regressions on the Android side).",
+  "description": "Ported the iOS AppCore domain layer to idiomatic Kotlin under com.codeyam.android.model, establishing logic parity between the iOS and Android apps with no Android UI yet. Ported source: CounterModel, Counter, CounterHistory/CounterEvent/CumulativePoint, SeedPolicy, AppSettings (+ SoundOption/HapticOption), SettingsOverlays, CounterFeedback (Noop/System gating), CounterTheme, plus a KeyValueStore seam (the UserDefaults analog with in-memory + SharedPreferences adapters). Counter/CounterHistory serialize via kotlinx-serialization-json (wired into the Gradle build) using a JSON-DOM decode that preserves the Swift custom-Codable behavior: missing-field defaults, HapticOption.resolve amplitude migration, and legacy single-hapticOverride migration into both directions. Time is modeled as epoch millis to avoid java.time desugaring on minSdk 24. Ported the six AppCore XCTest suites case-for-case to 118 Kotlin JUnit tests (all passing); the three CounterGraphChart cases were intentionally deferred to the UI plan since they test a SwiftUI view helper, not the logic layer. Also captured the pre-existing android-shell-starter-screen scenario screenshot that was missing.",
+  "modifiedFiles": [
+    {
+      "path": ".claude/skills/codeyam-audit/finalize-procedure.md",
+      "status": "modified"
+    },
+    {
+      "path": ".claude/skills/codeyam-plan/SKILL.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/editor.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/port-appcore-logic-to-kotlin.md",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/plans/scaffold-android-app-kotlin-compose.md",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/stack.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".gitignore",
+      "status": "modified"
+    },
+    {
+      "path": "README.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/port-appcore-logic-to-kotlin.md",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/plans/completed/scaffold-android-app-kotlin-compose.md",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-shell-starter-screen.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-shell-starter-screen--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/session-narrative.json",
+      "status": "added"
+    },
+    {
+      "path": "android/.gitignore",
+      "status": "added"
+    },
+    {
+      "path": "android/MOBILE_SETUP.md",
+      "status": "added"
+    },
+    {
+      "path": "android/README.md",
+      "status": "added"
+    },
+    {
+      "path": "android/app/build.gradle.kts",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/debug/AndroidManifest.xml",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/debug/res/xml/network_security_config.xml",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/MainActivity.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/AppSettings.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/Counter.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/CounterFeedback.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/CounterHistory.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/CounterModel.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/CounterTheme.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/KeyValueStore.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/SeedPolicy.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/model/SettingsOverlays.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/res/drawable/ic_launcher.xml",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/res/values/strings.xml",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/res/values/themes.xml",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/MainViewModelTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/build.gradle.kts",
+      "status": "added"
+    },
+    {
+      "path": "android/gradle.properties",
+      "status": "added"
+    },
+    {
+      "path": "android/gradle/libs.versions.toml",
+      "status": "added"
+    },
+    {
+      "path": "android/gradle/wrapper/gradle-wrapper.jar",
+      "status": "added"
+    },
+    {
+      "path": "android/gradle/wrapper/gradle-wrapper.properties",
+      "status": "added"
+    },
+    {
+      "path": "android/gradlew",
+      "status": "added"
+    },
+    {
+      "path": "android/gradlew.bat",
+      "status": "added"
+    },
+    {
+      "path": "android/settings.gradle.kts",
+      "status": "added"
+    }
+  ],
+  "testResults": {
+    "total": 121,
+    "passed": 121,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 121,
+        "passed": 121
+      }
+    ]
+  }
+}

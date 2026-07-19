@@ -8,61 +8,99 @@
     "native-geolocation": "manual",
     "native-haptics": "manual",
     "native-network": "manual",
-    "native-storage": "manual",
+    "native-storage": "verified",
     "real-device": "manual",
-    "routing": "verified"
+    "routing": "manual"
   },
   "commands": {
-    "staticChecks": "swift build",
-    "test": "swift test --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml"
+    "dev": "android/gradlew -p android installDebug",
+    "test": "android/gradlew -p android test"
   },
   "components": {
     "fileExtensions": [
-      ".swift"
-    ],
-    "primitives": [
-      "Text",
-      "VStack",
-      "HStack",
-      "ZStack",
-      "Button",
-      "Image",
-      "TextField",
-      "Toggle"
+      ".kt"
     ]
   },
   "data": {
     "type": "observable-model"
   },
-  "defaultScreenSize": "iPhone 16",
-  "id": "swift-ios-swiftui",
-  "name": "Swift + SwiftUI (iOS)",
+  "defaultScreenSize": "Phone Portrait",
+  "id": "kotlin-android-compose",
+  "name": "Kotlin + Jetpack Compose (Android)",
   "preview": {
-    "kind": "simulator-ios"
-  },
-  "routing": {
-    "type": "file-based"
+    "kind": "simulator-android"
   },
   "screenSizes": {
-    "iPad": {
-      "height": 1180,
-      "width": 820
+    "Phone Landscape": {
+      "height": 393,
+      "width": 852
     },
-    "iPhone 16": {
+    "Phone Portrait": {
       "height": 852,
       "width": 393
+    },
+    "Tablet Landscape": {
+      "height": 820,
+      "width": 1180
+    },
+    "Tablet Portrait": {
+      "height": 1180,
+      "width": 820
     }
   },
   "simulator": {
-    "buildSignalRegex": "Succeeded",
-    "platform": "ios",
+    "buildSignalRegex": "(BUILD SUCCESSFUL|Successfully built|Launching app|Successfully installed)",
+    "platform": "android",
     "preflightChecks": [
-      "xcode-installed",
-      "ios-platform-sdk"
+      "adb-installed",
+      "emulator-installed",
+      "avd-present"
     ],
-    "scheme": "App"
+    "runCommand": [
+      "android/gradlew",
+      "-p",
+      "android",
+      "installDebug"
+    ]
   },
-  "styling": {
-    "type": "swiftui-tokens"
-  }
+  "toolchain": [
+    {
+      "detect": {
+        "absentIfOutputContains": [
+          "No Java runtime present"
+        ],
+        "argv": [
+          "java",
+          "-version"
+        ],
+        "kind": "command"
+      },
+      "id": "java",
+      "install": {
+        "cmd": "brew install --cask temurin@17",
+        "estCost": "~300 MB, ~2 min"
+      },
+      "label": "Java 17+ runtime (JDK)"
+    },
+    {
+      "detect": {
+        "kind": "env",
+        "name": "ANDROID_HOME"
+      },
+      "id": "android-sdk",
+      "install": {
+        "cmd": "brew install android-commandlinetools && sdkmanager 'platform-tools' 'platforms;android-34'",
+        "estCost": "~1\u20132 GB, 5\u201315 min"
+      },
+      "label": "Android SDK (ANDROID_HOME)"
+    },
+    {
+      "detect": {
+        "kind": "file",
+        "path": "android/gradlew"
+      },
+      "id": "gradlew",
+      "label": "Gradle wrapper present"
+    }
+  ]
 }

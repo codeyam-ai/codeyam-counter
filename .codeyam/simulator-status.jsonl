@@ -1,2 +1,5 @@
 {"state":"preflight-running"}
-{"state":"preflight-failed","check":"xcode-installed","message":"iOS Simulator preview requires macOS; on cloud VMs use the documented alternatives (see docs/ios-cloud-preview.md)."}
+{"state":"booting-simulator","device":"codeyam"}
+{"state":"simulator-booted","udid":"emulator-5554","name":"codeyam"}
+{"state":"building-app","elapsedSec":0}
+{"state":"app-launched","udid":"emulator-5554","appBundleId":"com.codeyam.android"}
