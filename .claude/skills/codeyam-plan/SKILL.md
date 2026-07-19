@@ -132,6 +132,23 @@ no-`-D` inventory of that target and put the real file/item count in the plan.
 Scope discovered mid-build (one named file turning into 14 across 10 files)
 forces a stop-and-re-scope; the inventory belongs in the plan before approval.
 
+**Referenced-path resolution.** Every repo-relative file path the plan cites
+as an *existing* dependency — the root-cause file, the module to modify, the
+site to reference — must actually resolve in the tree. Verify each path exists
+before writing it into the plan (a wrong root-cause file sends the whole build
+against the wrong surface). Paths the plan will *create* are exempt; mark them
+`(new)` so they read as intended-new rather than stale. The Confirm gate's
+`plan-staleness-check --format json` surfaces a non-null `referencedPathAdvisory`
+when a cited, repo-rooted, non-created path does not exist.
+
+**Repro-fixture geometry.** For a bug plan, do not hardcode a reproduction
+geometry (a 40x40 grid, an N×M input) as settled fact when it is really an
+unverified guess — a fixture that does not actually trigger the failure leaves
+the red-first test green and wastes the loop. State in the plan that the
+geometry is to be confirmed empirically at execution (observe the fixture
+reproduce the bug before trusting it). The Confirm gate surfaces a non-null
+`reproFixtureAdvisory` when a repro-context plan names a hardcoded geometry.
+
 **Constrained-file pre-check.** Once investigation has produced the
 candidate file list, run it through the editor so the plan never invites an
 edit the guards will reject:

@@ -46,6 +46,7 @@ test-results/
 playwright-report/
 blob-report/
 .codeyam/logs/
+.codeyam/.locks/
 .codeyam/run/
 .codeyam/llm-calls/
 .codeyam/captures/
@@ -115,3 +116,13 @@ ui/
 xcuserdata/
 *.xcuserstate
 App.xcodeproj/project.xcworkspace/
+
+# Android (Kotlin + Compose) build output.
+# Module-level ignores live in android/.gitignore; these root-anchored entries
+# make the same paths visible to tooling that only reads the repo-root ignore.
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/**/*.iml
+.idea/
