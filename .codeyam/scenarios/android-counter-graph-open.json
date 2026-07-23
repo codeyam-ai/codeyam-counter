@@ -1,0 +1,22 @@
+{
+  "name": "Android Counter - Graph open",
+  "id": "61cfc8fb-473e-492d-bd5d-b41342c9f47f",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "selectedCounterId": 1,
+      "graphOpen": true,
+      "counterHistories": "{\"1\": [{\"startedAt\": 1710000000000, \"events\": [{\"at\": 1710000012000, \"delta\": 1}, {\"at\": 1710000031000, \"delta\": 1}, {\"at\": 1710000048000, \"delta\": 1}, {\"at\": 1710000066000, \"delta\": 1}, {\"at\": 1710000092000, \"delta\": 1}, {\"at\": 1710000110000, \"delta\": -1}, {\"at\": 1710000128000, \"delta\": 1}, {\"at\": 1710000147000, \"delta\": 1}, {\"at\": 1710000168000, \"delta\": 1}, {\"at\": 1710000195000, \"delta\": 1}, {\"at\": 1710000223000, \"delta\": 1}, {\"at\": 1710000240000, \"delta\": 1}]}]}",
+      "settingsOpen": false,
+      "deletedDefaultIds": "[]",
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "leftHanded": false
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

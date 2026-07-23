@@ -1,0 +1,25 @@
+{
+  "name": "Android Counter - All counters list with blank slot",
+  "id": "7147fedc-6953-40f0-844a-1841b5e73be3",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "selectedCounterId": 1,
+      "soundOption": "off",
+      "deletedDefaultIds": "[]",
+      "decrementHapticOption": "off",
+      "incrementHapticOption": "off",
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"\", \"count\": 0, \"colorKey\": \"\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "settingsOpen": false,
+      "appSettingsOpen": true,
+      "leftHanded": false,
+      "counterListOpen": true
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

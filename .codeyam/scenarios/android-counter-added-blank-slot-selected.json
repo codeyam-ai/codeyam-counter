@@ -1,0 +1,19 @@
+{
+  "name": "Android Counter - Added blank slot selected",
+  "id": "35a51442-de2a-418a-b4ed-7262b71d51aa",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "selectedCounterId": 5,
+      "settingsOpen": false,
+      "leftHanded": false,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 12, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 840, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 5, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}, {\"id\": 5, \"name\": \"\", \"count\": 0, \"colorKey\": \"\", \"allowNegative\": true, \"step\": 1, \"order\": 4}]"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

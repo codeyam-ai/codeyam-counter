@@ -1,25 +1,125 @@
 {
   "$comment": "Per-developer settings (port, provider, proxy ports, startCommand, etc.) belong in editor.local.json. That file is gitignored and is deep-merged on top of this one at load time. See CLAUDE.md or run `codeyam-editor editor config-show` to inspect the effective config.",
-  "apps": [
+  "projectTitle": "CodeYam Counter",
+  "projectDescription": "Can we create a mobile counter app? I have mockups to demonstrate the first page.\n",
+  "provider": "claude",
+  "startCommand": "",
+  "port": 3000,
+  "env": {},
+  "toolchainPaths": [],
+  "proxy": {
+    "httpPort": 14100,
+    "dbPort": 14101,
+    "controlPort": 14199,
+    "httpsPassthrough": [],
+    "httpsPreview": false
+  },
+  "database": null,
+  "scenarios": {
+    "dir": ".codeyam/scenarios"
+  },
+  "hooks": {},
+  "testRunners": [
     {
-      "dir": "ios",
-      "name": "CodeYam Counter",
-      "type": "mobile"
+      "name": "tests",
+      "command": "swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml",
+      "outputFormat": "junit-xml",
+      "outputPath": ".codeyam/swift-tests.xml",
+      "testFilePatterns": [
+        "**/Tests/**/*.swift",
+        "**/*Tests.swift"
+      ],
+      "sourceFilePatterns": [
+        "**/*.swift"
+      ],
+      "excludePatterns": [
+        "**/.build/**",
+        "**/build/**"
+      ],
+      "coverageExcludePaths": [],
+      "targetedCommand": "swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml --filter \"{test_names}\""
     },
     {
-      "dir": "android",
-      "name": "CodeYam Counter (Android)",
-      "type": "mobile"
+      "name": "android-tests",
+      "command": "android/gradlew -p android test --rerun-tasks && python3 android/scripts/merge-test-results.py android/app/build/test-results/testDebugUnitTest .codeyam/android-tests.xml",
+      "outputFormat": "junit-xml",
+      "outputPath": ".codeyam/android-tests.xml",
+      "testFilePatterns": [
+        "android/**/src/test/**/*.kt",
+        "android/**/*Test.kt"
+      ],
+      "sourceFilePatterns": [
+        "android/**/*.kt"
+      ],
+      "excludePatterns": [
+        "**/.gradle/**",
+        "**/build/**"
+      ],
+      "coverageExcludePaths": [],
+      "targetedCommand": "android/gradlew -p android test --rerun-tasks --tests \"{test_names}\" && python3 android/scripts/merge-test-results.py android/app/build/test-results/testDebugUnitTest .codeyam/android-tests.xml"
     }
   ],
-  "audit": {
-    "allowedDocumentationOnlySlugs": [
-      "post-merge-drift-sweep"
-    ],
-    "branchBaseRef": "main",
-    "cargoCoverage": {
-      "enabled": true
+  "testPartitions": [],
+  "staticChecks": [
+    {
+      "name": "build",
+      "command": "swift build --package-path ios",
+      "filePatterns": [
+        "**/*.swift"
+      ],
+      "excludePatterns": [
+        "**/.build/**",
+        "**/build/**",
+        "**/.gradle/**"
+      ],
+      "description": "Build / compile check (swift build)"
     },
+    {
+      "name": "android-build",
+      "command": "android/gradlew -p android compileDebugKotlin",
+      "filePatterns": [
+        "android/**/*.kt",
+        "android/**/*.kts"
+      ],
+      "excludePatterns": [
+        "**/.gradle/**",
+        "**/build/**"
+      ],
+      "description": "Android build / compile check (Gradle compileDebugKotlin)"
+    }
+  ],
+  "formatters": [],
+  "screenSizes": {
+    "iPad": {
+      "width": 820,
+      "height": 1180
+    },
+    "iPhone 16": {
+      "width": 393,
+      "height": 852
+    }
+  },
+  "defaultScreenSize": "iPhone 16",
+  "apps": [
+    {
+      "name": "CodeYam Counter",
+      "type": "mobile",
+      "dir": "ios"
+    },
+    {
+      "name": "CodeYam Counter (Android)",
+      "type": "mobile",
+      "dir": "android"
+    }
+  ],
+  "files": {
+    "textLogMaxBytes": null,
+    "eventLogMaxBytes": null,
+    "logKeepRotated": null,
+    "journalShardEntries": null
+  },
+  "audit": {
+    "testNamingConventions": {},
     "glossarySkip": [
       {
         "filePath": ".claude/hooks/_step_metadata.py",
@@ -110,167 +210,97 @@
         "filePath": ".claude/hooks/editor-step-hook.py",
         "name": "resolve_mode",
         "reason": "derive-generated"
+      },
+      {
+        "filePath": "android/scripts/merge-test-results.py",
+        "name": "main",
+        "reason": "test-fixture"
       }
     ],
-    "itemShape": {
-      "changeWithoutVerify": "note",
-      "compound": "warning",
-      "vague": "warning"
-    },
-    "scenarioFreshnessDays": 14,
     "stepBudget": {
-      "maxChecklistItems": 6,
       "maxLines": 80,
+      "maxChecklistItems": 6,
       "severity": "warning"
     },
-    "testNamingConventions": {}
-  },
-  "catalogAutoAdd": {
-    "allow": [],
-    "deny": []
-  },
-  "cleanup": {
-    "completedPlanRetention": 20,
-    "logCompress": true,
-    "logDeleteDays": 30,
-    "logRotateDays": 7,
-    "screenshotPruneOrphans": true,
-    "tmpDeleteHours": 24
+    "itemShape": {
+      "compound": "warning",
+      "vague": "warning",
+      "changeWithoutVerify": "note"
+    },
+    "allowedDocumentationOnlySlugs": [
+      "post-merge-drift-sweep"
+    ],
+    "scenarioFreshnessDays": 14,
+    "branchBaseRef": "main",
+    "coverageBootstrap": {
+      "enabled": true
+    }
   },
   "coverageThresholds": {
     "global": {
       "minLinePercent": 90.0
     }
   },
-  "database": null,
-  "defaultScreenSize": "iPhone 16",
-  "env": {},
-  "files": {
-    "eventLogMaxBytes": null,
-    "journalShardEntries": null,
-    "logKeepRotated": null,
-    "textLogMaxBytes": null
+  "catalogAutoAdd": {
+    "allow": [],
+    "deny": []
   },
-  "formatters": [],
+  "testParallelism": {
+    "loadGuard": true
+  },
+  "cleanup": {
+    "logRotateDays": 7,
+    "logDeleteDays": 30,
+    "logCompress": true,
+    "tmpDeleteHours": 24,
+    "screenshotPruneOrphans": true,
+    "completedPlanRetention": 20
+  },
+  "runnerTimeout": {
+    "mode": "auto",
+    "headroomSeconds": 90,
+    "floorSeconds": 900,
+    "changedFanoutThreshold": 2,
+    "changedFanoutPerUnitSeconds": 180,
+    "changedFanoutMaxExtraSeconds": 1800
+  },
+  "silenceHookStderr": false,
   "git": {
     "commitQueue": {
       "enabled": true,
+      "pollIntervalMs": 2000,
+      "waitTimeoutSec": 300,
       "heartbeatIntervalSec": 15,
+      "serverHeartbeatIntervalSec": 60,
       "machineAliveHookTimeoutMs": 5000,
       "maxHookPrunePerSweep": 10,
-      "maxProgressStallSec": 900,
-      "pollIntervalMs": 2000,
-      "serverHeartbeatIntervalSec": 60,
-      "waitTimeoutSec": 300
+      "maxProgressStallSec": 900
     },
     "planClaims": {
       "enabled": true,
       "fetchIntervalSec": 3
     }
   },
-  "hooks": {},
-  "port": 3000,
-  "projectDescription": "Can we create a mobile counter app? I have mockups to demonstrate the first page.\n",
-  "projectTitle": "CodeYam Counter",
-  "provider": "claude",
-  "proxy": {
-    "controlPort": 14199,
-    "dbPort": 14101,
-    "httpPort": 14100,
-    "httpsPassthrough": [],
-    "httpsPreview": false
-  },
-  "runnerTimeout": {
-    "floorSeconds": 900,
-    "headroomSeconds": 90,
-    "mode": "auto"
-  },
-  "scenarios": {
-    "dir": ".codeyam/scenarios"
-  },
-  "screenSizes": {
-    "iPad": {
-      "height": 1180,
-      "width": 820
-    },
-    "iPhone 16": {
-      "height": 852,
-      "width": 393
-    }
-  },
   "server": {
     "autoRestartOnStaleBinary": true,
     "maxRssMb": 6144
   },
-  "silenceHookStderr": false,
-  "startCommand": "",
-  "staticChecks": [
-    {
-      "command": "swift build --package-path ios",
-      "description": "Build / compile check (swift build)",
-      "excludePatterns": [
-        "**/.build/**",
-        "**/build/**",
-        "**/.gradle/**"
-      ],
-      "filePatterns": [
-        "**/*.swift"
-      ],
-      "name": "build"
-    },
-    {
-      "command": "android/gradlew -p android compileDebugKotlin",
-      "description": "Android build / compile check (Gradle compileDebugKotlin)",
-      "excludePatterns": [
-        "**/.gradle/**",
-        "**/build/**"
-      ],
-      "filePatterns": [
-        "android/**/*.kt",
-        "android/**/*.kts"
-      ],
-      "name": "android-build"
+  "setupBrowserEnabled": false,
+  "workflow": {
+    "checkIns": {
+      "planAccepted": {
+        "pause": true
+      },
+      "prototypeCompleted": {
+        "pause": true
+      },
+      "hardeningCompleted": {
+        "pause": true,
+        "autoAction": "commit"
+      },
+      "push": {
+        "pause": true
+      }
     }
-  ],
-  "testParallelism": {
-    "loadGuard": true
-  },
-  "testPartitions": [],
-  "testRunners": [
-    {
-      "command": "swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml",
-      "excludePatterns": [
-        "**/.build/**",
-        "**/build/**"
-      ],
-      "name": "tests",
-      "outputFormat": "junit-xml",
-      "outputPath": ".codeyam/swift-tests.xml",
-      "sourceFilePatterns": [
-        "**/*.swift"
-      ],
-      "targetedCommand": "swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml --filter \"{test_names}\"",
-      "testFilePatterns": [
-        "**/Tests/**/*.swift",
-        "**/*Tests.swift"
-      ]
-    },
-    {
-      "command": "android/gradlew -p android test",
-      "excludePatterns": [
-        "**/.gradle/**",
-        "**/build/**"
-      ],
-      "name": "android-tests",
-      "outputFormat": "junit-xml",
-      "outputPath": "android/app/build/test-results/testDebugUnitTest",
-      "sourceFilePatterns": [
-        "android/**/*.kt"
-      ],
-      "testFilePatterns": [
-        "android/**/src/test/**/*.kt",
-        "android/**/*Test.kt"
-      ]
-    }
-  ]
+  }
 }

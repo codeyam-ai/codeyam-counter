@@ -1,0 +1,20 @@
+{
+  "name": "Android Counter - All but one deleted",
+  "id": "40f5fbda-3bca-47e9-880e-5096abe74c38",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "leftHanded": false,
+      "settingsOpen": false,
+      "deletedDefaultIds": "[2, 3, 4]",
+      "selectedCounterId": 1,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 156, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}]"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Android Counter - App Settings sound and haptic on",
+  "id": "461b2e81-7dc8-423a-930e-51d1df056bef",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "appSettingsOpen": true,
+      "counterListOpen": false,
+      "settingsOpen": false,
+      "incrementHapticOption": "rigid",
+      "soundOption": "ding",
+      "decrementHapticOption": "soft",
+      "leftHanded": false,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "deletedDefaultIds": "[]",
+      "selectedCounterId": 1
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

@@ -1,6 +1,19 @@
 [
   {
     "conformsToView": true,
+    "description": "The muted plus circle at the end of the switcher's dot row that appends a new blank counter.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterDot.kt",
+    "name": "AddCounterDot",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "The switcher's trailing muted plus circle; tapping it appends a new blank counter, the tap equivalent of swiping past the last counter.",
     "filePath": "ios/Sources/AppCore/Views/AddCounterDot.swift",
     "name": "AddCounterDot",
@@ -17,6 +30,19 @@
   },
   {
     "conformsToView": true,
+    "description": "The system-wide App Settings panel. Holds no local edit state: each control writes straight through to the persisted default, so there is no save or cancel.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/AppSettingsPanel.kt",
+    "name": "AppSettingsPanel",
+    "scenarios": [
+      "android-counter-app-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-app-settings-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "Floating overlay panel for system-wide App Settings, bound to AppSettings. Holds a HANDEDNESS segmented control, SOUND and HAPTIC option pickers (horizontally-scrolling pills that auto-scroll the active choice into view), and an ALL COUNTERS button; mirrors CounterSettingsPanel chrome (DONE to close). Each control writes straight through to the persisted default.",
     "filePath": "ios/Sources/AppCore/Views/AppSettingsPanel.swift",
     "name": "AppSettingsPanel",
@@ -24,6 +50,19 @@
       "appsettingspanel-default",
       "appsettingspanel-sound-and-haptic-on"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The lower row of RESET / SUBTRACT / GRAPH controls plus the increment button's downward extension, mirrored as a whole by handedness.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt",
+    "name": "BottomControlRow",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -56,12 +95,38 @@
   },
   {
     "conformsToView": true,
+    "description": "A quarter-width secondary control in the bottom row: an icon or glyph above a mono label. A RowScope extension so the equal-quarter rule lives in one place.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/ControlButton.kt",
+    "name": "ControlButton",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "A small secondary control in the bottom row: a glyph above a mono label.",
     "filePath": "ios/Sources/AppCore/Views/ControlButton.swift",
     "name": "ControlButton",
     "scenarios": [
       "controlbutton-default"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The giant numeral showing the active counter's current value, digit-grouped and auto-shrunk to fit the screen width.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CountHero.kt",
+    "name": "CountHero",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -82,6 +147,19 @@
   },
   {
     "conformsToView": true,
+    "description": "The whole bottom assembly: the increment bar plus its downward extension form one L-shaped surface, with a shared pressed flag so pressing either face dims both.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt",
+    "name": "CounterBottomBar",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "The whole bottom assembly: increment bar starting one-fifth up from the bottom and extending into the lower control row, computing the equal-quarter column width.",
     "filePath": "ios/Sources/AppCore/Views/CounterBottomBar.swift",
     "name": "CounterBottomBar",
@@ -93,6 +171,19 @@
   },
   {
     "conformsToView": true,
+    "description": "The palette of selectable colour swatches, laid out as fixed rows of six with a lime ring on the selection. Non-lazy so it does not nest a same-axis scroll inside the scrolling panel.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "CounterColorPicker",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-counter-settings-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "Grid of selectable color swatches drawn from CounterTheme.palette; the selected key gets a lime ring and binds the chosen colorKey back to the settings panel.",
     "filePath": "ios/Sources/AppCore/Views/CounterColorPicker.swift",
     "name": "CounterColorPicker",
@@ -100,6 +191,28 @@
       "countercolorpicker-lime",
       "countercolorpicker-coffee"
     ]
+  },
+  {
+    "description": "Compose Color wrappers over the pure hex design tokens in the shared CounterTheme. A named object because an anonymous one's members are unreachable outside its file.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/Theme.kt",
+    "name": "CounterColors",
+    "untestabilityReason": {
+      "justification": "A table of constant Color values multiplied from CounterTheme's hex tokens, which are themselves covered by CounterThemeTest. There is no behavior here to assert that would not restate the token table.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "conformsToView": true,
+    "description": "A single counter-selector dot. The active dot grows and gains a lime ring; a blank slot renders as a dashed outline while empty and a solid neutral dot once incremented.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterDot.kt",
+    "name": "CounterDot",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -129,6 +242,19 @@
   },
   {
     "conformsToView": true,
+    "description": "The canvas drawing of the step-line chart: axes, dashed zero guide when the count went negative, the step path, per-event markers coloured by delta sign, and the density-scaled tick labels. All geometry is delegated to GraphGeometry.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterGraphChart.kt",
+    "name": "CounterGraphChart",
+    "scenarios": [
+      "android-counter-graph-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-graph-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "A custom SwiftUI step-line chart of a history's running count over relative time, drawn with Path/shapes (Swift Charts needs iOS 16; this package targets iOS 15). Both axes are drawn and labeled with data-derived ticks: COUNT spans the actual range including 0, TIME spans 0 to the last event. Markers are colored by delta sign.",
     "filePath": "ios/Sources/AppCore/Views/CounterGraphChart.swift",
     "name": "CounterGraphChart",
@@ -136,6 +262,19 @@
       "countergraphchart-mixed-run",
       "countergraphchart-negative-range"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "A counter's activity: the step-line chart plus its event list, with a selector to page between the stored runs and a NO ACTIVITY YET placeholder when there are none.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphPage.kt",
+    "name": "CounterGraphView",
+    "scenarios": [
+      "android-counter-graph-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-graph-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -156,6 +295,27 @@
     "testFile": "ios/Tests/AppCoreTests/ModelTests.swift"
   },
   {
+    "description": "The sliders and chart glyphs the core Material icon set does not carry, hand-built as small vectors rather than pulling in material-icons-extended for two icons.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterIcons.kt",
+    "name": "CounterIcons",
+    "scenarios": [
+      "android-counter-active-count"
+    ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The all-counters list opened from App Settings: dot, name and current count per row. Its scroll region takes a fixed height so the card fully covers the panel it was opened from.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterListPanel.kt",
+    "name": "CounterListPanel",
+    "scenarios": [
+      "android-counter-all-counters-list"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-all-counters-list` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
     "conformsToView": true,
     "description": "Scrollable overlay listing every counter (colored dot + name + count), opened from App Settings. Tapping a row selects that counter and dismisses the list; blank slots render with the muted dot and em-dash placeholder. The active counter's row carries the accent ring.",
     "filePath": "ios/Sources/AppCore/Views/CounterListPanel.swift",
@@ -173,6 +333,34 @@
   },
   {
     "conformsToView": true,
+    "description": "The Android counter screen: header, switcher card, count hero and bottom control assembly, plus the swipe-to-switch gesture and the four floating overlays. The Compose port of iOS ContentView.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt",
+    "name": "CounterScreen",
+    "scenarios": [
+      "android-counter-active-count"
+    ]
+  },
+  {
+    "description": "The Compose state layer over the framework-free CounterModel and AppSettings. Routes every mutation through a revision counter so the in-place-mutating model drives recomposition, and owns the four overlay flags (seeded only from a trusted store).",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreenState.kt",
+    "name": "CounterScreenState",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt"
+  },
+  {
+    "conformsToView": true,
+    "description": "The per-counter settings panel expanding over the count: name, colour, step, allow-negative, the collapsible feedback overrides and Delete. Local state holds in-progress edits; DONE saves.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterSettingsPanel.kt",
+    "name": "CounterSettingsPanel",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-counter-settings-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "Inline settings panel that expands over the count numeral. Composes the labeled name field, color picker, step stepper, an allow-negative toggle, three per-counter override rows (HANDEDNESS, SOUND, HAPTIC via OverridePicker) that pin or defer to the app-wide settings, and DeleteCounterButton for the destructive delete, whose callback deletes the active counter and then closes the panel; local state holds in-progress edits and DONE saves them back to the active counter.",
     "filePath": "ios/Sources/AppCore/Views/CounterSettingsPanel.swift",
     "name": "CounterSettingsPanel",
@@ -183,6 +371,19 @@
   },
   {
     "conformsToView": true,
+    "description": "The COUNT BY control: a minus/value/plus stepper that clamps its lower bound at 1.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "CounterStepStepper",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-counter-settings-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "The COUNT BY control: a minus/value/plus stepper that sets how much each increment or subtract changes the count, clamping the lower bound at 1.",
     "filePath": "ios/Sources/AppCore/Views/CounterStepStepper.swift",
     "name": "CounterStepStepper",
@@ -190,6 +391,19 @@
       "counterstepstepper-step-one",
       "counterstepstepper-step-five"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The switcher card: the horizontally scrolling row of counter dots including blank slots, the active counter's name and swipe hint, and the settings gear.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterSwitcherCard.kt",
+    "name": "CounterSwitcherCard",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -215,6 +429,19 @@
   },
   {
     "conformsToView": true,
+    "description": "The destructive delete control, guarded by a two-tap confirm that swaps label and fill while armed rather than presenting a new control.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "DeleteCounterButton",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-counter-settings-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "The destructive delete control in the counter settings panel, guarded by a two-tap confirm. Disarmed it is an outlined coffee-colored DELETE COUNTER; the first tap arms it into a filled TAP AGAIN TO CONFIRM that auto-disarms after about 3s, so an accidental single tap never wipes a counter, and a second tap while armed invokes onDelete. The whole outlined frame is the tap target via contentShape, because the disarmed button's clear background is not hit-testable on its own. A confirming init parameter seeds the armed state so a static scenario can capture it without a live tap.",
     "filePath": "ios/Sources/AppCore/Views/DeleteCounterButton.swift",
     "name": "DeleteCounterButton",
@@ -222,6 +449,19 @@
       "deletecounterbutton-default",
       "deletecounterbutton-armed"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The collapsible disclosure header for the per-counter feedback rows, with a rotating chevron and a caption that stays visible in both states.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "FeedbackDisclosureToggle",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-counter-settings-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -235,12 +475,51 @@
   },
   {
     "conformsToView": true,
+    "description": "The shared small-caps mono caption used by every settings heading.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "FieldCaption",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "A single Text with fixed styling and no conditional rendering, iteration, or state — the whole body is one styled label.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "conformsToView": true,
+    "description": "The settings gear on the switcher card, toggling the per-counter panel that expands over the count.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/HeaderBar.kt",
+    "name": "GearButton",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "The inert settings gear on the switcher card; settings are deferred.",
     "filePath": "ios/Sources/AppCore/Views/GearButton.swift",
     "name": "GearButton",
     "scenarios": [
       "gearbutton-default"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The graph page's centered CLOSE pill, aligned flush under the chart panel.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphPage.kt",
+    "name": "GraphCloseButton",
+    "scenarios": [
+      "android-counter-graph-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-graph-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -253,12 +532,44 @@
   },
   {
     "conformsToView": true,
+    "description": "The most-recent-first list of a run's events: each row a signed delta and the relative time since the run began.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphPage.kt",
+    "name": "GraphEventList",
+    "scenarios": [
+      "android-counter-graph-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-graph-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "The graph overlay's most-recent-first list of a run's events; each row shows a signed delta and the relative time since the run began, and it renders nothing when the run has no events.",
     "filePath": "ios/Sources/AppCore/Views/GraphEventList.swift",
     "name": "GraphEventList",
     "scenarios": [
       "grapheventlist-default"
     ]
+  },
+  {
+    "description": "The pure geometry behind the activity chart: plot rect from density-scaled gutters, series-to-points mapping with a zero-inclusive domain, step-line vertices, and mm:ss / h:mm:ss relative time. Deliberately Compose-free so it is unit-testable without rendering.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphGeometry.kt",
+    "name": "GraphGeometry",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt"
+  },
+  {
+    "conformsToView": true,
+    "description": "The graph's header: the small GRAPH caption above the active counter's name.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphPage.kt",
+    "name": "GraphHeader",
+    "scenarios": [
+      "android-counter-graph-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-graph-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -272,6 +583,19 @@
   },
   {
     "conformsToView": true,
+    "description": "Prev/next paging across a counter's stored runs, with the recency label (CURRENT, then -1, -2) between the arrows.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphPage.kt",
+    "name": "GraphHistorySelector",
+    "scenarios": [
+      "android-counter-graph-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-graph-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "Prev/next pager across a counter's stored runs, with a CURRENT / minus-N recency label between the arrows; drives the shared index binding and disables the arrow at each end.",
     "filePath": "ios/Sources/AppCore/Views/GraphHistorySelector.swift",
     "name": "GraphHistorySelector",
@@ -279,6 +603,19 @@
       "graphhistoryselector-current-run",
       "graphhistoryselector-older-run"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The graph as a whole page: the activity chart above its own centered CLOSE button, which is the only way back while the hero and bottom bar are hidden.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphPage.kt",
+    "name": "GraphPage",
+    "scenarios": [
+      "android-counter-graph-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-graph-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -298,6 +635,19 @@
   },
   {
     "conformsToView": true,
+    "description": "A floating panel anchored below the screen's fixed top chrome, using a zero-alpha copy of that chrome to reserve its exact measured height.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/PanelChrome.kt",
+    "name": "HeaderAnchoredOverlay",
+    "scenarios": [
+      "android-counter-app-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "A pure layout scaffold: a zero-alpha anchor slot above a content slot, existing only to reserve the top chrome's measured height. It renders nothing of its own and has no isolation harness on Android to render its slots against.",
+      "kind": "scaffold"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "Structural container that anchors a floating panel below the screen's fixed top chrome: a hidden non-interactive header (and optional switcher) copy reserves exact-height space, the panel content is drawn beneath it, and a trailing spacer pushes everything to the top. No branching or data of its own; its visual output is entirely its children, exercised through ContentView's four overlay application scenarios.",
     "filePath": "ios/Sources/AppCore/Views/HeaderAnchoredOverlay.swift",
     "name": "HeaderAnchoredOverlay",
@@ -308,12 +658,38 @@
   },
   {
     "conformsToView": true,
+    "description": "Top app-chrome row: the brand name and the sliders button that opens the system-wide App Settings panel.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/HeaderBar.kt",
+    "name": "HeaderBar",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "Top app-chrome row showing the brand name and the NN / 04 COUNTERS position label.",
     "filePath": "ios/Sources/AppCore/Views/HeaderBar.swift",
     "name": "HeaderBar",
     "scenarios": [
       "headerbar-default"
     ]
+  },
+  {
+    "conformsToView": true,
+    "description": "The full-width top face of the increment button, with the plus sign centered in a quarter-width column that flips with handedness.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt",
+    "name": "IncrementBar",
+    "scenarios": [
+      "android-counter-active-count"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-active-count` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
   },
   {
     "conformsToView": true,
@@ -349,6 +725,32 @@
   },
   {
     "conformsToView": true,
+    "description": "The App Settings variant of the chip row, with no follow-the-default choice because these rows are themselves the defaults.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "OptionPicker",
+    "scenarios": [
+      "android-counter-app-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "Iterates the option list and derives each chip's selected styling, so it has genuine render logic, but the Android target has no isolated-component route to render a composable in isolation. Its selected/unselected states are shown by the app-settings application scenario.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
+    "description": "A default-or-value chip row for the per-counter panel: a leading DEFAULT chip meaning follow the app-wide setting, then one chip per concrete option.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "OverridePicker",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-counter-settings-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "Reusable default-or-value chooser for the per-counter settings panel: a leading DEFAULT chip meaning follow the app-wide setting, then one chip per concrete option, with the selected chip filled in the accent so a static capture shows the current choice. Generic over any Hashable option; the chip row scrolls horizontally for the wider SOUND and HAPTIC lists. Backs the panel's HANDEDNESS, SOUND, and HAPTIC override rows.",
     "filePath": "ios/Sources/AppCore/Views/OverridePicker.swift",
     "name": "OverridePicker",
@@ -358,11 +760,55 @@
     ]
   },
   {
+    "conformsToView": true,
+    "description": "The pinned title plus DONE action row shared by all three panels.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/PanelChrome.kt",
+    "name": "PanelHeader",
+    "scenarios": [
+      "android-counter-app-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "A Row of two fixed Texts with a click handler on the second — no conditional rendering, iteration, or derived state.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "description": "A point in chart plot space. A plain holder so the geometry carries no Compose type.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphGeometry.kt",
+    "name": "PlotPoint",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt"
+  },
+  {
+    "description": "The chart's plot area inside the gutters that hold the axis labels and titles.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphGeometry.kt",
+    "name": "PlotRect",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt"
+  },
+  {
+    "description": "The result of mapping a cumulative series into a plot rect: the plotted points, the zero-line y, and the data-derived count/time domain the axes label against.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/GraphGeometry.kt",
+    "name": "PlotResult",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt"
+  },
+  {
     "conformsToView": false,
     "description": "Build-configuration-aware decision for whether the app trusts UserDefaults state present at launch. Debug builds use .trustInjected so codeyam scenario seed data is adopted; distribution builds use .requireProvenance and honor store state only once the apps own provenance marker (counterStoreProvenance) is present. trustsStore reads that gate and stampProvenance writes the marker whenever the app itself persists, so stray injected or stale scenario keys are ignored in a Release build while a real users own data survives.",
     "filePath": "ios/Sources/AppCore/SeedPolicy.swift",
     "name": "SeedPolicy",
     "testFile": "ios/Tests/AppCoreTests/ModelTests.swift"
+  },
+  {
+    "conformsToView": true,
+    "description": "A labeled section in a settings panel: a small mono caption above its content.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "SettingsField",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "A FieldCaption above a content slot in a Column — no conditionals, no iteration, no state of its own.",
+      "kind": "trivial-wrapper"
+    }
   },
   {
     "description": "A labeled section in the settings panel: a small mono caption above its forwarded content, used by the name field and color picker for consistent headings.",
@@ -382,6 +828,32 @@
   },
   {
     "conformsToView": true,
+    "description": "The shared panel chrome: pinned title and DONE row above a body that scrolls only once it outgrows the available height. The cap sits on the scroll, not the card, so a short panel hugs its content.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/PanelChrome.kt",
+    "name": "SettingsPanelCard",
+    "scenarios": [
+      "android-counter-app-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "Carries real layout logic (the available-height-derived scroll cap) that only manifests when rendered, but the Android target has no isolated-component route to drive a composable against — component scenarios exist only for the iOS target. Covered indirectly by the three panel application scenarios.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
+    "description": "A labeled on/off row with the switch pinned right, used for ALLOW NEGATIVE.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+    "name": "SettingsToggleRow",
+    "scenarios": [
+      "android-counter-counter-settings-open"
+    ],
+    "untestabilityReason": {
+      "justification": "The Android target has no isolated-component harness: Paparazzi is not configured and `isolate` scaffolds previews into a foreign package, so no component scenario can render this composable standalone. Its states are shown by the `android-counter-counter-settings-open` application scenario. Remove this reason once an Android isolation harness exists and a componentName-matched scenario is captured.",
+      "kind": "no-isolation-harness"
+    }
+  },
+  {
+    "conformsToView": true,
     "description": "A labeled on/off row in a settings panel: a monospaced label on the left, the switch pinned right. Used for ALLOW NEGATIVE. Its trailing inset is load-bearing rather than decorative — iOS draws the switch knob slightly past the control's layout bounds, so a switch sitting flush against the enclosing scroll region's edge gets its knob sliced by the scroll's clip; the inset keeps it clear of that boundary.",
     "filePath": "ios/Sources/AppCore/Views/SettingsToggleRow.swift",
     "name": "SettingsToggleRow",
@@ -396,5 +868,32 @@
     "filePath": "ios/Sources/AppCore/Feedback.swift",
     "name": "SystemCounterFeedback",
     "testFile": "ios/Tests/AppCoreTests/FeedbackTests.swift"
+  },
+  {
+    "description": "Maps an already-formatted numeral to the hero's font size, stepping down as the string grows. Stands in for iOS's minimumScaleFactor, which Compose has no equivalent for.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CountHero.kt",
+    "name": "autoSizedFontSize",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt"
+  },
+  {
+    "description": "Resolves a counter colorKey to its Compose dot color via the shared CounterTheme hex mapping.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/Theme.kt",
+    "name": "dotColor",
+    "untestabilityReason": {
+      "justification": "A one-line adapter over CounterTheme.dotHex, whose key-to-hex mapping (including the unknown-key fallback) is already covered by CounterThemeTest.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "description": "Renders a count with locale digit grouping, matching SwiftUI's LocalizedStringKey interpolation so Android and iOS agree on four-digit-and-up values.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CountFormat.kt",
+    "name": "formatCount",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt"
+  },
+  {
+    "description": "Renders a signed event delta for the graph's event list, grouped the same way as formatCount.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CountFormat.kt",
+    "name": "formatDelta",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt"
   }
 ]

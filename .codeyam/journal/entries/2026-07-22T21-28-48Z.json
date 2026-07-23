@@ -1,0 +1,743 @@
+{
+  "timestamp": "2026-07-22T21:28:48Z",
+  "title": "Build Android Counter UI in Compose",
+  "type": "feature",
+  "userRequest": "## Summary\n\nBuild the Android counter UI in Jetpack Compose on top of the already-ported\nKotlin domain logic, matching the iOS app's screens and interactions: the\ncount hero, increment bar, multi-counter list/switcher, per-counter and app\nsettings panels, color picker, and the history graph. Then capture the Android\nscenarios that mirror the iOS scenario gallery, so the same app states are\nvisible on both platforms in codeyam-editor.\n\n## Key Decisions\n\n- **Match the iOS view inventory screen-for-screen.** The iOS UI in\n  `ios/Sources/AppCore/Views/` decomposes into ~25 small views. Rebuild the\n  equivalent set as Compose composables so the two apps present the same states\n  — this is what makes the scenario galleries comparable.\n- **Composables bind to the ported `CounterModel`.** The UI is a thin,\n  declarative layer over the Kotlin model from the previous plan; no new domain\n  logic is introduced in this plan. Feedback (haptics/sound) routes through the\n  Kotlin `CounterFeedback` interface.\n- **Capture scenarios via the Android emulator.** Reuse the same simulator\n  capture path the iOS app uses (`start-simulator kotlin-android-compose`),\n  seeding each scenario's `deviceState` so the emulator renders the intended\n  state — verified distinct by `seeded-capture-check`.\n- **Mirror the existing scenario slugs.** Reproduce the iOS gallery states\n  (active count, all-counters list, blank slot selected/incremented, app\n  settings open, sound+haptic on, all-but-one-deleted) so reviewers can diff the\n  platforms state-by-state.\n\n## Implementation\n\n### 1. Build the core counter screen in Compose\n\n**New files** (under `android/app/src/main/java/<pkg>/ui/`):\n\n- `CounterScreen.kt` — top-level screen ≈ `ContentView.swift`.\n- `CountHero.kt`, `IncrementBar.kt`, `IncrementFaceButton.kt` — the tap-to-count\n  hero + increment controls (≈ `CountHero`, `IncrementBar`,\n  `IncrementFaceButtonStyle`).\n- `CounterDot.kt`, `AddCounterDot.kt`, `CounterSwitcherCard.kt`,\n  `CounterListPanel.kt` — the multi-counter switcher/list.\n\n### 2. Build settings and customization UI\n\n**New files**:\n\n- `AppSettingsPanel.kt`, `CounterSettingsPanel.kt`, `SettingsField.kt`,\n  `SettingsToggleRow.kt`, `CounterStepStepper.kt` — settings panels\n  (≈ the matching Swift views).\n- `CounterColorPicker.kt`, `GearButton.kt`, `DeleteCounterButton.kt` —\n  customization controls.\n- Overlay/anchoring behavior equivalent to `HeaderAnchoredOverlay` /\n  `SettingsOverlays`.\n\n### 3. Build the history graph\n\n**New files**:\n\n- `GraphPage.kt`, `CounterGraphChart.kt`, `GraphHeader.kt`,\n  `GraphCloseButton.kt` — the cumulative-history chart\n  (≈ `CounterGraphView` / `CounterGraphChart`), driven by the ported\n  `CumulativePoint` data.\n\n### 4. Capture the Android scenario set\n\n**Command**: `codeyam-editor editor start-simulator kotlin-android-compose`, then\ncapture each state through the App-Scenarios flow with a seeded `deviceState`:\n\n- `counter-active-count`\n- `counter-all-counters-list`\n- `counter-all-counters-list-with-blank-slot`\n- `counter-added-blank-slot-selected`\n- `counter-blank-slot-incremented`\n- `counter-app-settings-open`\n- `counter-app-settings-sound-and-haptic-on`\n- `counter-all-but-one-deleted`\n\nRun `codeyam-editor editor seeded-capture-check` afterward to confirm distinct\nseeds produced distinct screenshots (guards against screenshotting ambient\nemulator state).\n\n### 5. Register UI entities\n\n**Commands**: `reconcile-glossary --auto-apply` + `glossary-update` for the new\ncomposables; add interaction/scenario tests where the Compose UI has testable\nbehavior (e.g. increment updates the displayed count).\n\n## Reused existing code\n\n- `ios/Sources/AppCore/Views/*` — the screen-for-screen reference for the\n  Compose inventory (`CountHero`, `IncrementBar`, `CounterListPanel`,\n  `AppSettingsPanel`, `CounterSettingsPanel`, `CounterColorPicker`,\n  `CounterGraphChart`, `CounterSwitcherCard`, `AddCounterDot`, …).\n- The Kotlin `CounterModel` / `CounterHistory` / `CounterTheme` /\n  `CounterFeedback` from the logic-port plan — the UI binds to these, adding no\n  new domain logic.\n- `.codeyam/scenarios/` iOS scenario definitions — the slug list and intended\n  states the Android captures mirror.\n- `codeyam-editor editor start-simulator kotlin-android-compose` /\n  `seeded-capture-check` — the emulator capture + verification path.\n- **Mechanism-feasibility (per-scenario state):** per-scenario state is\n  delivered through each scenario's seeded `deviceState` on the emulator (the\n  MockEngine/seed path), read on scenario activation — not via a launch-time env\n  var. This matches how the iOS app already seeds native scenarios.\n\n## Scenarios to Demonstrate\n\n- `counter-active-count` on Android visually matches the iOS capture.\n- `counter-app-settings-open` and `counter-app-settings-sound-and-haptic-on`\n  render the settings panel and toggle states.\n- `counter-all-counters-list` / `…-with-blank-slot` show the multi-counter\n  switcher, including the add-blank affordance.\n- `counter-all-but-one-deleted` shows the single-counter edge state.\n- Tapping the hero increments the displayed count (interaction), driven by the\n  ported model.",
+  "description": "Built the Android counter UI in Jetpack Compose on top of the already-ported Kotlin domain logic, giving each of the ~29 iOS views a named composable so both platforms present the same states: the count hero and L-shaped increment surface, the multi-counter switcher, the per-counter and app settings panels, the all-counters list, and the canvas-drawn history graph. The UI is a thin declarative layer over CounterModel and AppSettings — a CounterScreenState holder bridges the in-place-mutating model to recomposition, and no new domain logic was added. Twelve Android application scenarios now mirror the iOS gallery slug-for-slug, each captured from the emulator and individually verified.\n\nThree fidelity bugs surfaced only by comparing against the iOS captures: the chart's gutters were raw pixels where iOS's are points (collapsing the plot and colliding the tick labels at 2.75x density); counts were not digit-grouped, because SwiftUI's Text(\"\\(n)\") locale-formats through LocalizedStringKey while Kotlin string templates do not, so a literal port silently disagreed on every four-digit value; and the all-counters list hugged its content instead of taking iOS's fixed 320pt, letting the App Settings panel show through underneath.\n\nFour problems were fixed outside the plan's scope. HEAD did not compile — MainActivity still referenced the ui.MainViewModel that the logic-port commit deleted. The entire Compose package was gitignored by an unanchored `ui/` rule that matches a directory named `ui` at any depth, which is why the port commit landed only the model. The android-tests runner emitted nothing parseable (Gradle's test task goes UP-TO-DATE and writes no XML, and the reader wants one file where Gradle writes one per class), so 156 passing Kotlin tests were invisible to the audit until `--rerun-tasks` plus a merge script were added. And the 26 Android visual components were passing the coverage audit only because they share a name with an iOS view that has a real component scenario — a false green now recorded honestly as `no-isolation-harness`, since Android has no isolated-component harness (Paparazzi is not configured and `isolate` scaffolds into a foreign package).\n\nKnown gaps: sound and haptics are gated and unit-tested but not wired to the Android Vibrator/audio APIs — SystemCounterFeedback is constructed with its default no-op emitters. The screenshot capture path is also unreliable on this stack: `register` has a fixed ~2s settle with no settleMs flag, so a force-stopped cold launch can write a blank white frame and still report success, and neither seeded-capture-check nor distinct-capture-check catches that (they prove frames are distinct, never correct). All twelve captures here were pixel-verified by hand.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/editor.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/build-android-counter-ui-in-compose.md\t.codeyam/plans/completed/build-android-counter-ui-in-compose.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/android-shell-starter-screen.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/addcounterdot-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-shell-starter-screen--phone-portrait.png",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-shell-starter-screen--phone-portrait.png.hash",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-both-haptics-off--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-custom-distinct-pairing--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/appsettingspanel-sound-and-haptic-on--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-increment-pressed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/bottomcontrolrow-undo-pending--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/boundedscroll-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/boundedscroll-overflowing--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/controlbutton-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-fifth-counter-before-delete--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-graph-open-left-handed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counter-left-handed-layout--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-increment-pressed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-left-handed-pressed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countercolorpicker-lime--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterdot-blank-incremented--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterdot-ghost--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphchart-mixed-run--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphview-empty-history--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countergraphview-paging-histories--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterlistpanel-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/countersettingspanel-overrides-pinned--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterstepstepper-step-one--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterswitchercard-blank-slots--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterswitchercard-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counthero-large--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/deletecounterbutton-armed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/feedbackdisclosuretoggle-collapsed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/session-narrative.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/swift-tests.xml",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".gitignore",
+      "status": "modified"
+    },
+    {
+      "path": "README.md",
+      "status": "modified"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/MainActivity.kt",
+      "status": "modified"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/MainViewModelTest.kt",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/android-tests.xml",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-active-count.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-added-blank-slot-selected.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-all-but-one-deleted.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-all-counters-list-with-blank-slot.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-all-counters-list.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-app-settings-open.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-app-settings-sound-and-haptic-on.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-blank-slot-incremented.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-counter-settings-open.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-fresh-install-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-graph-open.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/android-counter-left-handed-layout.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/.capture-pipeline.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-active-count--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-active-count--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-added-blank-slot-selected--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-added-blank-slot-selected--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-but-one-deleted--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-but-one-deleted--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-counters-list--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-counters-list--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-counters-list-with-blank-slot--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-counters-list-with-blank-slot--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-app-settings-open--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-app-settings-open--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-app-settings-sound-and-haptic-on--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-app-settings-sound-and-haptic-on--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-blank-slot-incremented--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-blank-slot-incremented--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-counter-settings-open--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-counter-settings-open--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-fresh-install-default--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-fresh-install-default--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-graph-open--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-graph-open--phone-portrait.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-left-handed-layout--phone-portrait.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/merge-drivers-version",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/AppSettingsPanel.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/ControlButton.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CountFormat.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CountHero.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterDot.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterGraphChart.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterIcons.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterListPanel.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterScreenState.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterSettingsPanel.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterSwitcherCard.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/GraphGeometry.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/GraphPage.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/HeaderBar.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/PanelChrome.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/Theme.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "status": "added"
+    },
+    {
+      "path": "android/scripts/merge-test-results.py",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "AddCounterDot - Default"
+    },
+    {
+      "name": "Android Counter - Active count"
+    },
+    {
+      "name": "Android Counter - Added blank slot selected"
+    },
+    {
+      "name": "Android Counter - All but one deleted"
+    },
+    {
+      "name": "Android Counter - All counters list with blank slot"
+    },
+    {
+      "name": "Android Counter - All counters list"
+    },
+    {
+      "name": "Android Counter - App Settings open"
+    },
+    {
+      "name": "Android Counter - App Settings sound and haptic on"
+    },
+    {
+      "name": "Android Counter - Blank slot incremented"
+    },
+    {
+      "name": "Android Counter - Counter settings open"
+    },
+    {
+      "name": "Android Counter - Fresh install default"
+    },
+    {
+      "name": "Android Counter - Graph open"
+    },
+    {
+      "name": "Android Counter - Left-handed layout"
+    },
+    {
+      "name": "AppSettingsPanel - Both haptics off"
+    },
+    {
+      "name": "AppSettingsPanel - Custom distinct pairing"
+    },
+    {
+      "name": "AppSettingsPanel - Default"
+    },
+    {
+      "name": "AppSettingsPanel - Sound and haptic on"
+    },
+    {
+      "name": "BottomControlRow - Default"
+    },
+    {
+      "name": "BottomControlRow - Increment pressed"
+    },
+    {
+      "name": "BottomControlRow - Undo Pending"
+    },
+    {
+      "name": "BoundedScroll - Default"
+    },
+    {
+      "name": "BoundedScroll - Overflowing"
+    },
+    {
+      "name": "ControlButton - Default"
+    },
+    {
+      "name": "Counter - Active count"
+    },
+    {
+      "name": "Counter - Added blank slot selected"
+    },
+    {
+      "name": "Counter - All but one deleted"
+    },
+    {
+      "name": "Counter - All counters list with blank slot"
+    },
+    {
+      "name": "Counter - All counters list"
+    },
+    {
+      "name": "Counter - App Settings open"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on"
+    },
+    {
+      "name": "Counter - Blank slot incremented"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot"
+    },
+    {
+      "name": "Counter - Fifth counter before delete"
+    },
+    {
+      "name": "Counter - Fifth counter deleted"
+    },
+    {
+      "name": "Counter - Fresh install default"
+    },
+    {
+      "name": "Counter - Fresh start"
+    },
+    {
+      "name": "Counter - Graph open empty history"
+    },
+    {
+      "name": "Counter - Graph open left-handed"
+    },
+    {
+      "name": "Counter - Graph open"
+    },
+    {
+      "name": "Counter - Large value"
+    },
+    {
+      "name": "Counter - Left-handed layout"
+    },
+    {
+      "name": "Counter - Left override active counter"
+    },
+    {
+      "name": "Counter - Long name"
+    },
+    {
+      "name": "Counter - Negative value"
+    },
+    {
+      "name": "Counter - Settings count by 5"
+    },
+    {
+      "name": "Counter - Settings expanded with overrides"
+    },
+    {
+      "name": "Counter - Settings open over number"
+    },
+    {
+      "name": "Counter - Twenty counters"
+    },
+    {
+      "name": "Counter - Undo reset available"
+    },
+    {
+      "name": "CounterBottomBar - Default"
+    },
+    {
+      "name": "CounterBottomBar - Increment pressed"
+    },
+    {
+      "name": "CounterBottomBar - Left-handed pressed"
+    },
+    {
+      "name": "CounterColorPicker - Coffee"
+    },
+    {
+      "name": "CounterColorPicker - Lime"
+    },
+    {
+      "name": "CounterDot - Active"
+    },
+    {
+      "name": "CounterDot - Blank incremented"
+    },
+    {
+      "name": "CounterDot - Ghost"
+    },
+    {
+      "name": "CounterGraphChart - Mixed run"
+    },
+    {
+      "name": "CounterGraphChart - Negative range"
+    },
+    {
+      "name": "CounterGraphView - Empty history"
+    },
+    {
+      "name": "CounterGraphView - Paging histories"
+    },
+    {
+      "name": "CounterGraphView - Rich history"
+    },
+    {
+      "name": "CounterListPanel - Default"
+    },
+    {
+      "name": "CounterListPanel - With blank slot"
+    },
+    {
+      "name": "CounterSettingsPanel - Default"
+    },
+    {
+      "name": "CounterSettingsPanel - Overrides pinned"
+    },
+    {
+      "name": "CounterStepStepper - Step Five"
+    },
+    {
+      "name": "CounterStepStepper - Step One"
+    },
+    {
+      "name": "CounterSwitcherCard - Blank slots"
+    },
+    {
+      "name": "CounterSwitcherCard - Default"
+    },
+    {
+      "name": "CountHero - Default"
+    },
+    {
+      "name": "CountHero - Large"
+    },
+    {
+      "name": "DeleteCounterButton - Armed"
+    },
+    {
+      "name": "DeleteCounterButton - Default"
+    },
+    {
+      "name": "FeedbackDisclosureToggle - Collapsed"
+    },
+    {
+      "name": "FeedbackDisclosureToggle - Expanded"
+    },
+    {
+      "name": "GearButton - Default"
+    },
+    {
+      "name": "GraphCloseButton - Default"
+    },
+    {
+      "name": "GraphEventList - Default"
+    },
+    {
+      "name": "GraphHeader - Blank name"
+    },
+    {
+      "name": "GraphHeader - Default"
+    },
+    {
+      "name": "GraphHistorySelector - Current run"
+    },
+    {
+      "name": "GraphHistorySelector - Older run"
+    },
+    {
+      "name": "GraphPage - Empty history"
+    },
+    {
+      "name": "GraphPage - Rich history"
+    },
+    {
+      "name": "HeaderBar - Default"
+    },
+    {
+      "name": "IncrementBar - Default"
+    },
+    {
+      "name": "IncrementBar - Pressed"
+    },
+    {
+      "name": "OverridePicker - Default"
+    },
+    {
+      "name": "OverridePicker - Pinned"
+    },
+    {
+      "name": "SettingsToggleRow - Off"
+    },
+    {
+      "name": "SettingsToggleRow - On"
+    }
+  ],
+  "testResults": {
+    "total": 121,
+    "passed": 121,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 121,
+        "passed": 121
+      }
+    ]
+  }
+}

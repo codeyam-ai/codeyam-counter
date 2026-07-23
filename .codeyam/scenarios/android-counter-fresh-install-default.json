@@ -1,0 +1,20 @@
+{
+  "name": "Android Counter - Fresh install default",
+  "id": "533f0446-b58e-44cc-88c6-360c47e2d13d",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "leftHanded": false,
+      "deletedDefaultIds": "[]",
+      "selectedCounterId": 1,
+      "settingsOpen": false,
+      "counters": "[]"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

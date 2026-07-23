@@ -75,37 +75,37 @@ see [android/MOBILE_SETUP.md](android/MOBILE_SETUP.md) in the meantime.
 
 States captured as runnable scenarios with codeyam-editor:
 
-### Android Shell - Starter screen
+### Android Counter - Active count
 
-<img src=".codeyam/scenarios/screenshots/android-shell-starter-screen--phone-portrait.png" alt="Android Shell - Starter screen" width="280">
+<img src=".codeyam/scenarios/screenshots/android-counter-active-count--phone-portrait.png" alt="Android Counter - Active count" width="280">
 
-### Counter - Active count
+### Android Counter - Added blank slot selected
 
-<img src=".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png" alt="Counter - Active count" width="280">
+<img src=".codeyam/scenarios/screenshots/android-counter-added-blank-slot-selected--phone-portrait.png" alt="Android Counter - Added blank slot selected" width="280">
 
-### Counter - Added blank slot selected
+### Android Counter - All but one deleted
 
-<img src=".codeyam/scenarios/screenshots/counter-added-blank-slot-selected--iphone-16.png" alt="Counter - Added blank slot selected" width="280">
+<img src=".codeyam/scenarios/screenshots/android-counter-all-but-one-deleted--phone-portrait.png" alt="Android Counter - All but one deleted" width="280">
 
-### Counter - All but one deleted
+### Android Counter - All counters list
 
-<img src=".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png" alt="Counter - All but one deleted" width="280">
+<img src=".codeyam/scenarios/screenshots/android-counter-all-counters-list--phone-portrait.png" alt="Android Counter - All counters list" width="280">
 
-### Counter - All counters list
+### Android Counter - All counters list with blank slot
 
-<img src=".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png" alt="Counter - All counters list" width="280">
+<img src=".codeyam/scenarios/screenshots/android-counter-all-counters-list-with-blank-slot--phone-portrait.png" alt="Android Counter - All counters list with blank slot" width="280">
 
-### Counter - All counters list with blank slot
+### Android Counter - App Settings open
 
-<img src=".codeyam/scenarios/screenshots/counter-all-counters-list-with-blank-slot--iphone-16.png" alt="Counter - All counters list with blank slot" width="280">
+<img src=".codeyam/scenarios/screenshots/android-counter-app-settings-open--phone-portrait.png" alt="Android Counter - App Settings open" width="280">
 
-### Counter - App Settings open
+### Android Counter - App Settings sound and haptic on
 
-<img src=".codeyam/scenarios/screenshots/counter-app-settings-open--iphone-16.png" alt="Counter - App Settings open" width="280">
+<img src=".codeyam/scenarios/screenshots/android-counter-app-settings-sound-and-haptic-on--phone-portrait.png" alt="Android Counter - App Settings sound and haptic on" width="280">
 
-### Counter - App Settings sound and haptic on
+### Android Counter - Blank slot incremented
 
-<img src=".codeyam/scenarios/screenshots/counter-app-settings-sound-and-haptic-on--iphone-16.png" alt="Counter - App Settings sound and haptic on" width="280">
+<img src=".codeyam/scenarios/screenshots/android-counter-blank-slot-incremented--phone-portrait.png" alt="Android Counter - Blank slot incremented" width="280">
 <!-- codeyam:scenario-gallery:end -->
 
 ## Contributing
