@@ -30,10 +30,15 @@ unillustrated.
 
 ## Prerequisites
 
-- macOS with a recent Xcode (Swift 6 toolchain)
-- An iOS 15+ simulator or device
+The counter ships for two platforms; you only need the toolchain for the one
+you're changing.
 
-## Building and testing by hand
+- **iOS** — macOS with a recent Xcode (Swift 6 toolchain) and an iOS 15+
+  simulator or device.
+- **Android** — JDK 17 plus the Android SDK (compile SDK 34), and an emulator
+  image for the preview. See [ANDROID_SETUP.md](ANDROID_SETUP.md).
+
+## Building and testing by hand — iOS
 
 If you're working without the editor, the standard SwiftPM workflow is fully
 supported. The app target lives in `ios/App/` (Xcode project
@@ -59,12 +64,30 @@ scenarios:
 codeyam-editor editor reconcile-registry --auto-apply
 ```
 
+## Building and testing by hand — Android
+
+The Android port lives under `android/` (Kotlin + Jetpack Compose on Gradle).
+See [ANDROID_SETUP.md](ANDROID_SETUP.md) for the SDK/emulator prerequisites; the
+build and test commands are:
+
+```bash
+android/gradlew -p android compileDebugKotlin
+android/gradlew -p android testDebugUnitTest
+```
+
+CI runs these same two commands on Ubuntu with JDK 17. Put JVM unit tests under
+`android/app/src/test/` and register them with the editor
+(`codeyam-editor editor reconcile-registry --auto-apply`) so they stay tracked
+alongside the scenarios, exactly as on the iOS side.
+
 ## Pull requests
 
 1. Fork and create a topic branch off `main`.
 2. Make your change — ideally in codeyam-editor, so its scenarios and tests are
    captured and registered as you go.
-3. Ensure `swift build --package-path ios` and the test command above both pass.
+3. Ensure the build and tests pass for the platform(s) you touched — the iOS
+   `swift build`/`swift test` commands and/or the Android
+   `compileDebugKotlin`/`testDebugUnitTest` commands above. CI runs both.
 4. Open a PR describing what changed and why, and fill in the PR template.
 
 ## Code of conduct

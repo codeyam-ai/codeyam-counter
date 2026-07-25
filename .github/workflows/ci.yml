@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Build & test
+    name: iOS · Build & test
     # macos-15 ships Xcode 16 / Swift 6, which is required for the
     # `--disable-swift-testing` flag used below (absent on older toolchains).
     runs-on: macos-15
@@ -22,3 +22,30 @@ jobs:
 
       - name: Test
         run: swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
+
+  android:
+    name: Android · Build & test
+    # Runs independently of the iOS job so a break in one platform is legible on
+    # its own. Ubuntu + JDK 17 + Android SDK is all the Kotlin/Compose app needs;
+    # no emulator is booted — this is compile + JVM unit tests only.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        # Gradle 8.4 + Android Gradle Plugin require JDK 17.
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        # Installs the SDK and accepts licenses, exposing ANDROID_SDK_ROOT so
+        # Gradle resolves it without the gitignored android/local.properties.
+        uses: android-actions/setup-android@v3
+
+      - name: Build
+        run: android/gradlew -p android compileDebugKotlin
+
+      - name: Test
+        run: android/gradlew -p android testDebugUnitTest

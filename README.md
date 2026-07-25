@@ -35,40 +35,46 @@ codeyam-editor editor
 
 ## Build and run locally
 
-CodeYam Counter is currently a native iOS app, built with SwiftUI on a shared
-`AppCore` SwiftPM library. Building it requires macOS with a recent Xcode
-(Swift 6 toolchain) and an iOS 15+ simulator or device.
+CodeYam Counter ships for **iOS** and **Android**, both driven by the same
+scenarios. Build the platform you're working on — you only need that platform's
+toolchain.
 
 ```bash
 # Clone the repo
 git clone https://github.com/codeyam-ai/codeyam-counter && cd codeyam-counter
+```
 
+### iOS
+
+Built with SwiftUI on a shared `AppCore` SwiftPM library. Requires macOS with a
+recent Xcode (Swift 6 toolchain) and an iOS 15+ simulator or device.
+
+```bash
 # Build the shared AppCore library and run the tests
 swift build --package-path ios
 swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml
 ```
 
 Open `ios/App.xcodeproj` in Xcode and run the **App** scheme on an iOS simulator or
-device. See [MOBILE_SETUP.md](MOBILE_SETUP.md) for simulator prerequisites and
-[CONTRIBUTING.md](CONTRIBUTING.md) for the full build/test workflow.
+device. See [MOBILE_SETUP.md](MOBILE_SETUP.md) for simulator prerequisites.
 
-### Android (work in progress)
+### Android
 
-A native Android port lives in [`android/`](android/) — Kotlin + Jetpack Compose
-on Gradle. It is currently an empty, runnable shell; the counter logic and UI are
-being ported in follow-up work. Build and preview it from the emulator:
+A native Kotlin + Jetpack Compose port lives in [`android/`](android/). Requires
+JDK 17 and the Android SDK (compile SDK 34).
 
 ```bash
-# Compile and run the Android unit tests
+# Compile the sources and run the JVM unit tests
 android/gradlew -p android compileDebugKotlin
-android/gradlew -p android test
+android/gradlew -p android testDebugUnitTest
 
 # Boot the Android emulator preview
 codeyam-editor editor start-simulator kotlin-android-compose
 ```
 
-Full Android setup docs (SDK/emulator prerequisites) land alongside the CI work;
-see [android/MOBILE_SETUP.md](android/MOBILE_SETUP.md) in the meantime.
+See [ANDROID_SETUP.md](ANDROID_SETUP.md) for SDK/emulator prerequisites. Both
+platforms are covered by [CONTRIBUTING.md](CONTRIBUTING.md) and run in CI on
+every push and pull request.
 
 <!-- codeyam:scenario-gallery:start -->
 ## Scenario gallery
