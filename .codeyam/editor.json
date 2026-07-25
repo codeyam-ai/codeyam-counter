@@ -215,6 +215,16 @@
         "filePath": "android/scripts/merge-test-results.py",
         "name": "main",
         "reason": "test-fixture"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_mark_tool_loading_injected",
+        "reason": "derive-generated"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_tool_loading_already_injected",
+        "reason": "derive-generated"
       }
     ],
     "stepBudget": {
@@ -274,7 +284,8 @@
       "serverHeartbeatIntervalSec": 60,
       "machineAliveHookTimeoutMs": 5000,
       "maxHookPrunePerSweep": 10,
-      "maxProgressStallSec": 900
+      "maxProgressStallSec": 900,
+      "headAutoReclaimEnabled": true
     },
     "planClaims": {
       "enabled": true,

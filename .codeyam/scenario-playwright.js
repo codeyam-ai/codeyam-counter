@@ -1,5 +1,5 @@
 // codeyam-generated — DO NOT EDIT.
-// codeyam-editor: 0.1.7  source-sha256: e877aefd966e5bc5aa742b7082fef491be1b46bd8cc94e8ab48e35b2d519b547
+// codeyam-editor: 0.1.7  source-sha256: 48342371cbd9448e9b9d1914c27de8f1d32f3aa4561ef4136ea6f04600347faf
 const {
   hasLoadingMarkers,
   shouldStopWaitingForImages,
@@ -338,6 +338,110 @@ async function forceFinalVisualState(target) {
   });
 }
 
+// Center the isolated-component wrapper in the viewport before the shot.
+//
+// The capture pipeline always shoots the full viewport (`page.screenshot({
+// fullPage: false })`) and never an element clip, so an isolation page that
+// does not center its own component strands it in the top-left corner of every
+// frame. Next.js does this in its isolation layout and the query-param stacks
+// do it in `.codeyam/harness/isolate.tsx`, but the server-rendered scaffolds
+// historically did not — and neither do pages hand-authored before that was
+// fixed. This pass closes the gap at capture time, for any stack.
+//
+// It MEASURES rather than assumes: a wrapper that is already centered is left
+// alone, so pages that already do the right thing are byte-identical. The
+// `#codeyam-capture` marker (the cross-stack isolation convention; expo emits
+// it via `nativeID`) is the gate, so an ordinary route capture is never
+// touched. Centering is applied to `<body>` and to each ancestor strictly
+// between body and the wrapper — never to the wrapper itself, which frequently
+// carries the component's own padding/background and must keep its own box.
+// Each axis independently falls back to `flex-start` when the wrapper overflows
+// the viewport, so an oversized component loses its bottom/right edge rather
+// than being clipped symmetrically out of its top/left one.
+//
+// Idempotent (a single injected style id), best-effort, and returns a small
+// result object describing what it did.
+async function centerCaptureWrapper(target) {
+  return target.evaluate(() => {
+    const STYLE_ID = "__codeyam_center_capture";
+    const ANCESTOR_CLASS = "__codeyam-center-ancestor";
+    // Subpixel layout and fractional scrollbar widths make exact gap equality
+    // unreliable; a couple of px of slop keeps already-centered pages on the
+    // no-op branch.
+    const TOLERANCE_PX = 2;
+
+    if (typeof document.getElementById !== "function") {
+      return { applied: false, reason: "no-dom" };
+    }
+    if (document.getElementById(STYLE_ID)) {
+      return { applied: false, reason: "already-applied" };
+    }
+    const wrapper = document.getElementById("codeyam-capture");
+    if (!wrapper || typeof wrapper.getBoundingClientRect !== "function") {
+      return { applied: false, reason: "no-capture-marker" };
+    }
+
+    const rect = wrapper.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    const leftGap = rect.left;
+    const rightGap = viewportWidth - rect.right;
+    const topGap = rect.top;
+    const bottomGap = viewportHeight - rect.bottom;
+
+    const fitsHorizontally = rect.width <= viewportWidth;
+    const fitsVertically = rect.height <= viewportHeight;
+    const centeredHorizontally =
+      fitsHorizontally && Math.abs(leftGap - rightGap) <= TOLERANCE_PX;
+    const centeredVertically =
+      fitsVertically && Math.abs(topGap - bottomGap) <= TOLERANCE_PX;
+
+    if (centeredHorizontally && centeredVertically) {
+      return { applied: false, reason: "already-centered" };
+    }
+
+    const horizontal = fitsHorizontally ? "center" : "flex-start";
+    const vertical = fitsVertically ? "center" : "flex-start";
+
+    // Stamp the ancestor chain so the injected rule targets exactly the
+    // elements between <body> and the wrapper and cannot leak elsewhere.
+    let node = wrapper.parentElement;
+    while (node && node !== document.body) {
+      if (node.classList && typeof node.classList.add === "function") {
+        node.classList.add(ANCESTOR_CLASS);
+      }
+      node = node.parentElement;
+    }
+
+    if (typeof document.createElement !== "function") {
+      return { applied: false, reason: "no-dom" };
+    }
+    const style = document.createElement("style");
+    style.id = STYLE_ID;
+    style.textContent =
+      "body, ." +
+      ANCESTOR_CLASS +
+      " {" +
+      "margin: 0;" +
+      "min-height: 100vh;" +
+      "display: flex;" +
+      "align-items: " +
+      vertical +
+      ";" +
+      "justify-content: " +
+      horizontal +
+      ";" +
+      "}";
+    const head = document.head || document.documentElement;
+    if (!head || typeof head.appendChild !== "function") {
+      return { applied: false, reason: "no-dom" };
+    }
+    head.appendChild(style);
+    return { applied: true, horizontal, vertical };
+  });
+}
+
 async function collectImageStates(target) {
   return target.evaluate(() =>
     Array.from(document.images || []).map((img) => ({
@@ -577,9 +681,31 @@ async function loadScenarioInIframe(
     // and the nested scenario iframe inherits it (the Sveltia-class fix). The
     // inner iframe `src` is still `url`, so the document-response probe above is
     // unchanged.
-    await page.goto(buildHarnessUrl(resolvedHarnessOrigin, url, background), {
+    const harnessUrl = buildHarnessUrl(resolvedHarnessOrigin, url, background);
+    const harnessResponse = await page.goto(harnessUrl, {
       waitUntil: "domcontentloaded",
     });
+    // Fail loudly on a fail-closed harness-auth rejection BEFORE the blind 30s
+    // `#scenario-frame` wait below. On a non-loopback (0.0.0.0 / cloud) bind the
+    // harness control-API route is session-token-gated; a generated
+    // `.codeyam/capture.js` (or an editor binary) that predates the `cy_session`
+    // cookie injection navigates without a token -> the server refuses the
+    // request with 401 -> the harness document never renders -> every component
+    // scenario times out on `#scenario-frame` with a generic Playwright error
+    // that hides the real cause. Surfacing the 401 here turns that blind timeout
+    // into a one-line root cause on the very first failing capture, naming both
+    // fixes. (Route/page scenarios navigate top-level to the un-gated app proxy,
+    // so they never hit this path.)
+    if (harnessResponse && harnessResponse.status() === 401) {
+      throw new Error(
+        `Capture harness route ${harnessUrl} returned 401 (fail-closed ` +
+          `session-token auth on a non-loopback bind). The capture script did not ` +
+          `send the \`cy_session\` token — most often a generated ` +
+          `\`.codeyam/capture.js\` (or an editor binary) that predates session-token ` +
+          `injection. Fixes: refresh the editor binary on this VM, or set ` +
+          `\`CODEYAM_INSECURE_BIND=1\` and restart the editor.`,
+      );
+    }
   } else {
     // Degraded fallback: no resolvable harness origin (server-state missing), so
     // use the legacy in-page harness. The top-level document is then
@@ -679,6 +805,14 @@ async function loadScenarioTopLevel(
   }
 }
 
+// The CSS selector for "clickable / interactive" elements — buttons, links,
+// role=button, form controls, <summary>, and anything with an onclick. Shared
+// by the candidate-label collector (below) and the text-target resolver
+// (`resolveTextTarget`), which prefers an interactive element over a plain
+// text node when a click/press label matches both.
+const INTERACTIVE_SELECTOR =
+  "button, a[href], [role=button], input, select, textarea, summary, [onclick]";
+
 // Collect up to 20 distinct visible labels of interactive elements on the
 // page — buttons, links, role=button, form controls, <summary>, and anything
 // with an onclick. Used to build an ACTIONABLE error when an interaction's
@@ -687,9 +821,7 @@ async function loadScenarioTopLevel(
 // mean one of these?" hint. Pure read (no clicks); falls back to value /
 // aria-label / placeholder when an element has no text.
 async function collectInteractiveLabels(frame) {
-  return frame.evaluate(() => {
-    const selector =
-      "button, a[href], [role=button], input, select, textarea, summary, [onclick]";
+  return frame.evaluate((selector) => {
     const nodes = Array.from(document.querySelectorAll(selector));
     const labels = nodes
       .map((node) => {
@@ -703,7 +835,7 @@ async function collectInteractiveLabels(frame) {
       })
       .filter((label) => label.length > 0);
     return Array.from(new Set(labels)).slice(0, 20);
-  });
+  }, INTERACTIVE_SELECTOR);
 }
 
 // Describe the elements a substring text match resolved, so an ambiguity
@@ -749,14 +881,82 @@ async function describeMatchCandidates(baseLocator, matchCount) {
 // interactive labels — the capture script's outer catch turns that into a
 // failed capture with an actionable message, never a silent blank screenshot.
 //
-// Text matching is a case-insensitive SUBSTRING, so a label can match more than
-// one element. When it does, acting on `.first()` silently may hit the wrong
-// control (observed: a `"Bet"` click matched a disclosure button described "or
-// bet on" and toggled the panel shut). Rather than change the matching
-// semantics, push an actionable warning naming every candidate into the
-// optional `warnings` array so the agent can switch to an exact selector; a
-// zero-match likewise throws an error that spells out the substring caveat and
-// the exact-selector / URL-query-param alternatives.
+// Resolve a visible-text target to the element most likely intended, instead
+// of blindly taking the first substring hit. A bare
+// `getByText(text, { exact: false })` is a case-insensitive SUBSTRING match, so
+// a label can land on a plain text node or a placeholder rather than the chip /
+// button the agent meant (observed: a `"Japan"` click hit placeholder text, not
+// the chip; a `"Bet"` click hit a disclosure button described "or bet on"). We
+// try increasingly-loose locators in priority order and take the first that
+// matches anything:
+//   1. exact + interactive   (for click/press)
+//   2. exact
+//   3. substring + interactive   (for click/press)
+//   4. substring
+// so an exact, clickable element wins over a substring plain-text node. Returns
+// the winning tier's locator plus its match count; when nothing matches at all,
+// returns the substring locator (count 0) so the caller's zero-match error path
+// still fires with its candidate-label hint.
+async function resolveTextTarget(frame, text, action) {
+  const preferInteractive = action === "click" || action === "press";
+  const exactBase = frame.getByText(text, { exact: true });
+  const substrBase = frame.getByText(text, { exact: false });
+
+  const tiers = [];
+  // `.and()` (Playwright ≥1.34) intersects two locators to the elements
+  // matching both — here, the text element that is ALSO interactive. Guard on
+  // its presence so a locator without `.and` degrades to text-only tiers.
+  if (preferInteractive && typeof exactBase.and === "function") {
+    const interactive = frame.locator(INTERACTIVE_SELECTOR);
+    tiers.push(exactBase.and(interactive));
+    tiers.push(exactBase);
+    tiers.push(substrBase.and(interactive));
+    tiers.push(substrBase);
+  } else {
+    tiers.push(exactBase);
+    tiers.push(substrBase);
+  }
+
+  for (const loc of tiers) {
+    const count = await loc.count();
+    if (count > 0) {
+      return { baseLocator: loc, matchCount: count };
+    }
+  }
+  return { baseLocator: substrBase, matchCount: 0 };
+}
+
+// Pick the single element to act on from a resolved locator. When more than one
+// candidate remains within the winning tier, prefer a VISIBLE element over a
+// hidden one rather than acting on raw `.first()` (a hidden duplicate — an
+// off-screen menu clone, an aria-hidden mirror — is almost never the intended
+// target). Degrades to `.first()` when the locator API lacks a visible filter
+// or no candidate is visible.
+async function pickBestCandidate(baseLocator, matchCount) {
+  if (matchCount <= 1) {
+    return baseLocator.first();
+  }
+  try {
+    if (typeof baseLocator.filter === "function") {
+      const visible = baseLocator.filter({ visible: true });
+      if ((await visible.count()) > 0) {
+        return visible.first();
+      }
+    }
+  } catch (_) {
+    // Locator API without a `{ visible: true }` filter — fall through.
+  }
+  return baseLocator.first();
+}
+
+// Text matching prefers an EXACT, INTERACTIVE element over a looser substring /
+// plain-text hit (see `resolveTextTarget`), so the first attempt lands on the
+// chip or button the agent meant. When a genuine ambiguity survives that
+// resolution (>1 candidate in the winning tier), we still act — on the best
+// visible candidate — but push an actionable warning naming every candidate
+// into the optional `warnings` array so the agent can switch to an exact
+// selector; a zero-match throws an error that spells out the substring caveat
+// and the exact-selector / URL-query-param alternatives.
 async function performInteraction(
   frame,
   interaction,
@@ -767,12 +967,16 @@ async function performInteraction(
   let baseLocator;
   let targetDesc;
   let matchedByText = false;
+  let matchCount;
   if (typeof text === "string" && text.length > 0) {
-    baseLocator = frame.getByText(text, { exact: false });
+    const resolved = await resolveTextTarget(frame, text, action);
+    baseLocator = resolved.baseLocator;
+    matchCount = resolved.matchCount;
     targetDesc = `text "${text}"`;
     matchedByText = true;
   } else if (typeof selector === "string" && selector.length > 0) {
     baseLocator = frame.locator(selector);
+    matchCount = await baseLocator.count();
     targetDesc = `selector "${selector}"`;
   } else {
     throw new Error(
@@ -780,8 +984,6 @@ async function performInteraction(
     );
   }
 
-  const locator = baseLocator.first();
-  const matchCount = await baseLocator.count();
   if (matchCount === 0) {
     const candidates = await collectInteractiveLabels(frame);
     const candidateList =
@@ -797,14 +999,17 @@ async function performInteraction(
     );
   }
 
-  // Ambiguity warning: a substring text match that resolves >1 element acts on
-  // the first, which may not be the one intended. Name the competing elements
-  // instead of silently proceeding. Only fires for text matches — an explicit
-  // selector that matches many is the caller's deliberate choice.
+  const locator = await pickBestCandidate(baseLocator, matchCount);
+
+  // Ambiguity warning: a text target that still resolves >1 element within the
+  // winning tier acts on the best visible candidate, which may not be the one
+  // intended. Name the competing elements instead of silently proceeding. Only
+  // fires for text matches — an explicit selector that matches many is the
+  // caller's deliberate choice.
   if (matchedByText && matchCount > 1 && Array.isArray(warnings)) {
     warnings.push(
-      `preview-interact: ${targetDesc} matched ${matchCount} elements — acting on the first. ` +
-        `Text matching is substring-based, so this may not be the element you meant. ` +
+      `preview-interact: ${targetDesc} matched ${matchCount} elements — acting on the best visible candidate. ` +
+        `Text resolution prefers an exact, interactive match, but several remain, so this may not be the element you meant. ` +
         `Candidates: ${(await describeMatchCandidates(baseLocator, matchCount)).join(" | ")}. ` +
         `Use an exact/role/testid selector to disambiguate.`,
     );
@@ -925,6 +1130,7 @@ module.exports = {
   scrollThroughDocument,
   collectVisibleTextLength,
   forceFinalVisualState,
+  centerCaptureWrapper,
   collectImageStates,
   waitForImagesSettled,
   waitForAnimationsSettled,
