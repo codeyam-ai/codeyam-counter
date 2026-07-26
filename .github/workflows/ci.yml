@@ -49,3 +49,10 @@ jobs:
 
       - name: Test
         run: android/gradlew -p android testDebugUnitTest
+
+      - name: Verify component snapshots
+        # Paparazzi renders the Compose components off-device on the JVM, so the
+        # committed goldens under android/app/src/test/snapshots/ are comparable
+        # here without an emulator. Catches a change that breaks isolated
+        # rendering of a component.
+        run: android/gradlew -p android verifyPaparazziDebug

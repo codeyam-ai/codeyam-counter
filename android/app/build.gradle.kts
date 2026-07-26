@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // Off-device Compose rendering for codeyam component scenarios. Test-scope
+    // only — nothing it pulls in reaches the shipped APK.
+    alias(libs.plugins.paparazzi)
 }
 
 android {

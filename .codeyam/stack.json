@@ -28,7 +28,12 @@
   "id": "kotlin-android-compose",
   "name": "Kotlin + Jetpack Compose (Android)",
   "preview": {
-    "kind": "simulator-android"
+    "kind": "simulator-android",
+    "paparazzi": {
+      "module": "app",
+      "packageName": "com.codeyam.android",
+      "testDir": "android/app/src/test/java"
+    }
   },
   "screenSizes": {
     "Phone Landscape": {

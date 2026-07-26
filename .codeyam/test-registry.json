@@ -2247,6 +2247,24 @@
       "runner": "android-tests"
     },
     {
+      "description": "CountHero renders off-device via Paparazzi at the stepped-down 170sp size for a grouped four-digit count.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSnapshotTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountHeroSnapshotTest › countHeroRendersAGroupedFourDigitCount",
+      "line": 47,
+      "registeredAt": "2026-07-26T22:23:29.253441+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "CountHero renders off-device via Paparazzi at its base 280sp size for a two-digit count.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSnapshotTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountHeroSnapshotTest › countHeroRendersATwoDigitCount",
+      "line": 33,
+      "registeredAt": "2026-07-26T22:23:29.233341+00:00",
+      "runner": "android-tests"
+    },
+    {
       "description": "A Per Counter Handedness Override Beats The App Default.",
       "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
       "format": "junit-xml",
