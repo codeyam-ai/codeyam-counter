@@ -1,0 +1,20 @@
+{
+  "name": "Android Counter - Negative value",
+  "id": "fa18ac24-fcad-4c48-8345-a69be7c97ba2",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "deletedDefaultIds": "[]",
+      "leftHanded": false,
+      "selectedCounterId": 4,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 18, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 2, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 5500, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": -3, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
+      "settingsOpen": false
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

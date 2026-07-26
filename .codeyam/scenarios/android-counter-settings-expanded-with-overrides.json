@@ -1,0 +1,22 @@
+{
+  "name": "Android Counter - Settings expanded with overrides",
+  "id": "339b0043-1d1c-485c-995d-d3cb9b274c1d",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "appSettingsOpen": false,
+      "settingsOpen": true,
+      "counterListOpen": false,
+      "deletedDefaultIds": "[]",
+      "leftHanded": false,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0, \"handednessOverride\": true, \"soundOverride\": \"ding\", \"incrementHapticOverride\": \"sharp\", \"decrementHapticOverride\": \"soft\"}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "selectedCounterId": 1
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

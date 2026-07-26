@@ -1,0 +1,20 @@
+{
+  "name": "Android Counter - Left override active counter",
+  "id": "574fdcbb-7156-44cd-9507-6f0b9e7e679c",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 42, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0, \"handednessOverride\": true}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
+      "selectedCounterId": 1,
+      "deletedDefaultIds": "[]",
+      "settingsOpen": false,
+      "leftHanded": false
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

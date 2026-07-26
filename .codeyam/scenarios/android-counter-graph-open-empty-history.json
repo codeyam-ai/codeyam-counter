@@ -1,0 +1,24 @@
+{
+  "name": "Android Counter - Graph open empty history",
+  "id": "cf84f782-24b2-4e51-a7c9-bc351ab85be1",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counterHistories": "{\"1\": [{\"startedAt\": \"2026-07-04T09:41:00Z\", \"events\": []}]}",
+      "settingsOpen": false,
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 0, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "deletedDefaultIds": "[]",
+      "selectedCounterId": 1,
+      "counterListOpen": false,
+      "graphOpen": true,
+      "leftHanded": false,
+      "appSettingsOpen": false
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

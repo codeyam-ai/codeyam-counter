@@ -1,0 +1,24 @@
+{
+  "name": "Android Counter - Graph open left-handed",
+  "id": "637ed100-ec56-4a7f-a278-084b91bbcb38",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "counters": "[{\"id\": 1, \"name\": \"PUSH-UPS\", \"count\": 7, \"colorKey\": \"lime\", \"allowNegative\": true, \"step\": 1, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"step\": 1, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 8421, \"colorKey\": \"steps\", \"allowNegative\": true, \"step\": 1, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 2, \"colorKey\": \"bugs\", \"allowNegative\": true, \"step\": 1, \"order\": 3}]",
+      "settingsOpen": false,
+      "counterHistories": "{\"3\": [{\"startedAt\": \"2026-07-04T09:41:00Z\", \"events\": [{\"at\": \"2026-07-04T09:41:20Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:41:55Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:42:31Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:43:04Z\", \"delta\": -1}, {\"at\": \"2026-07-04T09:43:40Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:44:18Z\", \"delta\": 1}, {\"at\": \"2026-07-04T09:44:52Z\", \"delta\": 1}]}]}",
+      "graphOpen": true,
+      "appSettingsOpen": false,
+      "deletedDefaultIds": "[]",
+      "leftHanded": true,
+      "selectedCounterId": 3,
+      "counterListOpen": false
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}

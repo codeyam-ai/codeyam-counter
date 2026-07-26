@@ -1,0 +1,20 @@
+{
+  "name": "Android Counter - Long name",
+  "id": "beace0e9-681e-49cd-b35d-e6cca7eeb204",
+  "url": "/",
+  "dimensions": [
+    "Phone Portrait"
+  ],
+  "mocks": {},
+  "deviceState": {
+    "preferences": {
+      "selectedCounterId": 1,
+      "counters": "[{\"id\": 1, \"name\": \"MORNING MEDITATION MINUTES\", \"count\": 25, \"colorKey\": \"lime\", \"allowNegative\": true, \"order\": 0}, {\"id\": 2, \"name\": \"COFFEE\", \"count\": 3, \"colorKey\": \"coffee\", \"allowNegative\": true, \"order\": 1}, {\"id\": 3, \"name\": \"STEPS\", \"count\": 80, \"colorKey\": \"steps\", \"allowNegative\": true, \"order\": 2}, {\"id\": 4, \"name\": \"BUGS\", \"count\": 1, \"colorKey\": \"bugs\", \"allowNegative\": true, \"order\": 3}]",
+      "settingsOpen": false,
+      "leftHanded": false,
+      "deletedDefaultIds": "[]"
+    }
+  },
+  "scenarioType": "application",
+  "pageFilePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt"
+}
