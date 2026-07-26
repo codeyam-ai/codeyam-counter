@@ -2,6 +2,7 @@ package com.codeyam.android.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 /**
@@ -75,7 +78,17 @@ fun CounterScreen(state: CounterScreenState, modifier: Modifier = Modifier) {
             if (state.showGraph) {
                 Spacer(modifier = Modifier.weight(1f))
             } else {
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                // The whole flexible hero region is a secondary increment
+                // target: tapping anywhere in the numeral's space bumps the
+                // count, exactly like the + bar below. No press dim by design,
+                // so the shared IncrementFaceButtonStyle state is untouched.
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .pointerInput(Unit) { detectTapGestures { state.increment() } }
+                        .semantics { contentDescription = "count-hero-increment" },
+                    contentAlignment = Alignment.Center,
+                ) {
                     CountHero(count = state.activeCounter.count)
                 }
                 CounterBottomBar(

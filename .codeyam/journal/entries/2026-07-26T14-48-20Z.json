@@ -1,0 +1,300 @@
+{
+  "timestamp": "2026-07-26T14:48:20Z",
+  "title": "Tappable Number Area for Incrementing",
+  "type": "feature",
+  "userRequest": "## Summary\n\nMake the large flexible number area — the whole region below the counter\nswitcher and above the increment bar, where the giant numeral sits — an\nincrement tap target, so tapping anywhere in that space bumps the count just\nlike the existing L-shaped increment button. Today only the bottom L-shape\n(the full-width \"TAP TO INCREMENT\" bar plus its quarter-width continuation\ncolumn) increments; the entire upper half of the screen — the numeral and the\nempty space around it — is dead. This turns that dead space into a giant\nsecondary tap target, giving an even larger, easier-to-hit increment surface.\nApplies to both iOS and Android to keep the two targets in parity. The number\narea itself shows **no** press dim — only the existing +/continuation faces\nkeep their dim; the number increments silently on tap.\n\n## Key Decisions\n\n- **Attach the tap at the screen-composition level, not inside `CountHero`.**\n  `CountHero` stays a pure display component (it renders in isolated component\n  scenarios like `counthero-default` / `counthero-large`; adding interaction\n  would pollute those snapshots). The tap goes on the flexible container that\n  already sizes the hero region — the `CountHero(...)` call site on iOS and the\n  weighted `Box` on Android.\n- **Hit the whole flexible frame, not just the numeral.** The numeral is\n  left-aligned and only occupies part of the region. Using `contentShape`\n  (iOS) / a modifier on the weighted `Box` (Android) makes the entire area —\n  including the empty space to the right of the number — tappable, which is the\n  point of the request.\n- **No visual feedback on the number area** (per product decision). We do\n  **not** wire the number into the shared `IncrementFaceButtonStyle` pressed\n  state, so pressing the existing + button looks exactly as it does today and\n  the numeral never dims. This keeps the change minimal and avoids a\n  full-screen dim flash on every tap.\n- **Reuse the existing increment action.** Both platforms already expose the\n  exact one-line action we need (`model.increment()` / `state.increment()`) —\n  the same closure the increment bar fires — so behavior (count bump, haptics,\n  sound, graph history) is identical no matter where you tap.\n- **Only active when the counter is visible.** The hero region is not rendered\n  while the graph is open (both platforms render a `Spacer` instead), so the\n  new tap target automatically disappears with it — no extra guarding needed.\n  When the settings panel is open it overlays the hero exactly as it overlays\n  the increment bar today, so the new target inherits the same\n  behind-the-overlay behavior as the existing button.\n\n## Implementation\n\n### 1. iOS — make the hero region tappable\n\n**File**: `ios/Sources/AppCore/ContentView.swift`\n\nAt the `CountHero(count: model.activeCounter.count)` call (currently line 58,\ninside the `else` branch of the `showGraph` check), attach a full-area tap\ngesture that fires the same increment action already wired into\n`CounterBottomBar` on line 65:\n\n```swift\nCountHero(count: model.activeCounter.count)\n    .contentShape(Rectangle())\n    .onTapGesture { model.increment() }\n    .accessibilityIdentifier(\"count-hero-increment\")\n```\n\n- `.contentShape(Rectangle())` makes the entire `.frame(maxHeight: .infinity)`\n  hero frame (defined inside `CountHero`) hit-testable, not just the glyph.\n- `.onTapGesture { model.increment() }` reuses the exact closure passed as\n  `onIncrement:` to the bottom bar — no new model method.\n- The accessibility identifier gives UI tests / scenario tooling a handle to\n  tap the region (the existing faces use `increment` and\n  `increment-continuation`; this is the third face).\n- Leave `CountHero.swift` untouched so `counthero-default` / `counthero-large`\n  component scenarios are unaffected.\n\n### 2. Android — make the hero region tappable\n\n**File**: `android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt`\n\nAt the weighted `Box` that centers `CountHero` (currently line 78, inside the\n`else` branch of the `state.showGraph` check), add a tap gesture that fires the\nsame `state.increment()` already wired into `CounterBottomBar` on line 87. Use\nthe app's existing `detectTapGestures` idiom (the same primitive\n`Modifier.incrementFace` uses in `CounterBottomBar.kt`), with no press-state\nchange so there is no dim:\n\n```kotlin\nBox(\n    modifier = Modifier\n        .weight(1f)\n        .pointerInput(Unit) { detectTapGestures { state.increment() } }\n        .semantics { contentDescription = \"count-hero-increment\" },\n    contentAlignment = Alignment.Center,\n) {\n    CountHero(count = state.activeCounter.count)\n}\n```\n\n- The `pointerInput`/`detectTapGestures` modifier makes the full weighted `Box`\n  (the flexible region between switcher and bottom bar) tappable.\n- `contentDescription` mirrors the iOS accessibility identifier for test\n  targeting; add the `androidx.compose.ui.semantics.semantics` /\n  `contentDescription` imports if not already present (they are already used by\n  `IncrementBar` in `CounterBottomBar.kt`).\n- No shared pressed state is touched, so the numeral shows no dim — matching\n  iOS and the product decision.\n- Leave `CountHero.kt` untouched.\n\n## Reused existing code\n\n- `model.increment()` → `CounterModel.increment()` in\n  `ios/Sources/AppCore/Model.swift` — the exact increment action already passed\n  as `onIncrement:` to `CounterBottomBar` (`ContentView.swift:65`).\n- `state.increment()` in\n  `android/app/src/main/java/com/codeyam/android/ui/CounterScreenState.kt` — the\n  Android increment action already passed as `onIncrement` to `CounterBottomBar`\n  (`CounterScreen.kt:87`).\n- `CountHero` (glossary entry: `CountHero`) —\n  `ios/Sources/AppCore/Views/CountHero.swift` and\n  `android/app/src/main/java/com/codeyam/android/ui/CountHero.kt`. Rendered\n  unchanged; the tap wraps its container so its `.frame(maxHeight: .infinity)`\n  (iOS) / weighted `Box` (Android) supplies the tappable bounds.\n- `detectTapGestures` inside `Modifier.incrementFace` in\n  `android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt` — the\n  same pointer-input tap idiom, reused (without its press-alpha animation) for\n  the hero region.\n- Existing-implementation survey: the increment \"button\" is today the L-shape\n  built from `IncrementBar` (glossary: `IncrementBar`) + the\n  `increment-continuation` face, styled by `IncrementFaceButtonStyle` (glossary:\n  `IncrementFaceButtonStyle`). Nothing today makes the hero/number region\n  tappable — verified by reading `ContentView.swift` (no gesture on the\n  `CountHero` call) and `CounterScreen.kt` (the weighted `Box` has only\n  `weight`/`contentAlignment`, no `clickable`/`pointerInput`). This plan adds a\n  net-new tap surface; it does not duplicate an existing one.\n\n## Scenarios to Demonstrate\n\nThe change is behavioral (the numeral looks identical before and after a tap),\nso demonstrations center on the tap wiring rather than a new visual state:\n\n- **Active count, hero region increments** — from a counter showing a non-zero\n  value, a tap anywhere in the number region (including the empty space beside\n  the numeral) bumps the count by one, identical to tapping the + bar. Covered\n  visually by the existing `counter-active-count` / `android-counter-active-count`\n  scenarios (the resting appearance is unchanged); the new behavior is the tap\n  target.\n- **Fresh install / zero state** — tapping the number region on a counter at 0\n  increments to 1 (parity with the + button on first use).\n- **Graph open** — the hero region is not rendered, so there is no increment\n  target while the graph is open (regression guard: the new tap must not appear\n  or fire behind the graph).\n- **Settings panel open** — the settings overlay sits over the hero exactly as\n  it does over the increment bar; the new target inherits the same\n  behind-overlay behavior (no new tap leaking through the panel).\n- **Left-handed layout** — the hero region is full-width and layout-agnostic,\n  so the enlarged target behaves the same regardless of handedness.",
+  "description": "Made the large flexible number region above the increment bar a secondary increment tap target on both iOS and Android. Tapping anywhere in that previously-dead space (the giant numeral and the empty area beside it) now bumps the active counter by one, reusing the existing increment action so haptics, sound, and graph history are identical to the + bar. By design the number area shows no press dim, so the resting appearance is unchanged. Implemented as a gesture modifier on the existing CountHero composition sites (contentShape+onTapGesture on iOS ContentView.swift, pointerInput+detectTapGestures on Android CounterScreen.kt); CountHero itself is untouched so its component scenarios are unaffected.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/tappable-number-area-for-incrementing.md\t.codeyam/plans/completed/tappable-number-area-for-incrementing.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-active-count--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-active-count--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-added-blank-slot-selected--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-added-blank-slot-selected--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-but-one-deleted--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-but-one-deleted--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-counters-list--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-counters-list--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-counters-list-with-blank-slot--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-all-counters-list-with-blank-slot--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-app-settings-open--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-app-settings-open--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-app-settings-sound-and-haptic-on--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-app-settings-sound-and-haptic-on--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-blank-slot-incremented--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-blank-slot-incremented--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-counter-settings-open--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-counter-settings-open--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-fresh-install-default--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-fresh-install-default--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-graph-open--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-graph-open--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-left-handed-layout--phone-portrait.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/android-counter-left-handed-layout--phone-portrait.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/tool-loading-injected.json",
+      "status": "modified"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt",
+      "status": "modified"
+    },
+    {
+      "path": "ios/Sources/AppCore/ContentView.swift",
+      "status": "modified"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Android Counter - Active count",
+      "screenshotPath": "android-counter-active-count--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - Added blank slot selected",
+      "screenshotPath": "android-counter-added-blank-slot-selected--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - All but one deleted",
+      "screenshotPath": "android-counter-all-but-one-deleted--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - All counters list",
+      "screenshotPath": "android-counter-all-counters-list--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - All counters list with blank slot",
+      "screenshotPath": "android-counter-all-counters-list-with-blank-slot--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - App Settings open",
+      "screenshotPath": "android-counter-app-settings-open--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - App Settings sound and haptic on",
+      "screenshotPath": "android-counter-app-settings-sound-and-haptic-on--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - Blank slot incremented",
+      "screenshotPath": "android-counter-blank-slot-incremented--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - Counter settings open",
+      "screenshotPath": "android-counter-counter-settings-open--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - Fresh install default",
+      "screenshotPath": "android-counter-fresh-install-default--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - Graph open",
+      "screenshotPath": "android-counter-graph-open--phone-portrait.png"
+    },
+    {
+      "name": "Android Counter - Left-handed layout",
+      "screenshotPath": "android-counter-left-handed-layout--phone-portrait.png"
+    },
+    {
+      "name": "Counter - Active count",
+      "screenshotPath": "counter-active-count--iphone-16.png"
+    },
+    {
+      "name": "Counter - Added blank slot selected",
+      "screenshotPath": "counter-added-blank-slot-selected--iphone-16.png"
+    },
+    {
+      "name": "Counter - All but one deleted",
+      "screenshotPath": "counter-all-but-one-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list",
+      "screenshotPath": "counter-all-counters-list--iphone-16.png"
+    },
+    {
+      "name": "Counter - All counters list with blank slot",
+      "screenshotPath": "counter-all-counters-list-with-blank-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings open",
+      "screenshotPath": "counter-app-settings-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - App Settings sound and haptic on",
+      "screenshotPath": "counter-app-settings-sound-and-haptic-on--iphone-16.png"
+    },
+    {
+      "name": "Counter - Blank slot incremented",
+      "screenshotPath": "counter-blank-slot-incremented--iphone-16.png"
+    },
+    {
+      "name": "Counter - Deleted default ghost slot",
+      "screenshotPath": "counter-deleted-default-ghost-slot--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fifth counter before delete",
+      "screenshotPath": "counter-fifth-counter-before-delete--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fifth counter deleted",
+      "screenshotPath": "counter-fifth-counter-deleted--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh install default",
+      "screenshotPath": "counter-fresh-install-default--iphone-16.png"
+    },
+    {
+      "name": "Counter - Fresh start",
+      "screenshotPath": "counter-fresh-start--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open",
+      "screenshotPath": "counter-graph-open--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open empty history",
+      "screenshotPath": "counter-graph-open-empty-history--iphone-16.png"
+    },
+    {
+      "name": "Counter - Graph open left-handed",
+      "screenshotPath": "counter-graph-open-left-handed--iphone-16.png"
+    },
+    {
+      "name": "Counter - Large value",
+      "screenshotPath": "counter-large-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left override active counter",
+      "screenshotPath": "counter-left-override-active-counter--iphone-16.png"
+    },
+    {
+      "name": "Counter - Left-handed layout",
+      "screenshotPath": "counter-left-handed-layout--iphone-16.png"
+    },
+    {
+      "name": "Counter - Long name",
+      "screenshotPath": "counter-long-name--iphone-16.png"
+    },
+    {
+      "name": "Counter - Negative value",
+      "screenshotPath": "counter-negative-value--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings count by 5",
+      "screenshotPath": "counter-settings-count-by-5--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings expanded with overrides",
+      "screenshotPath": "counter-settings-expanded-with-overrides--iphone-16.png"
+    },
+    {
+      "name": "Counter - Settings open over number",
+      "screenshotPath": "counter-settings-open-over-number--iphone-16.png"
+    },
+    {
+      "name": "Counter - Twenty counters",
+      "screenshotPath": "counter-twenty-counters--iphone-16.png"
+    },
+    {
+      "name": "Counter - Undo reset available",
+      "screenshotPath": "counter-undo-reset-available--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 287,
+    "passed": 287,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "android-tests",
+        "total": 166,
+        "passed": 166
+      },
+      {
+        "name": "tests",
+        "total": 121,
+        "passed": 121
+      }
+    ]
+  }
+}

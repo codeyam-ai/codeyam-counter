@@ -55,7 +55,15 @@ public struct ContentView: View {
                     if showGraph {
                         Spacer()
                     } else {
+                        // The whole flexible hero region is a secondary
+                        // increment target: tapping anywhere in the numeral's
+                        // space bumps the count, exactly like the + bar below.
+                        // `contentShape` makes the full frame (empty space
+                        // included) hit-testable; no press dim by design.
                         CountHero(count: model.activeCounter.count)
+                            .contentShape(Rectangle())
+                            .onTapGesture { model.increment() }
+                            .accessibilityIdentifier("count-hero-increment")
                         CounterBottomBar(
                             leftHanded: model.activeCounter.effectiveLeftHanded(default: settings.defaultLeftHanded),
                             screenHeight: geo.size.height,
