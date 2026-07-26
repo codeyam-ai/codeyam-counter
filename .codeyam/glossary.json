@@ -125,6 +125,26 @@
     }
   },
   {
+    "conformsToView": false,
+    "description": "A Color(hex:) initializer extension turning a hex token into a SwiftUI Color via the unit-tested CounterTheme.rgbComponents parse — the thin platform layer over the shared color tokens.",
+    "filePath": "ios/Sources/AppCore/Theme.swift",
+    "name": "Color",
+    "untestabilityReason": {
+      "justification": "A SwiftUI Color init(hex:) extension that delegates to the pure CounterTheme.rgbComponents parse (covered by ThemeTests); no logic of its own beyond constructing the Color.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "conformsToView": false,
+    "description": "The SwiftUI PreferenceKey BoundedScroll uses to measure its content height, so the scroll view can size to content up to a cap.",
+    "filePath": "ios/Sources/AppCore/Views/PanelScrollSupport.swift",
+    "name": "ContentHeightKey",
+    "untestabilityReason": {
+      "justification": "A SwiftUI PreferenceKey whose reduce just takes the latest value; pure layout plumbing that BoundedScroll uses to measure content height, with no behavior to assert.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
     "description": "The counter screen. Owns the model and handedness preference, wires the swipe-to-switch gesture, and composes the header, switcher card, giant numeral, and bottom bar.",
     "filePath": "ios/Sources/AppCore/ContentView.swift",
     "name": "ContentView",
@@ -776,6 +796,13 @@
     "testFile": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt"
   },
   {
+    "conformsToView": false,
+    "description": "The haptic fired on a count change: off plus four qualitatively-distinct feels (soft, sharp, double, buzz). resolve() migrates the removed light/medium/heavy/rigid amplitude tokens to their nearest surviving feel, returning nil only for a genuinely unknown token. The Swift original ported to Android's HapticOption.",
+    "filePath": "ios/Sources/AppCore/AppSettings.swift",
+    "name": "HapticOption",
+    "testFile": "ios/Tests/AppCoreTests/AppSettingsTests.swift"
+  },
+  {
     "description": "Static migration helper on HapticOption that resolves a persisted rawValue - a per-direction key, the legacy single key, or a Counter override - into a current case, mapping the removed amplitude values rigid/heavy/medium to sharp and light to soft, and returning nil for a genuinely unknown token so callers fall back to a default.",
     "filePath": "ios/Sources/AppCore/AppSettings.swift",
     "name": "HapticOption.resolve",
@@ -991,6 +1018,16 @@
     }
   },
   {
+    "conformsToView": false,
+    "description": "A pending undo for a single reset: the counter that was zeroed and the value it held just before. Scoped to a counter id so the offer only applies while that counter is active. The Swift original ported to Android's ResetUndo.",
+    "filePath": "ios/Sources/AppCore/Model.swift",
+    "name": "ResetUndo",
+    "untestabilityReason": {
+      "justification": "A plain two-field value type (counterId, previousCount) holding a pending reset-undo; no methods or behavior to assert.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
     "description": "The three 0..1 color channels parsed from a hex string. A plain holder rather than a platform Color so the parse stays unit-testable without rendering.",
     "filePath": "android/app/src/main/java/com/codeyam/android/model/CounterTheme.kt",
     "name": "RgbComponents",
@@ -1099,6 +1136,13 @@
     "testFile": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt"
   },
   {
+    "conformsToView": false,
+    "description": "The sound played on a count change: off (silent) plus distinct system sounds. rawValue is the persisted/seeded token; the case resolves back from it (nil when unrecognized). The Swift original ported to Android's SoundOption.",
+    "filePath": "ios/Sources/AppCore/AppSettings.swift",
+    "name": "SoundOption",
+    "testFile": "ios/Tests/AppCoreTests/AppSettingsTests.swift"
+  },
+  {
     "conformsToView": true,
     "description": "One −/+ button of the COUNT BY stepper: a square tappable glyph.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt",
@@ -1106,6 +1150,16 @@
     "untestabilityReason": {
       "justification": "A fixed 42dp Box with a single centered glyph Text and a click handler — no conditional rendering, iteration, or state.",
       "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "conformsToView": false,
+    "description": "The app's @main entry point — a SwiftUI App whose scene hosts the counter screen.",
+    "filePath": "ios/App/App.swift",
+    "name": "SwiftUIApp",
+    "untestabilityReason": {
+      "justification": "The @main SwiftUI App entry point: it only declares the WindowGroup scene hosting CounterScreen. No unit-testable logic of its own.",
+      "kind": "scaffold"
     }
   },
   {

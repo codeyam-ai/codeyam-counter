@@ -90,13 +90,13 @@
   ],
   "formatters": [],
   "screenSizes": {
-    "iPad": {
-      "width": 820,
-      "height": 1180
-    },
     "iPhone 16": {
       "width": 393,
       "height": 852
+    },
+    "iPad": {
+      "width": 820,
+      "height": 1180
     }
   },
   "defaultScreenSize": "iPhone 16",
@@ -225,6 +225,151 @@
         "filePath": ".claude/hooks/editor-step-hook.py",
         "name": "_tool_loading_already_injected",
         "reason": "derive-generated"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/AddCounterDotIsolated.swift",
+        "name": "AddCounterDotIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated BottomControlRowIsolated BoundedScrollIsolated CodeyamIsolationHost ControlButtonIsolated CountHeroIsolated CounterBottomBarIsolated CounterColorPickerIsolated CounterDotIsolated CounterGraphChartIsolated CounterGraphViewIsolated CounterListPanelIsolated CounterSettingsPanelIsolated CounterStepStepperIsolated CounterSwitcherCardIsolated DeleteCounterButtonIsolated FeedbackDisclosureToggleIsolated GearButtonIsolated GraphCloseButtonIsolated GraphEventListIsolated GraphHeaderIsolated GraphHistorySelectorIsolated GraphPageIsolated HeaderBarIsolated IncrementBarIsolated OverridePickerIsolated SettingsToggleRowIsolated.swift",
+        "name": "AppSettingsPanelIsolated BottomControlRowIsolated BoundedScrollIsolated CodeyamIsolationHost ControlButtonIsolated CountHeroIsolated CounterBottomBarIsolated CounterColorPickerIsolated CounterDotIsolated CounterGraphChartIsolated CounterGraphViewIsolated CounterListPanelIsolated CounterSettingsPanelIsolated CounterStepStepperIsolated CounterSwitcherCardIsolated DeleteCounterButtonIsolated FeedbackDisclosureToggleIsolated GearButtonIsolated GraphCloseButtonIsolated GraphEventListIsolated GraphHeaderIsolated GraphHistorySelectorIsolated GraphPageIsolated HeaderBarIsolated IncrementBarIsolated OverridePickerIsolated SettingsToggleRowIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/AppSettingsPanelIsolated.swift",
+        "name": "AppSettingsPanelIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift",
+        "name": "BottomControlRowIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/BoundedScrollIsolated.swift",
+        "name": "BoundedScrollIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift",
+        "name": "CodeyamIsolationHost",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/ControlButtonIsolated.swift",
+        "name": "ControlButtonIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CountHeroIsolated.swift",
+        "name": "CountHeroIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift",
+        "name": "CounterBottomBarIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterColorPickerIsolated.swift",
+        "name": "CounterColorPickerIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterDotIsolated.swift",
+        "name": "CounterDotIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterGraphChartIsolated.swift",
+        "name": "CounterGraphChartIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterGraphViewIsolated.swift",
+        "name": "CounterGraphViewIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterListPanelIsolated.swift",
+        "name": "CounterListPanelIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift",
+        "name": "CounterSettingsPanelIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterStepStepperIsolated.swift",
+        "name": "CounterStepStepperIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift",
+        "name": "CounterSwitcherCardIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/DeleteCounterButtonIsolated.swift",
+        "name": "DeleteCounterButtonIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/FeedbackDisclosureToggleIsolated.swift",
+        "name": "FeedbackDisclosureToggleIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/GearButtonIsolated.swift",
+        "name": "GearButtonIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift",
+        "name": "GraphCloseButtonIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/GraphEventListIsolated.swift",
+        "name": "GraphEventListIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/GraphHeaderIsolated.swift",
+        "name": "GraphHeaderIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/GraphHistorySelectorIsolated.swift",
+        "name": "GraphHistorySelectorIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift",
+        "name": "GraphPageIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift",
+        "name": "HeaderBarIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift",
+        "name": "IncrementBarIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/OverridePickerIsolated.swift",
+        "name": "OverridePickerIsolated",
+        "reason": "test-fixture"
+      },
+      {
+        "filePath": "ios/Sources/AppCore/CodeyamIsolated/SettingsToggleRowIsolated.swift",
+        "name": "SettingsToggleRowIsolated",
+        "reason": "test-fixture"
       }
     ],
     "stepBudget": {
