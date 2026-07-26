@@ -1000,7 +1000,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testDefaultHapticsAreDistinct",
-      "line": 29,
+      "line": 22,
       "registeredAt": "2026-07-26T12:47:01.029201+00:00",
       "runner": "android-tests"
     },
@@ -1009,7 +1009,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testDefaultsAreRightHandedSilentWithDistinctHaptics",
-      "line": 18,
+      "line": 12,
       "registeredAt": "2026-07-26T12:47:00.934493+00:00",
       "runner": "android-tests"
     },
@@ -1018,7 +1018,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testLegacyHapticKeyMigratesToBothDirections",
-      "line": 68,
+      "line": 59,
       "registeredAt": "2026-07-26T12:47:01.101277+00:00",
       "runner": "android-tests"
     },
@@ -1027,7 +1027,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testLegacyHapticOffMigratesToBothOff",
-      "line": 79,
+      "line": 69,
       "registeredAt": "2026-07-26T12:47:01.125612+00:00",
       "runner": "android-tests"
     },
@@ -1036,7 +1036,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testNewHapticKeyWinsOverLegacy",
-      "line": 90,
+      "line": 79,
       "registeredAt": "2026-07-26T12:47:01.149039+00:00",
       "runner": "android-tests"
     },
@@ -1045,7 +1045,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testOptionCasesCoverTheChoiceSets",
-      "line": 159,
+      "line": 143,
       "registeredAt": "2026-07-26T12:47:01.269757+00:00",
       "runner": "android-tests"
     },
@@ -1054,7 +1054,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testOptionsAreIndependent",
-      "line": 119,
+      "line": 106,
       "registeredAt": "2026-07-26T12:47:01.197306+00:00",
       "runner": "android-tests"
     },
@@ -1063,7 +1063,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testPersistsChangesAcrossReload",
-      "line": 102,
+      "line": 90,
       "registeredAt": "2026-07-26T12:47:01.173606+00:00",
       "runner": "android-tests"
     },
@@ -1072,7 +1072,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testReadsSeededStringPreferences",
-      "line": 37,
+      "line": 30,
       "registeredAt": "2026-07-26T12:47:01.053882+00:00",
       "runner": "android-tests"
     },
@@ -1081,7 +1081,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testReleasePolicyIgnoresSeededHapticsWithoutProvenance",
-      "line": 132,
+      "line": 118,
       "registeredAt": "2026-07-26T12:47:01.221251+00:00",
       "runner": "android-tests"
     },
@@ -1090,7 +1090,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testResolveMigratesRemovedRawValues",
-      "line": 144,
+      "line": 129,
       "registeredAt": "2026-07-26T12:47:01.244969+00:00",
       "runner": "android-tests"
     },
@@ -1099,7 +1099,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.AppSettingsTest › testUnknownOptionFallsBackToDefault",
-      "line": 53,
+      "line": 45,
       "registeredAt": "2026-07-26T12:47:01.077722+00:00",
       "runner": "android-tests"
     },
@@ -1108,7 +1108,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAllowsConsecutiveBlankSlots",
-      "line": 187,
+      "line": 165,
       "registeredAt": "2026-07-26T12:47:01.600005+00:00",
       "runner": "android-tests"
     },
@@ -1117,7 +1117,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAppendsBlankAndSelectsIt",
-      "line": 147,
+      "line": 127,
       "registeredAt": "2026-07-26T12:47:01.509421+00:00",
       "runner": "android-tests"
     },
@@ -1126,7 +1126,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAssignsNextIdAndOrder",
-      "line": 160,
+      "line": 140,
       "registeredAt": "2026-07-26T12:47:01.532729+00:00",
       "runner": "android-tests"
     },
@@ -1135,7 +1135,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testAddCounterClearsPendingUndo",
-      "line": 199,
+      "line": 176,
       "registeredAt": "2026-07-26T12:47:01.638057+00:00",
       "runner": "android-tests"
     },
@@ -1144,7 +1144,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testAddCounterPersists",
-      "line": 174,
+      "line": 152,
       "registeredAt": "2026-07-26T12:47:01.556308+00:00",
       "runner": "android-tests"
     },
@@ -1153,7 +1153,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testBlankSlotIncrementsWithoutReviving",
-      "line": 295,
+      "line": 278,
       "registeredAt": "2026-07-26T12:47:01.979291+00:00",
       "runner": "android-tests"
     },
@@ -1162,7 +1162,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testClampedSubtractRecordsActualAppliedDelta",
-      "line": 877,
+      "line": 855,
       "registeredAt": "2026-07-26T12:47:03.210747+00:00",
       "runner": "android-tests"
     },
@@ -1171,7 +1171,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testCumulativeSeriesReconstructsRunningCount",
-      "line": 940,
+      "line": 917,
       "registeredAt": "2026-07-26T12:47:03.333739+00:00",
       "runner": "android-tests"
     },
@@ -1180,7 +1180,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDefaultEffectiveFeedbackIsAllOff",
-      "line": 643,
+      "line": 642,
       "registeredAt": "2026-07-26T12:47:02.605999+00:00",
       "runner": "android-tests"
     },
@@ -1189,7 +1189,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeleteBeyondFirstFourRemovesAndSelectsPrevious",
-      "line": 330,
+      "line": 312,
       "registeredAt": "2026-07-26T12:47:02.058658+00:00",
       "runner": "android-tests"
     },
@@ -1198,7 +1198,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeleteBlanksInPlace",
-      "line": 279,
+      "line": 261,
       "registeredAt": "2026-07-26T12:47:01.949907+00:00",
       "runner": "android-tests"
     },
@@ -1207,7 +1207,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeleteCounterClearsItsHistories",
-      "line": 929,
+      "line": 907,
       "registeredAt": "2026-07-26T12:47:03.310358+00:00",
       "runner": "android-tests"
     },
@@ -1216,7 +1216,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeleteLastCounterBlanksInPlaceAndKeepsSelection",
-      "line": 318,
+      "line": 300,
       "registeredAt": "2026-07-26T12:47:02.035392+00:00",
       "runner": "android-tests"
     },
@@ -1225,7 +1225,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeletingCounterClearsPendingUndo",
-      "line": 544,
+      "line": 532,
       "registeredAt": "2026-07-26T12:47:02.409371+00:00",
       "runner": "android-tests"
     },
@@ -1234,7 +1234,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeletingEveryBaseSlotNeverShrinksTheRow",
-      "line": 347,
+      "line": 330,
       "registeredAt": "2026-07-26T12:47:02.081182+00:00",
       "runner": "android-tests"
     },
@@ -1243,7 +1243,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeletingExtraCounterDropsItsHistory",
-      "line": 392,
+      "line": 377,
       "registeredAt": "2026-07-26T12:47:02.147880+00:00",
       "runner": "android-tests"
     },
@@ -1252,7 +1252,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeletingLastExtraCounterSelectsNewLast",
-      "line": 377,
+      "line": 361,
       "registeredAt": "2026-07-26T12:47:02.126079+00:00",
       "runner": "android-tests"
     },
@@ -1261,7 +1261,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testDeletingMiddleExtraCounterSlidesFollowingCounterDown",
-      "line": 359,
+      "line": 342,
       "registeredAt": "2026-07-26T12:47:02.103657+00:00",
       "runner": "android-tests"
     },
@@ -1270,7 +1270,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testEditingActiveCounterClearsPendingUndo",
-      "line": 534,
+      "line": 521,
       "registeredAt": "2026-07-26T12:47:02.386358+00:00",
       "runner": "android-tests"
     },
@@ -1279,7 +1279,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testEffectiveResolversFollowDefaultWhenNil",
-      "line": 654,
+      "line": 655,
       "registeredAt": "2026-07-26T12:47:02.629637+00:00",
       "runner": "android-tests"
     },
@@ -1297,7 +1297,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testFreshModelHasFourStarterCountersAtZero",
-      "line": 56,
+      "line": 36,
       "registeredAt": "2026-07-26T12:47:01.295059+00:00",
       "runner": "android-tests"
     },
@@ -1306,7 +1306,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testHandednessOverrideResolvesPerCounter",
-      "line": 837,
+      "line": 814,
       "registeredAt": "2026-07-26T12:47:03.095088+00:00",
       "runner": "android-tests"
     },
@@ -1315,7 +1315,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testHapticDirectionsResolveIndependently",
-      "line": 681,
+      "line": 679,
       "registeredAt": "2026-07-26T12:47:02.677033+00:00",
       "runner": "android-tests"
     },
@@ -1324,7 +1324,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testHistoriesPersistAndReloadFromDefaults",
-      "line": 973,
+      "line": 942,
       "registeredAt": "2026-07-26T12:47:03.400915+00:00",
       "runner": "android-tests"
     },
@@ -1333,7 +1333,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testHistoryCapDropsOldestRun",
-      "line": 900,
+      "line": 878,
       "registeredAt": "2026-07-26T12:47:03.257250+00:00",
       "runner": "android-tests"
     },
@@ -1342,7 +1342,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testIncrementClearsPendingUndo",
-      "line": 498,
+      "line": 483,
       "registeredAt": "2026-07-26T12:47:02.313966+00:00",
       "runner": "android-tests"
     },
@@ -1351,7 +1351,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testIncrementFiresFeedbackWithIncrementHaptic",
-      "line": 593,
+      "line": 595,
       "registeredAt": "2026-07-26T12:47:02.501341+00:00",
       "runner": "android-tests"
     },
@@ -1360,7 +1360,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testIncrementHonorsStep",
-      "line": 211,
+      "line": 189,
       "registeredAt": "2026-07-26T12:47:01.664160+00:00",
       "runner": "android-tests"
     },
@@ -1369,7 +1369,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testIncrementRaisesActiveCounter",
-      "line": 66,
+      "line": 45,
       "registeredAt": "2026-07-26T12:47:01.318218+00:00",
       "runner": "android-tests"
     },
@@ -1378,7 +1378,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testIncrementRecordsPositiveEvent",
-      "line": 847,
+      "line": 826,
       "registeredAt": "2026-07-26T12:47:03.136230+00:00",
       "runner": "android-tests"
     },
@@ -1387,7 +1387,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testIncrementUsesActiveCounterEffectiveFeedback",
-      "line": 800,
+      "line": 782,
       "registeredAt": "2026-07-26T12:47:03.061250+00:00",
       "runner": "android-tests"
     },
@@ -1396,7 +1396,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testLegacyCounterWithoutStepDecodesToStepOne",
-      "line": 242,
+      "line": 222,
       "registeredAt": "2026-07-26T12:47:01.741741+00:00",
       "runner": "android-tests"
     },
@@ -1405,7 +1405,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testLegacyCountersDecodeWithNilOverrides",
-      "line": 744,
+      "line": 733,
       "registeredAt": "2026-07-26T12:47:02.771182+00:00",
       "runner": "android-tests"
     },
@@ -1414,7 +1414,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testLegacySingleHapticOverrideMigratesToBothDirections",
-      "line": 760,
+      "line": 747,
       "registeredAt": "2026-07-26T12:47:02.861416+00:00",
       "runner": "android-tests"
     },
@@ -1423,7 +1423,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testLoadsSeededStateFromDefaults",
-      "line": 445,
+      "line": 427,
       "registeredAt": "2026-07-26T12:47:02.214989+00:00",
       "runner": "android-tests"
     },
@@ -1432,7 +1432,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testMigrationFoldsDeletedDefaultsIntoBlankSlots",
-      "line": 407,
+      "line": 393,
       "registeredAt": "2026-07-26T12:47:02.170517+00:00",
       "runner": "android-tests"
     },
@@ -1441,7 +1441,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testNamingBlankSlotRevivesIt",
-      "line": 306,
+      "line": 288,
       "registeredAt": "2026-07-26T12:47:02.007691+00:00",
       "runner": "android-tests"
     },
@@ -1450,7 +1450,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testNewHapticOverrideKeyWinsOverLegacyOnDecode",
-      "line": 773,
+      "line": 758,
       "registeredAt": "2026-07-26T12:47:02.920669+00:00",
       "runner": "android-tests"
     },
@@ -1459,7 +1459,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testNoOpSubtractClampRecordsNoEvent",
-      "line": 869,
+      "line": 847,
       "registeredAt": "2026-07-26T12:47:03.187953+00:00",
       "runner": "android-tests"
     },
@@ -1468,7 +1468,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testOverrideTracksOrPinsAgainstChangingDefault",
-      "line": 733,
+      "line": 720,
       "registeredAt": "2026-07-26T12:47:02.747153+00:00",
       "runner": "android-tests"
     },
@@ -1477,7 +1477,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testRelativeOffsetMeasuredFromStart",
-      "line": 964,
+      "line": 934,
       "registeredAt": "2026-07-26T12:47:03.377091+00:00",
       "runner": "android-tests"
     },
@@ -1486,7 +1486,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance",
-      "line": 1042,
+      "line": 1044,
       "registeredAt": "2026-07-26T12:47:03.517202+00:00",
       "runner": "android-tests"
     },
@@ -1495,7 +1495,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyIgnoresSeededCountersWithoutProvenance",
-      "line": 1005,
+      "line": 1012,
       "registeredAt": "2026-07-26T12:47:03.446516+00:00",
       "runner": "android-tests"
     },
@@ -1504,7 +1504,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyTrustsAppSettingsAfterProvenanceStamped",
-      "line": 1058,
+      "line": 1059,
       "registeredAt": "2026-07-26T12:47:03.541237+00:00",
       "runner": "android-tests"
     },
@@ -1513,7 +1513,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyTrustsOwnPersistedDataAfterStamp",
-      "line": 1031,
+      "line": 1033,
       "registeredAt": "2026-07-26T12:47:03.493114+00:00",
       "runner": "android-tests"
     },
@@ -1522,7 +1522,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testResetAndUndoResetStaySilent",
-      "line": 632,
+      "line": 631,
       "registeredAt": "2026-07-26T12:47:02.582368+00:00",
       "runner": "android-tests"
     },
@@ -1531,7 +1531,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
-      "line": 487,
+      "line": 471,
       "registeredAt": "2026-07-26T12:47:02.288766+00:00",
       "runner": "android-tests"
     },
@@ -1540,7 +1540,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testResetEntersUndoModeAndCapturesPreviousValue",
-      "line": 465,
+      "line": 446,
       "registeredAt": "2026-07-26T12:47:02.239486+00:00",
       "runner": "android-tests"
     },
@@ -1549,7 +1549,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testResetSealsCurrentAndOpensEmptyRun",
-      "line": 885,
+      "line": 863,
       "registeredAt": "2026-07-26T12:47:03.233686+00:00",
       "runner": "android-tests"
     },
@@ -1558,7 +1558,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testResetZeroesActiveCounter",
-      "line": 94,
+      "line": 74,
       "registeredAt": "2026-07-26T12:47:01.388733+00:00",
       "runner": "android-tests"
     },
@@ -1567,7 +1567,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSeededHistoriesJSONLoadsFromDefaults",
-      "line": 988,
+      "line": 957,
       "registeredAt": "2026-07-26T12:47:03.423867+00:00",
       "runner": "android-tests"
     },
@@ -1576,7 +1576,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyCoercesStringValue",
-      "line": 568,
+      "line": 557,
       "registeredAt": "2026-07-26T12:47:02.454944+00:00",
       "runner": "android-tests"
     },
@@ -1585,7 +1585,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyEntersUndoModeOnLaunch",
-      "line": 556,
+      "line": 543,
       "registeredAt": "2026-07-26T12:47:02.432621+00:00",
       "runner": "android-tests"
     },
@@ -1594,7 +1594,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
-      "line": 580,
+      "line": 572,
       "registeredAt": "2026-07-26T12:47:02.478628+00:00",
       "runner": "android-tests"
     },
@@ -1603,7 +1603,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSeededSubsetHasNoBlankSlots",
-      "line": 432,
+      "line": 416,
       "registeredAt": "2026-07-26T12:47:02.192970+00:00",
       "runner": "android-tests"
     },
@@ -1612,7 +1612,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSelectNextAdvancesWithinList",
-      "line": 105,
+      "line": 87,
       "registeredAt": "2026-07-26T12:47:01.412047+00:00",
       "runner": "android-tests"
     },
@@ -1621,7 +1621,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSelectNextPastLastAppendsBlankAndSelectsIt",
-      "line": 116,
+      "line": 97,
       "registeredAt": "2026-07-26T12:47:01.435550+00:00",
       "runner": "android-tests"
     },
@@ -1630,7 +1630,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSelectPreviousMovesBackWithinList",
-      "line": 138,
+      "line": 118,
       "registeredAt": "2026-07-26T12:47:01.484672+00:00",
       "runner": "android-tests"
     },
@@ -1639,7 +1639,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSelectPreviousWrapsFromFirstToLast",
-      "line": 128,
+      "line": 109,
       "registeredAt": "2026-07-26T12:47:01.460863+00:00",
       "runner": "android-tests"
     },
@@ -1648,7 +1648,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSubtractClampsToZeroWhenStepOvershoots",
-      "line": 229,
+      "line": 210,
       "registeredAt": "2026-07-26T12:47:01.716896+00:00",
       "runner": "android-tests"
     },
@@ -1657,7 +1657,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSubtractClampsWhenNegativesDisallowed",
-      "line": 84,
+      "line": 63,
       "registeredAt": "2026-07-26T12:47:01.365477+00:00",
       "runner": "android-tests"
     },
@@ -1666,7 +1666,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSubtractClearsPendingUndo",
-      "line": 509,
+      "line": 495,
       "registeredAt": "2026-07-26T12:47:02.339381+00:00",
       "runner": "android-tests"
     },
@@ -1675,7 +1675,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSubtractFiresFeedbackWithDecrementHaptic",
-      "line": 606,
+      "line": 607,
       "registeredAt": "2026-07-26T12:47:02.532812+00:00",
       "runner": "android-tests"
     },
@@ -1684,7 +1684,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSubtractGoesNegativeByDefault",
-      "line": 76,
+      "line": 55,
       "registeredAt": "2026-07-26T12:47:01.341681+00:00",
       "runner": "android-tests"
     },
@@ -1693,7 +1693,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSubtractHonorsStep",
-      "line": 221,
+      "line": 200,
       "registeredAt": "2026-07-26T12:47:01.690789+00:00",
       "runner": "android-tests"
     },
@@ -1702,7 +1702,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSubtractNoOpClampDoesNotFireFeedback",
-      "line": 619,
+      "line": 620,
       "registeredAt": "2026-07-26T12:47:02.557746+00:00",
       "runner": "android-tests"
     },
@@ -1711,7 +1711,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSubtractRecordsNegativeAppliedDelta",
-      "line": 861,
+      "line": 839,
       "registeredAt": "2026-07-26T12:47:03.163257+00:00",
       "runner": "android-tests"
     },
@@ -1720,7 +1720,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testSwitchingCounterClearsPendingUndo",
-      "line": 520,
+      "line": 507,
       "registeredAt": "2026-07-26T12:47:02.363301+00:00",
       "runner": "android-tests"
     },
@@ -1729,7 +1729,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testTrustInjectedPolicyAdoptsSeededCounters",
-      "line": 1018,
+      "line": 1023,
       "registeredAt": "2026-07-26T12:47:03.469905+00:00",
       "runner": "android-tests"
     },
@@ -1738,7 +1738,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testUndoResetReopensSealedRunAndRestoresCount",
-      "line": 915,
+      "line": 894,
       "registeredAt": "2026-07-26T12:47:03.283366+00:00",
       "runner": "android-tests"
     },
@@ -1747,7 +1747,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testUndoResetRestoresPreviousValueAndExitsUndoMode",
-      "line": 476,
+      "line": 458,
       "registeredAt": "2026-07-26T12:47:02.264812+00:00",
       "runner": "android-tests"
     },
@@ -1756,7 +1756,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testUnrecognizedOverrideRawValueDecodesToNil",
-      "line": 787,
+      "line": 771,
       "registeredAt": "2026-07-26T12:47:03.014534+00:00",
       "runner": "android-tests"
     },
@@ -1765,7 +1765,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterClampsStepToAtLeastOne",
-      "line": 271,
+      "line": 250,
       "registeredAt": "2026-07-26T12:47:01.852712+00:00",
       "runner": "android-tests"
     },
@@ -1774,7 +1774,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterClearsOverridesWhenNil",
-      "line": 714,
+      "line": 707,
       "registeredAt": "2026-07-26T12:47:02.723638+00:00",
       "runner": "android-tests"
     },
@@ -1783,7 +1783,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterEditsAndPersists",
-      "line": 256,
+      "line": 235,
       "registeredAt": "2026-07-26T12:47:01.765837+00:00",
       "runner": "android-tests"
     },
@@ -1792,7 +1792,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterRoundTripsOverrides",
-      "line": 693,
+      "line": 688,
       "registeredAt": "2026-07-26T12:47:02.700683+00:00",
       "runner": "android-tests"
     },
@@ -1801,7 +1801,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterThemeTest › testDotHexFallsBackToLimeForUnknownKey",
-      "line": 64,
+      "line": 62,
       "registeredAt": "2026-07-26T12:47:03.706056+00:00",
       "runner": "android-tests"
     },
@@ -1810,7 +1810,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterThemeTest › testDotHexMapsKnownKeys",
-      "line": 55,
+      "line": 54,
       "registeredAt": "2026-07-26T12:47:03.682128+00:00",
       "runner": "android-tests"
     },
@@ -1819,7 +1819,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterThemeTest › testIsCaseInsensitive",
-      "line": 37,
+      "line": 36,
       "registeredAt": "2026-07-26T12:47:03.636260+00:00",
       "runner": "android-tests"
     },
@@ -1828,7 +1828,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterThemeTest › testIsolatesIndividualChannels",
-      "line": 47,
+      "line": 45,
       "registeredAt": "2026-07-26T12:47:03.659531+00:00",
       "runner": "android-tests"
     },
@@ -1837,7 +1837,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterThemeTest › testParsesAccentLime",
-      "line": 25,
+      "line": 26,
       "registeredAt": "2026-07-26T12:47:03.588558+00:00",
       "runner": "android-tests"
     },
@@ -1846,7 +1846,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.CounterThemeTest › testParsesBlackAndWhite",
-      "line": 18,
+      "line": 20,
       "registeredAt": "2026-07-26T12:47:03.564557+00:00",
       "runner": "android-tests"
     },
@@ -1864,7 +1864,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testAllDistinctFeelsAreTreatedAsNonOff",
-      "line": 66,
+      "line": 56,
       "registeredAt": "2026-07-26T12:47:03.981515+00:00",
       "runner": "android-tests"
     },
@@ -1873,7 +1873,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testAllOverridesSetReturnsTrue",
-      "line": 134,
+      "line": 54,
       "registeredAt": "2026-07-26T12:47:04.174410+00:00",
       "runner": "android-tests"
     },
@@ -1882,7 +1882,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testBlankSlotReturnsFalse",
-      "line": 145,
+      "line": 62,
       "registeredAt": "2026-07-26T12:47:04.198742+00:00",
       "runner": "android-tests"
     },
@@ -1891,7 +1891,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testBothOffFiresNothing",
-      "line": 56,
+      "line": 46,
       "registeredAt": "2026-07-26T12:47:03.895939+00:00",
       "runner": "android-tests"
     },
@@ -1900,7 +1900,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testBothOptionsFireBoth",
-      "line": 47,
+      "line": 38,
       "registeredAt": "2026-07-26T12:47:03.807839+00:00",
       "runner": "android-tests"
     },
@@ -1909,7 +1909,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testDecrementHapticOverrideAloneReturnsTrue",
-      "line": 119,
+      "line": 39,
       "registeredAt": "2026-07-26T12:47:04.123444+00:00",
       "runner": "android-tests"
     },
@@ -1918,7 +1918,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testExplicitOffSoundOverrideReturnsTrue",
-      "line": 127,
+      "line": 47,
       "registeredAt": "2026-07-26T12:47:04.150524+00:00",
       "runner": "android-tests"
     },
@@ -1927,7 +1927,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testHandednessOverrideAloneReturnsTrue",
-      "line": 98,
+      "line": 18,
       "registeredAt": "2026-07-26T12:47:04.056417+00:00",
       "runner": "android-tests"
     },
@@ -1945,7 +1945,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testIncrementHapticOverrideAloneReturnsTrue",
-      "line": 112,
+      "line": 32,
       "registeredAt": "2026-07-26T12:47:04.101178+00:00",
       "runner": "android-tests"
     },
@@ -1954,7 +1954,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testNoOverridesReturnsFalse",
-      "line": 91,
+      "line": 12,
       "registeredAt": "2026-07-26T12:47:04.033430+00:00",
       "runner": "android-tests"
     },
@@ -1963,7 +1963,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testNoopFeedbackDoesNothing",
-      "line": 81,
+      "line": 67,
       "registeredAt": "2026-07-26T12:47:04.008315+00:00",
       "runner": "android-tests"
     },
@@ -1972,7 +1972,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testSoundOnlyFiresSoundWithChoice",
-      "line": 38,
+      "line": 30,
       "registeredAt": "2026-07-26T12:47:03.780857+00:00",
       "runner": "android-tests"
     },
@@ -1981,7 +1981,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.FeedbackTest › testSoundOverrideAloneReturnsTrue",
-      "line": 105,
+      "line": 25,
       "registeredAt": "2026-07-26T12:47:04.078959+00:00",
       "runner": "android-tests"
     },
@@ -1990,7 +1990,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.SettingsOverlaysTest › testNoToggleEverLeavesBothOpen",
-      "line": 66,
+      "line": 58,
       "registeredAt": "2026-07-26T12:47:04.385478+00:00",
       "runner": "android-tests"
     },
@@ -1999,7 +1999,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.SettingsOverlaysTest › testNothingIsOpenByDefault",
-      "line": 15,
+      "line": 10,
       "registeredAt": "2026-07-26T12:47:04.221607+00:00",
       "runner": "android-tests"
     },
@@ -2008,7 +2008,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningAppSettingsClosesTheCounterPanel",
-      "line": 38,
+      "line": 30,
       "registeredAt": "2026-07-26T12:47:04.291088+00:00",
       "runner": "android-tests"
     },
@@ -2017,7 +2017,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningAppSettingsFromClosedOpensIt",
-      "line": 23,
+      "line": 17,
       "registeredAt": "2026-07-26T12:47:04.245765+00:00",
       "runner": "android-tests"
     },
@@ -2026,7 +2026,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningCounterSettingsClosesAppSettings",
-      "line": 45,
+      "line": 37,
       "registeredAt": "2026-07-26T12:47:04.314346+00:00",
       "runner": "android-tests"
     },
@@ -2035,7 +2035,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningCounterSettingsFromClosedOpensIt",
-      "line": 30,
+      "line": 23,
       "registeredAt": "2026-07-26T12:47:04.268787+00:00",
       "runner": "android-tests"
     },
@@ -2044,7 +2044,7 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.SettingsOverlaysTest › testTogglingOpenAppSettingsClosesItAndOpensNothing",
-      "line": 52,
+      "line": 44,
       "registeredAt": "2026-07-26T12:47:04.338028+00:00",
       "runner": "android-tests"
     },
@@ -2053,8 +2053,98 @@
       "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
       "format": "junit-xml",
       "key": "com.codeyam.android.model.SettingsOverlaysTest › testTogglingOpenCounterSettingsClosesItAndOpensNothing",
-      "line": 59,
+      "line": 51,
       "registeredAt": "2026-07-26T12:47:04.362909+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "DOUBLE is a non-repeating two-pulse waveform.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testDoubleIsATwoPulseWaveform",
+      "line": 81,
+      "registeredAt": "2026-07-26T13:17:18.957320+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Totality: every non-OFF feel resolves to some spec.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testEveryNonOffHapticMapsToASpec",
+      "line": 56,
+      "registeredAt": "2026-07-26T13:17:18.897680+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Totality: every non-OFF sound resolves to some tone.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testEveryNonOffSoundMapsToATone",
+      "line": 27,
+      "registeredAt": "2026-07-26T13:17:18.758670+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "OFF haptic maps to no spec.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testHapticOffMapsToNull",
+      "line": 50,
+      "registeredAt": "2026-07-26T13:17:18.874189+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Distinctness: no two non-OFF feels share a spec.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testNonOffHapticsAreDistinct",
+      "line": 64,
+      "registeredAt": "2026-07-26T13:17:18.920385+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Distinctness: no two non-OFF sounds share a tone.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testNonOffSoundsAreDistinct",
+      "line": 35,
+      "registeredAt": "2026-07-26T13:17:18.775064+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "SHARP and BUZZ use default amplitude, distinguished by duration.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testSharpAndBuzzUseDefaultAmplitudeButDifferentDurations",
+      "line": 92,
+      "registeredAt": "2026-07-26T13:17:18.972169+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "SOFT is a short one-shot at the reduced amplitude.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testSoftUsesReducedAmplitude",
+      "line": 73,
+      "registeredAt": "2026-07-26T13:17:18.941252+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "OFF sound maps to no tone.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testSoundOffMapsToNull",
+      "line": 21,
+      "registeredAt": "2026-07-26T13:17:18.741170+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Spot-checks a specific sound-to-tone mapping is stable.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AndroidFeedbackTest › testSoundSpotCheck",
+      "line": 44,
+      "registeredAt": "2026-07-26T13:17:18.835288+00:00",
       "runner": "android-tests"
     },
     {

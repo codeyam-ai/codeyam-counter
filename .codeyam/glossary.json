@@ -809,6 +809,15 @@
     "testFile": "ios/Tests/AppCoreTests/AppSettingsTests.swift"
   },
   {
+    "description": "Hardware-agnostic description of a haptic feel: a OneShot (durationMs, amplitude) or a Waveform (timings, repeat). Pure data shape that lets the HapticOption-to-feel decision be unit-tested without a Vibrator.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
+    "name": "HapticSpec",
+    "untestabilityReason": {
+      "justification": "A pure-data sealed interface (OneShot / Waveform) with no behavior; its construction is exercised through hapticSpec in AndroidFeedbackTest.",
+      "kind": "type-only"
+    }
+  },
+  {
     "conformsToView": true,
     "description": "A floating panel anchored below the screen's fixed top chrome, using a zero-alpha copy of that chrome to reserve its exact measured height.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/PanelChrome.kt",
@@ -1195,6 +1204,33 @@
     }
   },
   {
+    "description": "Factory building the SystemCounterFeedback haptic emitter: resolves the system Vibrator across the API-31 VibratorManager split and applies the resolved hapticSpec, degrading to a no-op when no vibrator is present.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
+    "name": "androidHapticEmitter",
+    "untestabilityReason": {
+      "justification": "Resolves and drives the Android Vibrator (OS hardware boundary); the pure feel decision it applies is covered by hapticSpec in AndroidFeedbackTest.",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Factory building the SystemCounterFeedback sound emitter: lazily constructs a reusable ToneGenerator and plays the tone from soundTone, degrading to a no-op if the generator cannot be constructed.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
+    "name": "androidSoundEmitter",
+    "untestabilityReason": {
+      "justification": "Constructs and drives an Android ToneGenerator (OS audio boundary); the pure tone decision it applies is covered by soundTone in AndroidFeedbackTest.",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Applies a resolved HapticSpec to a real Vibrator, using VibrationEffect on API 26+ and the deprecated duration/pattern vibrate calls on API 24-25.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
+    "name": "applyHaptic",
+    "untestabilityReason": {
+      "justification": "Drives the Android Vibrator (OS hardware boundary); the pure spec it applies is covered by hapticSpec in AndroidFeedbackTest.",
+      "kind": "platform-glue"
+    }
+  },
+  {
     "description": "Maps an already-formatted numeral to the hero's font size, stepping down as the string grows. Stands in for iOS's minimumScaleFactor, which Compose has no equivalent for.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/CountHero.kt",
     "name": "autoSizedFontSize",
@@ -1231,6 +1267,12 @@
     "testFile": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt"
   },
   {
+    "description": "Pure mapping from each non-OFF HapticOption feel to a hardware-agnostic HapticSpec one-shot or waveform; OFF maps to null. Split out of the haptic emitter so the feel decision is unit-testable without a Vibrator.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
+    "name": "hapticSpec",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt"
+  },
+  {
     "description": "Converts a hex token into a Compose Color by delegating to the pure CounterTheme.rgbComponents parse — the thin platform layer over the JVM-testable color tokens.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/Theme.kt",
     "name": "hex",
@@ -1247,6 +1289,21 @@
       "justification": "A Modifier extension wiring shared press-dim animation and tap-gesture detection onto a face; it is Compose UI glue with no return value to assert and no isolation harness to render it.",
       "kind": "trivial-wrapper"
     }
+  },
+  {
+    "description": "Resolves the system Vibrator across the API-31 VibratorManager split, returning null when the platform exposes none.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
+    "name": "resolveVibrator",
+    "untestabilityReason": {
+      "justification": "Reads Android system services (OS boundary); no pure logic to unit-test.",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Pure mapping from each non-OFF SoundOption to a distinct built-in ToneGenerator tone constant; OFF maps to null. Split out of the sound emitter so the option-to-cue decision is unit-testable without audio hardware.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
+    "name": "soundTone",
+    "testFile": "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt"
   },
   {
     "description": "Builds a 24x24 ImageVector whose paths are stroked/filled white so an Icon's tint colors it at each call site — the constructor for this app's two hand-built glyphs.",

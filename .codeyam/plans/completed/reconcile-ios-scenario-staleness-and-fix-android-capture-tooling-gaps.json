@@ -1,0 +1,38 @@
+{
+  "claimStartedAt": "2026-07-26T12:54:00Z",
+  "completedAt": "2026-07-26T13:47:55Z",
+  "completedBy": {
+    "agentProvider": "claude",
+    "codeyamEditorVersion": "0.1.0",
+    "currentStep": "ui-step22",
+    "machine": "Jareds-Laptop.local",
+    "originId": "76154a71-f874-468a-81e0-7e448385c871",
+    "pid": 5903,
+    "priority": 0,
+    "selectedPlan": "reconcile-ios-scenario-staleness-and-fix-android-capture-tooling-gaps",
+    "sessionId": "e12e955b-cc26-496a-92fa-736c58833264",
+    "startedAt": "2026-07-26T12:54:00Z"
+  },
+  "createdAt": "2026-07-22T22:21:43Z",
+  "deliverables": [
+    ".claude/hooks/editor-step-hook.py",
+    ".claude/skills/codeyam-audit/finalize-procedure.md",
+    ".claude/skills/codeyam-edit-plan/SKILL.md",
+    ".claude/skills/codeyam-editor/SKILL.md",
+    ".github/workflows/ci.yml",
+    "ANDROID_SETUP.md",
+    "CONTRIBUTING.md",
+    "README.md",
+    "android/app/src/main/AndroidManifest.xml",
+    "android/app/src/main/java/com/codeyam/android/MainActivity.kt",
+    "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
+    "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt",
+    "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt",
+    "ios/Sources/AppCore/Views/CounterBottomBar.swift"
+  ],
+  "journalTimestamp": "2026-07-26T13:47:55Z",
+  "mode": "ui",
+  "planFile": "completed/reconcile-ios-scenario-staleness-and-fix-android-capture-tooling-gaps.md",
+  "slug": "reconcile-ios-scenario-staleness-and-fix-android-capture-tooling-gaps",
+  "title": "Reconcile iOS scenario staleness and fix Android capture + tooling gaps"
+}

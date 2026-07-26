@@ -17,6 +17,8 @@ import com.codeyam.android.model.SystemCounterFeedback
 import com.codeyam.android.ui.CounterColors
 import com.codeyam.android.ui.CounterScreen
 import com.codeyam.android.ui.CounterScreenState
+import com.codeyam.android.ui.androidHapticEmitter
+import com.codeyam.android.ui.androidSoundEmitter
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,13 @@ class MainActivity : ComponentActivity() {
         val policy = SeedPolicy.current(isDebuggable)
         val model = CounterModel(
             store = store,
-            feedback = SystemCounterFeedback(),
+            // Supply the real Android hardware bridges to the feedback seam; the
+            // option gating in `SystemCounterFeedback` stays hardware-free (and
+            // unit-tested), while these emitters own the Vibrator / ToneGenerator I/O.
+            feedback = SystemCounterFeedback(
+                emitHaptic = androidHapticEmitter(this),
+                emitSound = androidSoundEmitter(),
+            ),
             policy = policy,
         )
 
