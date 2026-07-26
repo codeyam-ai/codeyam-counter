@@ -32,6 +32,10 @@ blob-report/
 .codeyam/preview-env.json
 .codeyam/preview-capture.png
 .codeyam/server-state.json
+# Transient simulator boot/launch state — rewritten on every preview run and
+# meaningless outside the session that produced it, so not repo artifacts.
+.codeyam/pending-build-launch
+.codeyam/simulator-status.jsonl
 
 # codeyam-editor:start
 # Managed by `codeyam-editor init` / `codeyam-editor start`.

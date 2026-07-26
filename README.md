@@ -56,7 +56,7 @@ swift test --package-path ios --parallel --disable-swift-testing --xunit-output 
 ```
 
 Open `ios/App.xcodeproj` in Xcode and run the **App** scheme on an iOS simulator or
-device. See [MOBILE_SETUP.md](MOBILE_SETUP.md) for simulator prerequisites.
+device. See [IOS_SETUP.md](IOS_SETUP.md) for simulator prerequisites.
 
 ### Android
 

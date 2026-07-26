@@ -1,9 +1,11 @@
 # Swift + SwiftUI iOS App Setup
 
 The iOS app lives under `ios/` (`ios/App.xcodeproj`, `ios/Sources/AppCore`,
-`ios/Tests`), alongside a reserved `android/` for the forthcoming Kotlin app.
-The `start-simulator swift-ios-swiftui` command below is unchanged — codeyam
-reads the app directory from `editor.json`.
+`ios/Tests`), alongside the Kotlin + Jetpack Compose port under `android/`.
+codeyam reads the app directory from `editor.json`, so
+`start-simulator swift-ios-swiftui` always targets `ios/`.
+
+For the Android side, see [ANDROID_SETUP.md](ANDROID_SETUP.md).
 
 ## iOS verify — pre-flight checklist
 
