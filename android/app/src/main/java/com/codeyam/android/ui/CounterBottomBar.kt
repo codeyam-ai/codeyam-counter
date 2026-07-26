@@ -62,8 +62,13 @@ fun CounterBottomBar(
     var pressed by remember { mutableStateOf(initiallyPressed) }
 
     val assemblyHeight = screenHeight * 0.20f
-    val lowerRowHeight = 64.dp
-    val topBarHeight = maxOf(assemblyHeight - lowerRowHeight, 64.dp)
+    // Taller lower row → the increment button's downward continuation reaches
+    // higher up the screen, giving a larger, easier-to-tap increment target.
+    val lowerRowHeight = 100.dp
+    // Keep the top "TAP TO INCREMENT" bar at its previous height (derived from the
+    // original 64dp row baseline) so growing the lower row grows the whole
+    // assembly instead of shrinking the top bar.
+    val topBarHeight = maxOf(assemblyHeight - 64.dp, 64.dp)
     val columnWidth = screenWidth / 4
 
     Column(modifier = modifier.fillMaxWidth()) {

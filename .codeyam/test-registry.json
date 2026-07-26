@@ -994,6 +994,1410 @@
       "line": 31,
       "registeredAt": "2026-06-28T12:56:31.617399+00:00",
       "runner": "tests"
+    },
+    {
+      "description": "The \"must feel different\" guarantee, pinned: the two default haptics are qualitatively distinct, not the same tap.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testDefaultHapticsAreDistinct",
+      "line": 29,
+      "registeredAt": "2026-07-26T12:47:01.029201+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A fresh store with nothing seeded is right-handed, silent, and carries the distinct default haptic pairing: increment Sharp, decrement Soft.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testDefaultsAreRightHandedSilentWithDistinctHaptics",
+      "line": 18,
+      "registeredAt": "2026-07-26T12:47:00.934493+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Legacy migration: a user who tuned the pre-split single hapticOption key (and has neither new key) adopts that value for BOTH directions. A stored amplitude value (heavy) migrates to its nearest surviving feel (sharp).",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testLegacyHapticKeyMigratesToBothDirections",
+      "line": 68,
+      "registeredAt": "2026-07-26T12:47:01.101277+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A legacy \"off\" is respected — both directions stay silent, not reset to the new Sharp/Soft defaults.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testLegacyHapticOffMigratesToBothOff",
+      "line": 79,
+      "registeredAt": "2026-07-26T12:47:01.125612+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A new per-direction key wins over the legacy key when both are present. The legacy amplitude value (heavy) still migrates to sharp.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testNewHapticKeyWinsOverLegacy",
+      "line": 90,
+      "registeredAt": "2026-07-26T12:47:01.149039+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The option enums expose the full choice sets the settings picker renders.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testOptionCasesCoverTheChoiceSets",
+      "line": 159,
+      "registeredAt": "2026-07-26T12:47:01.269757+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Each key is independent — changing one does not disturb the others.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testOptionsAreIndependent",
+      "line": 119,
+      "registeredAt": "2026-07-26T12:47:01.197306+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Changing a setting persists it: a second store over the same backing reads the written values back.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testPersistsChangesAcrossReload",
+      "line": 102,
+      "registeredAt": "2026-07-26T12:47:01.173606+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The store reads seeded preferences, including the string-injected form the seeder writes (enum rawValue via string), including the soft/sharp values.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testReadsSeededStringPreferences",
+      "line": 37,
+      "registeredAt": "2026-07-26T12:47:01.053882+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A release-policy launch over an unstamped store ignores injected keys (including the legacy key) and starts from the Sharp/Soft defaults.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testReleasePolicyIgnoresSeededHapticsWithoutProvenance",
+      "line": 132,
+      "registeredAt": "2026-07-26T12:47:01.221251+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "resolve(...) migrates removed amplitude/rigid rawValues to their nearest surviving feel, passes current cases through, and rejects unknown tokens.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testResolveMigratesRemovedRawValues",
+      "line": 144,
+      "registeredAt": "2026-07-26T12:47:01.244969+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "An unrecognized option rawValue falls back to the built-in default; a missing haptic key likewise falls back (to its direction's default).",
+      "file": "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.AppSettingsTest › testUnknownOptionFallsBackToDefault",
+      "line": 53,
+      "registeredAt": "2026-07-26T12:47:01.077722+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Every add stacks another blank slot, each with its own unique id.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAllowsConsecutiveBlankSlots",
+      "line": 187,
+      "registeredAt": "2026-07-26T12:47:01.600005+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "addCounter appends a blank slot (empty name, blank color, count 0) and selects it.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAppendsBlankAndSelectsIt",
+      "line": 147,
+      "registeredAt": "2026-07-26T12:47:01.509421+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "addCounter assigns an id one past the current max and an order one past the max.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAssignsNextIdAndOrder",
+      "line": 160,
+      "registeredAt": "2026-07-26T12:47:01.532729+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Adding a counter is a fresh start, so it clears any pending reset-undo.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testAddCounterClearsPendingUndo",
+      "line": 199,
+      "registeredAt": "2026-07-26T12:47:01.638057+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "addCounter persists both the grown counters list and the new selection.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testAddCounterPersists",
+      "line": 174,
+      "registeredAt": "2026-07-26T12:47:01.556308+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A blanked slot increments into a solid blank dot without resurrecting a name.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testBlankSlotIncrementsWithoutReviving",
+      "line": 295,
+      "registeredAt": "2026-07-26T12:47:01.979291+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A clamped subtract that DOES change the count records the actual applied delta.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testClampedSubtractRecordsActualAppliedDelta",
+      "line": 877,
+      "registeredAt": "2026-07-26T12:47:03.210747+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The cumulative-series helper reconstructs the running count over relative time, starting from (0, 0); runningTotal is the net.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testCumulativeSeriesReconstructsRunningCount",
+      "line": 940,
+      "registeredAt": "2026-07-26T12:47:03.333739+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The default (no effectiveFeedback set) resolves to all-off and fires OFF options.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDefaultEffectiveFeedbackIsAllOff",
+      "line": 643,
+      "registeredAt": "2026-07-26T12:47:02.605999+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Past the four permanent base slots, deleting removes the counter outright and selection falls back to the previous counter.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeleteBeyondFirstFourRemovesAndSelectsPrevious",
+      "line": 330,
+      "registeredAt": "2026-07-26T12:47:02.058658+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Deleting a counter blanks it in place rather than removing it.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeleteBlanksInPlace",
+      "line": 279,
+      "registeredAt": "2026-07-26T12:47:01.949907+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Deleting a counter clears its recorded runs — a blank slot starts clean.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeleteCounterClearsItsHistories",
+      "line": 929,
+      "registeredAt": "2026-07-26T12:47:03.310358+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Deleting the last counter blanks it in place: the row length is unchanged and the blanked slot stays selected.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeleteLastCounterBlanksInPlaceAndKeepsSelection",
+      "line": 318,
+      "registeredAt": "2026-07-26T12:47:02.035392+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Deleting a counter clears the pending undo.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeletingCounterClearsPendingUndo",
+      "line": 544,
+      "registeredAt": "2026-07-26T12:47:02.409371+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The blank-in-place / remove split is keyed on baseSlotCount, so the row can never shrink below it no matter how many base slots are deleted.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeletingEveryBaseSlotNeverShrinksTheRow",
+      "line": 347,
+      "registeredAt": "2026-07-26T12:47:02.081182+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Removing an extra counter drops its recorded runs rather than orphaning them.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeletingExtraCounterDropsItsHistory",
+      "line": 392,
+      "registeredAt": "2026-07-26T12:47:02.147880+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Deleting the last extra counter selects the new last counter.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeletingLastExtraCounterSelectsNewLast",
+      "line": 377,
+      "registeredAt": "2026-07-26T12:47:02.126079+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Deleting an extra counter that is not the last one closes the gap.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testDeletingMiddleExtraCounterSlidesFollowingCounterDown",
+      "line": 359,
+      "registeredAt": "2026-07-26T12:47:02.103657+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Editing the active counter invalidates the captured pre-reset value.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testEditingActiveCounterClearsPendingUndo",
+      "line": 534,
+      "registeredAt": "2026-07-26T12:47:02.386358+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "With no override set, every effective* resolver returns the supplied app default.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testEffectiveResolversFollowDefaultWhenNil",
+      "line": 654,
+      "registeredAt": "2026-07-26T12:47:02.629637+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A set override pins its own value regardless of the app default — including an explicit OFF winning over a non-OFF default; the two haptic directions resolve independently.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testEffectiveResolversPinOverrideWhenSet",
+      "line": 667,
+      "registeredAt": "2026-07-26T12:47:02.653307+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A fresh model with no seeded state falls back to the four-counter starter set, all at zero, with the first counter selected.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testFreshModelHasFourStarterCountersAtZero",
+      "line": 56,
+      "registeredAt": "2026-07-26T12:47:01.295059+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A per-counter handedness override drives the effective layout independent of the app default.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testHandednessOverrideResolvesPerCounter",
+      "line": 837,
+      "registeredAt": "2026-07-26T12:47:03.095088+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A counter can pin one haptic direction while the other follows the app default.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testHapticDirectionsResolveIndependently",
+      "line": 681,
+      "registeredAt": "2026-07-26T12:47:02.677033+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Recorded runs persist and reload through the same store.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testHistoriesPersistAndReloadFromDefaults",
+      "line": 973,
+      "registeredAt": "2026-07-26T12:47:03.400915+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The per-counter run list caps at 10, dropping the oldest once an 11th run opens.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testHistoryCapDropsOldestRun",
+      "line": 900,
+      "registeredAt": "2026-07-26T12:47:03.257250+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Incrementing — the counter \"starting again\" — clears the pending undo.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testIncrementClearsPendingUndo",
+      "line": 498,
+      "registeredAt": "2026-07-26T12:47:02.313966+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Incrementing emits one feedback call carrying the resolved sound and the increment haptic (not the decrement one).",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testIncrementFiresFeedbackWithIncrementHaptic",
+      "line": 593,
+      "registeredAt": "2026-07-26T12:47:02.501341+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A counter with step 5 increments in jumps of 5 (0 -> 5 -> 10).",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testIncrementHonorsStep",
+      "line": 211,
+      "registeredAt": "2026-07-26T12:47:01.664160+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Incrementing raises only the active counter's count by one.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testIncrementRaisesActiveCounter",
+      "line": 66,
+      "registeredAt": "2026-07-26T12:47:01.318218+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Increment appends a positive event (of the counter's step) to the current run, lazily opening the first run on the first change.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testIncrementRecordsPositiveEvent",
+      "line": 847,
+      "registeredAt": "2026-07-26T12:47:03.136230+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Feedback fired on increment resolves through the active counter's override.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testIncrementUsesActiveCounterEffectiveFeedback",
+      "line": 800,
+      "registeredAt": "2026-07-26T12:47:03.061250+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Counters persisted before step existed decode with step defaulting to 1.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testLegacyCounterWithoutStepDecodesToStepOne",
+      "line": 242,
+      "registeredAt": "2026-07-26T12:47:01.741741+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Legacy persisted counters decode with all overrides null.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testLegacyCountersDecodeWithNilOverrides",
+      "line": 744,
+      "registeredAt": "2026-07-26T12:47:02.771182+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A counter persisted with the pre-split single hapticOverride key migrates that value into BOTH direction overrides on decode; heavy migrates to sharp.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testLegacySingleHapticOverrideMigratesToBothDirections",
+      "line": 760,
+      "registeredAt": "2026-07-26T12:47:02.861416+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The model loads seeded counters and the selected id injected via the store.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testLoadsSeededStateFromDefaults",
+      "line": 445,
+      "registeredAt": "2026-07-26T12:47:02.214989+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Legacy migration: deletedDefaultIds folds blank counters at the right orders.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testMigrationFoldsDeletedDefaultsIntoBlankSlots",
+      "line": 407,
+      "registeredAt": "2026-07-26T12:47:02.170517+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Giving a blank slot a name via settings revives it — it stops being blank.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testNamingBlankSlotRevivesIt",
+      "line": 306,
+      "registeredAt": "2026-07-26T12:47:02.007691+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A new per-direction override key in persisted JSON wins over a legacy single key.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testNewHapticOverrideKeyWinsOverLegacyOnDecode",
+      "line": 773,
+      "registeredAt": "2026-07-26T12:47:02.920669+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The no-op subtract clamp records no event — and opens no history at all.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testNoOpSubtractClampRecordsNoEvent",
+      "line": 869,
+      "registeredAt": "2026-07-26T12:47:03.187953+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A nil-override counter tracks a changed app default; an overriding counter is pinned.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testOverrideTracksOrPinsAgainstChangingDefault",
+      "line": 733,
+      "registeredAt": "2026-07-26T12:47:02.747153+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The relative-offset helper measures seconds from the run's start.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testRelativeOffsetMeasuredFromStart",
+      "line": 964,
+      "registeredAt": "2026-07-26T12:47:03.377091+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "AppSettings applies the same gate: a release-policy launch over an unstamped store ignores injected keys and starts from the built-in defaults.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance",
+      "line": 1042,
+      "registeredAt": "2026-07-26T12:47:03.517202+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A release-policy launch ignores injected counter state lacking the provenance marker, falling back to the four default starter counters.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyIgnoresSeededCountersWithoutProvenance",
+      "line": 1005,
+      "registeredAt": "2026-07-26T12:47:03.446516+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Once the app stamps provenance, a release-policy AppSettings launch trusts the store's own settings again.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyTrustsAppSettingsAfterProvenanceStamped",
+      "line": 1058,
+      "registeredAt": "2026-07-26T12:47:03.541237+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Under the release policy, a real user's own persisted data survives: once the app persists (stamping the marker), a reload trusts it.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyTrustsOwnPersistedDataAfterStamp",
+      "line": 1031,
+      "registeredAt": "2026-07-26T12:47:03.493114+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "reset() and undoReset() are not count-change events — they stay silent.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testResetAndUndoResetStaySilent",
+      "line": 632,
+      "registeredAt": "2026-07-26T12:47:02.582368+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Resetting a counter already at zero still enters undo mode; undoing restores zero.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
+      "line": 487,
+      "registeredAt": "2026-07-26T12:47:02.288766+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Reset captures the pre-reset value and enters undo mode.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testResetEntersUndoModeAndCapturesPreviousValue",
+      "line": 465,
+      "registeredAt": "2026-07-26T12:47:02.239486+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Reset seals the current run and opens a new empty run; the count zeroes.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testResetSealsCurrentAndOpensEmptyRun",
+      "line": 885,
+      "registeredAt": "2026-07-26T12:47:03.233686+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Reset zeroes the active counter without touching the others.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testResetZeroesActiveCounter",
+      "line": 94,
+      "registeredAt": "2026-07-26T12:47:01.388733+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A hand-authored history seed (JSON object keyed by counter id, epoch-millis times) loads with correct deltas and relative offsets.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSeededHistoriesJSONLoadsFromDefaults",
+      "line": 988,
+      "registeredAt": "2026-07-26T12:47:03.423867+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The seed read coerces a string-injected value via the store's int coercion.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyCoercesStringValue",
+      "line": 568,
+      "registeredAt": "2026-07-26T12:47:02.454944+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A model seeded with the resetUndo key enters undo mode on launch when the active counter is at zero (the static-scenario seed path).",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyEntersUndoModeOnLaunch",
+      "line": 556,
+      "registeredAt": "2026-07-26T12:47:02.432621+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The seed is rejected when the active counter is not at zero — a stale leftover key must not falsely activate UNDO RESET.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
+      "line": 580,
+      "registeredAt": "2026-07-26T12:47:02.478628+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A seeded subset (no deletedDefaultIds) has no blank slots.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSeededSubsetHasNoBlankSlots",
+      "line": 432,
+      "registeredAt": "2026-07-26T12:47:02.192970+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Swiping forward within the list advances selection by one and does not grow it.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSelectNextAdvancesWithinList",
+      "line": 105,
+      "registeredAt": "2026-07-26T12:47:01.412047+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Swiping forward PAST the last counter grows the list: it appends a fresh blank slot and selects it instead of wrapping back to the first.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSelectNextPastLastAppendsBlankAndSelectsIt",
+      "line": 116,
+      "registeredAt": "2026-07-26T12:47:01.435550+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "selectPrevious within the list moves back by one.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSelectPreviousMovesBackWithinList",
+      "line": 138,
+      "registeredAt": "2026-07-26T12:47:01.484672+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "selectPrevious wraps around from the first counter to the last, never growing.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSelectPreviousWrapsFromFirstToLast",
+      "line": 128,
+      "registeredAt": "2026-07-26T12:47:01.460863+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "With negatives disallowed, a step that would overshoot below zero clamps to zero.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSubtractClampsToZeroWhenStepOvershoots",
+      "line": 229,
+      "registeredAt": "2026-07-26T12:47:01.716896+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A counter with allowNegative == false clamps at zero instead of going negative.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSubtractClampsWhenNegativesDisallowed",
+      "line": 84,
+      "registeredAt": "2026-07-26T12:47:01.365477+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Subtracting also clears the pending undo.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSubtractClearsPendingUndo",
+      "line": 509,
+      "registeredAt": "2026-07-26T12:47:02.339381+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A subtract that changes the count emits the decrement haptic, distinct from the increment default.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSubtractFiresFeedbackWithDecrementHaptic",
+      "line": 606,
+      "registeredAt": "2026-07-26T12:47:02.532812+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "With the default allowNegative == true, subtracting from zero goes negative.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSubtractGoesNegativeByDefault",
+      "line": 76,
+      "registeredAt": "2026-07-26T12:47:01.341681+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Subtracting honors the step symmetrically when negatives are allowed.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSubtractHonorsStep",
+      "line": 221,
+      "registeredAt": "2026-07-26T12:47:01.690789+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The no-op clamp (negatives disallowed, already at zero) fires no feedback.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSubtractNoOpClampDoesNotFireFeedback",
+      "line": 619,
+      "registeredAt": "2026-07-26T12:47:02.557746+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Subtract records the actual (negative) applied delta.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSubtractRecordsNegativeAppliedDelta",
+      "line": 861,
+      "registeredAt": "2026-07-26T12:47:03.163257+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Switching counters expires the undo offer — the captured value belonged to the counter we left; returning does not revive it.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testSwitchingCounterClearsPendingUndo",
+      "line": 520,
+      "registeredAt": "2026-07-26T12:47:02.363301+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The default (debug) trust policy still adopts injected state.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testTrustInjectedPolicyAdoptsSeededCounters",
+      "line": 1018,
+      "registeredAt": "2026-07-26T12:47:03.469905+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "undoReset restores the count AND pops the empty run reset opened.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testUndoResetReopensSealedRunAndRestoresCount",
+      "line": 915,
+      "registeredAt": "2026-07-26T12:47:03.283366+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "undoReset restores the captured value and exits undo mode.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testUndoResetRestoresPreviousValueAndExitsUndoMode",
+      "line": 476,
+      "registeredAt": "2026-07-26T12:47:02.264812+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "An unrecognized override rawValue in seeded JSON decodes to null rather than crashing the whole load.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testUnrecognizedOverrideRawValueDecodesToNil",
+      "line": 787,
+      "registeredAt": "2026-07-26T12:47:03.014534+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A step below 1 is clamped up to 1.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterClampsStepToAtLeastOne",
+      "line": 271,
+      "registeredAt": "2026-07-26T12:47:01.852712+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Saving with null overrides clears any previously pinned values.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterClearsOverridesWhenNil",
+      "line": 714,
+      "registeredAt": "2026-07-26T12:47:02.723638+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "updateActiveCounter applies every edited field and persists across reloads.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterEditsAndPersists",
+      "line": 256,
+      "registeredAt": "2026-07-26T12:47:01.765837+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "updateActiveCounter persists all overrides across a reload, enum overrides surviving as their rawValue.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterModelTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterRoundTripsOverrides",
+      "line": 693,
+      "registeredAt": "2026-07-26T12:47:02.700683+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "An unknown colorKey falls back to the lime accent rather than crashing.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterThemeTest › testDotHexFallsBackToLimeForUnknownKey",
+      "line": 64,
+      "registeredAt": "2026-07-26T12:47:03.706056+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Each known colorKey maps to its design-token hex.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterThemeTest › testDotHexMapsKnownKeys",
+      "line": 55,
+      "registeredAt": "2026-07-26T12:47:03.682128+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Parsing is case-insensitive: lower- and upper-case hex agree.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterThemeTest › testIsCaseInsensitive",
+      "line": 37,
+      "registeredAt": "2026-07-26T12:47:03.636260+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Each isolated channel maps to the expected fraction of 255.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterThemeTest › testIsolatesIndividualChannels",
+      "line": 47,
+      "registeredAt": "2026-07-26T12:47:03.659531+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The lime accent decomposes into its three channels.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterThemeTest › testParsesAccentLime",
+      "line": 25,
+      "registeredAt": "2026-07-26T12:47:03.588558+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Pure black and white sit at the ends of the 0..1 range.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterThemeTest › testParsesBlackAndWhite",
+      "line": 18,
+      "registeredAt": "2026-07-26T12:47:03.564557+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A leading \"#\" is tolerated and parses identically.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.CounterThemeTest › testToleratesLeadingHash",
+      "line": 31,
+      "registeredAt": "2026-07-26T12:47:03.611514+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Every qualitatively-distinct feel gates the same way: non-OFF, so each fires the haptic emitter once carrying its own choice.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testAllDistinctFeelsAreTreatedAsNonOff",
+      "line": 66,
+      "registeredAt": "2026-07-26T12:47:03.981515+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Every override pinned at once still reads true.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testAllOverridesSetReturnsTrue",
+      "line": 134,
+      "registeredAt": "2026-07-26T12:47:04.174410+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A blank slot (no name, no overrides) leaves the section collapsed.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testBlankSlotReturnsFalse",
+      "line": 145,
+      "registeredAt": "2026-07-26T12:47:04.198742+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Both off → nothing fires.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testBothOffFiresNothing",
+      "line": 56,
+      "registeredAt": "2026-07-26T12:47:03.895939+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Both non-off → both emitters fire once with their respective choices.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testBothOptionsFireBoth",
+      "line": 47,
+      "registeredAt": "2026-07-26T12:47:03.807839+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A decrement-haptic override alone is enough to open the section.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testDecrementHapticOverrideAloneReturnsTrue",
+      "line": 119,
+      "registeredAt": "2026-07-26T12:47:04.123444+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "An explicit OFF sound is a deliberate pin, not the absence of one, so it still counts as an override — a non-null value, not the default fall-through.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testExplicitOffSoundOverrideReturnsTrue",
+      "line": 127,
+      "registeredAt": "2026-07-26T12:47:04.150524+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A handedness override alone is enough to open the section.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testHandednessOverrideAloneReturnsTrue",
+      "line": 98,
+      "registeredAt": "2026-07-26T12:47:04.056417+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A non-off haptic with sound off fires only the haptic emitter, carrying the chosen feel.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testHapticOnlyFiresHapticWithFeel",
+      "line": 28,
+      "registeredAt": "2026-07-26T12:47:03.751064+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "An increment-haptic override alone is enough to open the section.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testIncrementHapticOverrideAloneReturnsTrue",
+      "line": 112,
+      "registeredAt": "2026-07-26T12:47:04.101178+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A counter left on pure app-wide defaults pins nothing, so the section stays collapsed.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testNoOverridesReturnsFalse",
+      "line": 91,
+      "registeredAt": "2026-07-26T12:47:04.033430+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The no-op default implementation never touches its arguments — a smoke check that calling it with any options is safe and silent.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testNoopFeedbackDoesNothing",
+      "line": 81,
+      "registeredAt": "2026-07-26T12:47:04.008315+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A non-off sound with haptic off fires only the sound emitter, carrying the chosen sound.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testSoundOnlyFiresSoundWithChoice",
+      "line": 38,
+      "registeredAt": "2026-07-26T12:47:03.780857+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A sound override alone is enough to open the section.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.FeedbackTest › testSoundOverrideAloneReturnsTrue",
+      "line": 105,
+      "registeredAt": "2026-07-26T12:47:04.078959+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Whatever the starting state, neither toggle can ever leave both panels open.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.SettingsOverlaysTest › testNoToggleEverLeavesBothOpen",
+      "line": 66,
+      "registeredAt": "2026-07-26T12:47:04.385478+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Nothing is open out of the box.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.SettingsOverlaysTest › testNothingIsOpenByDefault",
+      "line": 15,
+      "registeredAt": "2026-07-26T12:47:04.221607+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The core rule: opening App Settings while the per-counter panel is up force-closes the per-counter panel, so the two are never both on screen.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningAppSettingsClosesTheCounterPanel",
+      "line": 38,
+      "registeredAt": "2026-07-26T12:47:04.291088+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Opening App Settings from a clean screen just opens it.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningAppSettingsFromClosedOpensIt",
+      "line": 23,
+      "registeredAt": "2026-07-26T12:47:04.245765+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The same rule in the other direction.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningCounterSettingsClosesAppSettings",
+      "line": 45,
+      "registeredAt": "2026-07-26T12:47:04.314346+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Opening the per-counter panel from a clean screen just opens it.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningCounterSettingsFromClosedOpensIt",
+      "line": 30,
+      "registeredAt": "2026-07-26T12:47:04.268787+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Toggling an already-open panel closes it — and does NOT open the other one.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.SettingsOverlaysTest › testTogglingOpenAppSettingsClosesItAndOpensNothing",
+      "line": 52,
+      "registeredAt": "2026-07-26T12:47:04.338028+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The closing direction for the per-counter panel.",
+      "file": "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.model.SettingsOverlaysTest › testTogglingOpenCounterSettingsClosesItAndOpensNothing",
+      "line": 59,
+      "registeredAt": "2026-07-26T12:47:04.362909+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Delta Carries An Explicit Plus When Non Negative.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountFormatTest › deltaCarriesAnExplicitPlusWhenNonNegative",
+      "line": 43,
+      "registeredAt": "2026-07-26T12:47:04.474930+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Delta Leaves The Minus Sign As The Only Marker When Negative.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountFormatTest › deltaLeavesTheMinusSignAsTheOnlyMarkerWhenNegative",
+      "line": 50,
+      "registeredAt": "2026-07-26T12:47:04.497998+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Four Digits And Up Are Grouped.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountFormatTest › fourDigitsAndUpAreGrouped",
+      "line": 29,
+      "registeredAt": "2026-07-26T12:47:04.429979+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Negative Counts Keep Their Sign And Grouping.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountFormatTest › negativeCountsKeepTheirSignAndGrouping",
+      "line": 37,
+      "registeredAt": "2026-07-26T12:47:04.452613+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Small Counts Are Unchanged.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountFormatTest › smallCountsAreUnchanged",
+      "line": 17,
+      "registeredAt": "2026-07-26T12:47:04.407842+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Anything Longer Falls To The Smallest Step.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountHeroSizingTest › anythingLongerFallsToTheSmallestStep",
+      "line": 29,
+      "registeredAt": "2026-07-26T12:47:04.566198+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Grouping Separators Count Toward The Width.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountHeroSizingTest › groupingSeparatorsCountTowardTheWidth",
+      "line": 39,
+      "registeredAt": "2026-07-26T12:47:04.593327+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Longer Numerals Step Down.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountHeroSizingTest › longerNumeralsStepDown",
+      "line": 22,
+      "registeredAt": "2026-07-26T12:47:04.543923+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "One And Two Digit Counts Use The Full Size.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountHeroSizingTest › oneAndTwoDigitCountsUseTheFullSize",
+      "line": 16,
+      "registeredAt": "2026-07-26T12:47:04.521620+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Size Never Increases As The Numeral Grows.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountHeroSizingTest › sizeNeverIncreasesAsTheNumeralGrows",
+      "line": 51,
+      "registeredAt": "2026-07-26T12:47:04.647816+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The Minus Sign Counts Toward The Width.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CountHeroSizingTest › theMinusSignCountsTowardTheWidth",
+      "line": 46,
+      "registeredAt": "2026-07-26T12:47:04.623026+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "A Per Counter Handedness Override Beats The App Default.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › aPerCounterHandednessOverrideBeatsTheAppDefault",
+      "line": 163,
+      "registeredAt": "2026-07-26T12:47:05.164967+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Adding A Counter Closes The Settings Panel.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › addingACounterClosesTheSettingsPanel",
+      "line": 94,
+      "registeredAt": "2026-07-26T12:47:04.987037+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Closing A Panel Leaves The Other Closed.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › closingAPanelLeavesTheOtherClosed",
+      "line": 76,
+      "registeredAt": "2026-07-26T12:47:04.873296+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Increment And Subtract Reach The Active Counter.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › incrementAndSubtractReachTheActiveCounter",
+      "line": 115,
+      "registeredAt": "2026-07-26T12:47:05.045590+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Left Handed Follows The App Default Without An Override.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › leftHandedFollowsTheAppDefaultWithoutAnOverride",
+      "line": 155,
+      "registeredAt": "2026-07-26T12:47:05.140277+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Opening App Settings Closes The Counter Panel.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › openingAppSettingsClosesTheCounterPanel",
+      "line": 59,
+      "registeredAt": "2026-07-26T12:47:04.752304+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Opening The Counter Panel Closes App Settings.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › openingTheCounterPanelClosesAppSettings",
+      "line": 67,
+      "registeredAt": "2026-07-26T12:47:04.781591+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Overlay Flags Adopt Their Seeded Values.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › overlayFlagsAdoptTheirSeededValues",
+      "line": 48,
+      "registeredAt": "2026-07-26T12:47:04.724382+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Overlay Flags Default Closed.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › overlayFlagsDefaultClosed",
+      "line": 38,
+      "registeredAt": "2026-07-26T12:47:04.687779+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Reset Or Undo Dispatches By Pending Undo.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › resetOrUndoDispatchesByPendingUndo",
+      "line": 126,
+      "registeredAt": "2026-07-26T12:47:05.086330+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Select Next And Previous Move Through The Counters.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › selectNextAndPreviousMoveThroughTheCounters",
+      "line": 142,
+      "registeredAt": "2026-07-26T12:47:05.112295+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Selecting A Counter Closes The Settings Panel.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › selectingACounterClosesTheSettingsPanel",
+      "line": 86,
+      "registeredAt": "2026-07-26T12:47:04.897547+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Selecting From The List Closes Both The List And App Settings.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › selectingFromTheListClosesBothTheListAndAppSettings",
+      "line": 104,
+      "registeredAt": "2026-07-26T12:47:05.011545+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Domain Always Includes Zero.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotDomainAlwaysIncludesZero",
+      "line": 71,
+      "registeredAt": "2026-07-26T12:47:05.307611+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Handles An Empty Series.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotHandlesAnEmptySeries",
+      "line": 117,
+      "registeredAt": "2026-07-26T12:47:05.415468+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Maps Time Across The Full Width And Count Upwards.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotMapsTimeAcrossTheFullWidthAndCountUpwards",
+      "line": 52,
+      "registeredAt": "2026-07-26T12:47:05.283520+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Puts Zero Line Inside The Rect When The Count Went Negative.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotPutsZeroLineInsideTheRectWhenTheCountWentNegative",
+      "line": 86,
+      "registeredAt": "2026-07-26T12:47:05.332354+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Rect Clamps To A Positive Size When The Canvas Is Tiny.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotRectClampsToAPositiveSizeWhenTheCanvasIsTiny",
+      "line": 43,
+      "registeredAt": "2026-07-26T12:47:05.256808+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Rect Insets By The Gutters.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotRectInsetsByTheGutters",
+      "line": 19,
+      "registeredAt": "2026-07-26T12:47:05.189484+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Rect Scales Gutters By Density.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotRectScalesGuttersByDensity",
+      "line": 33,
+      "registeredAt": "2026-07-26T12:47:05.227761+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Survives A Flat Series.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotSurvivesAFlatSeries",
+      "line": 99,
+      "registeredAt": "2026-07-26T12:47:05.366087+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Plot Survives A Single Point Series.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › plotSurvivesASinglePointSeries",
+      "line": 109,
+      "registeredAt": "2026-07-26T12:47:05.391447+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Relative Time Formats As Minutes And Seconds.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › relativeTimeFormatsAsMinutesAndSeconds",
+      "line": 155,
+      "registeredAt": "2026-07-26T12:47:05.488733+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Relative Time Grows An Hours Field Past An Hour.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › relativeTimeGrowsAnHoursFieldPastAnHour",
+      "line": 164,
+      "registeredAt": "2026-07-26T12:47:05.514362+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Relative Time Rounds And Floors At Zero.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › relativeTimeRoundsAndFloorsAtZero",
+      "line": 170,
+      "registeredAt": "2026-07-26T12:47:05.537251+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Step Vertices Hold Then Jump.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › stepVerticesHoldThenJump",
+      "line": 131,
+      "registeredAt": "2026-07-26T12:47:05.438853+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Step Vertices Of Empty Or Single Input Are Degenerate.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/GraphGeometryTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.GraphGeometryTest › stepVerticesOfEmptyOrSingleInputAreDegenerate",
+      "line": 147,
+      "registeredAt": "2026-07-26T12:47:05.464315+00:00",
+      "runner": "android-tests"
     }
   ],
   "version": 2

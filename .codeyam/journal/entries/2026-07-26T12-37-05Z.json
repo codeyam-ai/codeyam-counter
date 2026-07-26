@@ -1,0 +1,91 @@
+{
+  "timestamp": "2026-07-26T12:37:05Z",
+  "title": "Taller Bottom Control Row for Easier Increment",
+  "type": "feature",
+  "userRequest": "## Summary\n\nMake the increment button easier to tap higher up by increasing the height of\nthe bottom control row on the counter screen — on **both** the iOS (Swift) and\nAndroid (Kotlin) apps, keeping them at visual parity. The increment button is an\nL-shape: a full-width top face (`IncrementBar`) plus a downward continuation\nthat lives inside the lower control row. Today the lower row is a fixed 64pt\ninside an assembly pinned to 20% of screen height. Growing the lower row (and\nthe overall assembly, so the \"TAP TO INCREMENT\" top bar keeps its full size)\nextends the increment continuation's tappable surface higher up the screen,\ngiving a bigger, easier-to-reach increment target. The Android\n`CounterBottomBar` is a direct port of the iOS one with the identical height\nmath, so the same change applies to both.\n\n## Key Decisions\n\n- **Grow the whole assembly, don't shrink the top bar.** The lower row height\n  goes from 64pt to 100pt, and the top increment bar keeps its current height\n  (`assemblyHeight - 64`). Net effect: the overall bottom assembly grows by\n  ~36pt and the increment continuation's top edge sits higher. Chosen over the\n  alternative (keep the assembly at 20% and let the top bar shrink) because the\n  user wants a *larger* increment target reaching higher, not a smaller\n  \"TAP TO INCREMENT\" bar. (User-confirmed during planning.)\n- **One height constant, one derived value.** All the sizing lives in\n  `CounterBottomBar.body`; the fix is a two-line change there. `IncrementBar`,\n  `BottomControlRow`, and the increment continuation already stretch to fill\n  whatever height they're given (`.frame(maxHeight: .infinity)`), so nothing\n  downstream needs to change — the taller row just fills correctly.\n- **Preserve the top-bar height explicitly.** Decouple `topBarHeight` from the\n  new `lowerRowHeight` so raising the row doesn't steal space from the top bar.\n  Keep the `max(..., 64)` floor so very short screens still render sanely.\n\n## Implementation\n\n### 1. Increase the lower control row height and preserve the top bar\n\n**File**: `ios/Sources/AppCore/Views/CounterBottomBar.swift`\n\nIn `body`, the sizing block currently reads:\n\n```swift\nlet assemblyHeight = screenHeight * 0.20\nlet lowerRowHeight: CGFloat = 64\nlet topBarHeight = max(assemblyHeight - lowerRowHeight, 64)\n```\n\nChange it so the lower row is taller while the top increment bar keeps its\nprevious size (derived from the original 64pt baseline, not the new row\nheight):\n\n```swift\nlet assemblyHeight = screenHeight * 0.20\n// Taller lower row → the increment button's downward continuation reaches\n// higher up the screen, giving a larger, easier-to-tap increment target.\nlet lowerRowHeight: CGFloat = 100\n// Keep the top \"TAP TO INCREMENT\" bar at its previous height (derived from the\n// original 64pt row baseline) so growing the lower row grows the whole\n// assembly instead of shrinking the top bar.\nlet topBarHeight = max(assemblyHeight - 64, 64)\nlet columnWidth = screenWidth / 4\n```\n\nThe `.frame(height: lowerRowHeight)` applied to `BottomControlRow` (and\n`.frame(height: topBarHeight)` on `IncrementBar`) already pick up these\nvalues — no other edits are needed. Update the doc comment on the struct if it\npins the exact \"one-fifth\" figure so it still reads accurately (the assembly is\nnow slightly taller than 20%).\n\n### 2. Mirror the change on Android for parity\n\n**File**: `android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt`\n\nThe Kotlin `CounterBottomBar` composable holds the identical height math. It\ncurrently reads:\n\n```kotlin\nval assemblyHeight = screenHeight * 0.20f\nval lowerRowHeight = 64.dp\nval topBarHeight = maxOf(assemblyHeight - lowerRowHeight, 64.dp)\n```\n\nApply the same change — taller lower row, top bar preserved off the original\n64dp baseline:\n\n```kotlin\nval assemblyHeight = screenHeight * 0.20f\n// Taller lower row → the increment button's downward continuation reaches\n// higher up the screen, giving a larger, easier-to-tap increment target.\nval lowerRowHeight = 100.dp\n// Keep the top \"TAP TO INCREMENT\" bar at its previous height (derived from the\n// original 64dp row baseline) so growing the lower row grows the whole\n// assembly instead of shrinking the top bar.\nval topBarHeight = maxOf(assemblyHeight - 64.dp, 64.dp)\n```\n\n`IncrementBar` and `BottomControlRow` (its `continuation`) already stretch via\n`Modifier.fillMaxHeight()` inside the `.height(...)` the parent hands them, so\nthey grow automatically — no other edits are needed. Update the struct doc\ncomment if it pins the exact \"one-fifth\" figure.\n\n## Reused existing code\n\n- `CounterBottomBar` from `ios/Sources/AppCore/Views/CounterBottomBar.swift`\n  (glossary entry: `CounterBottomBar`) — the only file that changes; it owns all\n  the height math for the bottom assembly.\n- `IncrementBar` from `ios/Sources/AppCore/Views/IncrementBar.swift` — top face\n  of the increment button; already fills `topBarHeight` via\n  `.frame(maxHeight: .infinity)`, unchanged.\n- `BottomControlRow` from `ios/Sources/AppCore/Views/BottomControlRow.swift` —\n  the lower row; its `incrementContinuation` already fills the row height via\n  `.frame(maxHeight: .infinity)`, so it grows automatically with the new\n  `lowerRowHeight`. Unchanged.\n- `CounterBottomBar` (Android) from\n  `android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt` — the\n  Kotlin port; the only Android file that changes. `IncrementBar` and\n  `BottomControlRow` live in the same file and already fill their given height\n  via `Modifier.fillMaxHeight()`, unchanged.\n- Existing isolated scenarios for the assembly: `counterbottombar-default`,\n  `counterbottombar-increment-pressed`, `counterbottombar-left-handed-pressed`\n  (registered under the `CounterBottomBar` glossary entry, captured on both the\n  iOS and Android targets) — reused as the before/after visual proof on each\n  platform.\n\nSurvey note: no existing height/config field already controls the lower-row\nheight — it is a hardcoded `64` literal local to `CounterBottomBar` on both\nplatforms. This change edits that literal in place rather than introducing a new\nconfig knob.\n\n## Scenarios to Demonstrate\n\n- `counterbottombar-default` — the bottom assembly at rest; shows the taller\n  lower row and the raised increment continuation.\n- `counterbottombar-increment-pressed` — pressed state; confirms both increment\n  faces (top bar + taller continuation) still dim in unison.\n- `counterbottombar-left-handed-pressed` — left-handed mirror; confirms the\n  taller row mirrors correctly and the continuation lands under the thumb.\n- Full counter screen (application scenario) — the whole screen showing the\n  increment button reaching higher up relative to the count hero above it.\n\nAll three component scenarios are captured on **both** the iOS and Android\ntargets, so the before/after proof covers each platform and confirms parity.",
+  "description": "Grew the counter screen bottom control row from 64 to 100 (pt on iOS, dp on Android) so the increment button's downward continuation reaches higher up the screen, giving a larger, easier-to-tap increment target, while the TAP TO INCREMENT top bar keeps its full size. Shipped at parity on both apps via an identical two-line height change in CounterBottomBar.swift and CounterBottomBar.kt; the three counterbottombar-* component scenarios were recaptured to show the taller row.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/taller-bottom-control-row-for-easier-increment.md\t.codeyam/plans/completed/taller-bottom-control-row-for-easier-increment.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-default--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-default--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-increment-pressed--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-increment-pressed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-left-handed-pressed--iphone-16.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/counterbottombar-left-handed-pressed--iphone-16.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/simulator-status.jsonl",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/tool-loading-injected.json",
+      "status": "modified"
+    },
+    {
+      "path": "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt",
+      "status": "modified"
+    },
+    {
+      "path": "ios/Sources/AppCore/Views/CounterBottomBar.swift",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/pending-build-launch",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scratch-demo-default.png",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "CounterBottomBar - Default",
+      "screenshotPath": "counterbottombar-default--iphone-16.png"
+    },
+    {
+      "name": "CounterBottomBar - Increment pressed",
+      "screenshotPath": "counterbottombar-increment-pressed--iphone-16.png"
+    },
+    {
+      "name": "CounterBottomBar - Left-handed pressed",
+      "screenshotPath": "counterbottombar-left-handed-pressed--iphone-16.png"
+    }
+  ],
+  "testResults": {
+    "total": 121,
+    "passed": 121,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 121,
+        "passed": 121
+      }
+    ]
+  }
+}

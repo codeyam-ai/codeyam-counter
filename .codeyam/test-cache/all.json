@@ -1,34 +1,18 @@
 {
   "schemaVersion": 4,
-  "version": 57,
+  "version": 58,
   "partition": "all",
-  "hash": "a9578aed2fc6c8ec",
+  "hash": "2f023d7866f1f9bc",
   "runners": [
     {
       "name": "tests",
       "format": "junit-xml",
-      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<testsuites>\n<testsuite name=\"TestResults\" errors=\"0\" tests=\"121\" failures=\"0\" time=\"7.846052418000001\">\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testNewHapticKeyWinsOverLegacy\" time=\"0.081342916\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testLegacyHapticOffMigratesToBothOff\" time=\"0.081379167\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testLegacyHapticKeyMigratesToBothDirections\" time=\"0.081394917\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testOptionCasesCoverTheChoiceSets\" time=\"0.08136375\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testOptionsAreIndependent\" time=\"0.081359584\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testPersistsChangesAcrossReload\" time=\"0.0812615\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testDefaultsAreRightHandedSilentWithDistinctHaptics\" time=\"0.081393459\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testDefaultHapticsAreDistinct\" time=\"0.081404291\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testUnknownOptionFallsBackToDefault\" time=\"0.062712958\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testExplicitOffSoundOverrideReturnsTrue\" time=\"0.062705958\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testReadsSeededStringPreferences\" time=\"0.062764125\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testResolveMigratesRemovedRawValues\" time=\"0.062761833\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testDecrementHapticOverrideAloneReturnsTrue\" time=\"0.062701042\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testIncrementHapticOverrideAloneReturnsTrue\" time=\"0.042452583\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testAllDistinctFeelsAreTreatedAsNonOff\" time=\"0.042421583\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testNoOverridesReturnsFalse\" time=\"0.042470916\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testHandednessOverrideAloneReturnsTrue\" time=\"0.042481375\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testSoundOverrideAloneReturnsTrue\" time=\"0.042482875\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testHapticOnlyFiresHapticWithIntensity\" time=\"0.045812875\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testNoopFeedbackDoesNothing\" time=\"0.047347\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testBothOffFiresNothing\" time=\"0.047371375\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testBothOptionsFireBoth\" time=\"0.047381458\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testSoundOnlyFiresSoundWithChoice\" time=\"0.047331917\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testAllOverridesSetReturnsTrue\" time=\"0.163538042\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testBlankSlotReturnsFalse\" time=\"0.163593667\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testReleasePolicyIgnoresSeededHapticsWithoutProvenance\" time=\"0.163578875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterAllowsConsecutiveBlankSlots\" time=\"0.052397666\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterAssignsNextIdAndOrder\" time=\"0.052328708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterClearsPendingUndo\" time=\"0.052322875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterAppendsBlankAndSelectsIt\" time=\"0.052407125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterPersists\" time=\"0.052530084\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testChartPlotDomainIncludesNegativeRange\" time=\"0.064400709\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testBlankSlotIncrementsWithoutReviving\" time=\"0.065537792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testChartPlotMapsExtremesAndDomain\" time=\"0.065459208\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteBlanksInPlace\" time=\"0.048054959\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testClampedSubtractRecordsActualAppliedDelta\" time=\"0.05027625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteBeyondFirstFourRemovesAndSelectsPrevious\" time=\"0.048893625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testCumulativeSeriesReconstructsRunningCount\" time=\"0.070245625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDefaultEffectiveFeedbackIsAllOff\" time=\"0.070254125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteLastCounterBlanksInPlaceAndKeepsSelection\" time=\"0.07137425\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteCounterClearsItsHistories\" time=\"0.072513666\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingCounterClearsPendingUndo\" time=\"0.07156825\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingExtraCounterDropsItsHistory\" time=\"0.050223042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingLastExtraCounterSelectsNewLast\" time=\"0.050065667\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingEveryBaseSlotNeverShrinksTheRow\" time=\"0.096395667\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testEditingActiveCounterClearsPendingUndo\" time=\"0.076013334\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingMiddleExtraCounterSlidesFollowingCounterDown\" time=\"0.076021625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testHandednessOverrideResolvesPerCounter\" time=\"0.059799584\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testHapticDirectionsResolveIndependently\" time=\"0.059869458\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testFreshModelHasFourStarterCountersAtZero\" time=\"0.069963958\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testEffectiveResolversPinOverrideWhenSet\" time=\"0.087288083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testEffectiveResolversFollowDefaultWhenNil\" time=\"0.087360167\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementClearsPendingUndo\" time=\"0.049414333\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testHistoriesPersistAndReloadFromDefaults\" time=\"0.059822083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementFiresFeedbackWithIncrementHaptic\" time=\"0.050151417\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testHistoryCapDropsOldestRun\" time=\"0.067038792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementHonorsStep\" time=\"0.05728525\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementRaisesActiveCounter\" time=\"0.058512042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementRecordsPositiveEvent\" time=\"0.05777675\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementUsesActiveCounterEffectiveFeedback\" time=\"0.05777375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLegacyCountersDecodeWithNilOverrides\" time=\"0.056599542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLegacyCounterWithoutStepDecodesToStepOne\" time=\"0.055460042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLegacySingleHapticOverrideMigratesToBothDirections\" time=\"0.050957833\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLoadsSeededStateFromDefaults\" time=\"0.057915458\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testMigrationFoldsDeletedDefaultsIntoBlankSlots\" time=\"0.057365875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testNamingBlankSlotRevivesIt\" time=\"0.054809208\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testRelativeOffsetMeasuredFromStart\" time=\"0.047949458\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testRelativeTimeFormatting\" time=\"0.047944791\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testNoOpSubtractClampRecordsNoEvent\" time=\"0.06944025\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testNewHapticOverrideKeyWinsOverLegacyOnDecode\" time=\"0.071596083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testOverrideTracksOrPinsAgainstChangingDefault\" time=\"0.059208875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testReleasePolicyIgnoresSeededCountersWithoutProvenance\" time=\"0.054641083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testReleasePolicyTrustsAppSettingsAfterProvenanceStamped\" time=\"0.050569\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance\" time=\"0.05971775\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetAtZeroEntersUndoModeAndUndoRestoresZero\" time=\"0.061606625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededHistoriesJSONLoadsFromDefaults\" time=\"0.045055417\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetZeroesActiveCounter\" time=\"0.04658875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetEntersUndoModeAndCapturesPreviousValue\" time=\"0.069393959\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetSealsCurrentAndOpensEmptyRun\" time=\"0.069469083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyCoercesStringValue\" time=\"0.063776375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetAndUndoResetStaySilent\" time=\"0.100162958\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testReleasePolicyTrustsOwnPersistedDataAfterStamp\" time=\"0.100180584\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededSubsetHasNoBlankSlots\" time=\"0.066356542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyEntersUndoModeOnLaunch\" time=\"0.07049225\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectNextPastLastAppendsBlankAndSelectsIt\" time=\"0.061275292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyIgnoredWhenActiveCountNonZero\" time=\"0.071856459\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectPreviousMovesBackWithinList\" time=\"0.073657458\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectNextAdvancesWithinList\" time=\"0.088342916\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectPreviousWrapsFromFirstToLast\" time=\"0.069255333\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsToZeroWhenStepOvershoots\" time=\"0.069230416\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractFiresFeedbackWithDecrementHaptic\" time=\"0.045460833\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsWhenNegativesDisallowed\" time=\"0.048061041\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClearsPendingUndo\" time=\"0.068225708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractGoesNegativeByDefault\" time=\"0.064668\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractNoOpClampDoesNotFireFeedback\" time=\"0.06426025\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractHonorsStep\" time=\"0.068094542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractRecordsNegativeAppliedDelta\" time=\"0.066373917\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSwitchingCounterClearsPendingUndo\" time=\"0.066374375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUndoResetRestoresPreviousValueAndExitsUndoMode\" time=\"0.054953542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterClearsOverridesWhenNil\" time=\"0.050734125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterClampsStepToAtLeastOne\" time=\"0.059621334\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUnrecognizedOverrideRawValueDecodesToNil\" time=\"0.084284625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterRoundTripsOverrides\" time=\"0.053265291\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterEditsAndPersists\" time=\"0.05328325\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUndoResetReopensSealedRunAndRestoresCount\" time=\"0.111798542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testTrustInjectedPolicyAdoptsSeededCounters\" time=\"0.130452334\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testNoToggleEverLeavesBothOpen\" time=\"0.058208833\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testOpeningAppSettingsFromClosedOpensIt\" time=\"0.05174075\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testTogglingOpenAppSettingsClosesItAndOpensNothing\" time=\"0.046357791\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testOpeningAppSettingsClosesTheCounterPanel\" time=\"0.055449958\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testOpeningCounterSettingsFromClosedOpensIt\" time=\"0.052609084\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testOpeningCounterSettingsClosesAppSettings\" time=\"0.056113917\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testNothingIsOpenByDefault\" time=\"0.100427625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexFallsBackToLimeForUnknownKey\" time=\"0.043234375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsCaseInsensitive\" time=\"0.041312417\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesAccentLime\" time=\"0.039413708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexMapsKnownKeys\" time=\"0.043145625\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testTogglingOpenCounterSettingsClosesItAndOpensNothing\" time=\"0.075439542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesBlackAndWhite\" time=\"0.046363375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsolatesIndividualChannels\" time=\"0.050024292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testToleratesLeadingHash\" time=\"0.041273792\">\n</testcase>\n</testsuite>\n</testsuites>\n",
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<testsuites>\n<testsuite name=\"TestResults\" errors=\"0\" tests=\"121\" failures=\"0\" time=\"14.874402874999994\">\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testOptionsAreIndependent\" time=\"0.195510791\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testOptionCasesCoverTheChoiceSets\" time=\"0.195940709\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testNewHapticKeyWinsOverLegacy\" time=\"0.196000166\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testDefaultsAreRightHandedSilentWithDistinctHaptics\" time=\"0.196460583\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testDefaultHapticsAreDistinct\" time=\"0.196545583\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testLegacyHapticOffMigratesToBothOff\" time=\"0.196143708\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testPersistsChangesAcrossReload\" time=\"0.195846792\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testLegacyHapticKeyMigratesToBothDirections\" time=\"0.196279834\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testExplicitOffSoundOverrideReturnsTrue\" time=\"0.077142334\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testReleasePolicyIgnoresSeededHapticsWithoutProvenance\" time=\"0.077215\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testBlankSlotReturnsFalse\" time=\"0.077083875\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testDecrementHapticOverrideAloneReturnsTrue\" time=\"0.081678958\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testAllOverridesSetReturnsTrue\" time=\"0.081708459\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testResolveMigratesRemovedRawValues\" time=\"0.081741375\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testReadsSeededStringPreferences\" time=\"0.082050375\">\n</testcase>\n<testcase classname=\"AppCoreTests.AppSettingsTests\" name=\"testUnknownOptionFallsBackToDefault\" time=\"0.081766458\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testNoOverridesReturnsFalse\" time=\"0.069229333\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testBothOptionsFireBoth\" time=\"0.071454458\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testHandednessOverrideAloneReturnsTrue\" time=\"0.076465208\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testIncrementHapticOverrideAloneReturnsTrue\" time=\"0.076439458\">\n</testcase>\n<testcase classname=\"AppCoreTests.CounterFeedbackOverrideTests\" name=\"testSoundOverrideAloneReturnsTrue\" time=\"0.079267958\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testAllDistinctFeelsAreTreatedAsNonOff\" time=\"0.079445166\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testBothOffFiresNothing\" time=\"0.079613917\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testHapticOnlyFiresHapticWithIntensity\" time=\"0.0796025\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterAllowsConsecutiveBlankSlots\" time=\"0.112454917\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testNoopFeedbackDoesNothing\" time=\"0.119555792\">\n</testcase>\n<testcase classname=\"AppCoreTests.FeedbackTests\" name=\"testSoundOnlyFiresSoundWithChoice\" time=\"0.136592125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterAppendsBlankAndSelectsIt\" time=\"0.136128083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testBlankSlotIncrementsWithoutReviving\" time=\"0.128782292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterPersists\" time=\"0.128926042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterClearsPendingUndo\" time=\"0.131370583\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testAddCounterAssignsNextIdAndOrder\" time=\"0.131512667\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testChartPlotDomainIncludesNegativeRange\" time=\"0.138417292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testChartPlotMapsExtremesAndDomain\" time=\"0.138285\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDefaultEffectiveFeedbackIsAllOff\" time=\"0.134579125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testCumulativeSeriesReconstructsRunningCount\" time=\"0.134929334\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteBeyondFirstFourRemovesAndSelectsPrevious\" time=\"0.134494875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testClampedSubtractRecordsActualAppliedDelta\" time=\"0.134922375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteCounterClearsItsHistories\" time=\"0.162203667\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteBlanksInPlace\" time=\"0.162229458\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingMiddleExtraCounterSlidesFollowingCounterDown\" time=\"0.132018542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingLastExtraCounterSelectsNewLast\" time=\"0.13207975\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingEveryBaseSlotNeverShrinksTheRow\" time=\"0.132059583\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingExtraCounterDropsItsHistory\" time=\"0.132073375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeletingCounterClearsPendingUndo\" time=\"0.165056375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testDeleteLastCounterBlanksInPlaceAndKeepsSelection\" time=\"0.16524225\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testEditingActiveCounterClearsPendingUndo\" time=\"0.136541041\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testEffectiveResolversFollowDefaultWhenNil\" time=\"0.136561208\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testHapticDirectionsResolveIndependently\" time=\"0.080266\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testHandednessOverrideResolvesPerCounter\" time=\"0.080284167\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testEffectiveResolversPinOverrideWhenSet\" time=\"0.080307125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testFreshModelHasFourStarterCountersAtZero\" time=\"0.080289708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testHistoriesPersistAndReloadFromDefaults\" time=\"0.083601042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testHistoryCapDropsOldestRun\" time=\"0.083493666\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementClearsPendingUndo\" time=\"0.091733\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementFiresFeedbackWithIncrementHaptic\" time=\"0.091832792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementHonorsStep\" time=\"0.078687083\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementRaisesActiveCounter\" time=\"0.084073\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementUsesActiveCounterEffectiveFeedback\" time=\"0.0853555\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testIncrementRecordsPositiveEvent\" time=\"0.084068625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLegacyCountersDecodeWithNilOverrides\" time=\"0.0905445\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLegacyCounterWithoutStepDecodesToStepOne\" time=\"0.090592041\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLoadsSeededStateFromDefaults\" time=\"0.089245125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testLegacySingleHapticOverrideMigratesToBothDirections\" time=\"0.089858541\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testMigrationFoldsDeletedDefaultsIntoBlankSlots\" time=\"0.096075833\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testNamingBlankSlotRevivesIt\" time=\"0.099810334\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testNoOpSubtractClampRecordsNoEvent\" time=\"0.099086959\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testNewHapticOverrideKeyWinsOverLegacyOnDecode\" time=\"0.108105917\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testOverrideTracksOrPinsAgainstChangingDefault\" time=\"0.096979125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testRelativeOffsetMeasuredFromStart\" time=\"0.096861041\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance\" time=\"0.082058416\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testRelativeTimeFormatting\" time=\"0.082195708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testReleasePolicyIgnoresSeededCountersWithoutProvenance\" time=\"0.086062125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testReleasePolicyTrustsAppSettingsAfterProvenanceStamped\" time=\"0.080678542\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testReleasePolicyTrustsOwnPersistedDataAfterStamp\" time=\"0.080654375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetAndUndoResetStaySilent\" time=\"0.085038375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetSealsCurrentAndOpensEmptyRun\" time=\"0.074978708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetZeroesActiveCounter\" time=\"0.075632875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetAtZeroEntersUndoModeAndUndoRestoresZero\" time=\"0.106787416\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testResetEntersUndoModeAndCapturesPreviousValue\" time=\"0.1067875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededHistoriesJSONLoadsFromDefaults\" time=\"0.077461917\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyCoercesStringValue\" time=\"0.091927917\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyEntersUndoModeOnLaunch\" time=\"0.091946583\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectNextAdvancesWithinList\" time=\"0.071222792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededSubsetHasNoBlankSlots\" time=\"0.072519958\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSeededResetUndoKeyIgnoredWhenActiveCountNonZero\" time=\"0.089994583\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectNextPastLastAppendsBlankAndSelectsIt\" time=\"0.132765292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectPreviousMovesBackWithinList\" time=\"0.132819417\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsWhenNegativesDisallowed\" time=\"0.118593125\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClampsToZeroWhenStepOvershoots\" time=\"0.118613916\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSelectPreviousWrapsFromFirstToLast\" time=\"0.138158292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractGoesNegativeByDefault\" time=\"0.135179208\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractFiresFeedbackWithDecrementHaptic\" time=\"0.155726167\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractClearsPendingUndo\" time=\"0.158357875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractRecordsNegativeAppliedDelta\" time=\"0.165133875\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSwitchingCounterClearsPendingUndo\" time=\"0.165037625\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testTrustInjectedPolicyAdoptsSeededCounters\" time=\"0.164974709\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUndoResetRestoresPreviousValueAndExitsUndoMode\" time=\"0.139755792\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUndoResetReopensSealedRunAndRestoresCount\" time=\"0.160597042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUnrecognizedOverrideRawValueDecodesToNil\" time=\"0.163630459\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractHonorsStep\" time=\"0.24479575\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testSubtractNoOpClampDoesNotFireFeedback\" time=\"0.244766209\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterClampsStepToAtLeastOne\" time=\"0.145572708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterClearsOverridesWhenNil\" time=\"0.147076833\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterEditsAndPersists\" time=\"0.147063292\">\n</testcase>\n<testcase classname=\"AppCoreTests.ModelTests\" name=\"testUpdateActiveCounterRoundTripsOverrides\" time=\"0.128830459\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testNothingIsOpenByDefault\" time=\"0.226443542\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testNoToggleEverLeavesBothOpen\" time=\"0.2149525\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testOpeningAppSettingsClosesTheCounterPanel\" time=\"0.229467166\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testOpeningAppSettingsFromClosedOpensIt\" time=\"0.229425042\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testTogglingOpenCounterSettingsClosesItAndOpensNothing\" time=\"0.133357333\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testOpeningCounterSettingsFromClosedOpensIt\" time=\"0.139571917\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testTogglingOpenAppSettingsClosesItAndOpensNothing\" time=\"0.139464792\">\n</testcase>\n<testcase classname=\"AppCoreTests.SettingsOverlaysTests\" name=\"testOpeningCounterSettingsClosesAppSettings\" time=\"0.152923042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexFallsBackToLimeForUnknownKey\" time=\"0.103327042\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testDotHexMapsKnownKeys\" time=\"0.127521375\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsCaseInsensitive\" time=\"0.112025584\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testIsolatesIndividualChannels\" time=\"0.112018791\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesAccentLime\" time=\"0.10665925\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testParsesBlackAndWhite\" time=\"0.152524708\">\n</testcase>\n<testcase classname=\"AppCoreTests.ThemeTests\" name=\"testToleratesLeadingHash\" time=\"0.152525083\">\n</testcase>\n</testsuite>\n</testsuites>\n",
       "invoked_command": "swift test --package-path ios --parallel --disable-swift-testing --xunit-output .codeyam/swift-tests.xml",
       "exit_code": 0,
       "tests": [
         {
-          "key": "AppCoreTests.AppSettingsTests › testNewHapticKeyWinsOverLegacy",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.AppSettingsTests › testLegacyHapticOffMigratesToBothOff",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.AppSettingsTests › testLegacyHapticKeyMigratesToBothDirections",
+          "key": "AppCoreTests.AppSettingsTests › testOptionsAreIndependent",
           "status": "passed",
           "file": null,
           "line": null,
@@ -44,15 +28,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.AppSettingsTests › testOptionsAreIndependent",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload",
+          "key": "AppCoreTests.AppSettingsTests › testNewHapticKeyWinsOverLegacy",
           "status": "passed",
           "file": null,
           "line": null,
@@ -76,7 +52,23 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToDefault",
+          "key": "AppCoreTests.AppSettingsTests › testLegacyHapticOffMigratesToBothOff",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testPersistsChangesAcrossReload",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testLegacyHapticKeyMigratesToBothDirections",
           "status": "passed",
           "file": null,
           "line": null,
@@ -92,111 +84,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.AppSettingsTests › testResolveMigratesRemovedRawValues",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.CounterFeedbackOverrideTests › testDecrementHapticOverrideAloneReturnsTrue",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.CounterFeedbackOverrideTests › testIncrementHapticOverrideAloneReturnsTrue",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.FeedbackTests › testAllDistinctFeelsAreTreatedAsNonOff",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.CounterFeedbackOverrideTests › testNoOverridesReturnsFalse",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.CounterFeedbackOverrideTests › testHandednessOverrideAloneReturnsTrue",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.CounterFeedbackOverrideTests › testSoundOverrideAloneReturnsTrue",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.FeedbackTests › testHapticOnlyFiresHapticWithIntensity",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.FeedbackTests › testNoopFeedbackDoesNothing",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.FeedbackTests › testBothOffFiresNothing",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.FeedbackTests › testBothOptionsFireBoth",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.FeedbackTests › testSoundOnlyFiresSoundWithChoice",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.CounterFeedbackOverrideTests › testAllOverridesSetReturnsTrue",
+          "key": "AppCoreTests.AppSettingsTests › testReleasePolicyIgnoresSeededHapticsWithoutProvenance",
           "status": "passed",
           "file": null,
           "line": null,
@@ -212,7 +100,103 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.AppSettingsTests › testReleasePolicyIgnoresSeededHapticsWithoutProvenance",
+          "key": "AppCoreTests.CounterFeedbackOverrideTests › testDecrementHapticOverrideAloneReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.CounterFeedbackOverrideTests › testAllOverridesSetReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testResolveMigratesRemovedRawValues",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testReadsSeededStringPreferences",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.AppSettingsTests › testUnknownOptionFallsBackToDefault",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.CounterFeedbackOverrideTests › testNoOverridesReturnsFalse",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.FeedbackTests › testBothOptionsFireBoth",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.CounterFeedbackOverrideTests › testHandednessOverrideAloneReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.CounterFeedbackOverrideTests › testIncrementHapticOverrideAloneReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.CounterFeedbackOverrideTests › testSoundOverrideAloneReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.FeedbackTests › testAllDistinctFeelsAreTreatedAsNonOff",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.FeedbackTests › testBothOffFiresNothing",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.FeedbackTests › testHapticOnlyFiresHapticWithIntensity",
           "status": "passed",
           "file": null,
           "line": null,
@@ -228,7 +212,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testAddCounterAssignsNextIdAndOrder",
+          "key": "AppCoreTests.FeedbackTests › testNoopFeedbackDoesNothing",
           "status": "passed",
           "file": null,
           "line": null,
@@ -236,7 +220,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testAddCounterClearsPendingUndo",
+          "key": "AppCoreTests.FeedbackTests › testSoundOnlyFiresSoundWithChoice",
           "status": "passed",
           "file": null,
           "line": null,
@@ -252,7 +236,31 @@
           "format": "junit-xml"
         },
         {
+          "key": "AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
           "key": "AppCoreTests.ModelTests › testAddCounterPersists",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testAddCounterClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testAddCounterAssignsNextIdAndOrder",
           "status": "passed",
           "file": null,
           "line": null,
@@ -268,47 +276,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testBlankSlotIncrementsWithoutReviving",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
           "key": "AppCoreTests.ModelTests › testChartPlotMapsExtremesAndDomain",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testDeleteBlanksInPlace",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testClampedSubtractRecordsActualAppliedDelta",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testDeleteBeyondFirstFourRemovesAndSelectsPrevious",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testCumulativeSeriesReconstructsRunningCount",
           "status": "passed",
           "file": null,
           "line": null,
@@ -324,7 +292,23 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testDeleteLastCounterBlanksInPlaceAndKeepsSelection",
+          "key": "AppCoreTests.ModelTests › testCumulativeSeriesReconstructsRunningCount",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testDeleteBeyondFirstFourRemovesAndSelectsPrevious",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testClampedSubtractRecordsActualAppliedDelta",
           "status": "passed",
           "file": null,
           "line": null,
@@ -340,7 +324,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
+          "key": "AppCoreTests.ModelTests › testDeleteBlanksInPlace",
           "status": "passed",
           "file": null,
           "line": null,
@@ -348,7 +332,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testDeletingExtraCounterDropsItsHistory",
+          "key": "AppCoreTests.ModelTests › testDeletingMiddleExtraCounterSlidesFollowingCounterDown",
           "status": "passed",
           "file": null,
           "line": null,
@@ -372,47 +356,31 @@
           "format": "junit-xml"
         },
         {
+          "key": "AppCoreTests.ModelTests › testDeletingExtraCounterDropsItsHistory",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testDeletingCounterClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testDeleteLastCounterBlanksInPlaceAndKeepsSelection",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
           "key": "AppCoreTests.ModelTests › testEditingActiveCounterClearsPendingUndo",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testDeletingMiddleExtraCounterSlidesFollowingCounterDown",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testHapticDirectionsResolveIndependently",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet",
           "status": "passed",
           "file": null,
           "line": null,
@@ -428,7 +396,31 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
+          "key": "AppCoreTests.ModelTests › testHapticDirectionsResolveIndependently",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testHandednessOverrideResolvesPerCounter",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testEffectiveResolversPinOverrideWhenSet",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testFreshModelHasFourStarterCountersAtZero",
           "status": "passed",
           "file": null,
           "line": null,
@@ -444,7 +436,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithIncrementHaptic",
+          "key": "AppCoreTests.ModelTests › testHistoryCapDropsOldestRun",
           "status": "passed",
           "file": null,
           "line": null,
@@ -452,7 +444,15 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testHistoryCapDropsOldestRun",
+          "key": "AppCoreTests.ModelTests › testIncrementClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testIncrementFiresFeedbackWithIncrementHaptic",
           "status": "passed",
           "file": null,
           "line": null,
@@ -476,7 +476,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testIncrementRecordsPositiveEvent",
+          "key": "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback",
           "status": "passed",
           "file": null,
           "line": null,
@@ -484,7 +484,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testIncrementUsesActiveCounterEffectiveFeedback",
+          "key": "AppCoreTests.ModelTests › testIncrementRecordsPositiveEvent",
           "status": "passed",
           "file": null,
           "line": null,
@@ -508,7 +508,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testLegacySingleHapticOverrideMigratesToBothDirections",
+          "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
           "status": "passed",
           "file": null,
           "line": null,
@@ -516,7 +516,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testLoadsSeededStateFromDefaults",
+          "key": "AppCoreTests.ModelTests › testLegacySingleHapticOverrideMigratesToBothDirections",
           "status": "passed",
           "file": null,
           "line": null,
@@ -533,22 +533,6 @@
         },
         {
           "key": "AppCoreTests.ModelTests › testNamingBlankSlotRevivesIt",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testRelativeOffsetMeasuredFromStart",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testRelativeTimeFormatting",
           "status": "passed",
           "file": null,
           "line": null,
@@ -580,6 +564,30 @@
           "format": "junit-xml"
         },
         {
+          "key": "AppCoreTests.ModelTests › testRelativeOffsetMeasuredFromStart",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testRelativeTimeFormatting",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
           "key": "AppCoreTests.ModelTests › testReleasePolicyIgnoresSeededCountersWithoutProvenance",
           "status": "passed",
           "file": null,
@@ -596,55 +604,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testSeededHistoriesJSONLoadsFromDefaults",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testResetSealsCurrentAndOpensEmptyRun",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
+          "key": "AppCoreTests.ModelTests › testReleasePolicyTrustsOwnPersistedDataAfterStamp",
           "status": "passed",
           "file": null,
           "line": null,
@@ -660,7 +620,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testReleasePolicyTrustsOwnPersistedDataAfterStamp",
+          "key": "AppCoreTests.ModelTests › testResetSealsCurrentAndOpensEmptyRun",
           "status": "passed",
           "file": null,
           "line": null,
@@ -668,7 +628,39 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSeededSubsetHasNoBlankSlots",
+          "key": "AppCoreTests.ModelTests › testResetZeroesActiveCounter",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testResetEntersUndoModeAndCapturesPreviousValue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSeededHistoriesJSONLoadsFromDefaults",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSeededResetUndoKeyCoercesStringValue",
           "status": "passed",
           "file": null,
           "line": null,
@@ -684,7 +676,15 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSelectNextPastLastAppendsBlankAndSelectsIt",
+          "key": "AppCoreTests.ModelTests › testSelectNextAdvancesWithinList",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSeededSubsetHasNoBlankSlots",
           "status": "passed",
           "file": null,
           "line": null,
@@ -700,39 +700,15 @@
           "format": "junit-xml"
         },
         {
+          "key": "AppCoreTests.ModelTests › testSelectNextPastLastAppendsBlankAndSelectsIt",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
           "key": "AppCoreTests.ModelTests › testSelectPreviousMovesBackWithinList",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testSelectNextAdvancesWithinList",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testSelectPreviousWrapsFromFirstToLast",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testSubtractFiresFeedbackWithDecrementHaptic",
           "status": "passed",
           "file": null,
           "line": null,
@@ -748,7 +724,15 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
+          "key": "AppCoreTests.ModelTests › testSubtractClampsToZeroWhenStepOvershoots",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ModelTests › testSelectPreviousWrapsFromFirstToLast",
           "status": "passed",
           "file": null,
           "line": null,
@@ -764,7 +748,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback",
+          "key": "AppCoreTests.ModelTests › testSubtractFiresFeedbackWithDecrementHaptic",
           "status": "passed",
           "file": null,
           "line": null,
@@ -772,7 +756,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
+          "key": "AppCoreTests.ModelTests › testSubtractClearsPendingUndo",
           "status": "passed",
           "file": null,
           "line": null,
@@ -796,47 +780,15 @@
           "format": "junit-xml"
         },
         {
+          "key": "AppCoreTests.ModelTests › testTrustInjectedPolicyAdoptsSeededCounters",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
           "key": "AppCoreTests.ModelTests › testUndoResetRestoresPreviousValueAndExitsUndoMode",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
           "status": "passed",
           "file": null,
           "line": null,
@@ -852,7 +804,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ModelTests › testTrustInjectedPolicyAdoptsSeededCounters",
+          "key": "AppCoreTests.ModelTests › testUnrecognizedOverrideRawValueDecodesToNil",
           "status": "passed",
           "file": null,
           "line": null,
@@ -860,7 +812,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.SettingsOverlaysTests › testNoToggleEverLeavesBothOpen",
+          "key": "AppCoreTests.ModelTests › testSubtractHonorsStep",
           "status": "passed",
           "file": null,
           "line": null,
@@ -868,7 +820,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.SettingsOverlaysTests › testOpeningAppSettingsFromClosedOpensIt",
+          "key": "AppCoreTests.ModelTests › testSubtractNoOpClampDoesNotFireFeedback",
           "status": "passed",
           "file": null,
           "line": null,
@@ -876,7 +828,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.SettingsOverlaysTests › testTogglingOpenAppSettingsClosesItAndOpensNothing",
+          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClampsStepToAtLeastOne",
           "status": "passed",
           "file": null,
           "line": null,
@@ -884,7 +836,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.SettingsOverlaysTests › testOpeningAppSettingsClosesTheCounterPanel",
+          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterClearsOverridesWhenNil",
           "status": "passed",
           "file": null,
           "line": null,
@@ -892,7 +844,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.SettingsOverlaysTests › testOpeningCounterSettingsFromClosedOpensIt",
+          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterEditsAndPersists",
           "status": "passed",
           "file": null,
           "line": null,
@@ -900,7 +852,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.SettingsOverlaysTests › testOpeningCounterSettingsClosesAppSettings",
+          "key": "AppCoreTests.ModelTests › testUpdateActiveCounterRoundTripsOverrides",
           "status": "passed",
           "file": null,
           "line": null,
@@ -916,7 +868,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ThemeTests › testDotHexFallsBackToLimeForUnknownKey",
+          "key": "AppCoreTests.SettingsOverlaysTests › testNoToggleEverLeavesBothOpen",
           "status": "passed",
           "file": null,
           "line": null,
@@ -924,7 +876,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ThemeTests › testIsCaseInsensitive",
+          "key": "AppCoreTests.SettingsOverlaysTests › testOpeningAppSettingsClosesTheCounterPanel",
           "status": "passed",
           "file": null,
           "line": null,
@@ -932,15 +884,7 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ThemeTests › testParsesAccentLime",
-          "status": "passed",
-          "file": null,
-          "line": null,
-          "runner": "tests",
-          "format": "junit-xml"
-        },
-        {
-          "key": "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys",
+          "key": "AppCoreTests.SettingsOverlaysTests › testOpeningAppSettingsFromClosedOpensIt",
           "status": "passed",
           "file": null,
           "line": null,
@@ -956,7 +900,47 @@
           "format": "junit-xml"
         },
         {
-          "key": "AppCoreTests.ThemeTests › testParsesBlackAndWhite",
+          "key": "AppCoreTests.SettingsOverlaysTests › testOpeningCounterSettingsFromClosedOpensIt",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.SettingsOverlaysTests › testTogglingOpenAppSettingsClosesItAndOpensNothing",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.SettingsOverlaysTests › testOpeningCounterSettingsClosesAppSettings",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testDotHexFallsBackToLimeForUnknownKey",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testDotHexMapsKnownKeys",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testIsCaseInsensitive",
           "status": "passed",
           "file": null,
           "line": null,
@@ -972,11 +956,1284 @@
           "format": "junit-xml"
         },
         {
+          "key": "AppCoreTests.ThemeTests › testParsesAccentLime",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "AppCoreTests.ThemeTests › testParsesBlackAndWhite",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "tests",
+          "format": "junit-xml"
+        },
+        {
           "key": "AppCoreTests.ThemeTests › testToleratesLeadingHash",
           "status": "passed",
           "file": null,
           "line": null,
           "runner": "tests",
+          "format": "junit-xml"
+        }
+      ]
+    },
+    {
+      "name": "android-tests",
+      "format": "junit-xml",
+      "output": "<?xml version='1.0' encoding='utf-8'?>\n<testsuites tests=\"156\" failures=\"0\" errors=\"0\" skipped=\"0\"><testsuite name=\"com.codeyam.android.model.AppSettingsTest\" tests=\"12\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.034\">\n  <properties />\n  <testcase name=\"testDefaultsAreRightHandedSilentWithDistinctHaptics\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.009\" />\n  <testcase name=\"testOptionsAreIndependent\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.001\" />\n  <testcase name=\"testLegacyHapticOffMigratesToBothOff\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.0\" />\n  <testcase name=\"testDefaultHapticsAreDistinct\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.0\" />\n  <testcase name=\"testResolveMigratesRemovedRawValues\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.001\" />\n  <testcase name=\"testOptionCasesCoverTheChoiceSets\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.021\" />\n  <testcase name=\"testPersistsChangesAcrossReload\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.0\" />\n  <testcase name=\"testNewHapticKeyWinsOverLegacy\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.0\" />\n  <testcase name=\"testUnknownOptionFallsBackToDefault\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.0\" />\n  <testcase name=\"testReleasePolicyIgnoresSeededHapticsWithoutProvenance\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.001\" />\n  <testcase name=\"testReadsSeededStringPreferences\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.0\" />\n  <testcase name=\"testLegacyHapticKeyMigratesToBothDirections\" classname=\"com.codeyam.android.model.AppSettingsTest\" time=\"0.0\" />\n  <system-out />\n  <system-err />\n</testsuite><testsuite name=\"com.codeyam.android.model.CounterModelTest\" tests=\"77\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.158\">\n  <properties />\n  <testcase name=\"testDefaultEffectiveFeedbackIsAllOff\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.077\" />\n  <testcase name=\"testClampedSubtractRecordsActualAppliedDelta\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.002\" />\n  <testcase name=\"testMigrationFoldsDeletedDefaultsIntoBlankSlots\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.003\" />\n  <testcase name=\"testDeleteBeyondFirstFourRemovesAndSelectsPrevious\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testSelectPreviousMovesBackWithinList\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.004\" />\n  <testcase name=\"testEffectiveResolversFollowDefaultWhenNil\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testCumulativeSeriesReconstructsRunningCount\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.003\" />\n  <testcase name=\"testSubtractHonorsStep\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testAddCounterClearsPendingUndo\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testSeededResetUndoKeyIgnoredWhenActiveCountNonZero\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testDeleteLastCounterBlanksInPlaceAndKeepsSelection\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testDeletingCounterClearsPendingUndo\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testEffectiveResolversPinOverrideWhenSet\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testUndoResetReopensSealedRunAndRestoresCount\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testUpdateActiveCounterEditsAndPersists\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testDeletingExtraCounterDropsItsHistory\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testEditingActiveCounterClearsPendingUndo\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSubtractGoesNegativeByDefault\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testDeleteCounterClearsItsHistories\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testTrustInjectedPolicyAdoptsSeededCounters\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testNamingBlankSlotRevivesIt\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testNoOpSubtractClampRecordsNoEvent\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSelectNextPastLastAppendsBlankAndSelectsIt\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testLegacySingleHapticOverrideMigratesToBothDirections\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testIncrementUsesActiveCounterEffectiveFeedback\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.003\" />\n  <testcase name=\"testSeededHistoriesJSONLoadsFromDefaults\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testHapticDirectionsResolveIndependently\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testUpdateActiveCounterRoundTripsOverrides\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testDeletingMiddleExtraCounterSlidesFollowingCounterDown\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testReleasePolicyTrustsOwnPersistedDataAfterStamp\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testSubtractFiresFeedbackWithDecrementHaptic\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.002\" />\n  <testcase name=\"testSeededResetUndoKeyEntersUndoModeOnLaunch\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testAddCounterAppendsBlankAndSelectsIt\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testLoadsSeededStateFromDefaults\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSubtractRecordsNegativeAppliedDelta\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testIncrementHonorsStep\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSubtractClampsWhenNegativesDisallowed\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testResetAndUndoResetStaySilent\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testAddCounterAssignsNextIdAndOrder\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.002\" />\n  <testcase name=\"testDeleteBlanksInPlace\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testResetSealsCurrentAndOpensEmptyRun\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testNewHapticOverrideKeyWinsOverLegacyOnDecode\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testLegacyCounterWithoutStepDecodesToStepOne\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testIncrementFiresFeedbackWithIncrementHaptic\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.003\" />\n  <testcase name=\"testIncrementRecordsPositiveEvent\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.007\" />\n  <testcase name=\"testHistoryCapDropsOldestRun\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.006\" />\n  <testcase name=\"testSeededResetUndoKeyCoercesStringValue\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testUpdateActiveCounterClearsOverridesWhenNil\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testIncrementRaisesActiveCounter\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testSelectNextAdvancesWithinList\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testLegacyCountersDecodeWithNilOverrides\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testUnrecognizedOverrideRawValueDecodesToNil\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSwitchingCounterClearsPendingUndo\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testDeletingEveryBaseSlotNeverShrinksTheRow\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testResetEntersUndoModeAndCapturesPreviousValue\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testHistoriesPersistAndReloadFromDefaults\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.002\" />\n  <testcase name=\"testOverrideTracksOrPinsAgainstChangingDefault\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSubtractClearsPendingUndo\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testRelativeOffsetMeasuredFromStart\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testAddCounterAllowsConsecutiveBlankSlots\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testReleasePolicyIgnoresSeededCountersWithoutProvenance\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testFreshModelHasFourStarterCountersAtZero\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSubtractClampsToZeroWhenStepOvershoots\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSelectPreviousWrapsFromFirstToLast\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testDeletingLastExtraCounterSelectsNewLast\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testReleasePolicyTrustsAppSettingsAfterProvenanceStamped\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSeededSubsetHasNoBlankSlots\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testUndoResetRestoresPreviousValueAndExitsUndoMode\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testResetZeroesActiveCounter\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testBlankSlotIncrementsWithoutReviving\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testSubtractNoOpClampDoesNotFireFeedback\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.007\" />\n  <testcase name=\"testAddCounterPersists\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testIncrementClearsPendingUndo\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testUpdateActiveCounterClampsStepToAtLeastOne\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.001\" />\n  <testcase name=\"testHandednessOverrideResolvesPerCounter\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <testcase name=\"testResetAtZeroEntersUndoModeAndUndoRestoresZero\" classname=\"com.codeyam.android.model.CounterModelTest\" time=\"0.0\" />\n  <system-out />\n  <system-err />\n</testsuite><testsuite name=\"com.codeyam.android.model.CounterThemeTest\" tests=\"7\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.003\">\n  <properties />\n  <testcase name=\"testParsesBlackAndWhite\" classname=\"com.codeyam.android.model.CounterThemeTest\" time=\"0.001\" />\n  <testcase name=\"testIsCaseInsensitive\" classname=\"com.codeyam.android.model.CounterThemeTest\" time=\"0.0\" />\n  <testcase name=\"testToleratesLeadingHash\" classname=\"com.codeyam.android.model.CounterThemeTest\" time=\"0.0\" />\n  <testcase name=\"testIsolatesIndividualChannels\" classname=\"com.codeyam.android.model.CounterThemeTest\" time=\"0.0\" />\n  <testcase name=\"testDotHexMapsKnownKeys\" classname=\"com.codeyam.android.model.CounterThemeTest\" time=\"0.0\" />\n  <testcase name=\"testDotHexFallsBackToLimeForUnknownKey\" classname=\"com.codeyam.android.model.CounterThemeTest\" time=\"0.0\" />\n  <testcase name=\"testParsesAccentLime\" classname=\"com.codeyam.android.model.CounterThemeTest\" time=\"0.0\" />\n  <system-out />\n  <system-err />\n</testsuite><testsuite name=\"com.codeyam.android.model.FeedbackTest\" tests=\"14\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.005\">\n  <properties />\n  <testcase name=\"testBothOffFiresNothing\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.003\" />\n  <testcase name=\"testBothOptionsFireBoth\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.001\" />\n  <testcase name=\"testHapticOnlyFiresHapticWithFeel\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testAllDistinctFeelsAreTreatedAsNonOff\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testNoopFeedbackDoesNothing\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testIncrementHapticOverrideAloneReturnsTrue\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testNoOverridesReturnsFalse\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testSoundOnlyFiresSoundWithChoice\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.001\" />\n  <testcase name=\"testBlankSlotReturnsFalse\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testAllOverridesSetReturnsTrue\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testSoundOverrideAloneReturnsTrue\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testDecrementHapticOverrideAloneReturnsTrue\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testExplicitOffSoundOverrideReturnsTrue\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <testcase name=\"testHandednessOverrideAloneReturnsTrue\" classname=\"com.codeyam.android.model.FeedbackTest\" time=\"0.0\" />\n  <system-out />\n  <system-err />\n</testsuite><testsuite name=\"com.codeyam.android.model.SettingsOverlaysTest\" tests=\"8\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.002\">\n  <properties />\n  <testcase name=\"testOpeningAppSettingsFromClosedOpensIt\" classname=\"com.codeyam.android.model.SettingsOverlaysTest\" time=\"0.001\" />\n  <testcase name=\"testOpeningCounterSettingsFromClosedOpensIt\" classname=\"com.codeyam.android.model.SettingsOverlaysTest\" time=\"0.0\" />\n  <testcase name=\"testNothingIsOpenByDefault\" classname=\"com.codeyam.android.model.SettingsOverlaysTest\" time=\"0.0\" />\n  <testcase name=\"testNoToggleEverLeavesBothOpen\" classname=\"com.codeyam.android.model.SettingsOverlaysTest\" time=\"0.0\" />\n  <testcase name=\"testOpeningCounterSettingsClosesAppSettings\" classname=\"com.codeyam.android.model.SettingsOverlaysTest\" time=\"0.0\" />\n  <testcase name=\"testTogglingOpenCounterSettingsClosesItAndOpensNothing\" classname=\"com.codeyam.android.model.SettingsOverlaysTest\" time=\"0.0\" />\n  <testcase name=\"testTogglingOpenAppSettingsClosesItAndOpensNothing\" classname=\"com.codeyam.android.model.SettingsOverlaysTest\" time=\"0.0\" />\n  <testcase name=\"testOpeningAppSettingsClosesTheCounterPanel\" classname=\"com.codeyam.android.model.SettingsOverlaysTest\" time=\"0.0\" />\n  <system-out />\n  <system-err />\n</testsuite><testsuite name=\"com.codeyam.android.ui.CountFormatTest\" tests=\"5\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.008\">\n  <properties />\n  <testcase name=\"fourDigitsAndUpAreGrouped\" classname=\"com.codeyam.android.ui.CountFormatTest\" time=\"0.006\" />\n  <testcase name=\"negativeCountsKeepTheirSignAndGrouping\" classname=\"com.codeyam.android.ui.CountFormatTest\" time=\"0.001\" />\n  <testcase name=\"deltaLeavesTheMinusSignAsTheOnlyMarkerWhenNegative\" classname=\"com.codeyam.android.ui.CountFormatTest\" time=\"0.0\" />\n  <testcase name=\"deltaCarriesAnExplicitPlusWhenNonNegative\" classname=\"com.codeyam.android.ui.CountFormatTest\" time=\"0.0\" />\n  <testcase name=\"smallCountsAreUnchanged\" classname=\"com.codeyam.android.ui.CountFormatTest\" time=\"0.001\" />\n  <system-out />\n  <system-err />\n</testsuite><testsuite name=\"com.codeyam.android.ui.CountHeroSizingTest\" tests=\"6\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.005\">\n  <properties />\n  <testcase name=\"theMinusSignCountsTowardTheWidth\" classname=\"com.codeyam.android.ui.CountHeroSizingTest\" time=\"0.004\" />\n  <testcase name=\"groupingSeparatorsCountTowardTheWidth\" classname=\"com.codeyam.android.ui.CountHeroSizingTest\" time=\"0.0\" />\n  <testcase name=\"oneAndTwoDigitCountsUseTheFullSize\" classname=\"com.codeyam.android.ui.CountHeroSizingTest\" time=\"0.0\" />\n  <testcase name=\"longerNumeralsStepDown\" classname=\"com.codeyam.android.ui.CountHeroSizingTest\" time=\"0.0\" />\n  <testcase name=\"anythingLongerFallsToTheSmallestStep\" classname=\"com.codeyam.android.ui.CountHeroSizingTest\" time=\"0.001\" />\n  <testcase name=\"sizeNeverIncreasesAsTheNumeralGrows\" classname=\"com.codeyam.android.ui.CountHeroSizingTest\" time=\"0.0\" />\n  <system-out />\n  <system-err />\n</testsuite><testsuite name=\"com.codeyam.android.ui.CounterScreenStateTest\" tests=\"13\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.032\">\n  <properties />\n  <testcase name=\"resetOrUndoDispatchesByPendingUndo\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.019\" />\n  <testcase name=\"selectNextAndPreviousMoveThroughTheCounters\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.001\" />\n  <testcase name=\"aPerCounterHandednessOverrideBeatsTheAppDefault\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.004\" />\n  <testcase name=\"openingTheCounterPanelClosesAppSettings\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.0\" />\n  <testcase name=\"leftHandedFollowsTheAppDefaultWithoutAnOverride\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.001\" />\n  <testcase name=\"overlayFlagsDefaultClosed\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.0\" />\n  <testcase name=\"openingAppSettingsClosesTheCounterPanel\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.0\" />\n  <testcase name=\"addingACounterClosesTheSettingsPanel\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.001\" />\n  <testcase name=\"incrementAndSubtractReachTheActiveCounter\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.001\" />\n  <testcase name=\"selectingFromTheListClosesBothTheListAndAppSettings\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.003\" />\n  <testcase name=\"overlayFlagsAdoptTheirSeededValues\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.0\" />\n  <testcase name=\"closingAPanelLeavesTheOtherClosed\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.0\" />\n  <testcase name=\"selectingACounterClosesTheSettingsPanel\" classname=\"com.codeyam.android.ui.CounterScreenStateTest\" time=\"0.001\" />\n  <system-out />\n  <system-err />\n</testsuite><testsuite name=\"com.codeyam.android.ui.GraphGeometryTest\" tests=\"14\" skipped=\"0\" failures=\"0\" errors=\"0\" timestamp=\"2026-07-26T12:39:02\" hostname=\"Jareds-Laptop.local\" time=\"0.007\">\n  <properties />\n  <testcase name=\"plotDomainAlwaysIncludesZero\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.004\" />\n  <testcase name=\"plotMapsTimeAcrossTheFullWidthAndCountUpwards\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"plotSurvivesAFlatSeries\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"stepVerticesOfEmptyOrSingleInputAreDegenerate\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"plotRectScalesGuttersByDensity\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"stepVerticesHoldThenJump\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"plotRectClampsToAPositiveSizeWhenTheCanvasIsTiny\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"relativeTimeGrowsAnHoursFieldPastAnHour\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.001\" />\n  <testcase name=\"plotHandlesAnEmptySeries\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"plotPutsZeroLineInsideTheRectWhenTheCountWentNegative\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"relativeTimeRoundsAndFloorsAtZero\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"relativeTimeFormatsAsMinutesAndSeconds\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.001\" />\n  <testcase name=\"plotSurvivesASinglePointSeries\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <testcase name=\"plotRectInsetsByTheGutters\" classname=\"com.codeyam.android.ui.GraphGeometryTest\" time=\"0.0\" />\n  <system-out />\n  <system-err />\n</testsuite></testsuites>",
+      "invoked_command": "android/gradlew -p android test --rerun-tasks && python3 android/scripts/merge-test-results.py android/app/build/test-results/testDebugUnitTest .codeyam/android-tests.xml",
+      "exit_code": 0,
+      "tests": [
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testDefaultsAreRightHandedSilentWithDistinctHaptics",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testOptionsAreIndependent",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testLegacyHapticOffMigratesToBothOff",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testDefaultHapticsAreDistinct",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testResolveMigratesRemovedRawValues",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testOptionCasesCoverTheChoiceSets",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testPersistsChangesAcrossReload",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testNewHapticKeyWinsOverLegacy",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testUnknownOptionFallsBackToDefault",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testReleasePolicyIgnoresSeededHapticsWithoutProvenance",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testReadsSeededStringPreferences",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.AppSettingsTest › testLegacyHapticKeyMigratesToBothDirections",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDefaultEffectiveFeedbackIsAllOff",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testClampedSubtractRecordsActualAppliedDelta",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testMigrationFoldsDeletedDefaultsIntoBlankSlots",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeleteBeyondFirstFourRemovesAndSelectsPrevious",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSelectPreviousMovesBackWithinList",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testEffectiveResolversFollowDefaultWhenNil",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testCumulativeSeriesReconstructsRunningCount",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSubtractHonorsStep",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testAddCounterClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyIgnoredWhenActiveCountNonZero",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeleteLastCounterBlanksInPlaceAndKeepsSelection",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeletingCounterClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testEffectiveResolversPinOverrideWhenSet",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testUndoResetReopensSealedRunAndRestoresCount",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterEditsAndPersists",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeletingExtraCounterDropsItsHistory",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testEditingActiveCounterClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSubtractGoesNegativeByDefault",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeleteCounterClearsItsHistories",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testTrustInjectedPolicyAdoptsSeededCounters",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testNamingBlankSlotRevivesIt",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testNoOpSubtractClampRecordsNoEvent",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSelectNextPastLastAppendsBlankAndSelectsIt",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testLegacySingleHapticOverrideMigratesToBothDirections",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testIncrementUsesActiveCounterEffectiveFeedback",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSeededHistoriesJSONLoadsFromDefaults",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testHapticDirectionsResolveIndependently",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterRoundTripsOverrides",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeletingMiddleExtraCounterSlidesFollowingCounterDown",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyTrustsOwnPersistedDataAfterStamp",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSubtractFiresFeedbackWithDecrementHaptic",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyEntersUndoModeOnLaunch",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAppendsBlankAndSelectsIt",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testLoadsSeededStateFromDefaults",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSubtractRecordsNegativeAppliedDelta",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testIncrementHonorsStep",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSubtractClampsWhenNegativesDisallowed",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testResetAndUndoResetStaySilent",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAssignsNextIdAndOrder",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeleteBlanksInPlace",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testResetSealsCurrentAndOpensEmptyRun",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testNewHapticOverrideKeyWinsOverLegacyOnDecode",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testLegacyCounterWithoutStepDecodesToStepOne",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testIncrementFiresFeedbackWithIncrementHaptic",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testIncrementRecordsPositiveEvent",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testHistoryCapDropsOldestRun",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSeededResetUndoKeyCoercesStringValue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterClearsOverridesWhenNil",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testIncrementRaisesActiveCounter",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSelectNextAdvancesWithinList",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testLegacyCountersDecodeWithNilOverrides",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testUnrecognizedOverrideRawValueDecodesToNil",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSwitchingCounterClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeletingEveryBaseSlotNeverShrinksTheRow",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testResetEntersUndoModeAndCapturesPreviousValue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testHistoriesPersistAndReloadFromDefaults",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testOverrideTracksOrPinsAgainstChangingDefault",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSubtractClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testRelativeOffsetMeasuredFromStart",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testAddCounterAllowsConsecutiveBlankSlots",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyIgnoresSeededCountersWithoutProvenance",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testFreshModelHasFourStarterCountersAtZero",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSubtractClampsToZeroWhenStepOvershoots",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSelectPreviousWrapsFromFirstToLast",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testDeletingLastExtraCounterSelectsNewLast",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testReleasePolicyTrustsAppSettingsAfterProvenanceStamped",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSeededSubsetHasNoBlankSlots",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testUndoResetRestoresPreviousValueAndExitsUndoMode",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testResetZeroesActiveCounter",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testBlankSlotIncrementsWithoutReviving",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testSubtractNoOpClampDoesNotFireFeedback",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testAddCounterPersists",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testIncrementClearsPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testUpdateActiveCounterClampsStepToAtLeastOne",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testHandednessOverrideResolvesPerCounter",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterModelTest › testResetAtZeroEntersUndoModeAndUndoRestoresZero",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterThemeTest › testParsesBlackAndWhite",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterThemeTest › testIsCaseInsensitive",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterThemeTest › testToleratesLeadingHash",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterThemeTest › testIsolatesIndividualChannels",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterThemeTest › testDotHexMapsKnownKeys",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterThemeTest › testDotHexFallsBackToLimeForUnknownKey",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.CounterThemeTest › testParsesAccentLime",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testBothOffFiresNothing",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testBothOptionsFireBoth",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testHapticOnlyFiresHapticWithFeel",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testAllDistinctFeelsAreTreatedAsNonOff",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testNoopFeedbackDoesNothing",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testIncrementHapticOverrideAloneReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testNoOverridesReturnsFalse",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testSoundOnlyFiresSoundWithChoice",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testBlankSlotReturnsFalse",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testAllOverridesSetReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testSoundOverrideAloneReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testDecrementHapticOverrideAloneReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testExplicitOffSoundOverrideReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.FeedbackTest › testHandednessOverrideAloneReturnsTrue",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningAppSettingsFromClosedOpensIt",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningCounterSettingsFromClosedOpensIt",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.SettingsOverlaysTest › testNothingIsOpenByDefault",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.SettingsOverlaysTest › testNoToggleEverLeavesBothOpen",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningCounterSettingsClosesAppSettings",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.SettingsOverlaysTest › testTogglingOpenCounterSettingsClosesItAndOpensNothing",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.SettingsOverlaysTest › testTogglingOpenAppSettingsClosesItAndOpensNothing",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.model.SettingsOverlaysTest › testOpeningAppSettingsClosesTheCounterPanel",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountFormatTest › fourDigitsAndUpAreGrouped",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountFormatTest › negativeCountsKeepTheirSignAndGrouping",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountFormatTest › deltaLeavesTheMinusSignAsTheOnlyMarkerWhenNegative",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountFormatTest › deltaCarriesAnExplicitPlusWhenNonNegative",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountFormatTest › smallCountsAreUnchanged",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountHeroSizingTest › theMinusSignCountsTowardTheWidth",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountHeroSizingTest › groupingSeparatorsCountTowardTheWidth",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountHeroSizingTest › oneAndTwoDigitCountsUseTheFullSize",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountHeroSizingTest › longerNumeralsStepDown",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountHeroSizingTest › anythingLongerFallsToTheSmallestStep",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CountHeroSizingTest › sizeNeverIncreasesAsTheNumeralGrows",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › resetOrUndoDispatchesByPendingUndo",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › selectNextAndPreviousMoveThroughTheCounters",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › aPerCounterHandednessOverrideBeatsTheAppDefault",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › openingTheCounterPanelClosesAppSettings",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › leftHandedFollowsTheAppDefaultWithoutAnOverride",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › overlayFlagsDefaultClosed",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › openingAppSettingsClosesTheCounterPanel",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › addingACounterClosesTheSettingsPanel",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › incrementAndSubtractReachTheActiveCounter",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › selectingFromTheListClosesBothTheListAndAppSettings",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › overlayFlagsAdoptTheirSeededValues",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › closingAPanelLeavesTheOtherClosed",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.CounterScreenStateTest › selectingACounterClosesTheSettingsPanel",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotDomainAlwaysIncludesZero",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotMapsTimeAcrossTheFullWidthAndCountUpwards",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotSurvivesAFlatSeries",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › stepVerticesOfEmptyOrSingleInputAreDegenerate",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotRectScalesGuttersByDensity",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › stepVerticesHoldThenJump",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotRectClampsToAPositiveSizeWhenTheCanvasIsTiny",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › relativeTimeGrowsAnHoursFieldPastAnHour",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotHandlesAnEmptySeries",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotPutsZeroLineInsideTheRectWhenTheCountWentNegative",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › relativeTimeRoundsAndFloorsAtZero",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › relativeTimeFormatsAsMinutesAndSeconds",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotSurvivesASinglePointSeries",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
+          "format": "junit-xml"
+        },
+        {
+          "key": "com.codeyam.android.ui.GraphGeometryTest › plotRectInsetsByTheGutters",
+          "status": "passed",
+          "file": null,
+          "line": null,
+          "runner": "android-tests",
           "format": "junit-xml"
         }
       ]

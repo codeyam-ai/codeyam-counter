@@ -8,13 +8,16 @@ source: manual
 ## Summary
 
 Make the increment button easier to tap higher up by increasing the height of
-the bottom control row on the iOS counter screen. The increment button is an
+the bottom control row on the counter screen — on **both** the iOS (Swift) and
+Android (Kotlin) apps, keeping them at visual parity. The increment button is an
 L-shape: a full-width top face (`IncrementBar`) plus a downward continuation
 that lives inside the lower control row. Today the lower row is a fixed 64pt
 inside an assembly pinned to 20% of screen height. Growing the lower row (and
 the overall assembly, so the "TAP TO INCREMENT" top bar keeps its full size)
 extends the increment continuation's tappable surface higher up the screen,
-giving a bigger, easier-to-reach increment target.
+giving a bigger, easier-to-reach increment target. The Android
+`CounterBottomBar` is a direct port of the iOS one with the identical height
+math, so the same change applies to both.
 
 ## Key Decisions
 
@@ -70,6 +73,38 @@ values — no other edits are needed. Update the doc comment on the struct if it
 pins the exact "one-fifth" figure so it still reads accurately (the assembly is
 now slightly taller than 20%).
 
+### 2. Mirror the change on Android for parity
+
+**File**: `android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt`
+
+The Kotlin `CounterBottomBar` composable holds the identical height math. It
+currently reads:
+
+```kotlin
+val assemblyHeight = screenHeight * 0.20f
+val lowerRowHeight = 64.dp
+val topBarHeight = maxOf(assemblyHeight - lowerRowHeight, 64.dp)
+```
+
+Apply the same change — taller lower row, top bar preserved off the original
+64dp baseline:
+
+```kotlin
+val assemblyHeight = screenHeight * 0.20f
+// Taller lower row → the increment button's downward continuation reaches
+// higher up the screen, giving a larger, easier-to-tap increment target.
+val lowerRowHeight = 100.dp
+// Keep the top "TAP TO INCREMENT" bar at its previous height (derived from the
+// original 64dp row baseline) so growing the lower row grows the whole
+// assembly instead of shrinking the top bar.
+val topBarHeight = maxOf(assemblyHeight - 64.dp, 64.dp)
+```
+
+`IncrementBar` and `BottomControlRow` (its `continuation`) already stretch via
+`Modifier.fillMaxHeight()` inside the `.height(...)` the parent hands them, so
+they grow automatically — no other edits are needed. Update the struct doc
+comment if it pins the exact "one-fifth" figure.
+
 ## Reused existing code
 
 - `CounterBottomBar` from `ios/Sources/AppCore/Views/CounterBottomBar.swift`
@@ -82,14 +117,21 @@ now slightly taller than 20%).
   the lower row; its `incrementContinuation` already fills the row height via
   `.frame(maxHeight: .infinity)`, so it grows automatically with the new
   `lowerRowHeight`. Unchanged.
+- `CounterBottomBar` (Android) from
+  `android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt` — the
+  Kotlin port; the only Android file that changes. `IncrementBar` and
+  `BottomControlRow` live in the same file and already fill their given height
+  via `Modifier.fillMaxHeight()`, unchanged.
 - Existing isolated scenarios for the assembly: `counterbottombar-default`,
   `counterbottombar-increment-pressed`, `counterbottombar-left-handed-pressed`
-  (registered under the `CounterBottomBar` glossary entry) — reused as the
-  before/after visual proof.
+  (registered under the `CounterBottomBar` glossary entry, captured on both the
+  iOS and Android targets) — reused as the before/after visual proof on each
+  platform.
 
 Survey note: no existing height/config field already controls the lower-row
-height — it is a hardcoded `64` literal local to `CounterBottomBar.body`. This
-change edits that literal in place rather than introducing a new config knob.
+height — it is a hardcoded `64` literal local to `CounterBottomBar` on both
+platforms. This change edits that literal in place rather than introducing a new
+config knob.
 
 ## Scenarios to Demonstrate
 
@@ -101,3 +143,6 @@ change edits that literal in place rather than introducing a new config knob.
   taller row mirrors correctly and the continuation lands under the thumb.
 - Full counter screen (application scenario) — the whole screen showing the
   increment button reaching higher up relative to the count hero above it.
+
+All three component scenarios are captured on **both** the iOS and Android
+targets, so the before/after proof covers each platform and confirms parity.

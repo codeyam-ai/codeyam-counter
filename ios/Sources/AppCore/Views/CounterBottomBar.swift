@@ -51,8 +51,13 @@ public struct CounterBottomBar: View {
 
     public var body: some View {
         let assemblyHeight = screenHeight * 0.20
-        let lowerRowHeight: CGFloat = 64
-        let topBarHeight = max(assemblyHeight - lowerRowHeight, 64)
+        // Taller lower row → the increment button's downward continuation reaches
+        // higher up the screen, giving a larger, easier-to-tap increment target.
+        let lowerRowHeight: CGFloat = 100
+        // Keep the top "TAP TO INCREMENT" bar at its previous height (derived from
+        // the original 64pt row baseline) so growing the lower row grows the whole
+        // assembly instead of shrinking the top bar.
+        let topBarHeight = max(assemblyHeight - 64, 64)
         let columnWidth = screenWidth / 4
 
         return VStack(spacing: 0) {
