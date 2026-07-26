@@ -1,0 +1,32 @@
+{
+  "claimStartedAt": "2026-07-24T16:44:22Z",
+  "completedAt": "2026-07-26T11:23:42Z",
+  "completedBy": {
+    "agentProvider": "claude",
+    "codeyamEditorVersion": "0.1.0",
+    "currentStep": "ui-step22",
+    "machine": "Jareds-Laptop.local",
+    "originId": "76154a71-f874-468a-81e0-7e448385c871",
+    "pid": 81901,
+    "priority": 0,
+    "selectedPlan": "android-ci-and-parity-docs",
+    "sessionId": "e12e955b-cc26-496a-92fa-736c58833264",
+    "startedAt": "2026-07-24T16:44:22Z"
+  },
+  "createdAt": "2026-07-15T17:52:57Z",
+  "deliverables": [
+    ".claude/hooks/editor-step-hook.py",
+    ".claude/skills/codeyam-audit/finalize-procedure.md",
+    ".claude/skills/codeyam-edit-plan/SKILL.md",
+    ".claude/skills/codeyam-editor/SKILL.md",
+    ".github/workflows/ci.yml",
+    "ANDROID_SETUP.md",
+    "CONTRIBUTING.md",
+    "README.md"
+  ],
+  "journalTimestamp": "2026-07-26T11:23:42Z",
+  "mode": "ui",
+  "planFile": "completed/android-ci-and-parity-docs.md",
+  "slug": "android-ci-and-parity-docs",
+  "title": "Android CI and Parity Docs"
+}
