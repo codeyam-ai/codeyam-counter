@@ -1,0 +1,76 @@
+name: Play Internal
+
+# Manual trigger — build a signed AAB and upload it to the Play Store
+# **Internal testing** track. Mirrors testflight.yml for iOS.
+#
+# One-time setup (all values live in GitHub ▸ repo Settings ▸ Secrets and
+# variables ▸ Actions — this workflow never sees them in plaintext):
+#   ANDROID_KEYSTORE_BASE64     base64 of your upload keystore:
+#                                 base64 -i android/app/upload-keystore.jks | pbcopy
+#   ANDROID_KEYSTORE_PASSWORD   the keystore password
+#   ANDROID_KEY_ALIAS           the key alias (e.g. "upload")
+#   ANDROID_KEY_PASSWORD        the key password
+#   PLAY_SERVICE_ACCOUNT_JSON   the Google Play service-account JSON key
+#                                 (Play Console ▸ Users and permissions / API access;
+#                                  grant it "Release to testing tracks")
+#
+# NOTE: the very FIRST upload to a brand-new Play app must be done manually in
+# the Console (to accept Play App Signing and register the package). After that,
+# this workflow automates every subsequent internal build.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    name: Build & upload to Play (internal)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        # Gradle 8.4 + Android Gradle Plugin require JDK 17 (matches ci.yml).
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Decode upload keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "❌ Missing secret ANDROID_KEYSTORE_BASE64 — cannot sign the AAB." >&2
+            exit 1
+          fi
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload-keystore.jks"
+
+      - name: Build signed release AAB
+        # build.gradle.kts reads these env vars when no keystore.properties is
+        # present (the CI case). versionCodeOverride keeps each upload unique.
+        env:
+          ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/upload-keystore.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          android/gradlew -p android bundleRelease \
+            -PversionCodeOverride=$((100000 + GITHUB_RUN_NUMBER))
+
+      - name: Verify the AAB is signed
+        run: |
+          AAB=android/app/build/outputs/bundle/release/app-release.aab
+          test -f "$AAB" || { echo "❌ AAB not found at $AAB" >&2; exit 1; }
+          jarsigner -verify "$AAB" && echo "✅ AAB is signed"
+
+      - name: Upload to Play — Internal testing
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.codeyam.counter
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          track: internal
+          status: completed
