@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.codeyam.android.BuildConfig
 import com.codeyam.android.model.HapticOption
 import com.codeyam.android.model.SoundOption
 
@@ -104,6 +105,22 @@ fun AppSettingsPanel(
         }
 
         AllCountersButton(onClick = onOpenList)
+
+        // Build identity, so "which version am I on?" is a glance rather than an
+        // adb command. versionName is always 1.0; the versionCode is what tells
+        // internal-test builds apart.
+        Text(
+            text = "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+            fontSize = 10.sp,
+            fontFamily = FontFamily.Monospace,
+            letterSpacing = 0.5.sp,
+            color = CounterColors.inkMuted,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp)
+                .semantics { contentDescription = "app-settings-version" },
+        )
     }
 }
 

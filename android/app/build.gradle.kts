@@ -85,6 +85,9 @@ android {
     }
     buildFeatures {
         compose = true
+        // Generates BuildConfig.VERSION_NAME / VERSION_CODE so the app can show
+        // its own version (see the footer in AppSettingsPanel).
+        buildConfig = true
     }
     packaging {
         resources {
