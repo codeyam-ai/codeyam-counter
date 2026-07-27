@@ -91,6 +91,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    testOptions {
+        unitTests {
+            // Robolectric needs merged Android resources to inflate the Compose
+            // test activity and resolve theme/resource references.
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -105,5 +112,16 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
+    // Compose UI tests that run under plain `testDebugUnitTest` via Robolectric
+    // (no emulator — matches ci.yml's ubuntu android job). The BOM must be on the
+    // test config too so the versionless test artifacts resolve.
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+
     debugImplementation(libs.androidx.compose.ui.tooling)
+    // The test manifest must be on the debug variant, not the test config, or the
+    // Compose test host activity isn't found at runtime.
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

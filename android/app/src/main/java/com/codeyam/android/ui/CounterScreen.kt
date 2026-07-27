@@ -142,10 +142,20 @@ fun CounterScreen(state: CounterScreenState, modifier: Modifier = Modifier) {
         // true, so closing the list still returns here.
         if (state.showAppSettings && !state.showCounterList) {
             HeaderAnchoredOverlay(anchor = { header() }) {
+                // Read the revision-keyed getters HERE, inside the overlay's
+                // content lambda (its own restartable scope), so a settings write
+                // recomposes just this panel — not the whole screen on every count
+                // change, which reading them in the outer scope would cause.
                 AppSettingsPanel(
-                    settings = state.settings,
+                    leftHanded = state.defaultLeftHanded,
+                    soundOption = state.soundOption,
+                    incrementHapticOption = state.incrementHapticOption,
+                    decrementHapticOption = state.decrementHapticOption,
+                    onLeftHandedChange = { state.setDefaultLeftHanded(it) },
+                    onSoundChange = { state.setSoundOption(it) },
+                    onIncrementHapticChange = { state.setIncrementHapticOption(it) },
+                    onDecrementHapticChange = { state.setDecrementHapticOption(it) },
                     availableHeight = screenHeight,
-                    onChanged = { state.settingsChanged() },
                     onOpenList = { state.openCounterList() },
                     onClose = { state.closeAppSettings() },
                 )

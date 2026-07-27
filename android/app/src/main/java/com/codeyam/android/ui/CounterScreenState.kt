@@ -74,6 +74,16 @@ class CounterScreenState(
     val leftHanded: Boolean
         get() = revision.let { model.activeCounter.effectiveLeftHanded(settings.defaultLeftHanded) }
 
+    // The raw app-wide defaults the App Settings panel edits, keyed on `revision`
+    // so the panel recomposes when a tap writes one. Distinct from `leftHanded`
+    // above, which is the *effective* value for the active counter (its override
+    // wins) and drives the bottom bar — conflating them would make the panel show
+    // the active counter's override instead of the app default it means to edit.
+    val defaultLeftHanded: Boolean get() = revision.let { settings.defaultLeftHanded }
+    val soundOption: SoundOption get() = revision.let { settings.soundOption }
+    val incrementHapticOption: HapticOption get() = revision.let { settings.incrementHapticOption }
+    val decrementHapticOption: HapticOption get() = revision.let { settings.decrementHapticOption }
+
     private fun mutate(block: () -> Unit) {
         block()
         revision++
@@ -157,6 +167,12 @@ class CounterScreenState(
     fun toggleGraph() { showGraph = !showGraph }
     fun closeGraph() { showGraph = false }
 
-    /** Re-persist app settings after a panel edit and re-read the model. */
-    fun settingsChanged() = mutate { }
+    // App Settings writes: mutate and bump the revision in one place so the panel
+    // (which reads the revision-keyed getters above) recomposes. Replaces the old
+    // `settings.x = it; settingsChanged()` pairs the panel did at each call site —
+    // a split where a write could skip the notify, which was this bug.
+    fun setDefaultLeftHanded(value: Boolean) = mutate { settings.defaultLeftHanded = value }
+    fun setSoundOption(value: SoundOption) = mutate { settings.soundOption = value }
+    fun setIncrementHapticOption(value: HapticOption) = mutate { settings.incrementHapticOption = value }
+    fun setDecrementHapticOption(value: HapticOption) = mutate { settings.decrementHapticOption = value }
 }

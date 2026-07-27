@@ -2,7 +2,9 @@ package com.codeyam.android.ui
 
 import com.codeyam.android.model.AppSettings
 import com.codeyam.android.model.CounterModel
+import com.codeyam.android.model.HapticOption
 import com.codeyam.android.model.InMemoryKeyValueStore
+import com.codeyam.android.model.SoundOption
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -175,5 +177,52 @@ class CounterScreenStateTest {
             decrementHapticOverride = null,
         )
         assertFalse(s.leftHanded)
+    }
+
+    // MARK: - App Settings getters / setters (the revision-keyed reads the panel uses)
+
+    @Test
+    fun setDefaultLeftHandedFlipsTheAppDefaultGetter() {
+        val s = state()
+        assertFalse(s.defaultLeftHanded)
+        s.setDefaultLeftHanded(true)
+        assertTrue(s.defaultLeftHanded)
+    }
+
+    /**
+     * The panel edits the app-wide default; the bottom bar renders the active
+     * counter's effective value. With an override pinning the active counter
+     * right-handed, `defaultLeftHanded` (what the panel shows) and `leftHanded`
+     * (what the bar shows) must diverge — this pins the distinction the fix relies
+     * on, so a future rename can't quietly make the panel show the override.
+     */
+    @Test
+    fun defaultLeftHandedIsTheAppDefaultNotTheActiveCountersEffectiveValue() {
+        val s = state()
+        val active = s.activeCounter
+        s.updateActiveCounter(
+            name = active.name,
+            colorKey = active.colorKey,
+            allowNegative = active.allowNegative,
+            step = active.step,
+            handednessOverride = false,
+            soundOverride = null,
+            incrementHapticOverride = null,
+            decrementHapticOverride = null,
+        )
+        s.setDefaultLeftHanded(true)
+        assertTrue(s.defaultLeftHanded)   // the panel shows the app-wide default
+        assertFalse(s.leftHanded)         // the bar shows the counter's override
+    }
+
+    @Test
+    fun feedbackSettersRoundTripThroughTheirGetters() {
+        val s = state()
+        s.setSoundOption(SoundOption.POP)
+        assertEquals(SoundOption.POP, s.soundOption)
+        s.setIncrementHapticOption(HapticOption.BUZZ)
+        assertEquals(HapticOption.BUZZ, s.incrementHapticOption)
+        s.setDecrementHapticOption(HapticOption.SOFT)
+        assertEquals(HapticOption.SOFT, s.decrementHapticOption)
     }
 }
