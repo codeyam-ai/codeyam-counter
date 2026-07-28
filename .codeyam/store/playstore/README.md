@@ -15,7 +15,9 @@ screenshots/phone/            1080×2400 — real scenario captures, uncaptioned
   02-every-tally-one-tap-away.png        "Every tally, one tap away"
   03-watch-it-add-up.png                 "Watch it add up"
   04-make-it-yours.png                   "Make it yours"
-  05-one-handed-by-design.png            "One-handed by design"
+  05-one-handed-by-design.png            "Make it yours" / "One-handed by design"
+screenshots/tablet-7/         1080×1920 — 9:16, five frames
+screenshots/tablet-10/        1440×2560 — 9:16, four frames
 listing.md                    App name, short + full description, release notes
 PLAY_CONSOLE_CHEATSHEET.md    Every App content / Policy declaration answer
 ```
@@ -32,6 +34,26 @@ PLAY_CONSOLE_CHEATSHEET.md    Every App content / Policy declaration answer
   emits both stores' artwork deliberately — the Play 512 icon is derived from
   the *same* geometry as the shipped Android adaptive icon, so the store tile
   and the installed launcher icon cannot drift apart.
+
+## Tablet support
+
+The app is phone-first — a one-handed design with a left-aligned hero numeral and
+a thumb-reach bottom bar. Stretched to a tablet's ~960dp width it fell apart: the
+numeral stranded itself against the left edge with half the screen empty.
+`MaxContentWidth` (`ui/CounterScreen.kt`) now caps the column at 480dp and centres
+it, so a tablet renders the designed proportions instead of a scaled-up phone.
+Below the cap — every phone — the constraint is inert and layout is unchanged.
+
+Tablet screenshots were captured by reconfiguring a booted emulator with
+`wm size` / `wm density` (240dpi → 720dp and 960dp wide), not by creating a
+tablet AVD. Two cautions if you regenerate them:
+
+- The emulator's WindowManager destabilises after repeated `wm size` changes
+  (`BLASTSyncEngine: Unfinished container`, SystemUI ANRs) and the app parks on
+  its launch window. Reboot the emulator between passes and verify each frame
+  actually shows the header bar rather than the splash.
+- The tablet taskbar renders into the frame, so captures are cropped of device
+  chrome and rescaled to the exact Play dimensions.
 
 ## Deliberate divergences from iOS
 

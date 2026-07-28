@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.KotlinAndroidCompose" parent="android:Theme.Material.Light.NoActionBar" />
+    <!--
+      Parented on the DARK Material NoActionBar theme, not the Light one the
+      generator scaffolded.
+
+      The parent is not cosmetic. The framework draws `windowBackground` during
+      cold start, before the first Compose frame exists, so a Light parent means
+      every launch flashes white before the near-black app appears — jarring on a
+      dark app, and it also lands in scenario captures as an all-white frame.
+      Pinning `windowBackground` to the app's own surface colour makes the
+      handoff from system window to first composition seamless.
+    -->
+    <style name="Theme.KotlinAndroidCompose" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/counter_bg</item>
+        <item name="android:statusBarColor">@color/counter_bg</item>
+        <item name="android:navigationBarColor">@color/counter_bg</item>
+    </style>
 </resources>

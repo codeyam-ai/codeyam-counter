@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,12 +28,34 @@ import androidx.compose.ui.unit.dp
  * bar — the graph overlay is transparent, so a numeral left behind would show
  * through the gap between the chart panel and the CLOSE button.
  */
+/**
+ * The widest the counter column is ever laid out, regardless of screen size.
+ *
+ * This is a phone-first, one-handed app: the hero numeral is left-aligned at a
+ * fixed `sp` size, the increment target is the lower half of the column, and the
+ * bottom bar is sized for thumb reach. Stretched to a tablet's ~960dp width all
+ * of that breaks down — the numeral strands itself against the left edge with
+ * half the screen empty beside it, and the bottom controls sprawl far past any
+ * thumb. Capping the column and centring it keeps the designed proportions on a
+ * large screen instead of scaling them into something the design never intended.
+ *
+ * Above the cap the app renders as a centred column on the app background; at or
+ * below it (every phone) the cap is inert and layout is byte-identical.
+ */
+internal val MaxContentWidth = 480.dp
+
 @Composable
 fun CounterScreen(state: CounterScreenState, modifier: Modifier = Modifier) {
-    BoxWithConstraints(
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .background(CounterColors.bg)
+            .background(CounterColors.bg),
+        contentAlignment = Alignment.TopCenter,
+    ) {
+    BoxWithConstraints(
+        modifier = Modifier
+            .widthIn(max = MaxContentWidth)
+            .fillMaxSize()
             .pointerInput(Unit) {
                 // Same ±40pt threshold as the iOS DragGesture, so a deliberate
                 // swipe switches counters but a stray drag while tapping the
@@ -186,5 +209,6 @@ fun CounterScreen(state: CounterScreenState, modifier: Modifier = Modifier) {
                 )
             }
         }
+    }
     }
 }
