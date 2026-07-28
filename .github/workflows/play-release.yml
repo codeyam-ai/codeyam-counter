@@ -34,6 +34,16 @@ on:
         required: true
         default: "1.0"
         type: string
+      draft:
+        description: >-
+          Create the release as a DRAFT. Required while the Play app itself is
+          still unpublished — Google rejects a live release on a draft app with
+          "Only releases with status draft may be created on draft app". Upload
+          as a draft, then publish it from the Console; after that first
+          publish, leave this off.
+        required: true
+        default: false
+        type: boolean
       dry_run:
         description: "Build and verify the AAB but do NOT upload to Play"
         required: true
@@ -93,20 +103,35 @@ jobs:
         # build.gradle.kts reads these env vars when no keystore.properties is
         # present (the CI case).
         #
-        # versionCode is UNIX MINUTES, deliberately not `100000 + run_number`.
-        # Play requires a versionCode to be unique across the whole app forever,
-        # and run numbers are per-WORKFLOW: this workflow's run #1 produced
-        # 100001, which play-internal.yml had already published. Wall-clock
-        # minutes are monotonic and shared by every workflow, so the two can
-        # never collide. ~29.8M today against Play's 2,100,000,000 ceiling.
+        # versionCode = VERSION_CODE_BASE + this workflow's run number.
+        #
+        # Per Android guidance, versionCode is an opaque monotonically
+        # increasing integer that users never see; `versionName` (set in
+        # build.gradle.kts) is the human-facing semantic string. The two are
+        # deliberately NOT derived from each other — coupling them makes it
+        # impossible to ship a second build of the same version, which is
+        # exactly what a rejected-and-resubmitted release needs.
+        #
+        # This is the ONLY workflow that uploads to Play, which is what makes a
+        # run number a safe counter: it is monotonic within a workflow, so a
+        # single uploader means collisions cannot occur. When there were two
+        # uploading workflows they each had their own run numbers and duly
+        # collided — this workflow's run #1 emitted 100001, already published by
+        # the retired play-internal.yml.
+        #
+        # BASE clears the 100001-100003 that workflow burned. Bump BASE if the
+        # workflow is ever renamed or recreated, since that resets run numbers;
+        # Play would reject the lower code loudly rather than silently, but the
+        # bump avoids the failed run.
         env:
+          VERSION_CODE_BASE: 110000
           ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/upload-keystore.jks
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          VERSION_CODE=$(( $(date -u +%s) / 60 ))
-          echo "versionCode = $VERSION_CODE"
+          VERSION_CODE=$(( VERSION_CODE_BASE + GITHUB_RUN_NUMBER ))
+          echo "versionCode = $VERSION_CODE  (base $VERSION_CODE_BASE + run $GITHUB_RUN_NUMBER)"
           android/gradlew -p android bundleRelease \
             -PversionCodeOverride=$VERSION_CODE
 
@@ -146,8 +171,20 @@ jobs:
       # send `status: completed` and NO userFraction at all; splitting the step
       # is the only way to genuinely omit an input.
 
+      - name: Upload to Play — ${{ inputs.track }} (draft)
+        if: ${{ !inputs.dry_run && inputs.draft }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.codeyam.counter
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          mappingFile: android/app/build/outputs/mapping/release/mapping.txt
+          track: ${{ inputs.track }}
+          status: draft
+          whatsNewDirectory: store/playstore/whatsnew
+
       - name: Upload to Play — ${{ inputs.track }} (full rollout)
-        if: ${{ !inputs.dry_run && (inputs.rollout == '1.0' || inputs.rollout == '1') }}
+        if: ${{ !inputs.dry_run && !inputs.draft && (inputs.rollout == '1.0' || inputs.rollout == '1') }}
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
@@ -159,7 +196,7 @@ jobs:
           whatsNewDirectory: store/playstore/whatsnew
 
       - name: Upload to Play — ${{ inputs.track }} (staged ${{ inputs.rollout }})
-        if: ${{ !inputs.dry_run && inputs.rollout != '1.0' && inputs.rollout != '1' }}
+        if: ${{ !inputs.dry_run && !inputs.draft && inputs.rollout != '1.0' && inputs.rollout != '1' }}
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
