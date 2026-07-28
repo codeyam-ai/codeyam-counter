@@ -31,9 +31,31 @@ PLAY_CONSOLE_CHEATSHEET.md    Every App content / Policy declaration answer
   verbatim — unlike the iOS set, which is matted onto 1290×2796 marketing
   frames.
 - Regenerate everything: `python3 ../appstore/gen_assets.py`. One generator
-  emits both stores' artwork deliberately — the Play 512 icon is derived from
-  the *same* geometry as the shipped Android adaptive icon, so the store tile
-  and the installed launcher icon cannot drift apart.
+  emits both stores' artwork deliberately, so the two listings cannot drift.
+
+### Why the store icon and the launcher icon are not the same drawing
+
+The **Play Store icon** is rendered from `render_icon_minimal()` — the identical
+artwork as the shipped App Store icon: the lime plus **and** the four signature
+counter dots. Listing tiles get only a gentle rounded-square mask, so the full
+brand mark survives, and matching iOS is the point.
+
+The **Android adaptive launcher icon** is plus-only, and that is a constraint
+rather than an oversight. An adaptive icon guarantees only the centred 66dp of
+its 108dp foreground is visible; every launcher mask crops the rest. The dot row
+sits at 80% of the icon's height, so a circular mask would slice it off. Adding
+the dots there would not match iOS — it would produce a clipped mess.
+
+So: store tile = full mark (matches iOS), launcher icon = plus only (mask-safe).
+Do not "fix" the launcher icon to match the store tile.
+
+### Feature graphic
+
+Rendered at 4x and downsampled. PIL antialiases text but **not** geometry, so
+drawing the plus and dots straight at 1024×500 leaves visibly stepped edges on
+exactly the shapes the brand is built from. The lime glow behind the mark is
+deliberately tight and low-alpha — a wide, strong one washes the right half
+olive and reads as muddy.
 
 ## Tablet support
 

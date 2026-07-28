@@ -85,24 +85,32 @@ def icon_plus(path):
         d.ellipse([x - r, y - r, x + r, y + r], fill=DOTS[k])
     img.convert("RGB").save(path)
 
-def icon_minimal(path):
+def render_icon_minimal(S=1024):
     """Minimalist icon: flat bg, hard-edged lime plus, four flat signature dots.
-    No glow, no gradient, no text — the real app palette, restrained."""
-    S = 1024
+    No glow, no gradient, no text — the real app palette, restrained.
+
+    Every dimension is a fraction of `S` so the identical artwork can be emitted
+    at any size — 1024 for App Store Connect, 512 for the Play Store listing —
+    without the two drifting into different designs.
+    """
     img = Image.new("RGB", (S, S), BG)
     d = ImageDraw.Draw(img)
     # dominant, hard-edged (radius=0) lime plus, biased slightly up for the dot row
-    plus(d, S // 2, int(S * 0.44), 250, 116, ACCENT, radius=0)
+    plus(d, S // 2, int(S * 0.44), int(S * 0.2441), int(S * 0.1133), ACCENT, radius=0)
     # one tight row of four flat signature dots (lime, coffee, steps, bugs)
     order = ["lime", "coffee", "steps", "bugs"]
-    r, gap = 34, 118
+    r, gap = int(S * 0.0332), int(S * 0.1152)
     total = gap * (len(order) - 1)
     x0 = S // 2 - total // 2
     y = int(S * 0.80)
     for i, k in enumerate(order):
         x = x0 + i * gap
         d.ellipse([x - r, y - r, x + r, y + r], fill=DOTS[k])
-    img.save(path)
+    return img
+
+
+def icon_minimal(path):
+    render_icon_minimal(1024).save(path)
 
 def icon_app_motif(path):
     S = 1024
@@ -131,78 +139,85 @@ def icon_app_motif(path):
 # ==========================================================================
 # GOOGLE PLAY
 # ==========================================================================
-# The shipped Android adaptive icon draws, in a 108x108 viewport: a #0C0D08
-# field and a hard-edged lime plus centred at (54,54) with arm half-length 24
-# and stroke 14. Re-deriving the Play icon from those same numbers is what keeps
-# the store tile and the installed launcher icon identical.
-ADAPTIVE_VIEWPORT = 108
-ADAPTIVE_PLUS_ARM = 24
-ADAPTIVE_PLUS_THICK = 14
-
-
 def play_icon_512(path):
-    """512x512 32-bit PNG Play Store icon — the adaptive launcher icon, full-bleed.
+    """512x512 32-bit PNG Play Store icon — the SAME artwork as the iOS icon.
 
-    Play applies its own rounded-square mask, so this is drawn edge-to-edge with
-    no safe-zone inset (unlike the adaptive *foreground* layer, which is cropped
-    by the launcher mask).
+    Deliberately rendered from `render_icon_minimal`, i.e. the shipped App Store
+    icon (plus mark AND the four signature counter dots), not from the Android
+    adaptive launcher icon.
+
+    Those two are not the same drawing, and the difference is a real constraint
+    rather than an oversight. An adaptive launcher icon only guarantees the
+    centred 66dp of its 108dp foreground is visible — every launcher mask crops
+    the rest — so the dot row, which sits at 80% of the icon's height, would be
+    sliced off under a circular mask. The launcher icon is therefore plus-only.
+    A Play Store listing icon has no such mask (Play applies a gentle rounded
+    square), so it can and should carry the full brand mark and match iOS.
     """
-    S = 512
-    k = S / ADAPTIVE_VIEWPORT
-    img = Image.new("RGB", (S, S), BG)
-    d = ImageDraw.Draw(img)
-    plus(
-        d,
-        S // 2,
-        S // 2,
-        int(ADAPTIVE_PLUS_ARM * k),
-        int(ADAPTIVE_PLUS_THICK * k),
-        ACCENT,
-        radius=0,
-    )
-    img.save(path)
+    render_icon_minimal(512).save(path)
 
 
 def feature_graphic(path):
-    """1024x500 Play feature graphic — required, with no App Store equivalent.
+    """1024x500 Play feature graphic — required by Play, no App Store equivalent.
 
-    Built from the same brand tokens as the icon (dark field, lime plus, the four
-    counter dots) so it reads as a set with the icon rather than bolted on. Play
-    can overlay a play-button chip in the centre and crops the edges on some
-    surfaces, so the wordmark stays left of centre and clear of the margins.
+    Rendered at 4x and downsampled. PIL antialiases text but NOT geometry, so
+    drawing the plus and the dots straight at 1024x500 leaves visibly stepped
+    edges on exactly the shapes the brand is built from; supersampling is what
+    makes it read as artwork rather than a screenshot of a diagram.
+
+    Composition follows Play's constraints: the graphic is cropped at the edges
+    on some surfaces and can carry a centred play-button chip, so the wordmark
+    holds the left third well inside the margins and the icon mark anchors the
+    right, with the centre kept quiet.
     """
+    SS = 4                      # supersampling factor
     W, H = 1024, 500
-    img = vgrad((W, H), (0x14, 0x16, 0x0E), BG).convert("RGB")
+    w, h = W * SS, H * SS
 
-    # Oversized ghost plus bleeding off the right edge — depth without clutter.
-    ghost = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    plus(ImageDraw.Draw(ghost), int(W * 0.83), H // 2, 190, 88, (0x20, 0x22, 0x18, 255), radius=0)
-    img = Image.alpha_composite(img.convert("RGBA"), ghost).convert("RGB")
+    img = vgrad((w, h), (0x18, 0x1B, 0x11), (0x09, 0x0A, 0x06)).convert("RGBA")
+
+    # Soft lime glow anchoring the right-hand mark — gives the flat palette some
+    # depth without introducing a second colour.
+    # Kept tight and low-alpha on purpose: a wide, strong lime glow washes the
+    # whole right half olive, which reads as muddy rather than premium. This
+    # should be felt as a halo behind the mark, not seen as a colour field.
+    glow = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    gx, gy, gr = int(w * 0.78), h // 2, int(h * 0.34)
+    gd.ellipse([gx - gr, gy - gr, gx + gr, gy + gr], fill=ACCENT + (26,))
+    img = Image.alpha_composite(img, glow.filter(ImageFilter.GaussianBlur(int(70 * SS))))
 
     d = ImageDraw.Draw(img)
 
-    # Solid lime plus, the icon's mark, sitting on the ghost.
-    plus(d, int(W * 0.83), H // 2, 96, 44, ACCENT, radius=0)
+    # --- right: the icon mark itself (plus + signature dots), scaled to sit in
+    # the banner. Reusing the icon artwork is what makes the listing read as one
+    # identity across the tile, the graphic and the installed app.
+    mark = int(h * 0.78)
+    icon = render_icon_minimal(mark).convert("RGBA")
+    # Drop the icon's own dark field so it sits on the gradient, keeping only the
+    # lime plus and the coloured dots.
+    px = icon.load()
+    for yy in range(mark):
+        for xx in range(mark):
+            r0, g0, b0, _ = px[xx, yy]
+            if abs(r0 - BG[0]) <= 12 and abs(g0 - BG[1]) <= 12 and abs(b0 - BG[2]) <= 12:
+                px[xx, yy] = (0, 0, 0, 0)
+    img.alpha_composite(icon, (int(w * 0.78) - mark // 2, (h - mark) // 2))
 
-    # Wordmark + tagline, left-aligned and inside a generous margin.
-    margin = 72
-    d.text((margin, 168), "CODEYAM", font=font(ARIAL_BLACK, 76), fill=INK)
-    d.text((margin, 250), "COUNTER", font=font(ARIAL_BLACK, 76), fill=ACCENT)
-    d.rounded_rectangle([margin, 366, margin + 120, 378], radius=6, fill=ACCENT)
-    d.text((margin, 404), "COUNT ANYTHING, BEAUTIFULLY",
-           font=font(MENLO_BOLD, 30, index=1), fill=INK_MUTED)
+    # --- left: wordmark, rule, tagline
+    margin = int(72 * SS)
+    d.text((margin, int(150 * SS)), "CODEYAM", font=font(ARIAL_BLACK, 78 * SS), fill=INK)
+    d.text((margin, int(232 * SS)), "COUNTER", font=font(ARIAL_BLACK, 78 * SS), fill=ACCENT)
+    d.rounded_rectangle(
+        [margin, int(348 * SS), margin + int(132 * SS), int(360 * SS)],
+        radius=6 * SS, fill=ACCENT,
+    )
+    d.text(
+        (margin, int(388 * SS)), "COUNT ANYTHING, BEAUTIFULLY",
+        font=font(MENLO_BOLD, 29 * SS, index=1), fill=INK_MUTED,
+    )
 
-    # Signature counter-dot row, top-left — the app's own switcher motif.
-    order = ["lime", "coffee", "steps", "bugs"]
-    r, gap = 17, 52
-    for i, key in enumerate(order):
-        x = margin + r + i * gap
-        y = 96
-        if key == "lime":
-            d.ellipse([x - r - 8, y - r - 8, x + r + 8, y + r + 8], outline=ACCENT, width=4)
-        d.ellipse([x - r, y - r, x + r, y + r], fill=DOTS[key])
-
-    img.save(path)
+    img.convert("RGB").resize((W, H), Image.LANCZOS).save(path)
 
 
 # Play phone screenshots. The Android scenario captures are already 1080x2400 —
