@@ -6,6 +6,56 @@ createdAt: "2026-07-27T17:52:40Z"
 source: manual
 ---
 
+## Status & Next Steps — updated 2026-07-27 (post-internal-testing)
+
+**Internal-testing milestone: DONE and verified on a physical Pixel.** A few
+things diverged from the plan's original assumptions — flagged below.
+
+### ✅ Completed
+- **On the Pixel:** installed and running as a release build (versionCode 100003,
+  `targetSdk 35`); the separate App Settings stale-selection bug fixed and verified
+  moving on-device.
+- **Build/identity gaps closed:** display name → "CodeYam Counter"; `compileSdk` /
+  `targetSdk` bumped to **35** (Play now requires it on all tracks — not 34 as the
+  plan assumed); release `signingConfig` added (reads `android/keystore.properties`
+  or `ANDROID_KEYSTORE_*` env vars, unsigned fallback); overridable `versionCode`
+  for CI; `proguard-rules.pro` present, build clean (R8 off for now).
+- **`applicationId` = `com.codeyam.counter`** — CHANGED from the plan's
+  "com.codeyam.android" decision: the Play Console app was registered under
+  `com.codeyam.counter` (matching the iOS bundle ID). Kotlin `namespace` stays
+  `com.codeyam.android`.
+- **Upload keystore** generated (`android/app/upload-keystore.jks`, git-ignored);
+  **Play App Signing** enrolled on the first manual upload.
+- **Internal-testing track live** with a tester opt-in URL:
+  https://play.google.com/apps/internaltest/4701429936624523422
+- **One-click CI:** `.github/workflows/play-internal.yml` builds a signed AAB and
+  uploads to the internal track on dispatch (Google Cloud service account
+  `play-ci-uploader@codeyam-counter.iam.gserviceaccount.com` + GitHub secrets).
+  Verified green.
+- **Adaptive launcher icon** (CodeYam dark bg + lime "+", matching iOS) replacing
+  the stock placeholder — hand-authored vector adaptive icon, NOT the `gen_assets.py`
+  density-PNG route the plan sketched.
+- **In-app version label** ("v1.0 (<versionCode>)") at the bottom of App Settings.
+
+### ⏳ Remaining — for a PRODUCTION (public) launch only
+None of this blocks internal testing; it's the work to go public:
+- **Full Play store listing:** title, short description (≤80), full description
+  (reuse `.codeyam/store/appstore/listing.md`), phone screenshots (the 1080×2400
+  Android scenario captures exist).
+- **Feature graphic 1024×500** — required by Play, still needs designing.
+- **512×512 Play Store icon.**
+- **App-content declarations** — answers are in
+  `.codeyam/store/playstore/PLAY_CONSOLE_CHEATSHEET.md` (privacy URL, Data safety =
+  none, content rating → Everyone, target audience 13+, no ads).
+- **Closed testing → production:** a newer personal Play developer account must run
+  closed testing (≥12 testers, ~14 days) before production is unlocked.
+- Optionally enable **R8 minification** + upload a deobfuscation mapping file.
+
+### Note
+This work was done via direct commits (not the codeyam editor workflow). Parts
+A–D below are largely satisfied — treat that checklist as reference for the
+remaining production items.
+
 ## Summary
 
 Take the Kotlin + Jetpack Compose app under `android/` from its current
