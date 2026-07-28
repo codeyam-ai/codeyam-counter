@@ -46,6 +46,7 @@
       "outputPath": ".codeyam/android-tests.xml",
       "testFilePatterns": [
         "android/**/src/test/**/*.kt",
+        "android/**/src/testDebug/**/*.kt",
         "android/**/*Test.kt"
       ],
       "sourceFilePatterns": [

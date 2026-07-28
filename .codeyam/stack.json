@@ -49,6 +49,8 @@
     }
   },
   "simulator": {
+    "androidActivity": "com.codeyam.android.MainActivity",
+    "androidPackage": "com.codeyam.counter",
     "buildSignalRegex": "(BUILD SUCCESSFUL|Successfully built|Launching app|Successfully installed)",
     "platform": "android",
     "preflightChecks": [

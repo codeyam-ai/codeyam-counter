@@ -26,6 +26,14 @@ import org.robolectric.annotation.GraphicsMode
  *
  * Runs under Robolectric so it executes on `testDebugUnitTest` with no emulator,
  * matching ci.yml's ubuntu android job.
+ *
+ * Lives in `src/testDebug/` rather than `src/test/` on purpose: `createComposeRule`
+ * needs a host `ComponentActivity`, which reaches the merged application manifest
+ * only via the `androidx.compose.ui.test.manifest` AAR — and that is
+ * `debugImplementation`, since test scaffolding must never ship in a release
+ * artifact. A variant-agnostic `src/test/` placement would make
+ * `testReleaseUnitTest` run this against a variant where the host activity cannot
+ * exist. The model/logic tests stay in `src/test/` and still cover both variants.
  */
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)

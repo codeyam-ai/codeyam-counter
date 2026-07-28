@@ -64,7 +64,11 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            // R8 shrinks + obfuscates the release artifact. Safe here because
+            // persistence is explicit JSON-tree parsing, not `@Serializable`
+            // reflection — see the scope note in `proguard-rules.pro`.
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -124,7 +128,13 @@ dependencies {
     testImplementation(libs.androidx.compose.ui.test.junit4)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
-    // The test manifest must be on the debug variant, not the test config, or the
-    // Compose test host activity isn't found at runtime.
+    // The test manifest must be on the debug VARIANT, not a test config: it is an
+    // AAR whose only job is contributing `ComponentActivity` to the merged
+    // application manifest (manifest merging is a per-variant build concern, and
+    // Robolectric reads the variant's merged manifest). It must never reach the
+    // release artifact, so it stays debug-only — which is exactly why the Compose
+    // interaction tests that need it live in `src/testDebug/`, not `src/test/`.
+    // Putting them in the variant-agnostic `src/test/` made `testReleaseUnitTest`
+    // run a test whose host activity structurally cannot exist on that variant.
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

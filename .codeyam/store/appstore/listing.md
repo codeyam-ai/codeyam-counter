@@ -74,11 +74,12 @@ graph + event history for every counter.
 
 ---
 
-## URLs (fill in before submitting)
+## URLs
 - Support URL:   https://codeyam.com/support   *(placeholder — confirm)*
 - Marketing URL: https://codeyam.com            *(optional)*
-- Privacy Policy URL: required — the app stores data only on-device and collects
-  nothing, so a short "no data collected" policy suffices.
+- Privacy Policy URL: https://codeyam.com/counter/privacy  *(live)* — the same
+  policy the Play listing uses; see `../playstore/PLAY_CONSOLE_CHEATSHEET.md`.
+  The app stores data only on-device and collects nothing.
 
 ## App Privacy answers (for the questionnaire)
 - Data collection: **None.** All counters, histories, and settings persist in

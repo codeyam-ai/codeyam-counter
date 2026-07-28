@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
-"""Generate App Store Connect assets for CODEYAM COUNTER from brand + real captures."""
+"""Generate App Store Connect AND Google Play assets for CODEYAM COUNTER.
+
+One generator drives both stores so their icons cannot drift: the Play 512x512
+icon is rendered from the SAME geometry as the shipped Android adaptive icon
+(`android/app/src/main/res/drawable/ic_launcher_{foreground,background}.xml`),
+which in turn matches the iOS minimal icon.
+"""
 import os
+import shutil
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 # Repo root, derived from this script's location (.codeyam/store/appstore/gen_assets.py)
@@ -8,8 +15,11 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 SHOTS = os.path.join(ROOT, ".codeyam/scenarios/screenshots")
 OUT = os.path.join(ROOT, ".codeyam/store/appstore")
+OUT_PLAY = os.path.join(ROOT, ".codeyam/store/playstore")
 os.makedirs(os.path.join(OUT, "icon"), exist_ok=True)
 os.makedirs(os.path.join(OUT, "screenshots", "6.9-inch"), exist_ok=True)
+os.makedirs(os.path.join(OUT_PLAY, "icon"), exist_ok=True)
+os.makedirs(os.path.join(OUT_PLAY, "screenshots", "phone"), exist_ok=True)
 
 # ---- Brand tokens (from Sources/AppCore/Theme.swift) ----
 BG        = (0x0C, 0x0D, 0x08)
@@ -119,6 +129,109 @@ def icon_app_motif(path):
     img.save(path)
 
 # ==========================================================================
+# GOOGLE PLAY
+# ==========================================================================
+# The shipped Android adaptive icon draws, in a 108x108 viewport: a #0C0D08
+# field and a hard-edged lime plus centred at (54,54) with arm half-length 24
+# and stroke 14. Re-deriving the Play icon from those same numbers is what keeps
+# the store tile and the installed launcher icon identical.
+ADAPTIVE_VIEWPORT = 108
+ADAPTIVE_PLUS_ARM = 24
+ADAPTIVE_PLUS_THICK = 14
+
+
+def play_icon_512(path):
+    """512x512 32-bit PNG Play Store icon — the adaptive launcher icon, full-bleed.
+
+    Play applies its own rounded-square mask, so this is drawn edge-to-edge with
+    no safe-zone inset (unlike the adaptive *foreground* layer, which is cropped
+    by the launcher mask).
+    """
+    S = 512
+    k = S / ADAPTIVE_VIEWPORT
+    img = Image.new("RGB", (S, S), BG)
+    d = ImageDraw.Draw(img)
+    plus(
+        d,
+        S // 2,
+        S // 2,
+        int(ADAPTIVE_PLUS_ARM * k),
+        int(ADAPTIVE_PLUS_THICK * k),
+        ACCENT,
+        radius=0,
+    )
+    img.save(path)
+
+
+def feature_graphic(path):
+    """1024x500 Play feature graphic — required, with no App Store equivalent.
+
+    Built from the same brand tokens as the icon (dark field, lime plus, the four
+    counter dots) so it reads as a set with the icon rather than bolted on. Play
+    can overlay a play-button chip in the centre and crops the edges on some
+    surfaces, so the wordmark stays left of centre and clear of the margins.
+    """
+    W, H = 1024, 500
+    img = vgrad((W, H), (0x14, 0x16, 0x0E), BG).convert("RGB")
+
+    # Oversized ghost plus bleeding off the right edge — depth without clutter.
+    ghost = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    plus(ImageDraw.Draw(ghost), int(W * 0.83), H // 2, 190, 88, (0x20, 0x22, 0x18, 255), radius=0)
+    img = Image.alpha_composite(img.convert("RGBA"), ghost).convert("RGB")
+
+    d = ImageDraw.Draw(img)
+
+    # Solid lime plus, the icon's mark, sitting on the ghost.
+    plus(d, int(W * 0.83), H // 2, 96, 44, ACCENT, radius=0)
+
+    # Wordmark + tagline, left-aligned and inside a generous margin.
+    margin = 72
+    d.text((margin, 168), "CODEYAM", font=font(ARIAL_BLACK, 76), fill=INK)
+    d.text((margin, 250), "COUNTER", font=font(ARIAL_BLACK, 76), fill=ACCENT)
+    d.rounded_rectangle([margin, 366, margin + 120, 378], radius=6, fill=ACCENT)
+    d.text((margin, 404), "COUNT ANYTHING, BEAUTIFULLY",
+           font=font(MENLO_BOLD, 30, index=1), fill=INK_MUTED)
+
+    # Signature counter-dot row, top-left — the app's own switcher motif.
+    order = ["lime", "coffee", "steps", "bugs"]
+    r, gap = 17, 52
+    for i, key in enumerate(order):
+        x = margin + r + i * gap
+        y = 96
+        if key == "lime":
+            d.ellipse([x - r - 8, y - r - 8, x + r + 8, y + r + 8], outline=ACCENT, width=4)
+        d.ellipse([x - r, y - r, x + r, y + r], fill=DOTS[key])
+
+    img.save(path)
+
+
+# Play phone screenshots. The Android scenario captures are already 1080x2400 —
+# exactly Play's phone spec — so these are copied verbatim, NOT matted onto a
+# marketing canvas the way the iOS 6.9" frames are. Play renders listing
+# screenshots small, so uncaptioned real captures read better than captioned
+# ones; the choice is applied consistently across all five.
+PLAY_SCREENS = [
+    ("android-counter-large-value", "count-anything"),
+    ("android-counter-all-counters-list", "every-tally-one-tap-away"),
+    ("android-counter-graph-open", "watch-it-add-up"),
+    ("android-counter-counter-settings-open", "make-it-yours"),
+    ("android-counter-app-settings-sound-and-haptic-on", "one-handed-by-design"),
+]
+
+
+def play_screenshots():
+    out_dir = os.path.join(OUT_PLAY, "screenshots", "phone")
+    for i, (slug, label) in enumerate(PLAY_SCREENS, 1):
+        src = os.path.join(SHOTS, f"{slug}--phone-portrait.png")
+        if not os.path.exists(src):
+            raise SystemExit(f"missing Play screenshot source: {src}")
+        with Image.open(src) as im:
+            if im.size != (1080, 2400):
+                raise SystemExit(f"{src} is {im.size}, expected (1080, 2400)")
+        shutil.copyfile(src, os.path.join(out_dir, f"{i:02d}-{label}.png"))
+
+
+# ==========================================================================
 # SCREENSHOTS  (6.9" iPhone: 1290 x 2796)
 # ==========================================================================
 SW, SH = 1290, 2796
@@ -192,4 +305,9 @@ if __name__ == "__main__":
         src = os.path.join(SHOTS, fname)
         out = os.path.join(OUT, "screenshots", "6.9-inch", f"{i:02d}-{fname.replace('--iphone-16','').replace('.png','')}.png")
         screenshot(src, head, sub, out)
+
+    # --- Google Play ---
+    play_icon_512(os.path.join(OUT_PLAY, "icon", "PlayIcon-512.png"))
+    feature_graphic(os.path.join(OUT_PLAY, "feature-graphic-1024x500.png"))
+    play_screenshots()
     print("done")

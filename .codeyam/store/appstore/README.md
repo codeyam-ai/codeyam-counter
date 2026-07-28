@@ -37,4 +37,10 @@ listing.md                    App name, subtitle, promo text, description, keywo
   **CodeYam Counter** (see `listing.md`) — the two are independent.
 - **Screenshot size**: 1290×2796 (6.9") is the one currently-required iPhone size.
   Add 6.5"/iPad sets only if you ship on those devices.
-- **URLs & privacy**: placeholders in `listing.md` — confirm before submitting.
+- **URLs & privacy**: the privacy policy URL is confirmed and live —
+  `https://codeyam.com/counter/privacy`, recorded in `listing.md` and shared
+  with the Play listing. The **support URL** is still a placeholder; confirm it
+  before the next submission.
+- **Android**: the Google Play counterpart of this directory is
+  `../playstore/`. `gen_assets.py` emits both stores' artwork, so run it once
+  and both stay in sync.
