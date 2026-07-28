@@ -16,7 +16,7 @@ name: Play Release
 # blocks a production rollout until the Store listing, all App content
 # declarations, and (for a recently-created *personal* developer account) the
 # closed-testing requirement are complete. See
-# `.codeyam/store/playstore/README.md`.
+# `store/playstore/README.md`.
 
 on:
   workflow_dispatch:
@@ -91,17 +91,24 @@ jobs:
 
       - name: Build signed release AAB
         # build.gradle.kts reads these env vars when no keystore.properties is
-        # present (the CI case). versionCode must be unique AND increasing on
-        # every upload — Play rejects a reused one — so it is derived from the
-        # monotonic run number, exactly as play-internal.yml does.
+        # present (the CI case).
+        #
+        # versionCode is UNIX MINUTES, deliberately not `100000 + run_number`.
+        # Play requires a versionCode to be unique across the whole app forever,
+        # and run numbers are per-WORKFLOW: this workflow's run #1 produced
+        # 100001, which play-internal.yml had already published. Wall-clock
+        # minutes are monotonic and shared by every workflow, so the two can
+        # never collide. ~29.8M today against Play's 2,100,000,000 ceiling.
         env:
           ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/upload-keystore.jks
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
+          VERSION_CODE=$(( $(date -u +%s) / 60 ))
+          echo "versionCode = $VERSION_CODE"
           android/gradlew -p android bundleRelease \
-            -PversionCodeOverride=$((100000 + GITHUB_RUN_NUMBER))
+            -PversionCodeOverride=$VERSION_CODE
 
       - name: Verify the AAB is signed
         run: |
@@ -129,8 +136,18 @@ jobs:
             android/app/build/outputs/mapping/release/mapping.txt
           if-no-files-found: warn
 
-      - name: Upload to Play — ${{ inputs.track }}
-        if: ${{ !inputs.dry_run }}
+      # Two upload steps rather than one with a computed userFraction.
+      #
+      # The usual `cond && A || B` ternary CANNOT express "omit this input":
+      # when A is the empty string it is falsy, so the expression falls through
+      # to B and passes the rollout value anyway. That is exactly how a full
+      # rollout ended up sending `userFraction: 1` and failing with
+      # "'userFraction' must be between 0 and 1! Got 1". A full rollout must
+      # send `status: completed` and NO userFraction at all; splitting the step
+      # is the only way to genuinely omit an input.
+
+      - name: Upload to Play — ${{ inputs.track }} (full rollout)
+        if: ${{ !inputs.dry_run && (inputs.rollout == '1.0' || inputs.rollout == '1') }}
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
@@ -138,11 +155,21 @@ jobs:
           releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
           mappingFile: android/app/build/outputs/mapping/release/mapping.txt
           track: ${{ inputs.track }}
-          # A fraction < 1 needs status `inProgress`; a full rollout uses
-          # `completed`. Sending `completed` with a userFraction is rejected.
-          status: ${{ (inputs.rollout == '1.0' || inputs.rollout == '1') && 'completed' || 'inProgress' }}
-          userFraction: ${{ (inputs.rollout == '1.0' || inputs.rollout == '1') && '' || inputs.rollout }}
-          whatsNewDirectory: .codeyam/store/playstore/whatsnew
+          status: completed
+          whatsNewDirectory: store/playstore/whatsnew
+
+      - name: Upload to Play — ${{ inputs.track }} (staged ${{ inputs.rollout }})
+        if: ${{ !inputs.dry_run && inputs.rollout != '1.0' && inputs.rollout != '1' }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.codeyam.counter
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          mappingFile: android/app/build/outputs/mapping/release/mapping.txt
+          track: ${{ inputs.track }}
+          status: inProgress
+          userFraction: ${{ inputs.rollout }}
+          whatsNewDirectory: store/playstore/whatsnew
 
       - name: Dry-run notice
         if: ${{ inputs.dry_run }}

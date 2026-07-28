@@ -57,8 +57,15 @@ jobs:
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
+          # UNIX MINUTES, not `100000 + run_number`. Play requires a versionCode
+          # to be globally unique for the app forever, but run numbers are
+          # per-workflow — play-release.yml's run #1 generated 100001, which this
+          # workflow had already published. Wall-clock minutes are monotonic and
+          # shared across every workflow, so they cannot collide.
+          VERSION_CODE=$(( $(date -u +%s) / 60 ))
+          echo "versionCode = $VERSION_CODE"
           android/gradlew -p android bundleRelease \
-            -PversionCodeOverride=$((100000 + GITHUB_RUN_NUMBER))
+            -PversionCodeOverride=$VERSION_CODE
 
       - name: Verify the AAB is signed
         run: |
