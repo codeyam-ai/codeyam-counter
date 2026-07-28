@@ -10,12 +10,12 @@ import os
 import shutil
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-# Repo root, derived from this script's location (.codeyam/store/appstore/gen_assets.py)
+# Repo root, derived from this script's location (store/appstore/gen_assets.py)
 # so the generator is portable and carries no hardcoded laptop path.
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SHOTS = os.path.join(ROOT, ".codeyam/scenarios/screenshots")
-OUT = os.path.join(ROOT, ".codeyam/store/appstore")
-OUT_PLAY = os.path.join(ROOT, ".codeyam/store/playstore")
+OUT = os.path.join(ROOT, "store/appstore")
+OUT_PLAY = os.path.join(ROOT, "store/playstore")
 os.makedirs(os.path.join(OUT, "icon"), exist_ok=True)
 os.makedirs(os.path.join(OUT, "screenshots", "6.9-inch"), exist_ok=True)
 os.makedirs(os.path.join(OUT_PLAY, "icon"), exist_ok=True)

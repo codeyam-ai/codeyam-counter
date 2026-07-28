@@ -15,7 +15,7 @@
 #   export ASC_KEY_PATH=~/.appstoreconnect/private_keys/AuthKey_XXXXXXXXXX.p8
 #
 # Then:
-#   ./.codeyam/store/appstore/upload-testflight.sh
+#   ./store/appstore/upload-testflight.sh
 #
 set -euo pipefail
 
@@ -24,7 +24,7 @@ SCHEME="App"
 CONFIG="Release"
 ARCHIVE_PATH="build/App.xcarchive"
 EXPORT_PATH="build/export"
-EXPORT_OPTS=".codeyam/store/appstore/ExportOptions.plist"
+EXPORT_OPTS="store/appstore/ExportOptions.plist"
 
 : "${ASC_KEY_ID:?set ASC_KEY_ID (App Store Connect API Key ID)}"
 : "${ASC_ISSUER_ID:?set ASC_ISSUER_ID (App Store Connect Issuer ID)}"

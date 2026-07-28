@@ -95,7 +95,7 @@ Screenshot narrative, mirroring the App Store's:
 - Privacy Policy URL: https://codeyam.com/counter/privacy  *(live)*
   Entered in **two** Play Console places: the Store listing privacy field and
   the Data safety form. Same policy the App Store listing uses.
-- Support / contact: https://codeyam.com/support  *(placeholder — confirm)*
+- Support / contact: https://codeyam.com/counter/support  *(live)*
 
 ## App content declarations
 Every answer Play requires is pre-written in `PLAY_CONSOLE_CHEATSHEET.md` —

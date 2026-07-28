@@ -75,7 +75,7 @@ graph + event history for every counter.
 ---
 
 ## URLs
-- Support URL:   https://codeyam.com/support   *(placeholder — confirm)*
+- Support URL:   https://codeyam.com/counter/support  *(live)*
 - Marketing URL: https://codeyam.com            *(optional)*
 - Privacy Policy URL: https://codeyam.com/counter/privacy  *(live)* — the same
   policy the Play listing uses; see `../playstore/PLAY_CONSOLE_CHEATSHEET.md`.

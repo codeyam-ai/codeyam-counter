@@ -3,7 +3,7 @@ GOOGLE PLAY — DEFAULT STORE LISTING COPY
 CodeYam Counter  ·  com.codeyam.counter
 ==============================================================================
 
-Adapted from the App Store listing (.codeyam/store/appstore/listing.md), keeping
+Adapted from the App Store listing (store/appstore/listing.md), keeping
 its voice and structure. Copy the blocks between the ---8<--- markers.
 
 Two deliberate differences from the iOS copy, both forced by Play:
@@ -109,7 +109,7 @@ Meet CodeYam Counter: unlimited color-coded counters, a giant tap-to-count numbe
 ==============================================================================
 5. GRAPHICS TO UPLOAD
 ==============================================================================
-All paths relative to .codeyam/store/playstore/
+All paths relative to store/playstore/
 
   App icon          512x512     icon/PlayIcon-512.png
   Feature graphic   1024x500    feature-graphic-1024x500.png
@@ -125,7 +125,7 @@ All paths relative to .codeyam/store/playstore/
 ==============================================================================
   Privacy policy   https://codeyam.com/counter/privacy   (live; also goes in
                                                           the Data safety form)
-  Support / contact  https://codeyam.com/support         (PLACEHOLDER — confirm)
+  Support / contact  https://codeyam.com/counter/support   (live)
 
 
 ==============================================================================
