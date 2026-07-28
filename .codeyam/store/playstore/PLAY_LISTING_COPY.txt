@@ -1,0 +1,135 @@
+==============================================================================
+GOOGLE PLAY — DEFAULT STORE LISTING COPY
+CodeYam Counter  ·  com.codeyam.counter
+==============================================================================
+
+Adapted from the App Store listing (.codeyam/store/appstore/listing.md), keeping
+its voice and structure. Copy the blocks between the ---8<--- markers.
+
+Two deliberate differences from the iOS copy, both forced by Play:
+  * Play has NO keywords field. The App Store keywords line is simply dropped;
+    Play indexes the title and descriptions instead.
+  * Play asks about ads explicitly, so PRIVATE BY DESIGN says "no ads" outright
+    where the App Store left it implied. Everything else is the iOS wording.
+
+Formatting note: the iOS listing.md hard-wraps at ~78 columns because it is a
+markdown file. Those wraps are removed here so each bullet is a single line,
+which is how a store listing actually renders. Paste as-is.
+
+
+==============================================================================
+1. APP NAME                                                  (limit 30)
+==============================================================================
+---8<---
+CodeYam Counter
+---8<---
+15 / 30
+
+
+==============================================================================
+2. SHORT DESCRIPTION                                         (limit 80)
+==============================================================================
+The App Store subtitle ("Count anything, beautifully", 27) is too terse for
+Play's 80, and the App Store short description overruns it. Four options in the
+same voice — pick one, they are all under the limit.
+
+  [A] 77/80
+---8<---
+Count anything, beautifully. Every tally its own color, its own giant number.
+---8<---
+
+  [B] 69/80
+---8<---
+A fast, gorgeous tap counter. Unlimited tallies, each a giant number.
+---8<---
+
+  [C] 79/80
+---8<---
+Count anything, beautifully — as many tallies as you like, each a giant number.
+---8<---
+
+  [D] 76/80
+---8<---
+Count anything, beautifully. Tap to count; swipe to switch; watch it add up.
+---8<---
+
+
+==============================================================================
+3. FULL DESCRIPTION                                        (limit 4000)
+==============================================================================
+The App Store Description body, verbatim apart from the "no ads" note above.
+
+---8<---
+CodeYam Counter is the counter app that gets out of your way.
+
+One giant number. One big tap target. Count reps, cups, laps, tasks, birds — anything — without hunting for a tiny button.
+
+WHY YOU'LL LIKE IT
+
+• A number you can actually read. The count fills the screen, so a glance from across the room is enough.
+• Tap to increment, and that's it. The whole lower half of the screen is your "+". Subtract and reset live right beside it.
+• Keep every tally in one place. Add as many counters as you like — each with its own name and color — and switch between them with a swipe or a tap on its colored dot.
+• Undo a reset. Zeroed the wrong counter? One tap puts it back.
+
+MAKE EACH COUNTER YOURS
+
+• Twelve colors to tell your counters apart at a glance.
+• Count by any step — by 1, by 5, by 10, whatever you're tracking.
+• Allow negatives, or clamp at zero.
+• Sound and haptics on every change — pick a tock, pop, or click, or keep it silent. Set it once for the whole app, or override it per counter.
+
+BUILT FOR ONE HAND
+
+• Left- or right-handed layout, app-wide or per counter, so the buttons land under your thumb.
+
+SEE IT ADD UP
+
+• Every counter keeps a history. Open the graph to watch your count climb over time, with a running event log of every + and – and when it happened.
+
+PRIVATE BY DESIGN
+
+• Everything lives on your device. No account, no sign-in, no tracking, no ads.
+
+Whether you're counting reps at the gym, cups of coffee, inventory on a shelf, or bugs in a sprint, CodeYam Counter makes it a single satisfying tap.
+---8<---
+1532 / 4000
+
+
+==============================================================================
+4. RELEASE NOTES  ("What's new")                            (limit 500)
+==============================================================================
+The App Store "What's New" text, unchanged.
+
+---8<---
+Meet CodeYam Counter: unlimited color-coded counters, a giant tap-to-count number, per-counter step / sound / haptics / handedness, reset with undo, and a graph + event history for every counter.
+---8<---
+195 / 500
+
+
+==============================================================================
+5. GRAPHICS TO UPLOAD
+==============================================================================
+All paths relative to .codeyam/store/playstore/
+
+  App icon          512x512     icon/PlayIcon-512.png
+  Feature graphic   1024x500    feature-graphic-1024x500.png
+  Phone             1080x2400   screenshots/phone/            (5 files)
+  7-inch tablet     1080x1920   screenshots/tablet-7/         (5 files)
+  10-inch tablet    1440x2560   screenshots/tablet-10/        (4 files)
+
+  Video fields are optional — leave blank.
+
+
+==============================================================================
+6. URLS
+==============================================================================
+  Privacy policy   https://codeyam.com/counter/privacy   (live; also goes in
+                                                          the Data safety form)
+  Support / contact  https://codeyam.com/support         (PLACEHOLDER — confirm)
+
+
+==============================================================================
+7. EVERYTHING ELSE
+==============================================================================
+App content declarations (Data safety, content rating, target audience, ads)
+are pre-answered in PLAY_CONSOLE_CHEATSHEET.md in this same directory.
