@@ -15,7 +15,8 @@ awaiting first-app review), and Play reviewers check that the linked policy
 describes *this* app on *this* platform. An iOS-only storage claim on an Android
 listing is a legitimate rejection trigger, not a cosmetic nit.
 
-This is a content fix to a hosted web page, not an app change. **No new build,
+The page lives in the **`codeyam-ai/codeyam`** repo, not this one. This is a
+content fix to a hosted web page, not an app change. **No new build,
 no resubmission of the AAB.** The policy URL is a live link, so editing the page
 takes effect immediately — including while the app is still under review, which
 is why this is worth doing now rather than after a rejection.
@@ -75,43 +76,56 @@ claims are safe to leave alone:
 
 ## Implementation
 
-### 1. Find where the page is authored
+### 1. The file
 
-**This is the one genuine unknown.** The page is NOT in `codeyam-counter`, and a
-grep of `~/codeyam` did not find it either. Before editing anything, locate the
-source — candidate homes among the sibling checkouts include `~/codeyam`,
-`~/fun-site`, `~/nadia-website`, or a separate site repo / CMS not cloned
-locally.
+**Repo**: `codeyam-ai/codeyam` (NOT this repo) — a Remix app.
+**File**: `dashboard/app/routes/counter.privacy.tsx` — 89 lines.
 
-Search for a distinctive string from the live page rather than a filename:
+It is on `origin/main`. The local `~/codeyam` checkout sits on
+`analytics-posthog-improvements`, which predates the route, so branch off a
+freshly-fetched `origin/main` rather than the current working tree. The sibling
+`counter.support.tsx` serves the support URL and needs no change.
 
-```bash
-grep -rl "iCloud or encrypted local backups" ~ --include="*.html" \
-  --include="*.md" --include="*.mdx" --include="*.tsx" --include="*.astro" 2>/dev/null
+### 2. Replace the backup sentence — section 3, lines 51-59
+
+The paragraph reads (JSX, so apostrophes are `&apos;`):
+
+```jsx
+      <h2>3. Data stored on your device</h2>
+      <p>
+        The App saves your counters, count histories, and preferences locally on
+        your device (using the operating system&apos;s standard on-device
+        storage). This data never leaves your device through the App. It is
+        included in your device&apos;s own backups if you have those enabled
+        (for example, iCloud or encrypted local backups), and those backups are
+        governed by Apple&apos;s privacy policy, not ours. You can remove all of
+        this data at any time by deleting the App.
+      </p>
 ```
 
-If nothing turns up, the page is edited outside version control (hosted CMS,
-Webflow, Framer, etc.) and steps 2–3 are done in that tool instead.
+Only the two clauses on lines 56-57 are wrong. Replace the paragraph body with:
 
-### 2. Replace the backup sentence
+```jsx
+        The App saves your counters, count histories, and preferences locally on
+        your device (using the operating system&apos;s standard on-device
+        storage). This data never leaves your device through the App. It is
+        included in your device&apos;s own backups if you have those enabled —
+        for example iCloud or an encrypted local backup on iOS, or Google&apos;s
+        backup service on Android. Those backups are handled by Apple or Google
+        respectively and governed by their privacy policies, not ours. You can
+        remove all of this data at any time by deleting the App.
+```
 
-Change:
+The first and last sentences are already platform-neutral — leave them alone.
 
-> …(for example, iCloud or encrypted local backups), and those backups are
-> governed by Apple's privacy policy, not ours.
+### 3. Bump the effective date — line 24
 
-To:
+```jsx
+      lastUpdated="July 10, 2026"
+```
 
-> It is included in your device's own backups if you have those enabled — for
-> example iCloud or an encrypted local backup on iOS, or Google's backup service
-> on Android. Those backups are handled by Apple or Google respectively and are
-> governed by their privacy policies, not ours.
-
-Keep the surrounding sentences untouched.
-
-### 3. Bump the Last Updated date
-
-Set it to the edit date. Nothing else in the document changes.
+Set it to the edit date. Line 79 already promises "a new effective date" on
+update, so leaving it stale would contradict the document's own commitment.
 
 ### 4. Verify
 
