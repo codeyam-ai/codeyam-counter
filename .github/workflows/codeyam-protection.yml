@@ -1,0 +1,71 @@
+name: codeyam-protection
+
+# codeyam-managed: merge-readiness gates.
+#
+# `ci.yml` proves the code builds and its tests pass. This workflow proves the
+# codeyam state that travels with the code — scenarios, glossary, test registry
+# — is actually finalized, which a build/test run cannot see. The two are split
+# so a metadata-debt failure is legible on its own rather than reading as a
+# broken app.
+#
+# These are the authoritative backstop for the pre-push hook: a contributor
+# pushing from a fork (or with hooks bypassed) is caught here instead.
+#
+# Recommended: make `Merge-readiness gates` a required status check on `main`
+# in repository settings → Branches.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  gates:
+    name: Merge-readiness gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Every gate walks history: the deferred-finalize check diffs a commit
+          # range and the full-finalize check resolves a recorded SHA. A shallow
+          # clone makes both unresolvable.
+          fetch-depth: 0
+
+      - name: Fetch the base branch
+        # `fetch-depth: 0` gives full history for the checked-out ref, but on a
+        # pull_request event the `origin/main` remote-tracking ref the
+        # deferred-finalize gate defaults to may not exist locally. Fetch it
+        # explicitly so `--base origin/main` always resolves.
+        run: git fetch --no-tags origin main:refs/remotes/origin/main || true
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "20"
+
+      - name: Install codeyam-editor
+        run: npm install -g @codeyam-editor/codeyam-editor@latest
+
+      - name: Verify no deferred-finalize commits
+        # Fails when a commit carries `Codeyam-Finalize: deferred` without a
+        # later `session-finalize` covering it — i.e. Fast Commit debt that was
+        # never paid down.
+        run: |
+          codeyam-editor editor verify-no-deferred-finalize \
+            --base origin/main \
+            --head HEAD \
+            --format text
+
+      - name: Verify a full branch-wide finalize covers HEAD
+        # The deferred check above only catches *trailered* commits. This one
+        # catches a branch that simply never ran a full finalize, keeping
+        # whole-repo debt — invisible to the diff-only Fast Commit gate — off
+        # `main`.
+        run: codeyam-editor editor verify-full-finalize --format text
+
+      - name: Verify completed plans still have their implementations
+        # Guards the merge boundary against a post-finalize rebase silently
+        # dropping the code a plan was archived as "completed" for. Plans with
+        # no deliverables manifest are reported as needs-review, not failed.
+        run: codeyam-editor editor verify-completed-plans --format text
