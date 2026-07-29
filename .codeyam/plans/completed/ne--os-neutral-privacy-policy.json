@@ -1,0 +1,17 @@
+{
+  "completedAt": "2026-07-29T12:55:00Z",
+  "completedBy": {
+    "agentProvider": "claude",
+    "currentStep": "manual-archive",
+    "selectedPlan": "ne--os-neutral-privacy-policy"
+  },
+  "createdAt": "2026-07-28T23:45:00Z",
+  "externalDeliverable": {
+    "commit": "4d7d989a2",
+    "deployedTo": "https://codeyam.com/counter/privacy",
+    "file": "dashboard/app/routes/counter.privacy.tsx",
+    "note": "This plan's deliverable is a hosted web page in another repository, so it has no deliverables manifest in this repo by design. Shipped to production on the codeyam.com deploy branch and verified live: HTTP 200 with no login, lastUpdated 'July 29, 2026', and every Apple/iOS mention now paired with Google/Android.",
+    "pr": "https://github.com/codeyam-ai/codeyam/pull/1461",
+    "repo": "codeyam-ai/codeyam"
+  }
+}
