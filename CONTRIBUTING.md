@@ -20,7 +20,7 @@ git clone https://github.com/codeyam-ai/codeyam-counter && cd codeyam-counter
 npm install -g @codeyam-editor/codeyam-editor@latest
 
 # Launch the editor (split-screen terminal + live preview)
-codeyam-editor editor
+codeyam-editor start
 ```
 
 codeyam-editor requires a subscription to Claude, Gemini, or Codex. Inside the
@@ -35,7 +35,7 @@ you're changing.
 
 - **iOS** — macOS with a recent Xcode (Swift 6 toolchain) and an iOS 15+
   simulator or device.
-- **Android** — JDK 17 plus the Android SDK (compile SDK 34), and an emulator
+- **Android** — JDK 17 plus the Android SDK (compile SDK 35), and an emulator
   image for the preview. See [ANDROID_SETUP.md](ANDROID_SETUP.md).
 
 ## Building and testing by hand — iOS
@@ -73,9 +73,26 @@ build and test commands are:
 ```bash
 android/gradlew -p android compileDebugKotlin
 android/gradlew -p android testDebugUnitTest
+
+# Verify the committed Compose snapshots still match
+android/gradlew -p android verifyPaparazziDebug
 ```
 
-CI runs these same two commands on Ubuntu with JDK 17. Put JVM unit tests under
+[Paparazzi](https://github.com/cashapp/paparazzi) renders the Compose components
+off-device on the JVM, so the goldens under
+`android/app/src/test/snapshots/` are checked without an emulator. **CI runs
+`verifyPaparazziDebug` too**, so a change to a component's rendering fails there
+unless you re-record and commit the new goldens:
+
+```bash
+android/gradlew -p android recordPaparazziDebug
+```
+
+Review the resulting image diff before committing it — a re-record makes the
+check pass by definition, so it is only correct when the visual change is
+intended.
+
+CI runs these same commands on Ubuntu with JDK 17. Put JVM unit tests under
 `android/app/src/test/` and register them with the editor
 (`codeyam-editor editor reconcile-registry --auto-apply`) so they stay tracked
 alongside the scenarios, exactly as on the iOS side.
@@ -87,7 +104,8 @@ alongside the scenarios, exactly as on the iOS side.
    captured and registered as you go.
 3. Ensure the build and tests pass for the platform(s) you touched — the iOS
    `swift build`/`swift test` commands and/or the Android
-   `compileDebugKotlin`/`testDebugUnitTest` commands above. CI runs both.
+   `compileDebugKotlin`/`testDebugUnitTest`/`verifyPaparazziDebug` commands
+   above. CI runs both platforms.
 4. Open a PR describing what changed and why, and fill in the PR template.
 
 ## Code of conduct
