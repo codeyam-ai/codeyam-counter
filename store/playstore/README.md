@@ -107,7 +107,7 @@ These are decisions, not bugs. Do not "fix" them.
 - **`versionCode` must increase on every single upload**, including a re-upload
   to the same track, and can never be reused. This is the most common cause of a
   rejected Play upload. Local builds default to `1`; CI passes
-  `-PversionCodeOverride=<n>` (see `.github/workflows/play-internal.yml`).
+  `-PversionCodeOverride=<n>` (see `.github/workflows/play-release.yml`).
 - **Upload key** lives at `android/app/upload-keystore.jks` (git-ignored), with
   credentials in `android/keystore.properties` (git-ignored) or the
   `ANDROID_KEYSTORE_*` env vars. **Play App Signing** is enrolled, so this is
@@ -128,7 +128,8 @@ These are decisions, not bugs. Do not "fix" them.
 
 - Fill the Play Console store listing from `listing.md` and upload the graphics
   above.
-- Clear the App content declarations using `PLAY_CONSOLE_CHEATSHEET.md`.
+- Clear the App content declarations using
+  [PLAY_CONSOLE_CHEATSHEET.md](PLAY_CONSOLE_CHEATSHEET.md).
 - **Closed testing gate:** a recently-created *personal* developer account must
   run a closed test with **≥12 testers for 14 continuous days** before
   production access is unlocked. This does not affect Internal testing. Confirm
@@ -136,5 +137,8 @@ These are decisions, not bugs. Do not "fix" them.
 - Optionally upload the R8 deobfuscation mapping file
   (`android/app/build/outputs/mapping/release/mapping.txt`) so Play can
   symbolicate release crash reports.
-- The privacy policy page mentions iCloud backups; consider making that line
-  OS-neutral (Android uses Google Auto Backup) for a public launch.
+
+The privacy policy at `https://codeyam.com/counter/privacy` is already
+OS-neutral — the backup clause names both Apple and Google, so it reads
+correctly for an Android reviewer. The page lives in `codeyam-ai/codeyam`
+(`dashboard/app/routes/counter.privacy.tsx`), not this repo.

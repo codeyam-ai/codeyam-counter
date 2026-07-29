@@ -29,7 +29,7 @@ git clone https://github.com/codeyam-ai/codeyam-counter && cd codeyam-counter
 npm install -g @codeyam-editor/codeyam-editor@latest
 
 # Launch the editor (split-screen terminal + live preview)
-codeyam-editor editor
+codeyam-editor start
 ```
 <!-- codeyam:run-and-edit:end -->
 
@@ -61,7 +61,7 @@ device. See [IOS_SETUP.md](IOS_SETUP.md) for simulator prerequisites.
 ### Android
 
 A native Kotlin + Jetpack Compose port lives in [`android/`](android/). Requires
-JDK 17 and the Android SDK (compile SDK 34).
+JDK 17 and the Android SDK (compile SDK 35).
 
 ```bash
 # Compile the sources and run the JVM unit tests
@@ -85,33 +85,33 @@ States captured as runnable scenarios with codeyam-editor:
 
 <img src=".codeyam/scenarios/screenshots/android-counter-active-count--phone-portrait.png" alt="Android Counter - Active count" width="280">
 
+### Counter - Active count
+
+<img src=".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png" alt="Counter - Active count" width="280">
+
 ### Android Counter - Added blank slot selected
 
 <img src=".codeyam/scenarios/screenshots/android-counter-added-blank-slot-selected--phone-portrait.png" alt="Android Counter - Added blank slot selected" width="280">
+
+### Counter - Added blank slot selected
+
+<img src=".codeyam/scenarios/screenshots/counter-added-blank-slot-selected--iphone-16.png" alt="Counter - Added blank slot selected" width="280">
 
 ### Android Counter - All but one deleted
 
 <img src=".codeyam/scenarios/screenshots/android-counter-all-but-one-deleted--phone-portrait.png" alt="Android Counter - All but one deleted" width="280">
 
+### Counter - All but one deleted
+
+<img src=".codeyam/scenarios/screenshots/counter-all-but-one-deleted--iphone-16.png" alt="Counter - All but one deleted" width="280">
+
 ### Android Counter - All counters list
 
 <img src=".codeyam/scenarios/screenshots/android-counter-all-counters-list--phone-portrait.png" alt="Android Counter - All counters list" width="280">
 
-### Android Counter - All counters list with blank slot
+### Counter - All counters list
 
-<img src=".codeyam/scenarios/screenshots/android-counter-all-counters-list-with-blank-slot--phone-portrait.png" alt="Android Counter - All counters list with blank slot" width="280">
-
-### Android Counter - App Settings open
-
-<img src=".codeyam/scenarios/screenshots/android-counter-app-settings-open--phone-portrait.png" alt="Android Counter - App Settings open" width="280">
-
-### Android Counter - App Settings sound and haptic on
-
-<img src=".codeyam/scenarios/screenshots/android-counter-app-settings-sound-and-haptic-on--phone-portrait.png" alt="Android Counter - App Settings sound and haptic on" width="280">
-
-### Android Counter - Blank slot incremented
-
-<img src=".codeyam/scenarios/screenshots/android-counter-blank-slot-incremented--phone-portrait.png" alt="Android Counter - Blank slot incremented" width="280">
+<img src=".codeyam/scenarios/screenshots/counter-all-counters-list--iphone-16.png" alt="Counter - All counters list" width="280">
 <!-- codeyam:scenario-gallery:end -->
 
 ## Contributing
