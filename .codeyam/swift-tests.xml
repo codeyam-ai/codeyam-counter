@@ -1,248 +1,248 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <testsuites>
-<testsuite name="TestResults" errors="0" tests="121" failures="0" time="7.368281995999999">
-<testcase classname="AppCoreTests.AppSettingsTests" name="testOptionCasesCoverTheChoiceSets" time="0.068167417">
+<testsuite name="TestResults" errors="0" tests="121" failures="0" time="22.566225579000005">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testPersistsChangesAcrossReload" time="0.129840042">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testLegacyHapticKeyMigratesToBothDirections" time="0.068313042">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testLegacyHapticKeyMigratesToBothDirections" time="0.12984275">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testLegacyHapticOffMigratesToBothOff" time="0.0683195">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testOptionCasesCoverTheChoiceSets" time="0.129843208">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testDefaultsAreRightHandedSilentWithDistinctHaptics" time="0.06831025">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testDefaultHapticsAreDistinct" time="0.129785208">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testNewHapticKeyWinsOverLegacy" time="0.0682935">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testOptionsAreIndependent" time="0.129847416">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testDefaultHapticsAreDistinct" time="0.068341125">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testDefaultsAreRightHandedSilentWithDistinctHaptics" time="0.129805959">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testOptionsAreIndependent" time="0.068230916">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testLegacyHapticOffMigratesToBothOff" time="0.129854584">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testPersistsChangesAcrossReload" time="0.068221625">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testNewHapticKeyWinsOverLegacy" time="0.129840459">
 </testcase>
-<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testExplicitOffSoundOverrideReturnsTrue" time="0.052845708">
+<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testExplicitOffSoundOverrideReturnsTrue" time="0.116879083">
 </testcase>
-<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testBlankSlotReturnsFalse" time="0.052879125">
+<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testAllOverridesSetReturnsTrue" time="0.118342166">
 </testcase>
-<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testDecrementHapticOverrideAloneReturnsTrue" time="0.052882834">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testReadsSeededStringPreferences" time="0.131333375">
 </testcase>
-<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testAllOverridesSetReturnsTrue" time="0.05289975">
+<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testDecrementHapticOverrideAloneReturnsTrue" time="0.131139667">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testReadsSeededStringPreferences" time="0.067799">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testUnknownOptionFallsBackToDefault" time="0.131320166">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testResolveMigratesRemovedRawValues" time="0.06782025">
+<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testBlankSlotReturnsFalse" time="0.131166875">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testUnknownOptionFallsBackToDefault" time="0.067768292">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testReleasePolicyIgnoresSeededHapticsWithoutProvenance" time="0.131402916">
 </testcase>
-<testcase classname="AppCoreTests.AppSettingsTests" name="testReleasePolicyIgnoresSeededHapticsWithoutProvenance" time="0.067810708">
+<testcase classname="AppCoreTests.AppSettingsTests" name="testResolveMigratesRemovedRawValues" time="0.1313215">
 </testcase>
-<testcase classname="AppCoreTests.FeedbackTests" name="testHapticOnlyFiresHapticWithIntensity" time="0.056234458">
+<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testIncrementHapticOverrideAloneReturnsTrue" time="0.127617167">
 </testcase>
-<testcase classname="AppCoreTests.FeedbackTests" name="testBothOffFiresNothing" time="0.056285541">
+<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testHandednessOverrideAloneReturnsTrue" time="0.136489792">
 </testcase>
-<testcase classname="AppCoreTests.FeedbackTests" name="testAllDistinctFeelsAreTreatedAsNonOff" time="0.056292">
+<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testNoOverridesReturnsFalse" time="0.125772625">
 </testcase>
-<testcase classname="AppCoreTests.FeedbackTests" name="testBothOptionsFireBoth" time="0.056261792">
+<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testSoundOverrideAloneReturnsTrue" time="0.127796625">
 </testcase>
-<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testHandednessOverrideAloneReturnsTrue" time="0.077143458">
+<testcase classname="AppCoreTests.FeedbackTests" name="testAllDistinctFeelsAreTreatedAsNonOff" time="0.12899775">
 </testcase>
-<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testSoundOverrideAloneReturnsTrue" time="0.077150833">
+<testcase classname="AppCoreTests.FeedbackTests" name="testHapticOnlyFiresHapticWithIntensity" time="0.128951584">
 </testcase>
-<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testIncrementHapticOverrideAloneReturnsTrue" time="0.077194458">
+<testcase classname="AppCoreTests.FeedbackTests" name="testBothOptionsFireBoth" time="0.128974875">
 </testcase>
-<testcase classname="AppCoreTests.CounterFeedbackOverrideTests" name="testNoOverridesReturnsFalse" time="0.07713375">
+<testcase classname="AppCoreTests.FeedbackTests" name="testBothOffFiresNothing" time="0.129113917">
 </testcase>
-<testcase classname="AppCoreTests.FeedbackTests" name="testNoopFeedbackDoesNothing" time="0.047286125">
+<testcase classname="AppCoreTests.FeedbackTests" name="testNoopFeedbackDoesNothing" time="0.140632583">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testAddCounterAllowsConsecutiveBlankSlots" time="0.047263667">
+<testcase classname="AppCoreTests.FeedbackTests" name="testSoundOnlyFiresSoundWithChoice" time="0.139540708">
 </testcase>
-<testcase classname="AppCoreTests.FeedbackTests" name="testSoundOnlyFiresSoundWithChoice" time="0.047285125">
+<testcase classname="AppCoreTests.ModelTests" name="testAddCounterClearsPendingUndo" time="0.158526833">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testAddCounterAppendsBlankAndSelectsIt" time="0.047271">
+<testcase classname="AppCoreTests.ModelTests" name="testAddCounterPersists" time="0.158558166">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testBlankSlotIncrementsWithoutReviving" time="0.052140083">
+<testcase classname="AppCoreTests.ModelTests" name="testAddCounterAssignsNextIdAndOrder" time="0.158602">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testAddCounterAssignsNextIdAndOrder" time="0.052184459">
+<testcase classname="AppCoreTests.ModelTests" name="testAddCounterAllowsConsecutiveBlankSlots" time="0.161988875">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testAddCounterClearsPendingUndo" time="0.072046334">
+<testcase classname="AppCoreTests.ModelTests" name="testBlankSlotIncrementsWithoutReviving" time="0.158499584">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testAddCounterPersists" time="0.0720125">
+<testcase classname="AppCoreTests.ModelTests" name="testAddCounterAppendsBlankAndSelectsIt" time="0.186537417">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testClampedSubtractRecordsActualAppliedDelta" time="0.04649525">
+<testcase classname="AppCoreTests.ModelTests" name="testChartPlotDomainIncludesNegativeRange" time="0.186381708">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testChartPlotMapsExtremesAndDomain" time="0.050983916">
+<testcase classname="AppCoreTests.ModelTests" name="testChartPlotMapsExtremesAndDomain" time="0.199785292">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testChartPlotDomainIncludesNegativeRange" time="0.051004625">
+<testcase classname="AppCoreTests.ModelTests" name="testDeleteBlanksInPlace" time="0.214724083">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testCumulativeSeriesReconstructsRunningCount" time="0.050980958">
+<testcase classname="AppCoreTests.ModelTests" name="testDefaultEffectiveFeedbackIsAllOff" time="0.216263667">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDefaultEffectiveFeedbackIsAllOff" time="0.059425708">
+<testcase classname="AppCoreTests.ModelTests" name="testDeleteBeyondFirstFourRemovesAndSelectsPrevious" time="0.216206292">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeleteBeyondFirstFourRemovesAndSelectsPrevious" time="0.059435042">
+<testcase classname="AppCoreTests.ModelTests" name="testClampedSubtractRecordsActualAppliedDelta" time="0.219278">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeleteCounterClearsItsHistories" time="0.05471475">
+<testcase classname="AppCoreTests.ModelTests" name="testCumulativeSeriesReconstructsRunningCount" time="0.219510792">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeleteBlanksInPlace" time="0.059441">
+<testcase classname="AppCoreTests.ModelTests" name="testDeleteCounterClearsItsHistories" time="0.245653958">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeleteLastCounterBlanksInPlaceAndKeepsSelection" time="0.048075292">
+<testcase classname="AppCoreTests.ModelTests" name="testEffectiveResolversFollowDefaultWhenNil" time="0.183336541">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeletingCounterClearsPendingUndo" time="0.054117208">
+<testcase classname="AppCoreTests.ModelTests" name="testDeletingMiddleExtraCounterSlidesFollowingCounterDown" time="0.236689459">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeletingExtraCounterDropsItsHistory" time="0.054123583">
+<testcase classname="AppCoreTests.ModelTests" name="testEditingActiveCounterClearsPendingUndo" time="0.2365965">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeletingEveryBaseSlotNeverShrinksTheRow" time="0.0542085">
+<testcase classname="AppCoreTests.ModelTests" name="testDeletingEveryBaseSlotNeverShrinksTheRow" time="0.286514458">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeletingLastExtraCounterSelectsNewLast" time="0.072663083">
+<testcase classname="AppCoreTests.ModelTests" name="testDeletingCounterClearsPendingUndo" time="0.328078791">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testDeletingMiddleExtraCounterSlidesFollowingCounterDown" time="0.072678667">
+<testcase classname="AppCoreTests.ModelTests" name="testDeleteLastCounterBlanksInPlaceAndKeepsSelection" time="0.349091833">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testEffectiveResolversFollowDefaultWhenNil" time="0.064218708">
+<testcase classname="AppCoreTests.ModelTests" name="testDeletingExtraCounterDropsItsHistory" time="0.306508166">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testEffectiveResolversPinOverrideWhenSet" time="0.059831208">
+<testcase classname="AppCoreTests.ModelTests" name="testDeletingLastExtraCounterSelectsNewLast" time="0.314991833">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testEditingActiveCounterClearsPendingUndo" time="0.071612916">
+<testcase classname="AppCoreTests.ModelTests" name="testFreshModelHasFourStarterCountersAtZero" time="0.231769042">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testFreshModelHasFourStarterCountersAtZero" time="0.055936125">
+<testcase classname="AppCoreTests.ModelTests" name="testHandednessOverrideResolvesPerCounter" time="0.231709167">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testHapticDirectionsResolveIndependently" time="0.062955084">
+<testcase classname="AppCoreTests.ModelTests" name="testEffectiveResolversPinOverrideWhenSet" time="0.231902166">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testHandednessOverrideResolvesPerCounter" time="0.063148041">
+<testcase classname="AppCoreTests.ModelTests" name="testIncrementClearsPendingUndo" time="0.180946958">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testIncrementClearsPendingUndo" time="0.05214825">
+<testcase classname="AppCoreTests.ModelTests" name="testHistoryCapDropsOldestRun" time="0.207095959">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testIncrementFiresFeedbackWithIncrementHaptic" time="0.052265375">
+<testcase classname="AppCoreTests.ModelTests" name="testHistoriesPersistAndReloadFromDefaults" time="0.217109209">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testHistoryCapDropsOldestRun" time="0.066260583">
+<testcase classname="AppCoreTests.ModelTests" name="testHapticDirectionsResolveIndependently" time="0.218486084">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testHistoriesPersistAndReloadFromDefaults" time="0.066291958">
+<testcase classname="AppCoreTests.ModelTests" name="testIncrementFiresFeedbackWithIncrementHaptic" time="0.30385275">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testIncrementRaisesActiveCounter" time="0.056738875">
+<testcase classname="AppCoreTests.ModelTests" name="testLegacyCountersDecodeWithNilOverrides" time="0.198240083">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testIncrementHonorsStep" time="0.062930916">
+<testcase classname="AppCoreTests.ModelTests" name="testIncrementUsesActiveCounterEffectiveFeedback" time="0.223384833">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testIncrementRecordsPositiveEvent" time="0.064966625">
+<testcase classname="AppCoreTests.ModelTests" name="testLegacyCounterWithoutStepDecodesToStepOne" time="0.215993958">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testIncrementUsesActiveCounterEffectiveFeedback" time="0.064873542">
+<testcase classname="AppCoreTests.ModelTests" name="testLegacySingleHapticOverrideMigratesToBothDirections" time="0.215731709">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testLegacyCounterWithoutStepDecodesToStepOne" time="0.047264625">
+<testcase classname="AppCoreTests.ModelTests" name="testIncrementRecordsPositiveEvent" time="0.25076425">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testLegacySingleHapticOverrideMigratesToBothDirections" time="0.045341791">
+<testcase classname="AppCoreTests.ModelTests" name="testIncrementRaisesActiveCounter" time="0.2516">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testLoadsSeededStateFromDefaults" time="0.046579666">
+<testcase classname="AppCoreTests.ModelTests" name="testIncrementHonorsStep" time="0.251808792">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testNewHapticOverrideKeyWinsOverLegacyOnDecode" time="0.0431755">
+<testcase classname="AppCoreTests.ModelTests" name="testLoadsSeededStateFromDefaults" time="0.255383834">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testNoOpSubtractClampRecordsNoEvent" time="0.043170792">
+<testcase classname="AppCoreTests.ModelTests" name="testNamingBlankSlotRevivesIt" time="0.164307791">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testNamingBlankSlotRevivesIt" time="0.057767542">
+<testcase classname="AppCoreTests.ModelTests" name="testMigrationFoldsDeletedDefaultsIntoBlankSlots" time="0.183570458">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testLegacyCountersDecodeWithNilOverrides" time="0.079034667">
+<testcase classname="AppCoreTests.ModelTests" name="testNewHapticOverrideKeyWinsOverLegacyOnDecode" time="0.1827125">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testMigrationFoldsDeletedDefaultsIntoBlankSlots" time="0.08094675">
+<testcase classname="AppCoreTests.ModelTests" name="testNoOpSubtractClampRecordsNoEvent" time="0.183129083">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testRelativeOffsetMeasuredFromStart" time="0.044579125">
+<testcase classname="AppCoreTests.ModelTests" name="testRelativeOffsetMeasuredFromStart" time="0.183181542">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testRelativeTimeFormatting" time="0.047725667">
+<testcase classname="AppCoreTests.ModelTests" name="testOverrideTracksOrPinsAgainstChangingDefault" time="0.184002708">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testOverrideTracksOrPinsAgainstChangingDefault" time="0.050123041">
+<testcase classname="AppCoreTests.ModelTests" name="testRelativeTimeFormatting" time="0.183828583">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testReleasePolicyTrustsAppSettingsAfterProvenanceStamped" time="0.047787958">
+<testcase classname="AppCoreTests.ModelTests" name="testResetAndUndoResetStaySilent" time="0.20189675">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testReleasePolicyTrustsOwnPersistedDataAfterStamp" time="0.049001459">
+<testcase classname="AppCoreTests.ModelTests" name="testReleasePolicyIgnoresSeededCountersWithoutProvenance" time="0.237649417">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testResetSealsCurrentAndOpensEmptyRun" time="0.039568417">
+<testcase classname="AppCoreTests.ModelTests" name="testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance" time="0.238725833">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testResetAtZeroEntersUndoModeAndUndoRestoresZero" time="0.045042042">
+<testcase classname="AppCoreTests.ModelTests" name="testReleasePolicyTrustsAppSettingsAfterProvenanceStamped" time="0.237279375">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testReleasePolicyIgnoresSeededCountersWithoutProvenance" time="0.073203916">
+<testcase classname="AppCoreTests.ModelTests" name="testResetAtZeroEntersUndoModeAndUndoRestoresZero" time="0.222521042">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance" time="0.073242417">
+<testcase classname="AppCoreTests.ModelTests" name="testReleasePolicyTrustsOwnPersistedDataAfterStamp" time="0.241073042">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testResetEntersUndoModeAndCapturesPreviousValue" time="0.048720833">
+<testcase classname="AppCoreTests.ModelTests" name="testResetSealsCurrentAndOpensEmptyRun" time="0.256105708">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testResetAndUndoResetStaySilent" time="0.058251083">
+<testcase classname="AppCoreTests.ModelTests" name="testResetEntersUndoModeAndCapturesPreviousValue" time="0.31783875">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testResetZeroesActiveCounter" time="0.056603792">
+<testcase classname="AppCoreTests.ModelTests" name="testSeededResetUndoKeyIgnoredWhenActiveCountNonZero" time="0.159788334">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSeededResetUndoKeyEntersUndoModeOnLaunch" time="0.064017708">
+<testcase classname="AppCoreTests.ModelTests" name="testSeededSubsetHasNoBlankSlots" time="0.146292458">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSeededResetUndoKeyCoercesStringValue" time="0.064340083">
+<testcase classname="AppCoreTests.ModelTests" name="testResetZeroesActiveCounter" time="0.194157666">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSeededSubsetHasNoBlankSlots" time="0.058929542">
+<testcase classname="AppCoreTests.ModelTests" name="testSeededResetUndoKeyCoercesStringValue" time="0.185552458">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSeededHistoriesJSONLoadsFromDefaults" time="0.07421275">
+<testcase classname="AppCoreTests.ModelTests" name="testSeededHistoriesJSONLoadsFromDefaults" time="0.185910458">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSelectNextAdvancesWithinList" time="0.081973916">
+<testcase classname="AppCoreTests.ModelTests" name="testSeededResetUndoKeyEntersUndoModeOnLaunch" time="0.185818459">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSeededResetUndoKeyIgnoredWhenActiveCountNonZero" time="0.084695583">
+<testcase classname="AppCoreTests.ModelTests" name="testSelectNextAdvancesWithinList" time="0.220941959">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSelectNextPastLastAppendsBlankAndSelectsIt" time="0.079158">
+<testcase classname="AppCoreTests.ModelTests" name="testSelectNextPastLastAppendsBlankAndSelectsIt" time="0.170271416">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSelectPreviousMovesBackWithinList" time="0.092383625">
+<testcase classname="AppCoreTests.ModelTests" name="testSelectPreviousWrapsFromFirstToLast" time="0.154196417">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractClampsWhenNegativesDisallowed" time="0.083336334">
+<testcase classname="AppCoreTests.ModelTests" name="testSelectPreviousMovesBackWithinList" time="0.183051542">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractClearsPendingUndo" time="0.083010208">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractFiresFeedbackWithDecrementHaptic" time="0.175800708">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractClampsToZeroWhenStepOvershoots" time="0.086431667">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractClampsToZeroWhenStepOvershoots" time="0.176364125">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSelectPreviousWrapsFromFirstToLast" time="0.086520875">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractClearsPendingUndo" time="0.196378083">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractHonorsStep" time="0.062503833">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractClampsWhenNegativesDisallowed" time="0.196993625">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractGoesNegativeByDefault" time="0.064769458">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractGoesNegativeByDefault" time="0.211479125">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractFiresFeedbackWithDecrementHaptic" time="0.06741075">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractHonorsStep" time="0.218355541">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testUndoResetReopensSealedRunAndRestoresCount" time="0.046342459">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractNoOpClampDoesNotFireFeedback" time="0.183362208">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testUnrecognizedOverrideRawValueDecodesToNil" time="0.0423015">
+<testcase classname="AppCoreTests.ModelTests" name="testTrustInjectedPolicyAdoptsSeededCounters" time="0.162005375">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractNoOpClampDoesNotFireFeedback" time="0.070395208">
+<testcase classname="AppCoreTests.ModelTests" name="testSwitchingCounterClearsPendingUndo" time="0.16965">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testTrustInjectedPolicyAdoptsSeededCounters" time="0.05330525">
+<testcase classname="AppCoreTests.ModelTests" name="testSubtractRecordsNegativeAppliedDelta" time="0.180879625">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testUndoResetRestoresPreviousValueAndExitsUndoMode" time="0.051184792">
+<testcase classname="AppCoreTests.ModelTests" name="testUndoResetRestoresPreviousValueAndExitsUndoMode" time="0.206442958">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterClampsStepToAtLeastOne" time="0.050151875">
+<testcase classname="AppCoreTests.ModelTests" name="testUndoResetReopensSealedRunAndRestoresCount" time="0.210347541">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSwitchingCounterClearsPendingUndo" time="0.066382084">
+<testcase classname="AppCoreTests.ModelTests" name="testUnrecognizedOverrideRawValueDecodesToNil" time="0.178549333">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testSubtractRecordsNegativeAppliedDelta" time="0.066417292">
+<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterClampsStepToAtLeastOne" time="0.185130833">
 </testcase>
-<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testNothingIsOpenByDefault" time="0.066978833">
+<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterClearsOverridesWhenNil" time="0.174671333">
 </testcase>
-<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testNoToggleEverLeavesBothOpen" time="0.065139292">
+<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterEditsAndPersists" time="0.192665167">
 </testcase>
-<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testOpeningCounterSettingsClosesAppSettings" time="0.056968792">
+<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterRoundTripsOverrides" time="0.197596417">
 </testcase>
-<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testOpeningAppSettingsFromClosedOpensIt" time="0.056995875">
+<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testNothingIsOpenByDefault" time="0.205627083">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterRoundTripsOverrides" time="0.070342">
+<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testNoToggleEverLeavesBothOpen" time="0.192382375">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterEditsAndPersists" time="0.0744325">
+<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testOpeningAppSettingsClosesTheCounterPanel" time="0.191597167">
 </testcase>
-<testcase classname="AppCoreTests.ModelTests" name="testUpdateActiveCounterClearsOverridesWhenNil" time="0.074675209">
+<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testOpeningAppSettingsFromClosedOpensIt" time="0.16098925">
 </testcase>
-<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testOpeningAppSettingsClosesTheCounterPanel" time="0.063943208">
+<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testOpeningCounterSettingsClosesAppSettings" time="0.149339708">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testParsesAccentLime" time="0.053267041">
+<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testOpeningCounterSettingsFromClosedOpensIt" time="0.146370708">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testIsolatesIndividualChannels" time="0.053283833">
+<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testTogglingOpenAppSettingsClosesItAndOpensNothing" time="0.163398041">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testIsCaseInsensitive" time="0.053277875">
+<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testTogglingOpenCounterSettingsClosesItAndOpensNothing" time="0.167000917">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testDotHexMapsKnownKeys" time="0.053828292">
+<testcase classname="AppCoreTests.ThemeTests" name="testDotHexFallsBackToLimeForUnknownKey" time="0.168935625">
 </testcase>
-<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testTogglingOpenCounterSettingsClosesItAndOpensNothing" time="0.061557">
+<testcase classname="AppCoreTests.ThemeTests" name="testDotHexMapsKnownKeys" time="0.144858958">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testDotHexFallsBackToLimeForUnknownKey" time="0.061533291">
+<testcase classname="AppCoreTests.ThemeTests" name="testIsCaseInsensitive" time="0.143237709">
 </testcase>
-<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testOpeningCounterSettingsFromClosedOpensIt" time="0.061838916">
+<testcase classname="AppCoreTests.ThemeTests" name="testIsolatesIndividualChannels" time="0.137351084">
 </testcase>
-<testcase classname="AppCoreTests.SettingsOverlaysTests" name="testTogglingOpenAppSettingsClosesItAndOpensNothing" time="0.061839417">
+<testcase classname="AppCoreTests.ThemeTests" name="testParsesBlackAndWhite" time="0.1280015">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testToleratesLeadingHash" time="0.034230167">
+<testcase classname="AppCoreTests.ThemeTests" name="testParsesAccentLime" time="0.128452625">
 </testcase>
-<testcase classname="AppCoreTests.ThemeTests" name="testParsesBlackAndWhite" time="0.034230167">
+<testcase classname="AppCoreTests.ThemeTests" name="testToleratesLeadingHash" time="0.114651041">
 </testcase>
 </testsuite>
 </testsuites>
