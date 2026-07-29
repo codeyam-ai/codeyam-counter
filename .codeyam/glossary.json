@@ -1255,6 +1255,24 @@
     }
   },
   {
+    "description": "Renders and writes the 1024x500 Play feature graphic, supersampled 4x and downsampled because PIL antialiases text but not geometry, with the wordmark held left and the icon mark right so Play's centered play-button chip stays clear.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "feature_graphic",
+    "untestabilityReason": {
+      "justification": "Marketing-artwork generation in a hand-run script that ships in neither app; it composites a supersampled canvas and writes a PNG to disk. The project's test harness runs Swift and Kotlin only, so there is no Python runner to register a test against. Remove this reason if a Python runner is ever added.",
+      "kind": "scaffold"
+    }
+  },
+  {
+    "description": "Loads a TrueType face at a given size and collection index for the asset generator's text drawing.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "font",
+    "untestabilityReason": {
+      "justification": "A one-line pass-through to PIL's ImageFont.truetype with no logic of its own.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
     "description": "Renders a count with locale digit grouping, matching SwiftUI's LocalizedStringKey interpolation so Android and iOS agree on four-digit-and-up values.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/CountFormat.kt",
     "name": "formatCount",
@@ -1282,6 +1300,33 @@
     }
   },
   {
+    "description": "Renders and writes the 1024px alternate app icon candidate B: the literal app motif, a ghosted giant numeral behind the counter dot row.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "icon_app_motif",
+    "untestabilityReason": {
+      "justification": "Marketing-artwork generation in a hand-run script that ships in neither app; it draws text and shapes and writes a PNG to disk. The project's test harness runs Swift and Kotlin only, so there is no Python runner to register a test against. Remove this reason if a Python runner is ever added.",
+      "kind": "scaffold"
+    }
+  },
+  {
+    "description": "Writes the chosen minimal icon at the 1024px size App Store Connect requires.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "icon_minimal",
+    "untestabilityReason": {
+      "justification": "A single render_icon_minimal(1024).save(path) call; the artwork logic lives in render_icon_minimal.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "description": "Renders and writes the 1024px alternate app icon candidate A: a gradient field with a blurred lime glow behind the plus mark and the four signature counter dots.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "icon_plus",
+    "untestabilityReason": {
+      "justification": "Marketing-artwork generation in a hand-run script that ships in neither app; it composites layers and writes a PNG to disk. The project's test harness runs Swift and Kotlin only, so there is no Python runner to register a test against. Remove this reason if a Python runner is ever added.",
+      "kind": "scaffold"
+    }
+  },
+  {
     "description": "Shared press behavior for the two non-contiguous faces of the increment button: each reports its press into the shared flag and both dim together from one tween keyed on it, keeping the L-shape in sync mid-press.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt",
     "name": "incrementFace",
@@ -1291,12 +1336,66 @@
     }
   },
   {
+    "description": "Writes the 512px Play Store listing icon from the same artwork as the iOS icon, deliberately not from the Android adaptive launcher icon, whose mask would crop the dot row.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "play_icon_512",
+    "untestabilityReason": {
+      "justification": "A single render_icon_minimal(512).save(path) call; the artwork logic lives in render_icon_minimal.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "description": "Copies the Play phone screenshots straight from the captured Android scenario frames, refusing to proceed if a source is missing or is not the expected 1080x2400.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "play_screenshots",
+    "untestabilityReason": {
+      "justification": "Filesystem orchestration in a hand-run script that ships in neither app: it reads captured scenario PNGs and copies them into the Play listing directory. The project's test harness runs Swift and Kotlin only, so there is no Python runner to register a test against. Remove this reason if a Python runner is ever added.",
+      "kind": "scaffold"
+    }
+  },
+  {
+    "description": "Draws the brand's plus mark as two crossed rounded rectangles centered on a point.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "plus",
+    "untestabilityReason": {
+      "justification": "Two direct PIL rounded_rectangle calls; the only computation is centering arithmetic.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "description": "Renders the chosen minimal app icon in memory at any square size, with every dimension expressed as a fraction of that size so the App Store 1024px and Play 512px icons cannot drift apart.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "render_icon_minimal",
+    "untestabilityReason": {
+      "justification": "Marketing-artwork generation in a hand-run script that ships in neither app. The project's test harness runs Swift and Kotlin only, so there is no Python runner to register a test against; the emitted icon is reviewed visually and against the Android adaptive icon. Remove this reason if a Python runner is ever added.",
+      "kind": "scaffold"
+    }
+  },
+  {
     "description": "Resolves the system Vibrator across the API-31 VibratorManager split, returning null when the platform exposes none.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt",
     "name": "resolveVibrator",
     "untestabilityReason": {
       "justification": "Reads Android system services (OS boundary); no pure logic to unit-test.",
       "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Produces an 8-bit alpha mask of a rounded rectangle, used to round the corners of device screenshots composited into marketing frames.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "rounded_mask",
+    "untestabilityReason": {
+      "justification": "Delegates directly to PIL's rounded_rectangle on a blank mask; no logic of its own.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "description": "Composites one 1290x2796 App Store marketing screenshot: a gradient canvas, the headline and subhead caption block with its lime accent tick, and the real device capture scaled, corner-rounded and drop-shadowed beneath.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "screenshot",
+    "untestabilityReason": {
+      "justification": "Marketing-artwork generation in a hand-run script that ships in neither app; it loads a capture, composites several layers and writes a PNG to disk. The project's test harness runs Swift and Kotlin only, so there is no Python runner to register a test against. Remove this reason if a Python runner is ever added.",
+      "kind": "scaffold"
     }
   },
   {
@@ -1311,6 +1410,24 @@
     "name": "strokeIcon",
     "untestabilityReason": {
       "justification": "A one-expression ImageVector.Builder helper that stamps a fixed 24x24 white-stroked icon frame around the supplied paths; no branching or state.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
+    "description": "Builds a vertical linear-gradient image by interpolating each channel between a top and bottom color down a one-pixel column, then stretching it to full width.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "vgrad",
+    "untestabilityReason": {
+      "justification": "Marketing-artwork generation in a hand-run script that ships in neither app. The project's test harness runs Swift and Kotlin only, so there is no Python runner to register a test against; the generator's output is reviewed visually as the store listing artwork. Remove this reason if a Python runner is ever added.",
+      "kind": "scaffold"
+    }
+  },
+  {
+    "description": "Splits a marketing headline into its explicitly authored lines, so line breaks in the listing copy are deliberate rather than measured.",
+    "filePath": "store/appstore/gen_assets.py",
+    "name": "wrap_lines",
+    "untestabilityReason": {
+      "justification": "A single text.split on the newline character; there is no wrapping decision to test.",
       "kind": "trivial-wrapper"
     }
   }
