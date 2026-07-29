@@ -1,0 +1,213 @@
+name: Play Release
+
+# Manual trigger — build a signed AAB and promote it to a chosen Play track,
+# including **production**. The sibling `play-internal.yml` is the zero-argument
+# "just get a build to internal testing" button; this one is the parameterized
+# release lever with staged rollout, release notes, and R8 deobfuscation upload.
+#
+# Secrets are the SAME five `play-internal.yml` already uses (all configured):
+#   ANDROID_KEYSTORE_BASE64 / ANDROID_KEYSTORE_PASSWORD /
+#   ANDROID_KEY_ALIAS / ANDROID_KEY_PASSWORD / PLAY_SERVICE_ACCOUNT_JSON
+#
+# The service account holds Admin (all) permissions, so every track here —
+# production included — is authorized; no per-track grant is needed.
+#
+# ⚠️ What this workflow still CANNOT do for you, all Play Console-side: Play
+# blocks a production rollout until the Store listing, all App content
+# declarations, and (for a recently-created *personal* developer account) the
+# closed-testing requirement are complete. See
+# `store/playstore/README.md`.
+
+on:
+  workflow_dispatch:
+    inputs:
+      track:
+        description: "Play track to release to"
+        required: true
+        default: internal
+        type: choice
+        options: [internal, alpha, beta, production]
+      rollout:
+        description: >-
+          Fraction of users for a staged rollout (production/beta only), e.g.
+          0.1 for 10%. Leave as 1.0 for a full rollout.
+        required: true
+        default: "1.0"
+        type: string
+      draft:
+        description: >-
+          Create the release as a DRAFT. Required while the Play app itself is
+          still unpublished — Google rejects a live release on a draft app with
+          "Only releases with status draft may be created on draft app". Upload
+          as a draft, then publish it from the Console; after that first
+          publish, leave this off.
+        required: true
+        default: false
+        type: boolean
+      dry_run:
+        description: "Build and verify the AAB but do NOT upload to Play"
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  release:
+    name: Build & release to Play (${{ inputs.track }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up JDK 17
+        # Gradle 8.4 + AGP require JDK 17 (matches ci.yml and play-internal.yml).
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Guard — staged rollout only applies to production/beta
+        env:
+          TRACK: ${{ inputs.track }}
+          ROLLOUT: ${{ inputs.rollout }}
+        run: |
+          case "$ROLLOUT" in
+            0|0.*|1|1.0|1.00) ;;
+            *) echo "❌ rollout must be between 0 and 1 (got '$ROLLOUT')" >&2; exit 1 ;;
+          esac
+          if [ "$ROLLOUT" != "1.0" ] && [ "$ROLLOUT" != "1" ]; then
+            case "$TRACK" in
+              production|beta) ;;
+              *) echo "❌ staged rollout ($ROLLOUT) is only meaningful on production/beta, not '$TRACK'." >&2; exit 1 ;;
+            esac
+          fi
+
+      - name: Run the Android test suite
+        # A production push should never be the first time the suite runs on this
+        # commit. Debug covers the Robolectric Compose interaction tests; release
+        # covers the variant-agnostic model tests.
+        run: android/gradlew -p android test
+
+      - name: Decode upload keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "❌ Missing secret ANDROID_KEYSTORE_BASE64 — cannot sign the AAB." >&2
+            exit 1
+          fi
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload-keystore.jks"
+
+      - name: Build signed release AAB
+        # build.gradle.kts reads these env vars when no keystore.properties is
+        # present (the CI case).
+        #
+        # versionCode = VERSION_CODE_BASE + this workflow's run number.
+        #
+        # Per Android guidance, versionCode is an opaque monotonically
+        # increasing integer that users never see; `versionName` (set in
+        # build.gradle.kts) is the human-facing semantic string. The two are
+        # deliberately NOT derived from each other — coupling them makes it
+        # impossible to ship a second build of the same version, which is
+        # exactly what a rejected-and-resubmitted release needs.
+        #
+        # This is the ONLY workflow that uploads to Play, which is what makes a
+        # run number a safe counter: it is monotonic within a workflow, so a
+        # single uploader means collisions cannot occur. When there were two
+        # uploading workflows they each had their own run numbers and duly
+        # collided — this workflow's run #1 emitted 100001, already published by
+        # the retired play-internal.yml.
+        #
+        # BASE clears the 100001-100003 that workflow burned. Bump BASE if the
+        # workflow is ever renamed or recreated, since that resets run numbers;
+        # Play would reject the lower code loudly rather than silently, but the
+        # bump avoids the failed run.
+        env:
+          VERSION_CODE_BASE: 110000
+          ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/upload-keystore.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          VERSION_CODE=$(( VERSION_CODE_BASE + GITHUB_RUN_NUMBER ))
+          echo "versionCode = $VERSION_CODE  (base $VERSION_CODE_BASE + run $GITHUB_RUN_NUMBER)"
+          android/gradlew -p android bundleRelease \
+            -PversionCodeOverride=$VERSION_CODE
+
+      - name: Verify the AAB is signed
+        run: |
+          AAB=android/app/build/outputs/bundle/release/app-release.aab
+          test -f "$AAB" || { echo "❌ AAB not found at $AAB" >&2; exit 1; }
+          jarsigner -verify "$AAB" && echo "✅ AAB is signed"
+
+      - name: Confirm the R8 mapping file exists
+        # Release builds are minified, so without this Play cannot symbolicate
+        # crash reports and every stack trace arrives obfuscated.
+        run: |
+          MAP=android/app/build/outputs/mapping/release/mapping.txt
+          if [ -f "$MAP" ]; then
+            echo "✅ mapping.txt present ($(wc -c < "$MAP") bytes)"
+          else
+            echo "⚠️  No mapping.txt — is isMinifyEnabled still true?" >&2
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: play-release-${{ inputs.track }}-${{ github.run_number }}
+          path: |
+            android/app/build/outputs/bundle/release/app-release.aab
+            android/app/build/outputs/mapping/release/mapping.txt
+          if-no-files-found: warn
+
+      # Two upload steps rather than one with a computed userFraction.
+      #
+      # The usual `cond && A || B` ternary CANNOT express "omit this input":
+      # when A is the empty string it is falsy, so the expression falls through
+      # to B and passes the rollout value anyway. That is exactly how a full
+      # rollout ended up sending `userFraction: 1` and failing with
+      # "'userFraction' must be between 0 and 1! Got 1". A full rollout must
+      # send `status: completed` and NO userFraction at all; splitting the step
+      # is the only way to genuinely omit an input.
+
+      - name: Upload to Play — ${{ inputs.track }} (draft)
+        if: ${{ !inputs.dry_run && inputs.draft }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.codeyam.counter
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          mappingFile: android/app/build/outputs/mapping/release/mapping.txt
+          track: ${{ inputs.track }}
+          status: draft
+          whatsNewDirectory: store/playstore/whatsnew
+
+      - name: Upload to Play — ${{ inputs.track }} (full rollout)
+        if: ${{ !inputs.dry_run && !inputs.draft && (inputs.rollout == '1.0' || inputs.rollout == '1') }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.codeyam.counter
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          mappingFile: android/app/build/outputs/mapping/release/mapping.txt
+          track: ${{ inputs.track }}
+          status: completed
+          whatsNewDirectory: store/playstore/whatsnew
+
+      - name: Upload to Play — ${{ inputs.track }} (staged ${{ inputs.rollout }})
+        if: ${{ !inputs.dry_run && !inputs.draft && inputs.rollout != '1.0' && inputs.rollout != '1' }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.codeyam.counter
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          mappingFile: android/app/build/outputs/mapping/release/mapping.txt
+          track: ${{ inputs.track }}
+          status: inProgress
+          userFraction: ${{ inputs.rollout }}
+          whatsNewDirectory: store/playstore/whatsnew
+
+      - name: Dry-run notice
+        if: ${{ inputs.dry_run }}
+        run: echo "🟡 dry_run was set — AAB built and verified, nothing uploaded to Play."

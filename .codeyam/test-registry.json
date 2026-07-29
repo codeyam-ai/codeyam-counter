@@ -2148,6 +2148,24 @@
       "runner": "android-tests"
     },
     {
+      "description": "The same stale-selection defect on a feedback picker, where no bottom-bar tell would reveal it.",
+      "file": "android/app/src/testDebug/java/com/codeyam/android/ui/AppSettingsPanelInteractionTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AppSettingsPanelInteractionTest › tappingASoundChipMovesTheSelection",
+      "line": 74,
+      "registeredAt": "2026-07-28T17:02:55.993496+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The reported App Settings symptom: tapping LEFT must move the handedness highlight, not merely flip the bottom bar.",
+      "file": "android/app/src/testDebug/java/com/codeyam/android/ui/AppSettingsPanelInteractionTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.AppSettingsPanelInteractionTest › tappingLeftMovesTheHandednessHighlight",
+      "line": 57,
+      "registeredAt": "2026-07-28T17:02:55.993288+00:00",
+      "runner": "android-tests"
+    },
+    {
       "description": "Delta Carries An Explicit Plus When Non Negative.",
       "file": "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt",
       "format": "junit-xml",
@@ -2292,6 +2310,24 @@
       "runner": "android-tests"
     },
     {
+      "description": "The panel edits the app-wide default while the bottom bar renders the active counter's effective value; with a per-counter override the two must diverge.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › defaultLeftHandedIsTheAppDefaultNotTheActiveCountersEffectiveValue",
+      "line": 200,
+      "registeredAt": "2026-07-28T17:02:55.994033+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Every sound and haptic setter round-trips through its matching getter.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › feedbackSettersRoundTripThroughTheirGetters",
+      "line": 219,
+      "registeredAt": "2026-07-28T17:02:55.994211+00:00",
+      "runner": "android-tests"
+    },
+    {
       "description": "Increment And Subtract Reach The Active Counter.",
       "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
       "format": "junit-xml",
@@ -2379,6 +2415,15 @@
       "key": "com.codeyam.android.ui.CounterScreenStateTest › selectingFromTheListClosesBothTheListAndAppSettings",
       "line": 104,
       "registeredAt": "2026-07-26T12:47:05.011545+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "Setting the app-wide handedness default flips the getter the App Settings panel reads.",
+      "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenStateTest › setDefaultLeftHandedFlipsTheAppDefaultGetter",
+      "line": 185,
+      "registeredAt": "2026-07-28T17:02:55.993852+00:00",
       "runner": "android-tests"
     },
     {

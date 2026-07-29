@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      The app's surface colour, duplicated from `CounterColors.bg` in
+      ui/Theme.kt. It has to live here as well because `windowBackground` is
+      resolved by the framework before any Compose code runs — that window is
+      what the user stares at during cold start, so it must already be the app's
+      own dark surface rather than the platform default.
+    -->
+    <color name="counter_bg">#0C0D08</color>
+</resources>

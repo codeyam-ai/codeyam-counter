@@ -8,3 +8,8 @@
 
 # test output
 test-results/
+
+# Release signing — NEVER commit the upload key or its passwords
+keystore.properties
+*.jks
+*.keystore

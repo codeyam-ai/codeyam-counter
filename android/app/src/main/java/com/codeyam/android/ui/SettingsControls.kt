@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -366,6 +367,7 @@ private fun Chip(
     fontSize: Int = 11,
 ) {
     val interaction = remember { MutableInteractionSource() }
+    val isSelected = selected
     Text(
         text = text,
         fontSize = fontSize.sp,
@@ -380,7 +382,14 @@ private fun Chip(
             .border(1.dp, if (selected) CounterColors.accent else CounterColors.line, RectangleShape)
             .clickable(interactionSource = interaction, indication = null, onClick = onClick)
             .padding(horizontal = horizontalPadding, vertical = verticalPadding)
-            .semantics { contentDescription = identifier },
+            // `selected` semantics so a11y (TalkBack) and interaction tests can
+            // tell which chip is active — the fill color alone isn't in the tree.
+            // `this.selected` targets the semantics property; the bare `selected`
+            // here is the function's Boolean parameter.
+            .semantics {
+                contentDescription = identifier
+                this.selected = isSelected
+            },
     )
 }
 

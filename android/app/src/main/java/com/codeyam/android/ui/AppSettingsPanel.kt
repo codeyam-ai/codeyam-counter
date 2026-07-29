@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -23,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.codeyam.android.model.AppSettings
+import com.codeyam.android.BuildConfig
 import com.codeyam.android.model.HapticOption
 import com.codeyam.android.model.SoundOption
 
@@ -33,15 +34,25 @@ import com.codeyam.android.model.SoundOption
  * every control writes straight through to the persisted default, so there is no
  * save/cancel — toggling is immediate. Ports iOS `AppSettingsPanel`.
  *
- * [onChanged] exists because [AppSettings] is a plain persisted object with no
- * observable streams; the screen state bumps its revision through this so a
- * write is reflected on screen.
+ * A pure value-driven view: it takes the four current settings values plus four
+ * change callbacks and renders exactly what it is handed. It does NOT read
+ * `AppSettings` (a framework-free model object with nothing observable to
+ * subscribe to), so the CALLER must supply values that recompose when they
+ * change — see `CounterScreenState.defaultLeftHanded` and its sibling
+ * revision-keyed getters. Reaching into the store from here instead would
+ * reintroduce the stale-highlight gap this shape exists to close.
  */
 @Composable
 fun AppSettingsPanel(
-    settings: AppSettings,
+    leftHanded: Boolean,
+    soundOption: SoundOption,
+    incrementHapticOption: HapticOption,
+    decrementHapticOption: HapticOption,
+    onLeftHandedChange: (Boolean) -> Unit,
+    onSoundChange: (SoundOption) -> Unit,
+    onIncrementHapticChange: (HapticOption) -> Unit,
+    onDecrementHapticChange: (HapticOption) -> Unit,
     availableHeight: Dp,
-    onChanged: () -> Unit,
     onOpenList: () -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
@@ -55,8 +66,8 @@ fun AppSettingsPanel(
     ) {
         SettingsField("HANDEDNESS") {
             HandednessControl(
-                leftHanded = settings.defaultLeftHanded,
-                onSelect = { settings.defaultLeftHanded = it; onChanged() },
+                leftHanded = leftHanded,
+                onSelect = onLeftHandedChange,
             )
         }
 
@@ -66,8 +77,8 @@ fun AppSettingsPanel(
         SettingsField("SOUND ON CHANGE") {
             OptionPicker(
                 options = SoundOption.entries,
-                selected = settings.soundOption,
-                onSelect = { settings.soundOption = it; onChanged() },
+                selected = soundOption,
+                onSelect = onSoundChange,
                 idPrefix = "app-settings-sound",
                 optionLabel = { it.label },
             )
@@ -76,8 +87,8 @@ fun AppSettingsPanel(
         SettingsField("INCREMENT HAPTIC") {
             OptionPicker(
                 options = HapticOption.entries,
-                selected = settings.incrementHapticOption,
-                onSelect = { settings.incrementHapticOption = it; onChanged() },
+                selected = incrementHapticOption,
+                onSelect = onIncrementHapticChange,
                 idPrefix = "app-settings-increment-haptic",
                 optionLabel = { it.label },
             )
@@ -86,14 +97,30 @@ fun AppSettingsPanel(
         SettingsField("DECREMENT HAPTIC") {
             OptionPicker(
                 options = HapticOption.entries,
-                selected = settings.decrementHapticOption,
-                onSelect = { settings.decrementHapticOption = it; onChanged() },
+                selected = decrementHapticOption,
+                onSelect = onDecrementHapticChange,
                 idPrefix = "app-settings-decrement-haptic",
                 optionLabel = { it.label },
             )
         }
 
         AllCountersButton(onClick = onOpenList)
+
+        // Build identity, so "which version am I on?" is a glance rather than an
+        // adb command. versionName is always 1.0; the versionCode is what tells
+        // internal-test builds apart.
+        Text(
+            text = "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+            fontSize = 10.sp,
+            fontFamily = FontFamily.Monospace,
+            letterSpacing = 0.5.sp,
+            color = CounterColors.inkMuted,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp)
+                .semantics { contentDescription = "app-settings-version" },
+        )
     }
 }
 
@@ -106,15 +133,26 @@ private fun HandednessControl(leftHanded: Boolean, onSelect: (Boolean) -> Unit) 
             .border(1.dp, CounterColors.line, RectangleShape)
             .semantics { contentDescription = "app-settings-handedness" },
     ) {
-        HandednessOption("LEFT", selected = leftHanded, onClick = { onSelect(true) })
-        HandednessOption("RIGHT", selected = !leftHanded, onClick = { onSelect(false) })
+        HandednessOption(
+            label = "LEFT",
+            identifier = "app-settings-handedness-left",
+            isSelected = leftHanded,
+            onClick = { onSelect(true) },
+        )
+        HandednessOption(
+            label = "RIGHT",
+            identifier = "app-settings-handedness-right",
+            isSelected = !leftHanded,
+            onClick = { onSelect(false) },
+        )
     }
 }
 
 @Composable
 private fun androidx.compose.foundation.layout.RowScope.HandednessOption(
     label: String,
-    selected: Boolean,
+    identifier: String,
+    isSelected: Boolean,
     onClick: () -> Unit,
 ) {
     val interaction = remember { MutableInteractionSource() }
@@ -124,13 +162,19 @@ private fun androidx.compose.foundation.layout.RowScope.HandednessOption(
         fontWeight = FontWeight.Black,
         fontFamily = FontFamily.Monospace,
         letterSpacing = 1.sp,
-        color = if (selected) CounterColors.onAccent else CounterColors.ink,
+        color = if (isSelected) CounterColors.onAccent else CounterColors.ink,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .weight(1f)
-            .background(if (selected) CounterColors.accent else Color.Transparent)
+            .background(if (isSelected) CounterColors.accent else Color.Transparent)
             .clickable(interactionSource = interaction, indication = null, onClick = onClick)
-            .padding(vertical = 10.dp),
+            .padding(vertical = 10.dp)
+            // Per-option identifier + selection state so a tap can target LEFT /
+            // RIGHT individually and tests (and TalkBack) can tell which is active.
+            .semantics {
+                contentDescription = identifier
+                selected = isSelected
+            },
     )
 }
 

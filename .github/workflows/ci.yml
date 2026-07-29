@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        # Gradle 8.4 + Android Gradle Plugin require JDK 17.
+        # Gradle 8.7 + Android Gradle Plugin require JDK 17.
         uses: actions/setup-java@v4
         with:
           distribution: temurin

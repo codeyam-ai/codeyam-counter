@@ -33,4 +33,4 @@ jobs:
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
           export ASC_KEY_PATH="$RUNNER_TEMP/private_keys/AuthKey.p8"
-          ./.codeyam/store/appstore/upload-testflight.sh
+          ./store/appstore/upload-testflight.sh
