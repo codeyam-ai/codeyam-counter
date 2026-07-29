@@ -1,114 +1,6 @@
 {
   "files": {
-    "ios/Sources/AppCore/CodeyamIsolated/CounterListPanelIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/PanelChrome.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/SettingsOverlays.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/FeedbackDisclosureToggleIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/model/CounterFeedback.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/model/AppSettings.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/CounterGraphView.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/SettingsToggleRow.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/SeedPolicy.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/CounterColorPickerIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/model/KeyValueStore.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/ControlButton.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/HeaderAnchoredOverlay.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/BoundedScrollIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/CounterListPanel.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/OverridePicker.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/GraphCloseButton.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/test/java/com/codeyam/android/ui/CountHeroSnapshotTest.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/ControlButtonIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/model/Counter.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/History.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/App/App.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/model/SeedPolicy.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/SettingsField.swift": {
+    ".claude/hooks/_step_metadata.py": {
       "imports": [],
       "importedBy": []
     },
@@ -116,149 +8,11 @@
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/ui/CounterIcons.kt": {
+    "ios/Sources/AppCore/Theme.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/CodeyamIsolated/CounterGraphViewIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/CounterDot.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/CounterStepStepper.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/SettingsToggleRowIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ui/src/helpers/stepLabels.generated.ts": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/GraphHeader.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/build.gradle.kts": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/ControlButton.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/CounterBottomBar.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/model/CounterModel.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Tests/AppCoreTests/CounterFeedbackOverrideTests.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Tests/AppCoreTests/FeedbackTests.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Tests/AppCoreTests/ModelTests.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/AppSettings.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Package.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/CounterGraphChart.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/build.gradle.kts": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Tests/AppCoreTests/ThemeTests.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    ".claude/skills/review-session/scripts/extract-session.mjs": {
-      "imports": [
-        ".claude/skills/review-session/scripts/extract-session-helpers.mjs"
-      ],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/GearButtonIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/model/CounterTheme.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/IncrementFaceButtonStyle.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/DeleteCounterButtonIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/GraphPage.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/GraphHistorySelectorIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/GraphEventListIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/settings.gradle.kts": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/AddCounterDotIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/test/java/com/codeyam/android/MainViewModelTest.kt": {
+    "ios/Sources/AppCore/CodeyamIsolated/GraphPageIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -266,27 +20,31 @@
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/Views/DeleteCounterButton.swift": {
-      "imports": [],
-      "importedBy": []
-    },
     "android/app/src/main/java/com/codeyam/android/ui/GraphPage.kt": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/Theme.swift": {
+    "ios/Sources/AppCore/CodeyamIsolated/SettingsToggleRowIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/Views/IncrementBar.swift": {
+    "ios/Sources/AppCore/ContentView.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/ui/CountFormat.kt": {
+    "ios/Sources/AppCore/CodeyamIsolated/ControlButtonIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/ui/CounterSwitcherCard.kt": {
+    "android/app/src/main/java/com/codeyam/android/ui/Theme.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/build.gradle.kts": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Tests/AppCoreTests/ThemeTests.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -294,19 +52,51 @@
       "imports": [],
       "importedBy": []
     },
-    "ios/Tests/AppCoreTests/AppSettingsTests.swift": {
+    "ios/Sources/AppCore/CodeyamIsolated/OverridePickerIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
-    ".claude/hooks/_step_metadata.py": {
+    "ios/App/App.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/scripts/merge-test-results.py": {
+    "ios/Sources/AppCore/Views/CounterDot.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/CodeyamIsolated/GraphHeaderIsolated.swift": {
+    "ios/Tests/AppCoreTests/CounterFeedbackOverrideTests.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/CounterGraphChart.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/model/CounterFeedback.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/CountHeroIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/GraphGeometry.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/FeedbackDisclosureToggleIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/AddCounterDot.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/CounterScreenState.kt": {
       "imports": [],
       "importedBy": []
     },
@@ -316,11 +106,53 @@
       ],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/model/CounterHistory.kt": {
+    "android/app/src/main/java/com/codeyam/android/ui/HeaderBar.kt": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/ui/AppSettingsPanel.kt": {
+    "ios/Sources/AppCore/CodeyamIsolated/CounterListPanelIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/testDebug/java/com/codeyam/android/ui/AppSettingsPanelInteractionTest.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/GraphHistorySelector.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/CountHero.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/HeaderAnchoredOverlay.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/extract-session.mjs": {
+      "imports": [
+        ".claude/skills/review-session/scripts/extract-session-helpers.mjs"
+      ],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/model/SettingsOverlays.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/GraphHeaderIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/test/java/com/codeyam/android/ui/CountHeroSnapshotTest.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/BoundedScrollIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Feedback.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -328,11 +160,49 @@
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/Views/CounterColorPicker.swift": {
+    "ios/Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/model/SettingsOverlays.kt": {
+    "ui/src/helpers/stepLabels.generated.ts": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/CounterGraphView.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Tests/AppCoreTests/ModelTests.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/MainActivity.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/CounterBottomBar.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/build.gradle.kts": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/find-last-session-helpers.mjs": {
+      "imports": [],
+      "importedBy": [
+        ".claude/skills/review-session/scripts/find-last-session.mjs"
+      ]
+    },
+    "ios/Tests/AppCoreTests/SettingsOverlaysTests.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -340,11 +210,71 @@
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/ui/Theme.kt": {
+    "ios/Tests/AppCoreTests/AppSettingsTests.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/test/java/com/codeyam/android/ui/CountFormatTest.kt": {
+    "ios/Sources/AppCore/CodeyamIsolated/AddCounterDotIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/DeleteCounterButtonIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/AppSettings.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/GraphPage.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/GraphHeader.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/AppSettingsPanel.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/CounterSwitcherCard.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/GraphCloseButtonIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/PanelChrome.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/CounterBottomBarIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/CountFormat.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/CounterSettingsPanel.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/scripts/merge-test-results.py": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/SettingsField.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -354,31 +284,15 @@
         ".claude/skills/review-session/scripts/extract-session.mjs"
       ]
     },
-    "ios/Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift": {
+    "android/app/src/main/java/com/codeyam/android/model/CounterModel.kt": {
       "imports": [],
       "importedBy": []
     },
-    "store/appstore/gen_assets.py": {
+    "ios/Sources/AppCore/SettingsOverlays.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/CounterDotIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/MainActivity.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Feedback.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Model.swift": {
+    "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt": {
       "imports": [],
       "importedBy": []
     },
@@ -390,89 +304,19 @@
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/Views/BottomControlRow.swift": {
+    "store/appstore/gen_assets.py": {
       "imports": [],
       "importedBy": []
     },
-    ".claude/hooks/editor-pretool-hook.py": {
+    "ios/Sources/AppCore/SeedPolicy.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/testDebug/java/com/codeyam/android/ui/AppSettingsPanelInteractionTest.kt": {
+    "ios/Package.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Tests/AppCoreTests/SettingsOverlaysTests.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/AddCounterDot.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/HeaderBar.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/CounterSettingsPanel.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/CountHeroIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/GraphGeometry.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/CountHero.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/AppSettingsPanel.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/OverridePickerIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/test/java/com/codeyam/android/model/FeedbackTest.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/Views/CounterListPanel.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/CountHero.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "android/app/src/main/java/com/codeyam/android/ui/CounterGraphChart.kt": {
-      "imports": [],
-      "importedBy": []
-    },
-    "ios/Sources/AppCore/CodeyamIsolated/CounterStepStepperIsolated.swift": {
-      "imports": [],
-      "importedBy": []
-    },
-    ".claude/skills/review-session/scripts/find-last-session-helpers.mjs": {
-      "imports": [],
-      "importedBy": [
-        ".claude/skills/review-session/scripts/find-last-session.mjs"
-      ]
-    },
-    "ios/Sources/AppCore/Views/PanelScrollSupport.swift": {
+    "ios/Sources/AppCore/Model.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -480,23 +324,139 @@
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/test/java/com/codeyam/android/ui/AndroidFeedbackTest.kt": {
+    "ios/Sources/AppCore/CodeyamIsolated/BottomControlRowIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/CodeyamIsolated/CodeyamIsolationHost.swift": {
+    "ios/Sources/AppCore/Views/CounterSettingsPanel.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/CodeyamIsolated/CounterSettingsPanelIsolated.swift": {
+    "android/app/src/test/java/com/codeyam/android/model/CounterThemeTest.kt": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/Views/GraphHistorySelector.swift": {
+    "ios/Sources/AppCore/Views/GraphCloseButton.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt": {
+    "android/app/src/main/java/com/codeyam/android/ui/CounterIcons.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/IncrementBarIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/IncrementFaceButtonStyle.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/GraphHistorySelectorIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/model/AppSettings.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/model/KeyValueStore.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/GearButtonIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/CounterGraphViewIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/ControlButton.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/GraphEventListIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/HeaderBarIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/PanelScrollSupport.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/ControlButton.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/model/CounterHistory.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Tests/AppCoreTests/FeedbackTests.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/test/java/com/codeyam/android/MainViewModelTest.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/SettingsToggleRow.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/CounterBottomBar.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/SettingsControls.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/test/java/com/codeyam/android/model/SettingsOverlaysTest.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/AndroidFeedback.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/CounterSwitcherCardIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/model/Counter.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/model/CounterTheme.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/IncrementBar.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/CounterStepStepperIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/OverridePicker.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/BottomControlRow.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/test/java/com/codeyam/android/model/AppSettingsTest.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/CounterColorPicker.swift": {
       "imports": [],
       "importedBy": []
     },
@@ -504,23 +464,63 @@
       "imports": [],
       "importedBy": []
     },
+    "android/app/src/main/java/com/codeyam/android/ui/CounterGraphChart.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/settings.gradle.kts": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/HeaderBar.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/CounterListPanel.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/History.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/AppSettingsPanel.kt": {
+      "imports": [],
+      "importedBy": []
+    },
     "ios/Sources/AppCore/Views/CounterSwitcherCard.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/ui/CounterScreenState.kt": {
+    "android/app/src/main/java/com/codeyam/android/ui/CounterListPanel.kt": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/ui/CounterSettingsPanel.kt": {
+    "ios/Sources/AppCore/Views/CounterStepStepper.swift": {
       "imports": [],
       "importedBy": []
     },
-    "ios/Sources/AppCore/ContentView.swift": {
+    "ios/Sources/AppCore/CodeyamIsolated/CounterColorPickerIsolated.swift": {
       "imports": [],
       "importedBy": []
     },
-    "android/app/src/main/java/com/codeyam/android/ui/HeaderBar.kt": {
+    ".claude/hooks/editor-pretool-hook.py": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/CodeyamIsolated/CounterDotIsolated.swift": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/ui/CountHero.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "android/app/src/main/java/com/codeyam/android/model/SeedPolicy.kt": {
+      "imports": [],
+      "importedBy": []
+    },
+    "ios/Sources/AppCore/Views/DeleteCounterButton.swift": {
       "imports": [],
       "importedBy": []
     }
@@ -544,5 +544,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-07-29T12:50:21Z"
+  "lastUpdated": "2026-07-29T16:00:44Z"
 }
