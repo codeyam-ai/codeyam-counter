@@ -7,8 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-07-29
+
+iOS 1.1, and the first Google Play release of the Android port.
+
 ### Added
 
+- **Android app, shipped.** Released to Google Play with release signing, R8
+  shrinking, an adaptive launcher icon, and an in-app version label. Targets
+  API 35 and shares the `com.codeyam.counter` identity with iOS, so both stores
+  show one app.
 - **Android app.** A native Kotlin + Jetpack Compose port under `android/`,
   built to parity with the SwiftUI app: the counter model, settings, graph
   history, and sound/haptic feedback all ported, with JVM unit tests and its own
@@ -39,6 +47,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Scenario seed data is rejected in production builds, so injected state can
   never reach a shipped app.
 - Minimum iOS deployment target aligned to 15.0.
+- Android: the App Settings panel no longer holds a stale counter selection.
+- Android: tablet layouts are width-capped, and the white flash on cold start
+  is gone.
 
 ### Security
 
