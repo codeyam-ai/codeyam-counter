@@ -10,10 +10,12 @@ anything worth counting. Each counter gets its own name and color, one tap
 increments, and every count is charted over time so you can see your history at
 a glance.
 
-**[Download CodeYam Counter on the App Store](https://apps.apple.com/us/app/codeyam-counter/id6789247345) — free to use.**
+**Download it free — [App Store](https://apps.apple.com/us/app/codeyam-counter/id6789247345) ·
+[Google Play](https://play.google.com/store/apps/details?id=com.codeyam.counter)**
 
 <p align="center">
-  <a href="https://apps.apple.com/us/app/codeyam-counter/id6789247345"><img src=".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png" alt="CodeYam Counter tracking a set of push-ups" width="300"></a>
+  <img src=".codeyam/scenarios/screenshots/counter-active-count--iphone-16.png" alt="CodeYam Counter tracking a set of push-ups on iOS" width="280">
+  <img src=".codeyam/scenarios/screenshots/android-counter-active-count--phone-portrait.png" alt="The same counter running on Android" width="280">
 </p>
 
 <!-- codeyam:run-and-edit:start -->
