@@ -6,10 +6,16 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,8 +50,28 @@ import androidx.compose.ui.unit.dp
  */
 internal val MaxContentWidth = 480.dp
 
+/**
+ * The window insets the content must stay clear of.
+ *
+ * System bars + display cutout, deliberately NOT `safeDrawing`: that also
+ * includes the IME, which would re-derive the entire layout geometry every time
+ * the rename keyboard opens.
+ *
+ * A composable default rather than a hardcoded one so a test can substitute
+ * fixed insets — under Robolectric there is no real window, so the platform
+ * values are all zero and the edge-to-edge behaviour would be untestable.
+ */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CounterScreen(state: CounterScreenState, modifier: Modifier = Modifier) {
+private fun defaultContentInsets(): WindowInsets =
+    WindowInsets.systemBars.union(WindowInsets.displayCutout)
+
+@Composable
+fun CounterScreen(
+    state: CounterScreenState,
+    modifier: Modifier = Modifier,
+    contentInsets: WindowInsets = defaultContentInsets(),
+) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -56,6 +82,18 @@ fun CounterScreen(state: CounterScreenState, modifier: Modifier = Modifier) {
         modifier = Modifier
             .widthIn(max = MaxContentWidth)
             .fillMaxSize()
+            // Edge-to-edge is unconditional at target 36 (the opt-out is
+            // ignored), so the window now extends under the status and
+            // navigation bars. The padding is applied HERE, outside the
+            // constraints read below, so `maxHeight`/`maxWidth` keep describing
+            // USABLE space. Inset the content inside `BoxWithConstraints`
+            // instead and every derived measurement — hero sizing, the
+            // lower-half increment target, the bottom bar — would still be
+            // computed against full-window height while the content sits
+            // visually inset: correct on the device you tested, wrong on one
+            // with a taller nav bar. The parent `Box` keeps the background
+            // un-inset so the app colour still runs bar to bar.
+            .windowInsetsPadding(contentInsets)
             .pointerInput(Unit) {
                 // Same ±40pt threshold as the iOS DragGesture, so a deliberate
                 // swipe switches counters but a stray drag while tapping the

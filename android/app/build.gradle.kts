@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -26,7 +27,7 @@ val hasReleaseSigning = releaseStoreFile != null
 
 android {
     namespace = "com.codeyam.android"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         // The Play Store identity, permanent once published — deliberately the
@@ -37,14 +38,19 @@ android {
         // registry and dependency graph for no user-visible gain.
         applicationId = "com.codeyam.counter"
         minSdk = 24
-        // Play requires new uploads to target API 35 (Android 15) on all tracks.
-        targetSdk = 35
+        // Play requires new uploads to target API 36 (Android 16) on all tracks.
+        // From 2026-10-31 an app whose target API is not within one year of the
+        // latest Android release cannot be updated at all, so this is an
+        // availability deadline rather than a warning. Target 36 also makes
+        // edge-to-edge unconditional (the opt-out is ignored) — see the window
+        // inset handling in MainActivity/CounterScreen.
+        targetSdk = 36
         // Defaults to 1 for a local/manual build. CI passes
         // -PversionCodeOverride=<n> (a large, monotonic value) so every
         // automated Play upload gets a unique, increasing versionCode — Play
         // rejects a track upload that reuses an existing versionCode.
         versionCode = (project.findProperty("versionCodeOverride") as String?)?.toIntOrNull() ?: 1
-        versionName = "1.0"
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -87,9 +93,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+    // `kotlinOptions { jvmTarget = "1.8" }` was removed in Kotlin 2.3 (it became a
+    // hard error, not a warning). Same target, current DSL — the bytecode level is
+    // deliberately unchanged, so this is a syntax migration and nothing more.
     buildFeatures {
         compose = true
         // Generates BuildConfig.VERSION_NAME / VERSION_CODE so the app can show
@@ -107,6 +113,12 @@ android {
             // test activity and resolve theme/resource references.
             isIncludeAndroidResources = true
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_1_8
     }
 }
 
