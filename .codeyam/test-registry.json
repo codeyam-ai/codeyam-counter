@@ -2283,6 +2283,42 @@
       "runner": "android-tests"
     },
     {
+      "description": "The bottom bar derives its assembly height from the usable (inset-reduced) height rather than the full window height, so edge-to-edge does not inflate the increment target.",
+      "file": "android/app/src/testDebug/java/com/codeyam/android/ui/CounterScreenInsetsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenInsetsTest › theBottomBarIsSizedFromUsableHeightNotTheFullWindow",
+      "line": 126,
+      "registeredAt": "2026-08-11T19:50:04.707881+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The bottom control row clears the navigation-bar inset, sitting above it rather than being overdrawn by the system nav bar.",
+      "file": "android/app/src/testDebug/java/com/codeyam/android/ui/CounterScreenInsetsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenInsetsTest › theBottomControlRowClearsTheBottomInset",
+      "line": 90,
+      "registeredAt": "2026-08-11T19:50:04.687921+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The count hero clears the top inset: its top edge sits at least the 80dp status-bar inset below the root top, so the numeral is never drawn under the status bar.",
+      "file": "android/app/src/testDebug/java/com/codeyam/android/ui/CounterScreenInsetsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenInsetsTest › theCountHeroClearsTheTopInset",
+      "line": 73,
+      "registeredAt": "2026-08-11T19:50:04.667269+00:00",
+      "runner": "android-tests"
+    },
+    {
+      "description": "The window stays edge-to-edge: root height still exceeds the inset content's offset, proving the inset padding landed on the content instead of shrinking the window.",
+      "file": "android/app/src/testDebug/java/com/codeyam/android/ui/CounterScreenInsetsTest.kt",
+      "format": "junit-xml",
+      "key": "com.codeyam.android.ui.CounterScreenInsetsTest › theWindowItselfStaysEdgeToEdge",
+      "line": 159,
+      "registeredAt": "2026-08-11T19:50:04.727868+00:00",
+      "runner": "android-tests"
+    },
+    {
       "description": "A Per Counter Handedness Override Beats The App Default.",
       "file": "android/app/src/test/java/com/codeyam/android/ui/CounterScreenStateTest.kt",
       "format": "junit-xml",

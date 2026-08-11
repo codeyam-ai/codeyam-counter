@@ -84,10 +84,10 @@
       },
       "id": "java",
       "install": {
-        "cmd": "brew install --cask temurin@17",
+        "cmd": "brew install --cask temurin@21",
         "estCost": "~300 MB, ~2 min"
       },
-      "label": "Java 17+ runtime (JDK)"
+      "label": "Java 21+ runtime (JDK)"
     },
     {
       "detect": {
