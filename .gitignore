@@ -58,6 +58,7 @@ blob-report/
 .codeyam/uploads/
 .codeyam/results/
 .codeyam/reviews/
+.codeyam/summaries/
 .codeyam/tmp/
 .codeyam/_legacy/
 .codeyam/rules/
@@ -99,6 +100,7 @@ blob-report/
 .codeyam/runner-timing-history.json
 .codeyam/state/last-advance.txt
 .codeyam/state/provider-auth-verdict.json
+.codeyam/state/dependency-provision.json
 .codeyam/state/session-results-snapshot.json
 .codeyam/state/step-highwater.json
 .codeyam/test-run-marker.json

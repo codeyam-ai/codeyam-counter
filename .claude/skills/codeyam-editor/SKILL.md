@@ -48,7 +48,7 @@ The advance gate reads `.codeyam/editor-task-tracking.json` (populated by the Po
 
 ## The Cycle
 
-Each feature flows through plan → confirm → prepare → prototype → demo → deconstruct → present → reconcile → finalize → journal → commit → push → feature-complete. Run `codeyam-editor editor step 1` to start; subsequent commands tell you the next slug. UI flow = 23 steps, backend flow = 18 steps.
+Each feature flows through plan → confirm → prepare → prototype → demo → deconstruct → present → reconcile → finalize → journal → commit → push → feature-complete. Run `codeyam-editor editor step 1` to start; subsequent commands tell you the next slug.
 
 User confirmation is required at the `ui-confirm-plan` / `backend-confirm-plan`, `present-live` / `backend-confirm`, and `ui-present` / `backend-present` slugs. All others auto-advance — run the next step command immediately, do not wait for the user to prompt you.
 
