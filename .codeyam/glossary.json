@@ -1237,6 +1237,18 @@
     "testFile": "android/app/src/test/java/com/codeyam/android/ui/CountHeroSizingTest.kt"
   },
   {
+    "description": "Composable supplying CounterScreen's default contentInsets: the union of system-bar and display-cutout insets. It exists as an injectable default because unit tests report all real inset values as zero, which would leave the edge-to-edge layout behaviour untestable.",
+    "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt",
+    "name": "defaultContentInsets",
+    "tags": [
+      "android",
+      "ui",
+      "layout",
+      "edge-to-edge"
+    ],
+    "testFile": "android/app/src/testDebug/java/com/codeyam/android/ui/CounterScreenInsetsTest.kt"
+  },
+  {
     "description": "Resolves a counter colorKey to its Compose dot color via the shared CounterTheme hex mapping.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/Theme.kt",
     "name": "dotColor",
