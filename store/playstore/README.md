@@ -1,8 +1,9 @@
 # Google Play assets — CodeYam Counter
 
 Assembled for the **Google Play Console**. Mirrors `../appstore/` for the
-Android build under `android/`. The app is live on the **Internal testing**
-track; everything here is what a **production** rollout additionally needs.
+Android build under `android/`. The app is **live in production** at
+<https://play.google.com/store/apps/details?id=com.codeyam.counter>; everything
+here is the source material behind that listing.
 
 ## Contents
 
@@ -124,17 +125,19 @@ These are decisions, not bugs. Do not "fix" them.
   all tracks, and **API 36 from Aug 31, 2026**. Verify the current requirement
   in Play Console before each release rather than trusting this file.
 
-## Still to do before a PRODUCTION rollout
+## Production rollout — done
 
-- Fill the Play Console store listing from `listing.md` and upload the graphics
-  above.
-- Clear the App content declarations using
-  [PLAY_CONSOLE_CHEATSHEET.md](PLAY_CONSOLE_CHEATSHEET.md).
-- **Closed testing gate:** a recently-created *personal* developer account must
-  run a closed test with **≥12 testers for 14 continuous days** before
-  production access is unlocked. This does not affect Internal testing. Confirm
-  which account type applies before committing to a launch date.
-- Optionally upload the R8 deobfuscation mapping file
+The listing is filled from `listing.md` with the graphics above, the App content
+declarations are cleared per
+[PLAY_CONSOLE_CHEATSHEET.md](PLAY_CONSOLE_CHEATSHEET.md), and the closed-testing
+gate (≥12 testers for 14 continuous days, required only of a recently-created
+*personal* developer account) no longer blocks production access. Keep the
+cheatsheet current: Play re-asks the content declarations whenever the answers
+would change.
+
+Still optional, per release:
+
+- Upload the R8 deobfuscation mapping file
   (`android/app/build/outputs/mapping/release/mapping.txt`) so Play can
   symbolicate release crash reports.
 
