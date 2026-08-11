@@ -2,9 +2,12 @@ package com.codeyam.android
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,6 +26,20 @@ import com.codeyam.android.ui.androidSoundEmitter
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Opt in explicitly rather than inheriting the target-36 default, so the
+        // bar ICON appearance is ours: `SystemBarStyle.dark` means "dark bar
+        // background, therefore light icons", which is what this near-black app
+        // needs. A transparent scrim keeps the app colour running bar to bar.
+        //
+        // This replaces `android:statusBarColor` / `android:navigationBarColor`
+        // in themes.xml, which are deprecated no-ops on API 35+ and were already
+        // doing nothing. The layout side of edge-to-edge — keeping the content
+        // clear of the bars — is handled by the inset padding in CounterScreen.
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+        )
 
         // The default SharedPreferences file (`<package>_preferences.xml`) is the
         // store CodeYam's Android scenario seeder writes before relaunching the app,

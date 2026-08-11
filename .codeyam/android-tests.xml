@@ -1,24 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
-<testsuites tests="173" failures="0" errors="0" skipped="0"><testsuite name="com.codeyam.android.model.AppSettingsTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:07" hostname="Jareds-Laptop.local" time="0.028">
+<testsuites tests="177" failures="0" errors="0" skipped="0"><testsuite name="com.codeyam.android.model.AppSettingsTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:00.523Z" hostname="Nadias-MacBook-Pro-2.local" time="0.026">
   <properties />
-  <testcase name="testDefaultsAreRightHandedSilentWithDistinctHaptics" classname="com.codeyam.android.model.AppSettingsTest" time="0.01" />
+  <testcase name="testDefaultsAreRightHandedSilentWithDistinctHaptics" classname="com.codeyam.android.model.AppSettingsTest" time="0.007" />
   <testcase name="testOptionsAreIndependent" classname="com.codeyam.android.model.AppSettingsTest" time="0.001" />
   <testcase name="testLegacyHapticOffMigratesToBothOff" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
   <testcase name="testDefaultHapticsAreDistinct" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
-  <testcase name="testResolveMigratesRemovedRawValues" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
+  <testcase name="testResolveMigratesRemovedRawValues" classname="com.codeyam.android.model.AppSettingsTest" time="0.001" />
   <testcase name="testOptionCasesCoverTheChoiceSets" classname="com.codeyam.android.model.AppSettingsTest" time="0.014" />
-  <testcase name="testPersistsChangesAcrossReload" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
+  <testcase name="testPersistsChangesAcrossReload" classname="com.codeyam.android.model.AppSettingsTest" time="0.001" />
   <testcase name="testNewHapticKeyWinsOverLegacy" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
   <testcase name="testUnknownOptionFallsBackToDefault" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
   <testcase name="testReleasePolicyIgnoresSeededHapticsWithoutProvenance" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
-  <testcase name="testReadsSeededStringPreferences" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
+  <testcase name="testReadsSeededStringPreferences" classname="com.codeyam.android.model.AppSettingsTest" time="0.001" />
   <testcase name="testLegacyHapticKeyMigratesToBothDirections" classname="com.codeyam.android.model.AppSettingsTest" time="0.0" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.model.CounterModelTest" tests="77" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:07" hostname="Jareds-Laptop.local" time="0.101">
+</testsuite><testsuite name="com.codeyam.android.model.CounterModelTest" tests="77" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:00.558Z" hostname="Nadias-MacBook-Pro-2.local" time="0.079">
   <properties />
-  <testcase name="testDefaultEffectiveFeedbackIsAllOff" classname="com.codeyam.android.model.CounterModelTest" time="0.058" />
-  <testcase name="testClampedSubtractRecordsActualAppliedDelta" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testDefaultEffectiveFeedbackIsAllOff" classname="com.codeyam.android.model.CounterModelTest" time="0.043" />
+  <testcase name="testClampedSubtractRecordsActualAppliedDelta" classname="com.codeyam.android.model.CounterModelTest" time="0.004" />
   <testcase name="testMigrationFoldsDeletedDefaultsIntoBlankSlots" classname="com.codeyam.android.model.CounterModelTest" time="0.002" />
   <testcase name="testDeleteBeyondFirstFourRemovesAndSelectsPrevious" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testSelectPreviousMovesBackWithinList" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
@@ -26,14 +26,14 @@
   <testcase name="testCumulativeSeriesReconstructsRunningCount" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testSubtractHonorsStep" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testAddCounterClearsPendingUndo" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testSeededResetUndoKeyIgnoredWhenActiveCountNonZero" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testDeleteLastCounterBlanksInPlaceAndKeepsSelection" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testDeletingCounterClearsPendingUndo" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testEffectiveResolversPinOverrideWhenSet" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testUndoResetReopensSealedRunAndRestoresCount" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testUpdateActiveCounterEditsAndPersists" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testDeletingExtraCounterDropsItsHistory" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testEditingActiveCounterClearsPendingUndo" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testSeededResetUndoKeyIgnoredWhenActiveCountNonZero" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testDeleteLastCounterBlanksInPlaceAndKeepsSelection" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testDeletingCounterClearsPendingUndo" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testEffectiveResolversPinOverrideWhenSet" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testUndoResetReopensSealedRunAndRestoresCount" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testUpdateActiveCounterEditsAndPersists" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testDeletingExtraCounterDropsItsHistory" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testEditingActiveCounterClearsPendingUndo" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testSubtractGoesNegativeByDefault" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testDeleteCounterClearsItsHistories" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testTrustInjectedPolicyAdoptsSeededCounters" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
@@ -42,36 +42,36 @@
   <testcase name="testSelectNextPastLastAppendsBlankAndSelectsIt" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testLegacySingleHapticOverrideMigratesToBothDirections" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testIncrementUsesActiveCounterEffectiveFeedback" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testSeededHistoriesJSONLoadsFromDefaults" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testSeededHistoriesJSONLoadsFromDefaults" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testHapticDirectionsResolveIndependently" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testUpdateActiveCounterRoundTripsOverrides" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testDeletingMiddleExtraCounterSlidesFollowingCounterDown" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testReleasePolicyTrustsOwnPersistedDataAfterStamp" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testUpdateActiveCounterRoundTripsOverrides" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testDeletingMiddleExtraCounterSlidesFollowingCounterDown" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testReleasePolicyTrustsOwnPersistedDataAfterStamp" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testSubtractFiresFeedbackWithDecrementHaptic" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testSeededResetUndoKeyEntersUndoModeOnLaunch" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testAddCounterAppendsBlankAndSelectsIt" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testLoadsSeededStateFromDefaults" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testSubtractRecordsNegativeAppliedDelta" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testReleasePolicyIgnoresSeededAppSettingsWithoutProvenance" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testIncrementHonorsStep" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testIncrementHonorsStep" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testSubtractClampsWhenNegativesDisallowed" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testResetAndUndoResetStaySilent" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testResetAndUndoResetStaySilent" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testAddCounterAssignsNextIdAndOrder" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testDeleteBlanksInPlace" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testResetSealsCurrentAndOpensEmptyRun" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testDeleteBlanksInPlace" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testResetSealsCurrentAndOpensEmptyRun" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testNewHapticOverrideKeyWinsOverLegacyOnDecode" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testLegacyCounterWithoutStepDecodesToStepOne" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testIncrementFiresFeedbackWithIncrementHaptic" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testIncrementRecordsPositiveEvent" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testHistoryCapDropsOldestRun" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testIncrementRecordsPositiveEvent" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testHistoryCapDropsOldestRun" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testSeededResetUndoKeyCoercesStringValue" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testUpdateActiveCounterClearsOverridesWhenNil" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testUpdateActiveCounterClearsOverridesWhenNil" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testIncrementRaisesActiveCounter" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testSelectNextAdvancesWithinList" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testSelectNextAdvancesWithinList" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testLegacyCountersDecodeWithNilOverrides" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testUnrecognizedOverrideRawValueDecodesToNil" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testSwitchingCounterClearsPendingUndo" classname="com.codeyam.android.model.CounterModelTest" time="0.003" />
-  <testcase name="testDeletingEveryBaseSlotNeverShrinksTheRow" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testUnrecognizedOverrideRawValueDecodesToNil" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testSwitchingCounterClearsPendingUndo" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testDeletingEveryBaseSlotNeverShrinksTheRow" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testResetEntersUndoModeAndCapturesPreviousValue" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testHistoriesPersistAndReloadFromDefaults" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testOverrideTracksOrPinsAgainstChangingDefault" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
@@ -80,15 +80,15 @@
   <testcase name="testAddCounterAllowsConsecutiveBlankSlots" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testReleasePolicyIgnoresSeededCountersWithoutProvenance" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testFreshModelHasFourStarterCountersAtZero" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testSubtractClampsToZeroWhenStepOvershoots" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testSelectPreviousWrapsFromFirstToLast" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testSubtractClampsToZeroWhenStepOvershoots" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testSelectPreviousWrapsFromFirstToLast" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testDeletingLastExtraCounterSelectsNewLast" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testReleasePolicyTrustsAppSettingsAfterProvenanceStamped" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testSeededSubsetHasNoBlankSlots" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testUndoResetRestoresPreviousValueAndExitsUndoMode" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testResetZeroesActiveCounter" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
-  <testcase name="testBlankSlotIncrementsWithoutReviving" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
-  <testcase name="testSubtractNoOpClampDoesNotFireFeedback" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testResetZeroesActiveCounter" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
+  <testcase name="testBlankSlotIncrementsWithoutReviving" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
+  <testcase name="testSubtractNoOpClampDoesNotFireFeedback" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testAddCounterPersists" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <testcase name="testIncrementClearsPendingUndo" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
   <testcase name="testUpdateActiveCounterClampsStepToAtLeastOne" classname="com.codeyam.android.model.CounterModelTest" time="0.0" />
@@ -96,50 +96,50 @@
   <testcase name="testResetAtZeroEntersUndoModeAndUndoRestoresZero" classname="com.codeyam.android.model.CounterModelTest" time="0.001" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.model.CounterThemeTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:07" hostname="Jareds-Laptop.local" time="0.002">
+</testsuite><testsuite name="com.codeyam.android.model.CounterThemeTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:00.638Z" hostname="Nadias-MacBook-Pro-2.local" time="0.002">
   <properties />
   <testcase name="testParsesBlackAndWhite" classname="com.codeyam.android.model.CounterThemeTest" time="0.001" />
-  <testcase name="testIsCaseInsensitive" classname="com.codeyam.android.model.CounterThemeTest" time="0.0" />
-  <testcase name="testToleratesLeadingHash" classname="com.codeyam.android.model.CounterThemeTest" time="0.001" />
+  <testcase name="testIsCaseInsensitive" classname="com.codeyam.android.model.CounterThemeTest" time="0.001" />
+  <testcase name="testToleratesLeadingHash" classname="com.codeyam.android.model.CounterThemeTest" time="0.0" />
   <testcase name="testIsolatesIndividualChannels" classname="com.codeyam.android.model.CounterThemeTest" time="0.0" />
   <testcase name="testDotHexMapsKnownKeys" classname="com.codeyam.android.model.CounterThemeTest" time="0.0" />
   <testcase name="testDotHexFallsBackToLimeForUnknownKey" classname="com.codeyam.android.model.CounterThemeTest" time="0.0" />
   <testcase name="testParsesAccentLime" classname="com.codeyam.android.model.CounterThemeTest" time="0.0" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.model.FeedbackTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:07" hostname="Jareds-Laptop.local" time="0.003">
+</testsuite><testsuite name="com.codeyam.android.model.FeedbackTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:00.642Z" hostname="Nadias-MacBook-Pro-2.local" time="0.003">
   <properties />
   <testcase name="testBothOffFiresNothing" classname="com.codeyam.android.model.FeedbackTest" time="0.001" />
   <testcase name="testBothOptionsFireBoth" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
-  <testcase name="testHapticOnlyFiresHapticWithFeel" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
+  <testcase name="testHapticOnlyFiresHapticWithFeel" classname="com.codeyam.android.model.FeedbackTest" time="0.001" />
   <testcase name="testAllDistinctFeelsAreTreatedAsNonOff" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
   <testcase name="testNoopFeedbackDoesNothing" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
   <testcase name="testIncrementHapticOverrideAloneReturnsTrue" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
   <testcase name="testNoOverridesReturnsFalse" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
   <testcase name="testSoundOnlyFiresSoundWithChoice" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
-  <testcase name="testBlankSlotReturnsFalse" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
+  <testcase name="testBlankSlotReturnsFalse" classname="com.codeyam.android.model.FeedbackTest" time="0.001" />
   <testcase name="testAllOverridesSetReturnsTrue" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
-  <testcase name="testSoundOverrideAloneReturnsTrue" classname="com.codeyam.android.model.FeedbackTest" time="0.001" />
+  <testcase name="testSoundOverrideAloneReturnsTrue" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
   <testcase name="testDecrementHapticOverrideAloneReturnsTrue" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
   <testcase name="testExplicitOffSoundOverrideReturnsTrue" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
   <testcase name="testHandednessOverrideAloneReturnsTrue" classname="com.codeyam.android.model.FeedbackTest" time="0.0" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.model.SettingsOverlaysTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:07" hostname="Jareds-Laptop.local" time="0.002">
+</testsuite><testsuite name="com.codeyam.android.model.SettingsOverlaysTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:00.647Z" hostname="Nadias-MacBook-Pro-2.local" time="0.001">
   <properties />
-  <testcase name="testOpeningAppSettingsFromClosedOpensIt" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.001" />
+  <testcase name="testOpeningAppSettingsFromClosedOpensIt" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.0" />
   <testcase name="testOpeningCounterSettingsFromClosedOpensIt" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.0" />
   <testcase name="testNothingIsOpenByDefault" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.0" />
-  <testcase name="testNoToggleEverLeavesBothOpen" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.0" />
+  <testcase name="testNoToggleEverLeavesBothOpen" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.001" />
   <testcase name="testOpeningCounterSettingsClosesAppSettings" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.0" />
   <testcase name="testTogglingOpenCounterSettingsClosesItAndOpensNothing" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.0" />
   <testcase name="testTogglingOpenAppSettingsClosesItAndOpensNothing" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.0" />
   <testcase name="testOpeningAppSettingsClosesTheCounterPanel" classname="com.codeyam.android.model.SettingsOverlaysTest" time="0.0" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.ui.AndroidFeedbackTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:07" hostname="Jareds-Laptop.local" time="0.004">
+</testsuite><testsuite name="com.codeyam.android.ui.AndroidFeedbackTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:00.650Z" hostname="Nadias-MacBook-Pro-2.local" time="0.003">
   <properties />
-  <testcase name="testSoftUsesReducedAmplitude" classname="com.codeyam.android.ui.AndroidFeedbackTest" time="0.002" />
+  <testcase name="testSoftUsesReducedAmplitude" classname="com.codeyam.android.ui.AndroidFeedbackTest" time="0.001" />
   <testcase name="testEveryNonOffHapticMapsToASpec" classname="com.codeyam.android.ui.AndroidFeedbackTest" time="0.001" />
   <testcase name="testSoundSpotCheck" classname="com.codeyam.android.ui.AndroidFeedbackTest" time="0.0" />
   <testcase name="testHapticOffMapsToNull" classname="com.codeyam.android.ui.AndroidFeedbackTest" time="0.0" />
@@ -151,22 +151,22 @@
   <testcase name="testSoundOffMapsToNull" classname="com.codeyam.android.ui.AndroidFeedbackTest" time="0.0" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.ui.AppSettingsPanelInteractionTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:08" hostname="Jareds-Laptop.local" time="5.508">
+</testsuite><testsuite name="com.codeyam.android.ui.AppSettingsPanelInteractionTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:00.877Z" hostname="Nadias-MacBook-Pro-2.local" time="6.237">
   <properties />
-  <testcase name="tappingLeftMovesTheHandednessHighlight" classname="com.codeyam.android.ui.AppSettingsPanelInteractionTest" time="5.411" />
-  <testcase name="tappingASoundChipMovesTheSelection" classname="com.codeyam.android.ui.AppSettingsPanelInteractionTest" time="0.097" />
+  <testcase name="tappingLeftMovesTheHandednessHighlight" classname="com.codeyam.android.ui.AppSettingsPanelInteractionTest" time="6.136" />
+  <testcase name="tappingASoundChipMovesTheSelection" classname="com.codeyam.android.ui.AppSettingsPanelInteractionTest" time="0.101" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.ui.CountFormatTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:13" hostname="Jareds-Laptop.local" time="0.001">
+</testsuite><testsuite name="com.codeyam.android.ui.CountFormatTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:07.115Z" hostname="Nadias-MacBook-Pro-2.local" time="0.001">
   <properties />
-  <testcase name="fourDigitsAndUpAreGrouped" classname="com.codeyam.android.ui.CountFormatTest" time="0.0" />
+  <testcase name="fourDigitsAndUpAreGrouped" classname="com.codeyam.android.ui.CountFormatTest" time="0.001" />
   <testcase name="negativeCountsKeepTheirSignAndGrouping" classname="com.codeyam.android.ui.CountFormatTest" time="0.0" />
   <testcase name="deltaLeavesTheMinusSignAsTheOnlyMarkerWhenNegative" classname="com.codeyam.android.ui.CountFormatTest" time="0.0" />
-  <testcase name="deltaCarriesAnExplicitPlusWhenNonNegative" classname="com.codeyam.android.ui.CountFormatTest" time="0.001" />
+  <testcase name="deltaCarriesAnExplicitPlusWhenNonNegative" classname="com.codeyam.android.ui.CountFormatTest" time="0.0" />
   <testcase name="smallCountsAreUnchanged" classname="com.codeyam.android.ui.CountFormatTest" time="0.0" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.ui.CountHeroSizingTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:13" hostname="Jareds-Laptop.local" time="0.002">
+</testsuite><testsuite name="com.codeyam.android.ui.CountHeroSizingTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:07.117Z" hostname="Nadias-MacBook-Pro-2.local" time="0.002">
   <properties />
   <testcase name="theMinusSignCountsTowardTheWidth" classname="com.codeyam.android.ui.CountHeroSizingTest" time="0.002" />
   <testcase name="groupingSeparatorsCountTowardTheWidth" classname="com.codeyam.android.ui.CountHeroSizingTest" time="0.0" />
@@ -176,39 +176,89 @@
   <testcase name="sizeNeverIncreasesAsTheNumeralGrows" classname="com.codeyam.android.ui.CountHeroSizingTest" time="0.0" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.ui.CountHeroSnapshotTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:13" hostname="Jareds-Laptop.local" time="2.996">
+</testsuite><testsuite name="com.codeyam.android.ui.CountHeroSnapshotTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:07.121Z" hostname="Nadias-MacBook-Pro-2.local" time="4.559">
   <properties />
-  <testcase name="countHeroRendersATwoDigitCount" classname="com.codeyam.android.ui.CountHeroSnapshotTest" time="2.877" />
-  <testcase name="countHeroRendersAGroupedFourDigitCount" classname="com.codeyam.android.ui.CountHeroSnapshotTest" time="0.119" />
+  <testcase name="countHeroRendersATwoDigitCount" classname="com.codeyam.android.ui.CountHeroSnapshotTest" time="4.419" />
+  <testcase name="countHeroRendersAGroupedFourDigitCount" classname="com.codeyam.android.ui.CountHeroSnapshotTest" time="0.14" />
   <system-out />
-  <system-err>Jul 29, 2026 7:43:16 AM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
-INFO: Settings [3]: Can't get key animator_duration_scale from content://settings/global
-Jul 29, 2026 7:43:16 AM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
-INFO: Settings [3]: Can't get key animator_duration_scale from content://settings/global
+  <system-err>WARNING: A Java agent has been loaded dynamically (/Users/nadiaeldeib/.gradle/caches/8.13/transforms/a39dad86e65fa8c606005d4b0689ab1a/transformed/byte-buddy-agent-1.18.7.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.resources.base.BasicStyleResourceItem &lt;init&gt;
+WARNING: Conflicting definitions of "fontFamily" in style "TextAppearance.Toast"
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.resources.base.BasicStyleResourceItem &lt;init&gt;
+WARNING: Conflicting definitions of "textColor" in style "NotificationAction"
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.resources.base.BasicStyleResourceItem &lt;init&gt;
+WARNING: Conflicting definitions of "fontFamily" in style "TextAppearance.DeviceDefault.Notification"
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.resources.base.BasicStyleResourceItem &lt;init&gt;
+WARNING: Conflicting definitions of "fontFamily" in style "TextAppearance.DeviceDefault.Notification.Title"
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.resources.base.BasicStyleResourceItem &lt;init&gt;
+WARNING: Conflicting definitions of "fontFamily" in style "TextAppearance.DeviceDefault.Notification.BigTitle"
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.resources.base.BasicStyleResourceItem &lt;init&gt;
+WARNING: Conflicting definitions of "fontFamily" in style "TextAppearance.DeviceDefault.Notification.Reply"
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.resources.base.BasicStyleResourceItem &lt;init&gt;
+WARNING: Conflicting definitions of "fontFamily" in style "TextAppearance.DeviceDefault.Notification.Info"
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.resources.base.BasicStyleResourceItem &lt;init&gt;
+WARNING: Conflicting definitions of "fontFamily" in style "TextAppearance.DeviceDefault.Notification.Time"
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: SystemFonts [2]: Loading font config from /Users/nadiaeldeib/.gradle/caches/8.13/transforms/a921bde85f3917657d0428903d0ec774/transformed/layoutlib-runtime-16.2.1-mac-arm/data/fonts/fonts.xml
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: SystemFonts [2]: Loading font config from /Users/nadiaeldeib/.gradle/caches/8.13/transforms/a921bde85f3917657d0428903d0ec774/transformed/layoutlib-runtime-16.2.1-mac-arm/data/fonts/font_fallback.xml
+Aug 10, 2026 1:45:09 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: HWUI [2]: Using Fontation backend (prop=Auto)
+Aug 10, 2026 1:45:10 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: PlatformAconfigPackage [3]: android.os.flagging.AconfigStorageReadException: ERROR_CANNOT_READ_STORAGE_FILE: Fail to mmap storage
+Aug 10, 2026 1:45:10 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: PlatformAconfigPackage [3]: android.os.flagging.AconfigStorageReadException: ERROR_CANNOT_READ_STORAGE_FILE: Fail to mmap storage
+Aug 10, 2026 1:45:10 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: PlatformAconfigPackage [3]: android.os.flagging.AconfigStorageReadException: ERROR_CANNOT_READ_STORAGE_FILE: Fail to mmap storage
+Aug 10, 2026 1:45:10 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: PlatformAconfigPackage [3]: android.os.flagging.AconfigStorageReadException: ERROR_CANNOT_READ_STORAGE_FILE: Fail to mmap storage
+Aug 10, 2026 1:45:10 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: FeatureFlagsImplExport [4]: android.os.flagging.AconfigStorageReadException: ERROR_PACKAGE_NOT_FOUND: package android.xr cannot be found on the device
+Aug 10, 2026 1:45:10 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: FeatureFlagsImplExport [4]: android.os.flagging.AconfigStorageReadException: ERROR_PACKAGE_NOT_FOUND: package android.os.profiling.anomaly.flags cannot be found on the device
+Aug 10, 2026 1:45:11 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: InputEventCompatHandler [2]: Input compatibility 413207127 is enabled for com.codeyam.android
+Aug 10, 2026 1:45:11 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: ImageReader_JNI [3]: Unable to acquire a buffer item, very likely client tried to acquire more than maxImages buffers
+Aug 10, 2026 1:45:11 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: InputEventCompatHandler [2]: Input compatibility 413207127 is enabled for com.codeyam.android
+Aug 10, 2026 1:45:11 PM app.cash.paparazzi.internal.PaparazziLogger logAndroidFramework
+INFO: ImageReader_JNI [3]: Unable to acquire a buffer item, very likely client tried to acquire more than maxImages buffers
 </system-err>
-</testsuite><testsuite name="com.codeyam.android.ui.CounterScreenStateTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:16" hostname="Jareds-Laptop.local" time="0.004">
+</testsuite><testsuite name="com.codeyam.android.ui.CounterScreenInsetsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:11.684Z" hostname="Nadias-MacBook-Pro-2.local" time="0.258">
   <properties />
-  <testcase name="feedbackSettersRoundTripThroughTheirGetters" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.001" />
-  <testcase name="resetOrUndoDispatchesByPendingUndo" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.001" />
-  <testcase name="selectNextAndPreviousMoveThroughTheCounters" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
-  <testcase name="aPerCounterHandednessOverrideBeatsTheAppDefault" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.001" />
-  <testcase name="defaultLeftHandedIsTheAppDefaultNotTheActiveCountersEffectiveValue" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
+  <testcase name="theWindowItselfStaysEdgeToEdge" classname="com.codeyam.android.ui.CounterScreenInsetsTest" time="0.093" />
+  <testcase name="theCountHeroClearsTheTopInset" classname="com.codeyam.android.ui.CounterScreenInsetsTest" time="0.06" />
+  <testcase name="theBottomControlRowClearsTheBottomInset" classname="com.codeyam.android.ui.CounterScreenInsetsTest" time="0.055" />
+  <testcase name="theBottomBarIsSizedFromUsableHeightNotTheFullWindow" classname="com.codeyam.android.ui.CounterScreenInsetsTest" time="0.05" />
+  <system-out />
+  <system-err />
+</testsuite><testsuite name="com.codeyam.android.ui.CounterScreenStateTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:11.944Z" hostname="Nadias-MacBook-Pro-2.local" time="0.005">
+  <properties />
+  <testcase name="feedbackSettersRoundTripThroughTheirGetters" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.002" />
+  <testcase name="resetOrUndoDispatchesByPendingUndo" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
+  <testcase name="selectNextAndPreviousMoveThroughTheCounters" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.001" />
+  <testcase name="aPerCounterHandednessOverrideBeatsTheAppDefault" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
+  <testcase name="defaultLeftHandedIsTheAppDefaultNotTheActiveCountersEffectiveValue" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.001" />
   <testcase name="openingTheCounterPanelClosesAppSettings" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
   <testcase name="leftHandedFollowsTheAppDefaultWithoutAnOverride" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
   <testcase name="overlayFlagsDefaultClosed" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
   <testcase name="setDefaultLeftHandedFlipsTheAppDefaultGetter" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
   <testcase name="openingAppSettingsClosesTheCounterPanel" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
-  <testcase name="addingACounterClosesTheSettingsPanel" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.001" />
-  <testcase name="incrementAndSubtractReachTheActiveCounter" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
+  <testcase name="addingACounterClosesTheSettingsPanel" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
+  <testcase name="incrementAndSubtractReachTheActiveCounter" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.001" />
   <testcase name="selectingFromTheListClosesBothTheListAndAppSettings" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
   <testcase name="overlayFlagsAdoptTheirSeededValues" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
   <testcase name="closingAPanelLeavesTheOtherClosed" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
   <testcase name="selectingACounterClosesTheSettingsPanel" classname="com.codeyam.android.ui.CounterScreenStateTest" time="0.0" />
   <system-out />
   <system-err />
-</testsuite><testsuite name="com.codeyam.android.ui.GraphGeometryTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-07-29T11:43:16" hostname="Jareds-Laptop.local" time="0.001">
+</testsuite><testsuite name="com.codeyam.android.ui.GraphGeometryTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-08-10T17:45:11.951Z" hostname="Nadias-MacBook-Pro-2.local" time="0.002">
   <properties />
-  <testcase name="plotDomainAlwaysIncludesZero" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
+  <testcase name="plotDomainAlwaysIncludesZero" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.001" />
   <testcase name="plotMapsTimeAcrossTheFullWidthAndCountUpwards" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
   <testcase name="plotSurvivesAFlatSeries" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
   <testcase name="stepVerticesOfEmptyOrSingleInputAreDegenerate" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
@@ -218,7 +268,7 @@ INFO: Settings [3]: Can't get key animator_duration_scale from content://setting
   <testcase name="relativeTimeGrowsAnHoursFieldPastAnHour" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
   <testcase name="plotHandlesAnEmptySeries" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
   <testcase name="plotPutsZeroLineInsideTheRectWhenTheCountWentNegative" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
-  <testcase name="relativeTimeRoundsAndFloorsAtZero" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
+  <testcase name="relativeTimeRoundsAndFloorsAtZero" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.001" />
   <testcase name="relativeTimeFormatsAsMinutesAndSeconds" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
   <testcase name="plotSurvivesASinglePointSeries" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />
   <testcase name="plotRectInsetsByTheGutters" classname="com.codeyam.android.ui.GraphGeometryTest" time="0.0" />

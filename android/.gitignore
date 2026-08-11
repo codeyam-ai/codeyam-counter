@@ -9,6 +9,10 @@
 # test output
 test-results/
 
+# Kotlin 2.3's build-session scratch dir (errors/, sessions/). New with the
+# toolchain upgrade — the 2.0.x compiler never created it.
+.kotlin/
+
 # Release signing — NEVER commit the upload key or its passwords
 keystore.properties
 *.jks

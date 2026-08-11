@@ -438,7 +438,7 @@
   },
   {
     "conformsToView": true,
-    "description": "The Android counter screen: header, switcher card, count hero and bottom control assembly, plus the swipe-to-switch gesture and the four floating overlays. The Compose port of iOS ContentView.",
+    "description": "The Android counter screen: header, switcher card, count hero and bottom control assembly, plus the swipe-to-switch gesture and the four floating overlays. The Compose port of iOS ContentView. Drives its entire layout off BoxWithConstraints, and applies window-inset padding (system bars + display cutout, deliberately not safeDrawing) OUTSIDE those constraints so maxHeight/maxWidth keep describing usable space while the parent Box keeps the background running bar to bar. Insets are injectable via the contentInsets parameter so edge-to-edge is testable off-device, where platform insets are all zero.",
     "filePath": "android/app/src/main/java/com/codeyam/android/ui/CounterScreen.kt",
     "name": "CounterScreen",
     "scenarios": [
@@ -916,7 +916,7 @@
     }
   },
   {
-    "description": "The app's single Activity. Builds the SharedPreferences-backed store, derives the SeedPolicy from the manifest debuggable flag, constructs the CounterModel/AppSettings and the seeded CounterScreenState, and hosts CounterScreen in a MaterialTheme Surface.",
+    "description": "The app's single Activity. Opts into edge-to-edge via enableEdgeToEdge with a transparent scrim and dark system-bar style (light icons on the near-black app), which is what actually sets bar appearance now that the statusBarColor/navigationBarColor theme attributes are deprecated no-ops at API 35+. Then builds the SharedPreferences-backed store, derives the SeedPolicy from the manifest debuggable flag, constructs the CounterModel/AppSettings and the seeded CounterScreenState, and hosts CounterScreen in a MaterialTheme Surface.",
     "filePath": "android/app/src/main/java/com/codeyam/android/MainActivity.kt",
     "name": "MainActivity",
     "untestabilityReason": {

@@ -58,12 +58,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set up JDK 17
-        # Gradle 8.4 + AGP require JDK 17 (matches ci.yml).
+      - name: Set up JDK 21
+        # Gradle 8.13 + AGP 8.13.2 (matches ci.yml). Kept identical to CI on
+        # purpose: the artifact that ships to Play should be built on the same
+        # JDK that the gates ran against, not a different one.
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "21"
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4

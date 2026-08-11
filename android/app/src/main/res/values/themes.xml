@@ -11,9 +11,15 @@
       Pinning `windowBackground` to the app's own surface colour makes the
       handoff from system window to first composition seamless.
     -->
+    <!--
+      `android:statusBarColor` / `android:navigationBarColor` used to be set here
+      to the same colour. Both are deprecated no-ops on API 35+, so at target 36
+      they were dead weight that merely LOOKED like the bars were being styled.
+      Bar appearance is now set for real in MainActivity via `enableEdgeToEdge`
+      (transparent scrim, light icons); `windowBackground` below is the one that
+      still matters, and only for the pre-composition cold-start frame.
+    -->
     <style name="Theme.KotlinAndroidCompose" parent="android:Theme.Material.NoActionBar">
         <item name="android:windowBackground">@color/counter_bg</item>
-        <item name="android:statusBarColor">@color/counter_bg</item>
-        <item name="android:navigationBarColor">@color/counter_bg</item>
     </style>
 </resources>
